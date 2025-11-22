@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NavBar, Icons } from "../shared";
+import { NavBar, Icons, ThemeToggle } from "../shared";
 
 const navigationItems = [
   { title: "Home", route: "/", icon: Icons.Home },
@@ -11,7 +11,11 @@ const navigationItems = [
 
 <template>
   <v-main>
-    <VToolbar title="Core" class="text-secondary" />
+    <VToolbar title="Core" class="text-secondary">
+      <template #append>
+        <ThemeToggle />
+      </template>
+    </VToolbar>
     <hr class="elevation-0" />
     <div class="layout d-flex">
       <div class="layout-sidebar">

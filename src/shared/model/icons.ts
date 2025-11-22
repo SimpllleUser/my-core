@@ -41,4 +41,6 @@ export enum Icons {
   ChevronDown = "mdi-chevron-down",
   ChevronLeft = "mdi-chevron-left",
   ChevronRight = "mdi-chevron-right",
+  WeatherNight = "mdi-weather-night",
+  WhiteBalanceSunny = "mdi-white-balance-sunny",
 }

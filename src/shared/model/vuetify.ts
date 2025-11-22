@@ -25,3 +25,8 @@ export enum Sizes {
   Large = "large",
   XLarge = "x-large",
 }
+
+export enum Themes {
+  Light = "light",
+  Dark = "dark",
+}
