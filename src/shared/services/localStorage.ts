@@ -1,4 +1,4 @@
-import { has } from "lodash";
+import { has } from 'lodash';
 
 export class LocalStorageService<T = unknown> {
   private key: string;
@@ -46,7 +46,7 @@ export class LocalStorageService<T = unknown> {
     try {
       localStorage.clear();
     } catch (e) {
-      console.error("Error clearing localStorage", e);
+      console.error('Error clearing localStorage', e);
     }
   }
 }

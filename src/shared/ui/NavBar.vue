@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { INavBarProps } from "../model";
+import type { INavBarProps } from '../model';
 
 const props = defineProps<INavBarProps>();
 </script>
@@ -15,7 +15,10 @@ const props = defineProps<INavBarProps>();
         link
       >
         <div class="d-flex align-center">
-          <div class="nav-icon" v-if="item.icon">
+          <div
+            class="nav-icon"
+            v-if="item.icon"
+          >
             <VIcon :icon="item.icon" />
           </div>
           <div class="nav-title ml-4">{{ item.title }}</div>

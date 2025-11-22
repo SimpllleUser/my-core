@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { NavBar, Icons, ThemeToggle } from "../shared";
+import { NavBar, Icons, ThemeToggle } from '../shared';
 
 const navigationItems = [
-  { title: "Home", route: "/", icon: Icons.Home },
-  { title: "About", route: "/about", icon: Icons.Account },
+  { title: 'Home', route: '/', icon: Icons.Home },
+  { title: 'About', route: '/about', icon: Icons.Account }
 ];
 </script>
 
-<style scoped></style>
-
 <template>
   <v-main>
-    <VToolbar title="Core" class="text-secondary">
+    <VToolbar
+      title="Core"
+      class="text-secondary"
+    >
       <template #append>
         <ThemeToggle />
       </template>
@@ -29,6 +30,8 @@ const navigationItems = [
 
   <AppFooter />
 </template>
+
+<style scoped></style>
 
 <style lang="scss" scoped>
 .layout-sidebar {

@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref } from 'vue';
 
 type Key = string | number;
 type Item<T> = T & { id: Key };
@@ -34,6 +34,6 @@ export function useMapCrud<T extends { id: Key }>() {
     create,
     read,
     update,
-    remove,
+    remove
   };
 }

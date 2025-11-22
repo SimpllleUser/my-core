@@ -1,4 +1,4 @@
-import type { Icons } from "./icons";
+import type { Icons } from './icons';
 
 interface INavBarItem {
   title: string;
