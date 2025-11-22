@@ -30,3 +30,10 @@ export enum Themes {
   Light = "light",
   Dark = "dark",
 }
+export enum Breakpoints {
+  Xs = "xs",
+  Sm = "sm",
+  Md = "md",
+  Lg = "lg",
+  Xl = "xl",
+}
