@@ -6,9 +6,9 @@ const props = defineProps<INavBarProps>();
 
 <template>
   <div>
-    <VList class="py-0">
+    <VList class="pa-2">
       <VListItem
-        v-for="item in props.items"
+        v-for="(item, index) in props.items"
         :key="item.title"
         :to="item.route"
         active-class="text-secondary"

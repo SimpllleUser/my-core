@@ -35,8 +35,11 @@ const navigationItems = [
 
 <style lang="scss" scoped>
 .layout-sidebar {
-  width: 180px;
+  width: 15rem;
   height: calc(100vh - 106px);
-  border-right: 1px solid #e0e0e0;
+  background-color: rgb(var(--v-theme-surface));
+}
+.layout-wrapper {
+  background-color: rgb(var(--v-theme-background));
 }
 </style>
