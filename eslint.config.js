@@ -16,6 +16,22 @@ module.exports = {
   rules: {
     // Vue rules
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    'vue/html-closing-bracket-newline': ['error', {
+    singleline: 'never',
+    multiline: 'always'
+    'vue/html-self-closing': [
+    'error',
+      {
+        html: {
+          void: 'never',
+          normal: 'always',
+          component: 'always'
+        },
+        svg: 'always',
+        math: 'always'
+      }
+    ],
+  }],
     'vue/max-attributes-per-line': [
       'error',
       {
