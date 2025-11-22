@@ -2,13 +2,26 @@
 import { useTheme } from "vuetify";
 import { ref, watch, computed } from "vue";
 import { Icons, Themes } from "../model";
+import { useLocalStorage } from "@vueuse/core";
+
+const themeValue = useLocalStorage("app-theme", Themes.Light);
 
 const theme = useTheme();
-const isDark = ref(theme.global.name.value === Themes.Dark);
+theme.global.name.value = themeValue.value;
+const isDark = ref(themeValue.value === Themes.Dark);
 
 watch(isDark, (val) => {
   theme.global.name.value = val ? Themes.Dark : Themes.Light;
+  themeValue.value = val ? Themes.Dark : Themes.Light;
 });
+
+watch(
+  () => theme.global.name.value,
+  (val) => {
+    isDark.value = val === Themes.Dark;
+    themeValue.value = val;
+  },
+);
 
 const themeIcon = computed(() => {
   return isDark.value ? Icons.WeatherNight : Icons.WhiteBalanceSunny;
