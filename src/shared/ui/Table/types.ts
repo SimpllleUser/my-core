@@ -7,3 +7,9 @@ export interface TableProps {
   data: Array<unknown>;
   getRowClass: Function;
 }
+
+export interface PaginationProps {
+  modelValue: number;
+  perPage: number;
+  total: number;
+}
