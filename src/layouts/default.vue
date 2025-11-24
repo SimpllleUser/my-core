@@ -3,6 +3,7 @@ import { NavBar, Icons, ThemeToggle } from '../shared';
 
 const navigationItems = [
   { title: 'Home', route: '/', icon: Icons.Home },
+  { title: 'UiBuilder', route: '/ui-builder', icon: Icons.Settings },
   { title: 'About', route: '/about', icon: Icons.Account }
 ];
 </script>
@@ -22,7 +23,7 @@ const navigationItems = [
       <div class="layout-sidebar">
         <NavBar :items="navigationItems" />
       </div>
-      <div class="layout-wrapper pa-4">
+      <div class="layout-wrapper pa-4 w-100">
         <router-view />
       </div>
     </div>
