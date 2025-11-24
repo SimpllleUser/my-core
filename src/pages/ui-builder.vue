@@ -1,12 +1,14 @@
 <script setup lang="ts">
   defineOptions({
-    name: 'UiBuilder'
+    name: 'UiBuilderPage'
   })
+
+  import {UiBuilder} from '@/features/uiBuilder';
 </script>
 
 <template>
   <div>
-    Ui builder
+    <UiBuilder />
   </div>
 </template>
 
