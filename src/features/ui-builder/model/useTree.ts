@@ -12,5 +12,18 @@ export function useTree() {
     }
     return null;
   };
-  return { findById };
+
+  const removeById = (list: PaletteItem[], id: number): boolean => {
+    for (let i = 0; i < list.length; i++) {
+      const n = list[i];
+      if (n.id === id) {
+        list.splice(i, 1);
+        return true;
+      }
+      if (n.children?.length && removeById(n.children, id)) return true;
+    }
+    return false;
+  };
+
+  return { findById, removeById };
 }

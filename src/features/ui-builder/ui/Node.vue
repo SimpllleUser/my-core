@@ -1,9 +1,8 @@
 <script lang="ts">
 import { defineComponent, h } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
-import { VRow, VCol } from 'vuetify/components';
+import { VRow, VCol, VBtn } from 'vuetify/components';
 import type { PaletteItem } from '../types';
-import { useDnDGroups } from '../model/useDnDGroups';
 
 export default defineComponent({
   name: 'Node',
@@ -11,15 +10,30 @@ export default defineComponent({
     node: { type: Object as () => PaletteItem, required: true },
     selectedId: { type: Number, default: null }
   },
-  emits: ['update:selectedId'],
+  emits: ['update:selectedId', 'remove'],
   setup(_, { emit }) {
-    const { groupCanvas } = useDnDGroups();
     const select = (id: number) => emit('update:selectedId', id);
-    return { groupCanvas, select };
+    const remove = (id: number, e?: Event) => {
+      if (e) e.stopPropagation();
+      emit('remove', id);
+    };
+    const actions = (id: number) =>
+      h('div', { class: 'node-actions' }, [
+        h(VBtn as any, {
+          icon: 'mdi-delete',
+          size: 'x-small',
+          variant: 'text',
+          density: 'comfortable',
+          'aria-label': 'Delete',
+          onClick: (e: Event) => remove(id, e)
+        })
+      ]);
+    return { select, actions };
   },
   render() {
     const n = this.$props.node as PaletteItem;
 
+    // VRow-контейнер (дозволяє VCol та будь-які елементи в один рівень)
     if (n.name === 'VRow') {
       if (!n.children) n.children = [];
       return h(
@@ -28,7 +42,7 @@ export default defineComponent({
           modelValue: n.children,
           'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
           itemKey: 'id',
-          group: this.groupCanvas,
+          group: { name: 'vuetify', pull: true, put: true },
           tag: VRow,
           class: [
             'row-decor',
@@ -45,12 +59,14 @@ export default defineComponent({
         {
           default: () => [
             h('div', { class: 'box-label position-absolute text-caption' }, 'VRow'),
+            this.actions(n.id),
             ...(n.children!.length
               ? n.children!.map(child =>
                   h((this as any).$options, {
                     node: child,
                     selectedId: this.$props.selectedId,
                     'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                    onRemove: (id: number) => this.$emit('remove', id),
                     key: child.id
                   })
                 )
@@ -66,6 +82,7 @@ export default defineComponent({
       );
     }
 
+    // VCol-контейнер
     if (n.name === 'VCol') {
       if (!n.children) n.children = [];
       return h(
@@ -87,13 +104,14 @@ export default defineComponent({
         {
           default: () => [
             h('div', { class: 'box-label position-absolute text-caption' }, `VCol (cols: ${n.props?.cols ?? ''})`),
+            this.actions(n.id),
             h(
               Draggable as any,
               {
                 modelValue: n.children,
                 'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
                 itemKey: 'id',
-                group: this.groupCanvas,
+                group: { name: 'vuetify', pull: true, put: true },
                 tag: 'div',
                 class: ['inner-list', 'bg-green-lighten-5', 'pa-3', 'rounded-lg']
               },
@@ -105,6 +123,7 @@ export default defineComponent({
                           node: child,
                           selectedId: this.$props.selectedId,
                           'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                          onRemove: (id: number) => this.$emit('remove', id),
                           key: child.id
                         })
                       )
@@ -116,6 +135,7 @@ export default defineComponent({
       );
     }
 
+    // Лист (звичайний компонент)
     const Comp = n.type as any;
     return h(
       'div',
@@ -124,9 +144,10 @@ export default defineComponent({
         onClick: (e: Event) => {
           e.stopPropagation();
           this.select(n.id);
-        }
+        },
+        style: { position: 'relative' }
       },
-      [h(Comp, n.props, { default: () => n.props?.text })]
+      [this.actions(n.id), h(Comp, n.props, { default: () => n.props?.text })]
     );
   }
 });
