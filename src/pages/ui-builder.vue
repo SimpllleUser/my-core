@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, h, defineComponent } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 import { VBtn, VChip, VAlert, VRow, VCol } from 'vuetify/components';
 
@@ -11,14 +11,15 @@ interface PaletteItem {
   type: CompCtor;
   name: CompName;
   props: Record<string, any>;
+  children?: PaletteItem[];
 }
 
 const palette = ref<PaletteItem[]>([
   { id: 1, type: VBtn, name: 'VBtn', props: { text: 'Кнопка', color: 'primary', variant: 'flat', disabled: false } },
   { id: 2, type: VChip, name: 'VChip', props: { text: 'Chip', color: 'secondary', label: true } },
   { id: 3, type: VAlert, name: 'VAlert', props: { text: 'Інформаційний алерт', type: 'info', variant: 'tonal' } },
-  { id: 4, type: VRow, name: 'VRow', props: {} },
-  { id: 5, type: VCol, name: 'VCol', props: { cols: 12 } }
+  { id: 4, type: VRow, name: 'VRow', props: {}, children: [] },
+  { id: 5, type: VCol, name: 'VCol', props: { cols: 12 }, children: [] }
 ]);
 
 const canvas = ref<PaletteItem[]>([]);
@@ -31,10 +32,23 @@ const clonePaletteItem = (orig: PaletteItem): PaletteItem => ({
   id: Date.now() + Math.floor(Math.random() * 1e6),
   type: orig.type,
   name: orig.name,
-  props: JSON.parse(JSON.stringify(orig.props))
+  props: JSON.parse(JSON.stringify(orig.props)),
+  children: Array.isArray(orig.children) ? [] : undefined
 });
 
-const selectedComp = computed(() => canvas.value.find(c => c.id === selectedId.value) || null);
+const findById = (list: PaletteItem[], id: number | null): PaletteItem | null => {
+  if (id == null) return null;
+  for (const n of list) {
+    if (n.id === id) return n;
+    if (n.children?.length) {
+      const f = findById(n.children, id);
+      if (f) return f;
+    }
+  }
+  return null;
+};
+
+const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
 const schema: Record<
   CompName,
@@ -86,6 +100,117 @@ const schema: Record<
     }
   ]
 };
+
+const Node = defineComponent({
+  name: 'Node',
+  props: { node: { type: Object as () => PaletteItem, required: true }, selectedId: { type: Number, default: null } },
+  emits: ['update:selectedId'],
+  setup(_, { emit }) {
+    const isContainer = (n: PaletteItem) => n.name === 'VRow' || n.name === 'VCol';
+    const select = (id: number) => emit('update:selectedId', id);
+    return { isContainer, select, groupCanvas };
+  },
+  render() {
+    const n = this.node as PaletteItem;
+
+    if (n.name === 'VRow') {
+      if (!n.children) n.children = [];
+      return h(
+        Draggable as any,
+        {
+          modelValue: n.children,
+          'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
+          itemKey: 'id',
+          group: this.groupCanvas,
+          tag: VRow,
+          class: ['row-decor', 'bg-blue-lighten-4', 'pa-3', 'rounded-lg', this.selectedId === n.id ? 'selected' : ''],
+          onClick: (e: Event) => {
+            e.stopPropagation();
+            this.select(n.id);
+          }
+        },
+        {
+          default: () => [
+            h('div', { class: 'box-label position-absolute text-caption' }, 'VRow'),
+            ...(n.children!.length
+              ? n.children!.map(child =>
+                  h(Node as any, {
+                    node: child,
+                    selectedId: this.selectedId,
+                    'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                    key: child.id
+                  })
+                )
+              : [
+                  h(
+                    VCol as any,
+                    { cols: 12, class: 'text-grey-darken-1 text-caption py-6', key: 'placeholder' },
+                    'Перетягніть сюди компонент'
+                  )
+                ])
+          ]
+        }
+      );
+    }
+
+    if (n.name === 'VCol') {
+      if (!n.children) n.children = [];
+      return h(
+        VCol as any,
+        {
+          ...n.props,
+          class: ['col-decor', 'bg-green-lighten-4', 'pa-3', 'rounded-lg', this.selectedId === n.id ? 'selected' : ''],
+          onClick: (e: Event) => {
+            e.stopPropagation();
+            this.select(n.id);
+          }
+        },
+        {
+          default: () => [
+            h('div', { class: 'box-label position-absolute text-caption' }, `VCol (cols: ${n.props?.cols ?? ''})`),
+            h(
+              Draggable as any,
+              {
+                modelValue: n.children,
+                'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
+                itemKey: 'id',
+                group: this.groupCanvas,
+                tag: 'div',
+                class: ['inner-list', 'bg-green-lighten-5', 'pa-3', 'rounded-lg']
+              },
+              {
+                default: () =>
+                  n.children!.length
+                    ? n.children!.map(child =>
+                        h(Node as any, {
+                          node: child,
+                          selectedId: this.selectedId,
+                          'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                          key: child.id
+                        })
+                      )
+                    : [h('div', { class: 'inner-placeholder text-caption' }, 'Put here')]
+              }
+            )
+          ]
+        }
+      );
+    }
+
+    const Comp = n.type as any;
+    return h(
+      'div',
+      {
+        class: ['leaf', this.selectedId === n.id ? 'selected' : ''],
+        onClick: (e: Event) => {
+          e.stopPropagation();
+          this.select(n.id);
+        }
+      },
+      [h(Comp, n.props, { default: () => n.props?.text })]
+    );
+  }
+});
 </script>
 
 <template>
@@ -131,42 +256,15 @@ const schema: Record<
             >
               Перетягніть компонент із палітри →
             </div>
-
             <div
               v-for="comp in canvas"
               :key="comp.id"
               class="canvas-item"
-              :class="{ selected: selectedId === comp.id }"
-              @click="selectedId = comp.id"
             >
-              <template v-if="comp.name === 'VRow'">
-                <div class="box visual-row">
-                  <div class="box-label">VRow</div>
-                  <VRow
-                    v-bind="comp.props"
-                    class="box-body"
-                  />
-                </div>
-              </template>
-
-              <template v-else-if="comp.name === 'VCol'">
-                <div class="box visual-col">
-                  <div class="box-label">VCol (cols: {{ comp.props.cols }})</div>
-                  <VCol
-                    v-bind="comp.props"
-                    class="box-body"
-                  />
-                </div>
-              </template>
-
-              <template v-else>
-                <component
-                  :is="comp.type"
-                  v-bind="comp.props"
-                >
-                  {{ comp.props.text }}
-                </component>
-              </template>
+              <Node
+                :node="comp"
+                v-model:selectedId="selectedId"
+              />
             </div>
           </Draggable>
         </VCol>
@@ -180,26 +278,22 @@ const schema: Record<
             >
               Виберіть компонент на Canvas
             </div>
-
             <template v-else>
               <div class="prop-line">
                 <strong>{{ selectedComp.name }}</strong>
               </div>
-
               <div
                 v-for="field in schema[selectedComp.name]"
                 :key="field.key"
                 class="prop-line"
               >
                 <label class="prop-label">{{ field.label }}</label>
-
                 <input
                   v-if="field.input === 'text'"
                   v-model="selectedComp.props[field.key]"
                   type="text"
                   class="prop-input"
                 />
-
                 <select
                   v-else-if="field.input === 'select'"
                   v-model="selectedComp.props[field.key]"
@@ -213,7 +307,6 @@ const schema: Record<
                     {{ opt }}
                   </option>
                 </select>
-
                 <input
                   v-else-if="field.input === 'switch'"
                   v-model="selectedComp.props[field.key]"
@@ -228,7 +321,7 @@ const schema: Record<
   </VRow>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .column {
   width: 260px;
 }
@@ -252,24 +345,21 @@ const schema: Record<
 .item:hover {
   background: #e3f2fd;
 }
-
 .canvas-item {
   margin-bottom: 12px;
-  display: block;
-  padding: 6px;
-  border-radius: 6px;
-}
-.canvas-item.selected {
-  outline: 2px solid #1976d2;
-  background: #e3f2fd55;
 }
 
-.box {
+.row-decor {
   position: relative;
-  border: 2px dashed;
+  border: 2px dashed #90caf9;
   border-radius: 10px;
-  padding: 14px;
 }
+.col-decor {
+  position: relative;
+  border: 2px dashed #a5d6a7;
+  border-radius: 10px;
+}
+
 .box-label {
   position: absolute;
   top: -10px;
@@ -281,18 +371,26 @@ const schema: Record<
   letter-spacing: 0.2px;
   color: #455a64;
   border: 1px solid #cfd8dc;
-}
-.box-body {
-  min-height: 28px;
+  pointer-events: none;
 }
 
-.visual-row {
-  background: #e8f4ff;
-  border-color: #90caf9;
+.inner-list {
+  border: 1px dashed #cfd8dc;
+  min-height: 48px;
+  margin-top: 6px;
 }
-.visual-col {
-  background: #e8f5e9;
-  border-color: #a5d6a7;
+.inner-placeholder {
+  color: #9e9e9e;
+  font-style: italic;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.leaf.selected,
+.row-decor.selected,
+.col-decor.selected {
+  outline: 2px solid #1976d2;
+  background: #e3f2fd55;
 }
 
 .placeholder {
