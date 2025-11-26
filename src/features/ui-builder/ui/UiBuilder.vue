@@ -80,7 +80,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
     location="end"
     temporary
     width="420"
-    scrim
+    :scrim="false"
+    elevation="0"
+    :touchless="true"
     @update:model-value="
       val => {
         if (!val) closeDrawer();
