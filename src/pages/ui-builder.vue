@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
-import { VBtn, VChip, VAlert } from 'vuetify/components';
+import { VBtn, VChip, VAlert, VRow, VCol } from 'vuetify/components';
 
 type CompCtor = any;
-type CompName = 'VBtn' | 'VChip' | 'VAlert';
+type CompName = 'VBtn' | 'VChip' | 'VAlert' | 'VRow' | 'VCol';
 
 interface PaletteItem {
   id: number;
@@ -16,7 +16,9 @@ interface PaletteItem {
 const palette = ref<PaletteItem[]>([
   { id: 1, type: VBtn, name: 'VBtn', props: { text: 'Кнопка', color: 'primary', variant: 'flat', disabled: false } },
   { id: 2, type: VChip, name: 'VChip', props: { text: 'Chip', color: 'secondary', label: true } },
-  { id: 3, type: VAlert, name: 'VAlert', props: { text: 'Інформаційний алерт', type: 'info', variant: 'tonal' } }
+  { id: 3, type: VAlert, name: 'VAlert', props: { text: 'Інформаційний алерт', type: 'info', variant: 'tonal' } },
+  { id: 4, type: VRow, name: 'VRow', props: {} },
+  { id: 5, type: VCol, name: 'VCol', props: { cols: 12 } }
 ]);
 
 const canvas = ref<PaletteItem[]>([]);
@@ -73,6 +75,15 @@ const schema: Record<
       input: 'select',
       options: ['flat', 'elevated', 'tonal', 'outlined', 'text', 'plain']
     }
+  ],
+  VRow: [],
+  VCol: [
+    {
+      key: 'cols',
+      label: 'Cols',
+      input: 'select',
+      options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+    }
   ]
 };
 </script>
@@ -128,12 +139,34 @@ const schema: Record<
               :class="{ selected: selectedId === comp.id }"
               @click="selectedId = comp.id"
             >
-              <component
-                :is="comp.type"
-                v-bind="comp.props"
-              >
-                {{ comp.props.text }}
-              </component>
+              <template v-if="comp.name === 'VRow'">
+                <div class="box visual-row">
+                  <div class="box-label">VRow</div>
+                  <VRow
+                    v-bind="comp.props"
+                    class="box-body"
+                  />
+                </div>
+              </template>
+
+              <template v-else-if="comp.name === 'VCol'">
+                <div class="box visual-col">
+                  <div class="box-label">VCol (cols: {{ comp.props.cols }})</div>
+                  <VCol
+                    v-bind="comp.props"
+                    class="box-body"
+                  />
+                </div>
+              </template>
+
+              <template v-else>
+                <component
+                  :is="comp.type"
+                  v-bind="comp.props"
+                >
+                  {{ comp.props.text }}
+                </component>
+              </template>
             </div>
           </Draggable>
         </VCol>
@@ -219,10 +252,10 @@ const schema: Record<
 .item:hover {
   background: #e3f2fd;
 }
+
 .canvas-item {
   margin-bottom: 12px;
-  display: flex;
-  justify-content: center;
+  display: block;
   padding: 6px;
   border-radius: 6px;
 }
@@ -230,6 +263,38 @@ const schema: Record<
   outline: 2px solid #1976d2;
   background: #e3f2fd55;
 }
+
+.box {
+  position: relative;
+  border: 2px dashed;
+  border-radius: 10px;
+  padding: 14px;
+}
+.box-label {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  color: #455a64;
+  border: 1px solid #cfd8dc;
+}
+.box-body {
+  min-height: 28px;
+}
+
+.visual-row {
+  background: #e8f4ff;
+  border-color: #90caf9;
+}
+.visual-col {
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+}
+
 .placeholder {
   color: #999;
   font-style: italic;
@@ -242,6 +307,7 @@ const schema: Record<
 .canvas {
   background: #fdfdfd;
 }
+
 .panel {
   background: #fff;
   border: 1px solid #e3e3e3;
