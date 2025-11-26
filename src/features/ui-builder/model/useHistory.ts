@@ -1,5 +1,6 @@
 import { ref, watch, computed, type Ref } from 'vue';
 import type { PaletteItem } from '../types';
+import { toSnapshot, fromSnapshot } from './snapshot';
 
 export function useHistory(canvas: Ref<PaletteItem[]>) {
   const past = ref<string[]>([]);
@@ -7,8 +8,8 @@ export function useHistory(canvas: Ref<PaletteItem[]>) {
   const isApplying = ref(false);
   const MAX = 100;
 
-  const serialize = () => JSON.stringify(canvas.value);
-  const restore = (snap: string) => JSON.parse(snap) as PaletteItem[];
+  const serialize = () => JSON.stringify(toSnapshot(canvas.value));
+  const restore = (snap: string) => fromSnapshot(JSON.parse(snap));
 
   const push = () => {
     if (isApplying.value) return;

@@ -11,7 +11,7 @@ import { useHistory } from '../model/useHistory';
 const { canvas, selectedId } = useCanvas();
 const { findById } = useTree();
 const { schema } = useSchema();
-const { undo, redo, canUndo, canRedo } = useHistory(canvas);
+const { undo, redo, canUndo, canRedo, commit } = useHistory(canvas);
 
 const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
@@ -30,6 +30,12 @@ const onKey = (e: KeyboardEvent) => {
 
 const closeDrawer = () => {
   selectedId.value = null;
+};
+
+let t: number | undefined;
+const commitSoon = () => {
+  if (t) clearTimeout(t);
+  t = window.setTimeout(() => commit(), 150);
 };
 
 onMounted(() => window.addEventListener('keydown', onKey));
@@ -116,12 +122,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
             v-model="selectedComp.props[field.key]"
             type="text"
             class="prop-input"
+            @input="commitSoon"
+            @change="commitSoon"
           />
 
           <select
             v-else-if="field.input === 'select'"
             v-model="selectedComp.props[field.key]"
             class="prop-input"
+            @input="commitSoon"
+            @change="commitSoon"
           >
             <option
               v-for="opt in field.options"
@@ -136,6 +146,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
             v-else-if="field.input === 'switch'"
             v-model="selectedComp.props[field.key]"
             type="checkbox"
+            @change="commitSoon"
           />
         </div>
       </template>

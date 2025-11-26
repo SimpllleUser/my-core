@@ -3,15 +3,19 @@ import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 import { useCanvas } from '../model/useCanvas';
 import { useDnDGroups } from '../model/useDnDGroups';
 import { useTree } from '../model/useTree';
+import { useHistory } from '../model/useHistory';
 import Node from './Node.vue';
 
 const { canvas, selectedId } = useCanvas();
 const { groupCanvas } = useDnDGroups();
 const { removeById } = useTree();
+const { commit } = useHistory(canvas);
 
+const onDndChange = () => commit();
 const onRemove = (id: number) => {
   removeById(canvas.value, id);
   if (selectedId.value === id) selectedId.value = null;
+  commit();
 };
 </script>
 
@@ -21,6 +25,9 @@ const onRemove = (id: number) => {
     item-key="id"
     :group="groupCanvas"
     class="list canvas"
+    @change="onDndChange"
+    @add="onDndChange"
+    @remove="onDndChange"
   >
     <div
       v-if="!canvas.length"
@@ -37,6 +44,7 @@ const onRemove = (id: number) => {
         :node="comp"
         v-model:selectedId="selectedId"
         @remove="onRemove"
+        @changed="onDndChange"
       />
     </div>
   </Draggable>
