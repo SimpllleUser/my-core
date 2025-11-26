@@ -1,24 +1,39 @@
 <script setup lang="ts">
 import '../styles.scss';
-import { computed } from 'vue';
+import { computed, onMounted, onBeforeUnmount } from 'vue';
 import Palette from './Palette.vue';
 import Canvas from './Canvas.vue';
 import { useCanvas } from '../model/useCanvas';
 import { useTree } from '../model/useTree';
 import { useSchema } from '../model/useSchema';
+import { useHistory } from '../model/useHistory';
 
 const { canvas, selectedId } = useCanvas();
 const { findById } = useTree();
 const { schema } = useSchema();
+const { undo, redo, canUndo, canRedo } = useHistory(canvas);
 
 const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
-const drawer = computed({
-  get: () => !!selectedComp.value,
-  set: (val: boolean) => {
-    if (!val) selectedId.value = null;
+const onKey = (e: KeyboardEvent) => {
+  const mod = e.metaKey || e.ctrlKey;
+  if (!mod) return;
+  const key = e.key.toLowerCase();
+  if (key === 'z' && !e.shiftKey) {
+    e.preventDefault();
+    undo();
+  } else if ((key === 'z' && e.shiftKey) || key === 'y') {
+    e.preventDefault();
+    redo();
   }
-});
+};
+
+const closeDrawer = () => {
+  selectedId.value = null;
+};
+
+onMounted(() => window.addEventListener('keydown', onKey));
+onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 </script>
 
 <template>
@@ -31,17 +46,40 @@ const drawer = computed({
     </VCol>
 
     <VCol cols="9">
-      <h3>🖌️ Canvas</h3>
+      <div class="d-flex align-center justify-space-between mb-2">
+        <h3 class="ma-0">🖌️ Canvas</h3>
+        <div>
+          <VBtn
+            icon="mdi-undo"
+            variant="tonal"
+            class="mr-2"
+            :disabled="!canUndo"
+            @click="undo"
+          />
+          <VBtn
+            icon="mdi-redo"
+            variant="tonal"
+            :disabled="!canRedo"
+            @click="redo"
+          />
+        </div>
+      </div>
+
       <Canvas />
     </VCol>
   </VRow>
 
   <VNavigationDrawer
-    v-model="drawer"
+    :model-value="!!selectedComp"
     location="end"
     temporary
     width="420"
     scrim
+    @update:model-value="
+      val => {
+        if (!val) closeDrawer();
+      }
+    "
   >
     <div class="panel">
       <div class="d-flex align-center justify-space-between mb-3">
@@ -50,7 +88,7 @@ const drawer = computed({
           size="small"
           variant="text"
           icon="mdi-close"
-          @click="drawer = false"
+          @click="closeDrawer"
         />
       </div>
 

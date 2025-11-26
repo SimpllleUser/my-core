@@ -10,13 +10,14 @@ export default defineComponent({
     node: { type: Object as () => PaletteItem, required: true },
     selectedId: { type: Number, default: null }
   },
-  emits: ['update:selectedId', 'remove'],
+  emits: ['update:selectedId', 'remove', 'changed'],
   setup(_, { emit }) {
     const select = (id: number) => emit('update:selectedId', id);
     const remove = (id: number, e?: Event) => {
       if (e) e.stopPropagation();
       emit('remove', id);
     };
+    const changed = () => emit('changed');
     const actions = (id: number) =>
       h('div', { class: 'node-actions' }, [
         h(VBtn as any, {
@@ -24,23 +25,24 @@ export default defineComponent({
           size: 'x-small',
           variant: 'text',
           density: 'comfortable',
-          'aria-label': 'Delete',
           onClick: (e: Event) => remove(id, e)
         })
       ]);
-    return { select, actions };
+    return { select, actions, changed };
   },
   render() {
     const n = this.$props.node as PaletteItem;
 
-    // VRow-контейнер (дозволяє VCol та будь-які елементи в один рівень)
     if (n.name === 'VRow') {
       if (!n.children) n.children = [];
       return h(
         Draggable as any,
         {
           modelValue: n.children,
-          'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
+          'onUpdate:modelValue': (v: PaletteItem[]) => {
+            n.children = v;
+            this.changed();
+          },
           itemKey: 'id',
           group: { name: 'vuetify', pull: true, put: true },
           tag: VRow,
@@ -67,6 +69,7 @@ export default defineComponent({
                     selectedId: this.$props.selectedId,
                     'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
                     onRemove: (id: number) => this.$emit('remove', id),
+                    onChanged: () => this.$emit('changed'),
                     key: child.id
                   })
                 )
@@ -82,7 +85,6 @@ export default defineComponent({
       );
     }
 
-    // VCol-контейнер
     if (n.name === 'VCol') {
       if (!n.children) n.children = [];
       return h(
@@ -109,7 +111,10 @@ export default defineComponent({
               Draggable as any,
               {
                 modelValue: n.children,
-                'onUpdate:modelValue': (v: PaletteItem[]) => (n.children = v),
+                'onUpdate:modelValue': (v: PaletteItem[]) => {
+                  n.children = v;
+                  this.changed();
+                },
                 itemKey: 'id',
                 group: { name: 'vuetify', pull: true, put: true },
                 tag: 'div',
@@ -124,6 +129,7 @@ export default defineComponent({
                           selectedId: this.$props.selectedId,
                           'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
                           onRemove: (id: number) => this.$emit('remove', id),
+                          onChanged: () => this.$emit('changed'),
                           key: child.id
                         })
                       )
@@ -135,7 +141,6 @@ export default defineComponent({
       );
     }
 
-    // Лист (звичайний компонент)
     const Comp = n.type as any;
     return h(
       'div',
