@@ -15,7 +15,7 @@ const { findById } = useTree();
 const { schema } = useSchema();
 const { undo, redo, canUndo, canRedo, commit } = useHistory(canvas);
 const { selectedId, selectedIds } = useSelection();
-const { canGroup, groupIntoDiv } = useGroup(canvas);
+const { canGroup, groupIntoDiv, canUngroup, ungroupDiv } = useGroup(canvas);
 
 const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
@@ -46,6 +46,10 @@ const onGroup = () => {
   groupIntoDiv();
   commit();
 };
+const onUngroup = () => {
+  ungroupDiv();
+  commit();
+};
 
 onMounted(() => window.addEventListener('keydown', onKey));
 onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
@@ -72,8 +76,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
           >
             {{ selectedIds.length }} selected
           </VBtn>
+
           <VBtn
-            class="mr-4"
+            class="mr-2"
             prepend-icon="mdi-folder-multiple-outline"
             variant="tonal"
             :disabled="!canGroup()"
@@ -81,6 +86,17 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
           >
             Group in Div
           </VBtn>
+
+          <VBtn
+            class="mr-4"
+            prepend-icon="mdi-ungroup"
+            variant="tonal"
+            :disabled="!canUngroup()"
+            @click="onUngroup"
+          >
+            Ungroup
+          </VBtn>
+
           <VBtn
             icon="mdi-undo"
             variant="tonal"
@@ -103,7 +119,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 
   <VNavigationDrawer
     :model-value="!!selectedComp"
-    location="end"
+    location="bottom"
     temporary
     width="420"
     :scrim="false"

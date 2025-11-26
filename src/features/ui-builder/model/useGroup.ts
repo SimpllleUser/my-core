@@ -19,8 +19,19 @@ function findParent(list: PaletteItem[], id: number): ParentLoc {
   return null;
 }
 
+function findNode(list: PaletteItem[], id: number): PaletteItem | null {
+  for (const n of list) {
+    if (n.id === id) return n;
+    if (n.children?.length) {
+      const r = findNode(n.children, id);
+      if (r) return r;
+    }
+  }
+  return null;
+}
+
 export function useGroup(canvas: Ref<PaletteItem[]>) {
-  const { selectedIds, selectOne } = useSelection();
+  const { selectedIds, selectedId, selectOne } = useSelection();
 
   const canGroup = (): boolean => {
     if (selectedIds.value.length < 2) return false;
@@ -35,11 +46,14 @@ export function useGroup(canvas: Ref<PaletteItem[]>) {
     const ids = selectedIds.value.slice();
     const locs = ids.map(id => findParent(canvas.value, id)) as ParentLoc[];
     const parent = locs[0]!.parent;
-    const orderIdx = parent.map((n, i) => (ids.includes(n.id) ? i : -1)).filter(i => i >= 0);
-    const insertIndex = Math.min(...orderIdx);
+
+    const indices = parent.map((n, i) => (ids.includes(n.id) ? i : -1)).filter(i => i >= 0);
+    const insertIndex = Math.min(...indices);
+
     const nodes = parent.filter(n => ids.includes(n.id));
-    const before = parent.slice(0, insertIndex).filter(n => !ids.includes(n.id));
-    const after = parent.slice(insertIndex).filter(n => !ids.includes(n.id));
+    const rest = parent.filter(n => !ids.includes(n.id));
+    const before = rest.slice(0, insertIndex - indices.filter(i => i < insertIndex).length);
+    const after = rest.slice(before.length);
 
     const wrapper: PaletteItem = {
       id: genId(),
@@ -53,5 +67,30 @@ export function useGroup(canvas: Ref<PaletteItem[]>) {
     selectOne(wrapper.id);
   };
 
-  return { canGroup, groupIntoDiv };
+  const canUngroup = (id?: number): boolean => {
+    const targetId = id ?? selectedId.value ?? null;
+    if (!targetId) return false;
+    const node = findNode(canvas.value, targetId);
+    return !!node && node.name === 'Div';
+  };
+
+  const ungroupDivById = (id: number) => {
+    const loc = findParent(canvas.value, id);
+    if (!loc) return;
+    const { parent, index } = loc;
+    const node = parent[index];
+    const children = node.children ?? [];
+    parent.splice(index, 1, ...children);
+    // вибираємо останню дитину або скидаємо вибір
+    selectOne(children[children.length - 1]?.id ?? (null as any));
+  };
+
+  const ungroupDiv = () => {
+    const targetId = selectedId.value ?? null;
+    if (!targetId) return;
+    if (!canUngroup(targetId)) return;
+    ungroupDivById(targetId);
+  };
+
+  return { canGroup, groupIntoDiv, canUngroup, ungroupDiv, ungroupDivById };
 }

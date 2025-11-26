@@ -5,6 +5,7 @@ import { useDnDGroups } from '../model/useDnDGroups';
 import { useTree } from '../model/useTree';
 import { useHistory } from '../model/useHistory';
 import { useSelection } from '../model/useSelection';
+import { useGroup } from '../model/useGroup';
 import Node from './Node.vue';
 
 const { canvas } = useCanvas();
@@ -12,6 +13,7 @@ const { groupCanvas } = useDnDGroups();
 const { removeById } = useTree();
 const { commit } = useHistory(canvas);
 const { selectedIds, selectOne, toggle } = useSelection();
+const { ungroupDivById } = useGroup(canvas);
 
 const onDndChange = () => commit();
 const onRemove = (id: number) => {
@@ -20,6 +22,10 @@ const onRemove = (id: number) => {
 };
 const onClickNode = ({ id, meta }: { id: number; meta: boolean }) => {
   meta ? toggle(id) : selectOne(id);
+};
+const onUngroup = (id: number) => {
+  ungroupDivById(id);
+  commit();
 };
 </script>
 
@@ -50,6 +56,7 @@ const onClickNode = ({ id, meta }: { id: number; meta: boolean }) => {
         @click-node="onClickNode"
         @remove="onRemove"
         @changed="onDndChange"
+        @ungroup="onUngroup"
       />
     </div>
   </Draggable>

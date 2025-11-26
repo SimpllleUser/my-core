@@ -10,22 +10,35 @@ export default defineComponent({
     node: { type: Object as () => PaletteItem, required: true },
     selectedIds: { type: Array as () => number[], required: true }
   },
-  emits: ['click-node', 'remove', 'changed'],
+  emits: ['click-node', 'remove', 'changed', 'ungroup'],
   setup(_, { emit }) {
     const clickNode = (id: number, meta: boolean) => emit('click-node', { id, meta });
     const remove = (id: number, e?: Event) => {
       if (e) e.stopPropagation();
       emit('remove', id);
     };
+    const ungroup = (id: number, e?: Event) => {
+      if (e) e.stopPropagation();
+      emit('ungroup', id);
+    };
     const changed = () => emit('changed');
-    const actions = (id: number) =>
+    const actions = (n: PaletteItem) =>
       h('div', { class: 'node-actions' }, [
+        n.name === 'Div'
+          ? h(VBtn as any, {
+              icon: 'mdi-ungroup',
+              size: 'x-small',
+              variant: 'text',
+              density: 'comfortable',
+              onClick: (e: Event) => ungroup(n.id, e)
+            })
+          : null,
         h(VBtn as any, {
           icon: 'mdi-delete',
           size: 'x-small',
           variant: 'text',
           density: 'comfortable',
-          onClick: (e: Event) => remove(id, e)
+          onClick: (e: Event) => remove(n.id, e)
         })
       ]);
     return { clickNode, actions, changed };
@@ -59,7 +72,7 @@ export default defineComponent({
         {
           default: () => [
             h('div', { class: 'box-label position-absolute text-caption' }, 'VRow'),
-            this.actions(n.id),
+            this.actions(n),
             ...(n.children!.length
               ? n.children!.map(child =>
                   h((this as any).$options, {
@@ -68,6 +81,7 @@ export default defineComponent({
                     onClickNode: (p: any) => this.$emit('click-node', p),
                     onRemove: (id: number) => this.$emit('remove', id),
                     onChanged: () => this.$emit('changed'),
+                    onUngroup: (id: number) => this.$emit('ungroup', id),
                     key: child.id
                   })
                 )
@@ -95,7 +109,7 @@ export default defineComponent({
         {
           default: () => [
             h('div', { class: 'box-label position-absolute text-caption' }, `VCol (cols: ${n.props?.cols ?? ''})`),
-            this.actions(n.id),
+            this.actions(n),
             h(
               Draggable as any,
               {
@@ -119,6 +133,7 @@ export default defineComponent({
                           onClickNode: (p: any) => this.$emit('click-node', p),
                           onRemove: (id: number) => this.$emit('remove', id),
                           onChanged: () => this.$emit('changed'),
+                          onUngroup: (id: number) => this.$emit('ungroup', id),
                           key: child.id
                         })
                       )
@@ -140,7 +155,7 @@ export default defineComponent({
         },
         [
           h('div', { class: 'box-label position-absolute text-caption' }, 'DIV'),
-          this.actions(n.id),
+          this.actions(n),
           h(
             Draggable as any,
             {
@@ -164,6 +179,7 @@ export default defineComponent({
                         onClickNode: (p: any) => this.$emit('click-node', p),
                         onRemove: (id: number) => this.$emit('remove', id),
                         onChanged: () => this.$emit('changed'),
+                        onUngroup: (id: number) => this.$emit('ungroup', id),
                         key: child.id
                       })
                     )
@@ -182,8 +198,19 @@ export default defineComponent({
         onClick: handleClick,
         style: { position: 'relative' }
       },
-      [this.actions(n.id), h(Comp, n.props, { default: () => n.props?.text })]
+      [this.actions(n), h(Comp, n.props, { default: () => n.props?.text })]
     );
   }
 });
 </script>
+
+<style scoped>
+.node-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 2px;
+  z-index: 1;
+}
+</style>
