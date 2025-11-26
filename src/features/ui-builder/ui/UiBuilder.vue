@@ -7,11 +7,15 @@ import { useCanvas } from '../model/useCanvas';
 import { useTree } from '../model/useTree';
 import { useSchema } from '../model/useSchema';
 import { useHistory } from '../model/useHistory';
+import { useSelection } from '../model/useSelection';
+import { useGroup } from '../model/useGroup';
 
-const { canvas, selectedId } = useCanvas();
+const { canvas } = useCanvas();
 const { findById } = useTree();
 const { schema } = useSchema();
 const { undo, redo, canUndo, canRedo, commit } = useHistory(canvas);
+const { selectedId, selectedIds } = useSelection();
+const { canGroup, groupIntoDiv } = useGroup(canvas);
 
 const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
@@ -38,6 +42,11 @@ const commitSoon = () => {
   t = window.setTimeout(() => commit(), 150);
 };
 
+const onGroup = () => {
+  groupIntoDiv();
+  commit();
+};
+
 onMounted(() => window.addEventListener('keydown', onKey));
 onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 </script>
@@ -54,7 +63,24 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
     <VCol cols="9">
       <div class="d-flex align-center justify-space-between mb-2">
         <h3 class="ma-0">🖌️ Canvas</h3>
-        <div>
+        <div class="d-flex align-center">
+          <VBtn
+            class="mr-2"
+            prepend-icon="mdi-select"
+            variant="tonal"
+            :disabled="selectedIds.length === 0"
+          >
+            {{ selectedIds.length }} selected
+          </VBtn>
+          <VBtn
+            class="mr-4"
+            prepend-icon="mdi-folder-multiple-outline"
+            variant="tonal"
+            :disabled="!canGroup()"
+            @click="onGroup"
+          >
+            Group in Div
+          </VBtn>
           <VBtn
             icon="mdi-undo"
             variant="tonal"
@@ -81,7 +107,6 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
     temporary
     width="420"
     :scrim="false"
-    elevation="0"
     :touchless="true"
     @update:model-value="
       val => {

@@ -8,11 +8,11 @@ export default defineComponent({
   name: 'Node',
   props: {
     node: { type: Object as () => PaletteItem, required: true },
-    selectedId: { type: Number, default: null }
+    selectedIds: { type: Array as () => number[], required: true }
   },
-  emits: ['update:selectedId', 'remove', 'changed'],
+  emits: ['click-node', 'remove', 'changed'],
   setup(_, { emit }) {
-    const select = (id: number) => emit('update:selectedId', id);
+    const clickNode = (id: number, meta: boolean) => emit('click-node', { id, meta });
     const remove = (id: number, e?: Event) => {
       if (e) e.stopPropagation();
       emit('remove', id);
@@ -28,10 +28,17 @@ export default defineComponent({
           onClick: (e: Event) => remove(id, e)
         })
       ]);
-    return { select, actions, changed };
+    return { clickNode, actions, changed };
   },
   render() {
     const n = this.$props.node as PaletteItem;
+    const isSelected = this.$props.selectedIds.includes(n.id);
+
+    const handleClick = (e: Event) => {
+      const me = e as MouseEvent;
+      this.clickNode(n.id, !!(me.metaKey || me.ctrlKey));
+      e.stopPropagation();
+    };
 
     if (n.name === 'VRow') {
       if (!n.children) n.children = [];
@@ -46,17 +53,8 @@ export default defineComponent({
           itemKey: 'id',
           group: { name: 'vuetify', pull: true, put: true },
           tag: VRow,
-          class: [
-            'row-decor',
-            'bg-blue-lighten-4',
-            'pa-3',
-            'rounded-lg',
-            this.$props.selectedId === n.id ? 'selected' : ''
-          ],
-          onClick: (e: Event) => {
-            e.stopPropagation();
-            this.select(n.id);
-          }
+          class: ['row-decor', 'bg-blue-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
+          onClick: handleClick
         },
         {
           default: () => [
@@ -66,8 +64,8 @@ export default defineComponent({
               ? n.children!.map(child =>
                   h((this as any).$options, {
                     node: child,
-                    selectedId: this.$props.selectedId,
-                    'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                    selectedIds: this.$props.selectedIds,
+                    onClickNode: (p: any) => this.$emit('click-node', p),
                     onRemove: (id: number) => this.$emit('remove', id),
                     onChanged: () => this.$emit('changed'),
                     key: child.id
@@ -91,17 +89,8 @@ export default defineComponent({
         VCol as any,
         {
           ...n.props,
-          class: [
-            'col-decor',
-            'bg-green-lighten-4',
-            'pa-3',
-            'rounded-lg',
-            this.$props.selectedId === n.id ? 'selected' : ''
-          ],
-          onClick: (e: Event) => {
-            e.stopPropagation();
-            this.select(n.id);
-          }
+          class: ['col-decor', 'bg-green-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
+          onClick: handleClick
         },
         {
           default: () => [
@@ -126,8 +115,8 @@ export default defineComponent({
                     ? n.children!.map(child =>
                         h((this as any).$options, {
                           node: child,
-                          selectedId: this.$props.selectedId,
-                          'onUpdate:selectedId': (id: number) => this.$emit('update:selectedId', id),
+                          selectedIds: this.$props.selectedIds,
+                          onClickNode: (p: any) => this.$emit('click-node', p),
                           onRemove: (id: number) => this.$emit('remove', id),
                           onChanged: () => this.$emit('changed'),
                           key: child.id
@@ -141,15 +130,56 @@ export default defineComponent({
       );
     }
 
+    if (n.name === 'Div') {
+      if (!n.children) n.children = [];
+      return h(
+        'div',
+        {
+          class: ['group-decor', 'bg-grey-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
+          onClick: handleClick
+        },
+        [
+          h('div', { class: 'box-label position-absolute text-caption' }, 'DIV'),
+          this.actions(n.id),
+          h(
+            Draggable as any,
+            {
+              modelValue: n.children,
+              'onUpdate:modelValue': (v: PaletteItem[]) => {
+                n.children = v;
+                this.changed();
+              },
+              itemKey: 'id',
+              group: { name: 'vuetify', pull: true, put: true },
+              tag: 'div',
+              class: ['inner-list', 'bg-grey-lighten-5', 'pa-3', 'rounded-lg']
+            },
+            {
+              default: () =>
+                n.children!.length
+                  ? n.children!.map(child =>
+                      h((this as any).$options, {
+                        node: child,
+                        selectedIds: this.$props.selectedIds,
+                        onClickNode: (p: any) => this.$emit('click-node', p),
+                        onRemove: (id: number) => this.$emit('remove', id),
+                        onChanged: () => this.$emit('changed'),
+                        key: child.id
+                      })
+                    )
+                  : [h('div', { class: 'inner-placeholder text-caption' }, 'Put here')]
+            }
+          )
+        ]
+      );
+    }
+
     const Comp = n.type as any;
     return h(
       'div',
       {
-        class: ['leaf', this.$props.selectedId === n.id ? 'selected' : ''],
-        onClick: (e: Event) => {
-          e.stopPropagation();
-          this.select(n.id);
-        },
+        class: ['leaf', isSelected ? 'selected' : ''],
+        onClick: handleClick,
         style: { position: 'relative' }
       },
       [this.actions(n.id), h(Comp, n.props, { default: () => n.props?.text })]

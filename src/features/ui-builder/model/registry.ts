@@ -5,5 +5,6 @@ export const REGISTRY = {
   VChip,
   VAlert,
   VRow,
-  VCol
+  VCol,
+  Div: 'div'
 } as const;

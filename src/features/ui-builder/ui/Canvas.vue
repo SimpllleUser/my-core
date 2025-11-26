@@ -4,18 +4,22 @@ import { useCanvas } from '../model/useCanvas';
 import { useDnDGroups } from '../model/useDnDGroups';
 import { useTree } from '../model/useTree';
 import { useHistory } from '../model/useHistory';
+import { useSelection } from '../model/useSelection';
 import Node from './Node.vue';
 
-const { canvas, selectedId } = useCanvas();
+const { canvas } = useCanvas();
 const { groupCanvas } = useDnDGroups();
 const { removeById } = useTree();
 const { commit } = useHistory(canvas);
+const { selectedIds, selectOne, toggle } = useSelection();
 
 const onDndChange = () => commit();
 const onRemove = (id: number) => {
   removeById(canvas.value, id);
-  if (selectedId.value === id) selectedId.value = null;
   commit();
+};
+const onClickNode = ({ id, meta }: { id: number; meta: boolean }) => {
+  meta ? toggle(id) : selectOne(id);
 };
 </script>
 
@@ -42,7 +46,8 @@ const onRemove = (id: number) => {
     >
       <Node
         :node="comp"
-        v-model:selectedId="selectedId"
+        :selected-ids="selectedIds"
+        @click-node="onClickNode"
         @remove="onRemove"
         @changed="onDndChange"
       />
