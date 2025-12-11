@@ -48,6 +48,7 @@ const onUngroup = (id: number) => {
     <div
       v-for="comp in canvas"
       :key="comp.id"
+      :data-type="comp.name"
       class="canvas-item"
     >
       <Node
