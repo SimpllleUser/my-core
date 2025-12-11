@@ -99,11 +99,17 @@ export default defineComponent({
 
     if (n.name === 'VCol') {
       if (!n.children) n.children = [];
+      const colsValue = Number(n.props?.cols) || 12;
+      const widthPercent = (colsValue / 12) * 100;
       return h(
         VCol as any,
         {
           ...n.props,
           class: ['col-decor', 'bg-green-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
+          style: {
+            flex: `0 0 ${widthPercent}%`,
+            maxWidth: `${widthPercent}%`
+          },
           onClick: handleClick
         },
         {
