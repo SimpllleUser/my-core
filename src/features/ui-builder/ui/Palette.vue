@@ -31,6 +31,7 @@ const palette = ref<PaletteItem[]>([
       <div
         v-for="item in palette"
         :key="item.id"
+        :data-type="item.name"
         class="item"
       >
         {{ item.name }}

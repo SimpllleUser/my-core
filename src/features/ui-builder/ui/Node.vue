@@ -3,6 +3,7 @@ import { defineComponent, h } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 import { VRow, VCol, VBtn } from 'vuetify/components';
 import type { PaletteItem } from '../types';
+import { useDnDGroups } from '../model/useDnDGroups';
 
 export default defineComponent({
   name: 'Node',
@@ -12,6 +13,7 @@ export default defineComponent({
   },
   emits: ['click-node', 'remove', 'changed', 'ungroup'],
   setup(_, { emit }) {
+    const { groupRow, groupContainer } = useDnDGroups();
     const clickNode = (id: number, meta: boolean) => emit('click-node', { id, meta });
     const remove = (id: number, e?: Event) => {
       if (e) e.stopPropagation();
@@ -41,7 +43,7 @@ export default defineComponent({
           onClick: (e: Event) => remove(n.id, e)
         })
       ]);
-    return { clickNode, actions, changed };
+    return { clickNode, actions, changed, groupRow, groupContainer };
   },
   render() {
     const n = this.$props.node as PaletteItem;
@@ -64,7 +66,7 @@ export default defineComponent({
             this.changed();
           },
           itemKey: 'id',
-          group: { name: 'vuetify', pull: true, put: true },
+          group: this.groupRow,
           tag: VRow,
           class: ['row-decor', 'bg-blue-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
           onClick: handleClick
@@ -75,21 +77,22 @@ export default defineComponent({
             this.actions(n),
             ...(n.children!.length
               ? n.children!.map(child =>
-                  h((this as any).$options, {
-                    node: child,
-                    selectedIds: this.$props.selectedIds,
-                    onClickNode: (p: any) => this.$emit('click-node', p),
-                    onRemove: (id: number) => this.$emit('remove', id),
-                    onChanged: () => this.$emit('changed'),
-                    onUngroup: (id: number) => this.$emit('ungroup', id),
-                    key: child.id
-                  })
+                  h('div', { 'data-type': child.name, key: child.id }, [
+                    h((this as any).$options, {
+                      node: child,
+                      selectedIds: this.$props.selectedIds,
+                      onClickNode: (p: any) => this.$emit('click-node', p),
+                      onRemove: (id: number) => this.$emit('remove', id),
+                      onChanged: () => this.$emit('changed'),
+                      onUngroup: (id: number) => this.$emit('ungroup', id)
+                    })
+                  ])
                 )
               : [
                   h(
                     VCol as any,
                     { cols: 12, class: 'text-grey-darken-1 text-caption py-6', key: 'placeholder' },
-                    'Перетягніть сюди компонент'
+                    'Перетягніть сюди VCol'
                   )
                 ])
           ]
@@ -119,7 +122,7 @@ export default defineComponent({
                   this.changed();
                 },
                 itemKey: 'id',
-                group: { name: 'vuetify', pull: true, put: true },
+                group: this.groupContainer,
                 tag: 'div',
                 class: ['inner-list', 'bg-green-lighten-5', 'pa-3', 'rounded-lg']
               },
@@ -127,15 +130,16 @@ export default defineComponent({
                 default: () =>
                   n.children!.length
                     ? n.children!.map(child =>
-                        h((this as any).$options, {
-                          node: child,
-                          selectedIds: this.$props.selectedIds,
-                          onClickNode: (p: any) => this.$emit('click-node', p),
-                          onRemove: (id: number) => this.$emit('remove', id),
-                          onChanged: () => this.$emit('changed'),
-                          onUngroup: (id: number) => this.$emit('ungroup', id),
-                          key: child.id
-                        })
+                        h('div', { 'data-type': child.name, key: child.id }, [
+                          h((this as any).$options, {
+                            node: child,
+                            selectedIds: this.$props.selectedIds,
+                            onClickNode: (p: any) => this.$emit('click-node', p),
+                            onRemove: (id: number) => this.$emit('remove', id),
+                            onChanged: () => this.$emit('changed'),
+                            onUngroup: (id: number) => this.$emit('ungroup', id)
+                          })
+                        ])
                       )
                     : [h('div', { class: 'inner-placeholder text-caption' }, 'Put here')]
               }
@@ -165,7 +169,7 @@ export default defineComponent({
                 this.changed();
               },
               itemKey: 'id',
-              group: { name: 'vuetify', pull: true, put: true },
+              group: this.groupContainer,
               tag: 'div',
               class: ['inner-list', 'bg-grey-lighten-5', 'pa-3', 'rounded-lg']
             },
@@ -173,15 +177,16 @@ export default defineComponent({
               default: () =>
                 n.children!.length
                   ? n.children!.map(child =>
-                      h((this as any).$options, {
-                        node: child,
-                        selectedIds: this.$props.selectedIds,
-                        onClickNode: (p: any) => this.$emit('click-node', p),
-                        onRemove: (id: number) => this.$emit('remove', id),
-                        onChanged: () => this.$emit('changed'),
-                        onUngroup: (id: number) => this.$emit('ungroup', id),
-                        key: child.id
-                      })
+                      h('div', { 'data-type': child.name, key: child.id }, [
+                        h((this as any).$options, {
+                          node: child,
+                          selectedIds: this.$props.selectedIds,
+                          onClickNode: (p: any) => this.$emit('click-node', p),
+                          onRemove: (id: number) => this.$emit('remove', id),
+                          onChanged: () => this.$emit('changed'),
+                          onUngroup: (id: number) => this.$emit('ungroup', id)
+                        })
+                      ])
                     )
                   : [h('div', { class: 'inner-placeholder text-caption' }, 'Put here')]
             }
