@@ -11,18 +11,42 @@ import { useSelection } from '../model/useSelection';
 import { useGroup } from '../model/useGroup';
 
 const { canvas } = useCanvas();
-const { findById } = useTree();
+const { findById, removeById } = useTree();
 const { schema } = useSchema();
 const { undo, redo, canUndo, canRedo, commit } = useHistory(canvas);
-const { selectedId, selectedIds } = useSelection();
+const { selectedId, selectedIds, clear } = useSelection();
 const { canGroup, groupIntoDiv, canUngroup, ungroupDiv } = useGroup(canvas);
 
 const selectedComp = computed(() => findById(canvas.value, selectedId.value));
 
+const deleteSelected = () => {
+  if (selectedIds.value.length === 0) return;
+
+  // Delete all selected items
+  selectedIds.value.forEach(id => {
+    removeById(canvas.value, id);
+  });
+
+  // Clear selection
+  clear();
+
+  // Commit to history for undo/redo
+  commit();
+};
+
 const onKey = (e: KeyboardEvent) => {
   const mod = e.metaKey || e.ctrlKey;
-  if (!mod) return;
   const key = e.key.toLowerCase();
+
+  // Handle Delete or Backspace key
+  if (key === 'delete' || key === 'backspace') {
+    e.preventDefault();
+    deleteSelected();
+    return;
+  }
+
+  // Handle undo/redo with modifier keys
+  if (!mod) return;
   if (key === 'z' && !e.shiftKey) {
     e.preventDefault();
     undo();
