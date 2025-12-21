@@ -42,5 +42,9 @@ export enum Icons {
   ChevronLeft = 'mdi-chevron-left',
   ChevronRight = 'mdi-chevron-right',
   WeatherNight = 'mdi-weather-night',
-  WhiteBalanceSunny = 'mdi-white-balance-sunny'
+  WhiteBalanceSunny = 'mdi-white-balance-sunny',
+  Bookmark = 'mdi-bookmark',
+  BookmarkOutline = 'mdi-bookmark-outline',
+  DotsVertical = 'mdi-dots-vertical',
+  DotsHorizontal = 'mdi-dots-horizontal'
 }
