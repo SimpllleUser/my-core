@@ -42,5 +42,23 @@ export enum Icons {
   ChevronLeft = 'mdi-chevron-left',
   ChevronRight = 'mdi-chevron-right',
   WeatherNight = 'mdi-weather-night',
-  WhiteBalanceSunny = 'mdi-white-balance-sunny'
+  WhiteBalanceSunny = 'mdi-white-balance-sunny',
+  // Stats & Analytics
+  AccountGroup = 'mdi-account-group',
+  AccountMultiple = 'mdi-account-multiple',
+  CurrencyUsd = 'mdi-currency-usd',
+  ChartLine = 'mdi-chart-line',
+  ChartBar = 'mdi-chart-bar',
+  ChartPie = 'mdi-chart-pie',
+  TrendingUp = 'mdi-trending-up',
+  TrendingDown = 'mdi-trending-down',
+  TrendingNeutral = 'mdi-trending-neutral',
+  Package = 'mdi-package',
+  ShoppingOutline = 'mdi-shopping-outline',
+  FileDocument = 'mdi-file-document',
+  Percent = 'mdi-percent',
+  Target = 'mdi-target',
+  Wallet = 'mdi-wallet',
+  CreditCard = 'mdi-credit-card',
+  BriefcaseOutline = 'mdi-briefcase-outline'
 }
