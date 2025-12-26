@@ -5,122 +5,122 @@
   Variants: Simple, With Trend, With Progress, Colored
 -->
 <template>
-  <v-container fluid>
+  <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Stats Card Variants</h2>
 
     <!-- Simple Stats -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Simple Stats</h3>
-    <v-row class="mb-8">
-      <v-col v-for="stat in simpleStats" :key="stat.title" cols="12" sm="6" md="3">
-        <v-card>
-          <v-card-text class="d-flex justify-space-between align-center">
+    <VRow class="mb-8">
+      <VCol v-for="stat in simpleStats" :key="stat.title" cols="12" sm="6" md="3">
+        <VCard>
+          <VCardText class="d-flex justify-space-between align-center">
             <div>
               <p class="text-caption text-medium-emphasis mb-1">{{ stat.title }}</p>
               <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
             </div>
-            <v-avatar :color="stat.color" size="48" rounded="lg">
-              <v-icon color="white">{{ stat.icon }}</v-icon>
-            </v-avatar>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+            <VAvatar :color="stat.color" size="48" rounded="lg">
+              <VIcon color="white">{{ stat.icon }}</VIcon>
+            </VAvatar>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Stats with Trend -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Trend</h3>
-    <v-row class="mb-8">
-      <v-col v-for="stat in trendStats" :key="stat.title" cols="12" sm="6" md="3">
-        <v-card>
-          <v-card-text>
+    <VRow class="mb-8">
+      <VCol v-for="stat in trendStats" :key="stat.title" cols="12" sm="6" md="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between align-center mb-2">
               <span class="text-body-2 text-medium-emphasis">{{ stat.title }}</span>
-              <v-icon :color="stat.color">{{ stat.icon }}</v-icon>
+              <VIcon :color="stat.color">{{ stat.icon }}</VIcon>
             </div>
             <h3 class="text-h4 font-weight-bold mb-2">{{ stat.value }}</h3>
             <div class="d-flex align-center">
-              <v-chip
+              <VChip
                 :color="stat.trend > 0 ? 'success' : 'error'"
                 size="x-small"
                 variant="tonal"
               >
-                <v-icon start size="small">
+                <VIcon start size="small">
                   {{ stat.trend > 0 ? 'mdi-arrow-up' : 'mdi-arrow-down' }}
-                </v-icon>
+                </VIcon>
                 {{ Math.abs(stat.trend) }}%
-              </v-chip>
+              </VChip>
               <span class="text-caption text-medium-emphasis ml-2">vs last month</span>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Stats with Progress -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Progress</h3>
-    <v-row class="mb-8">
-      <v-col v-for="stat in progressStats" :key="stat.title" cols="12" sm="6" md="3">
-        <v-card>
-          <v-card-text>
+    <VRow class="mb-8">
+      <VCol v-for="stat in progressStats" :key="stat.title" cols="12" sm="6" md="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between align-center mb-4">
               <div>
                 <p class="text-caption text-medium-emphasis mb-1">{{ stat.title }}</p>
                 <h3 class="text-h5 font-weight-bold">{{ stat.value }}</h3>
               </div>
-              <v-progress-circular
+              <VProgressCircular
                 :model-value="stat.progress"
                 :color="stat.color"
                 :size="50"
                 :width="5"
               >
                 <span class="text-caption">{{ stat.progress }}%</span>
-              </v-progress-circular>
+              </VProgressCircular>
             </div>
-            <v-progress-linear
+            <VProgressLinear
               :model-value="stat.progress"
               :color="stat.color"
               rounded
               height="6"
             />
             <p class="text-caption text-medium-emphasis mt-2">{{ stat.subtitle }}</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Colored Background Stats -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Colored Background</h3>
-    <v-row class="mb-8">
-      <v-col v-for="stat in coloredStats" :key="stat.title" cols="12" sm="6" md="3">
-        <v-card :color="stat.color">
-          <v-card-text class="text-white">
+    <VRow class="mb-8">
+      <VCol v-for="stat in coloredStats" :key="stat.title" cols="12" sm="6" md="3">
+        <VCard :color="stat.color">
+          <VCardText class="text-white">
             <div class="d-flex justify-space-between align-start">
               <div>
                 <p class="text-white-darken-1 text-body-2 mb-1">{{ stat.title }}</p>
                 <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
                 <p class="text-white-darken-1 text-caption mt-2">{{ stat.subtitle }}</p>
               </div>
-              <v-icon size="48" class="text-white-darken-1">{{ stat.icon }}</v-icon>
+              <VIcon size="48" class="text-white-darken-1">{{ stat.icon }}</VIcon>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Stats with Sparkline -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Sparkline</h3>
-    <v-row class="mb-8">
-      <v-col v-for="stat in sparklineStats" :key="stat.title" cols="12" sm="6" md="3">
-        <v-card>
-          <v-card-text>
+    <VRow class="mb-8">
+      <VCol v-for="stat in sparklineStats" :key="stat.title" cols="12" sm="6" md="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between align-center mb-1">
               <span class="text-body-2 text-medium-emphasis">{{ stat.title }}</span>
-              <v-chip
+              <VChip
                 :color="stat.trend > 0 ? 'success' : 'error'"
                 size="x-small"
                 variant="tonal"
               >
                 {{ stat.trend > 0 ? '+' : '' }}{{ stat.trend }}%
-              </v-chip>
+              </VChip>
             </div>
             <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
             <v-sparkline
@@ -131,48 +131,48 @@
               smooth
               auto-draw
             />
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Compact Stats Row -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Compact Row</h3>
-    <v-card class="mb-8">
-      <v-card-text>
-        <v-row>
-          <v-col v-for="(stat, index) in compactStats" :key="stat.title" cols="6" sm="4" md="2">
+    <VCard class="mb-8">
+      <VCardText>
+        <VRow>
+          <VCol v-for="(stat, index) in compactStats" :key="stat.title" cols="6" sm="4" md="2">
             <div class="text-center" :class="{ 'border-e': index < compactStats.length - 1 }">
-              <v-icon :color="stat.color" size="32" class="mb-2">{{ stat.icon }}</v-icon>
+              <VIcon :color="stat.color" size="32" class="mb-2">{{ stat.icon }}</VIcon>
               <h4 class="text-h5 font-weight-bold">{{ stat.value }}</h4>
               <p class="text-caption text-medium-emphasis mb-0">{{ stat.title }}</p>
             </div>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
 
     <!-- Large Feature Stats -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Feature Stats</h3>
-    <v-row>
-      <v-col v-for="stat in featureStats" :key="stat.title" cols="12" md="4">
-        <v-card variant="tonal" :color="stat.color">
-          <v-card-text class="pa-6">
+    <VRow>
+      <VCol v-for="stat in featureStats" :key="stat.title" cols="12" md="4">
+        <VCard variant="tonal" :color="stat.color">
+          <VCardText class="pa-6">
             <div class="d-flex align-center mb-4">
-              <v-avatar :color="stat.color" size="56" rounded="lg">
-                <v-icon color="white" size="28">{{ stat.icon }}</v-icon>
-              </v-avatar>
+              <VAvatar :color="stat.color" size="56" rounded="lg">
+                <VIcon color="white" size="28">{{ stat.icon }}</VIcon>
+              </VAvatar>
               <div class="ml-4">
                 <h3 class="text-h3 font-weight-bold">{{ stat.value }}</h3>
                 <p class="text-body-1 mb-0">{{ stat.title }}</p>
               </div>
             </div>
             <p class="text-body-2 text-medium-emphasis mb-0">{{ stat.description }}</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

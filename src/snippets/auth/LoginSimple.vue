@@ -5,17 +5,17 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="4">
-        <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Sign In</v-toolbar-title>
-          </v-toolbar>
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="4">
+        <VCard class="elevation-12">
+          <VToolbar color="primary" dark flat>
+            <VToolbarTitle>Sign In</VToolbarTitle>
+          </VToolbar>
 
-          <v-card-text>
-            <v-form ref="formRef" v-model="valid" lazy-validation>
-              <v-text-field
+          <VCardText>
+            <VForm ref="formRef" v-model="valid" lazy-validation>
+              <VTextField
                 v-model="email"
                 :rules="emailRules"
                 label="Email"
@@ -26,7 +26,7 @@
                 class="mb-4"
               />
 
-              <v-text-field
+              <VTextField
                 v-model="password"
                 :rules="passwordRules"
                 :type="showPassword ? 'text' : 'password'"
@@ -37,20 +37,20 @@
                 @click:append="showPassword = !showPassword"
               />
 
-              <v-checkbox
+              <VCheckbox
                 v-model="rememberMe"
                 label="Remember me"
                 color="primary"
               />
-            </v-form>
-          </v-card-text>
+            </VForm>
+          </VCardText>
 
-          <v-card-actions>
-            <v-btn variant="text" color="primary" @click="forgotPassword">
+          <VCardActions>
+            <VBtn variant="text" color="primary" @click="forgotPassword">
               Forgot Password?
-            </v-btn>
-            <v-spacer />
-            <v-btn
+            </VBtn>
+            <VSpacer />
+            <VBtn
               color="primary"
               size="large"
               :loading="loading"
@@ -58,21 +58,21 @@
               @click="submit"
             >
               Sign In
-            </v-btn>
-          </v-card-actions>
+            </VBtn>
+          </VCardActions>
 
-          <v-divider />
+          <VDivider />
 
-          <v-card-text class="text-center">
+          <VCardText class="text-center">
             <span class="text-medium-emphasis">Don't have an account?</span>
-            <v-btn variant="text" color="primary" @click="goToRegister">
+            <VBtn variant="text" color="primary" @click="goToRegister">
               Sign Up
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            </VBtn>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

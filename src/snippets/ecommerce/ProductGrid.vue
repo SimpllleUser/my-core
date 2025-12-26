@@ -5,7 +5,7 @@
   Variants: Grid view, List view
 -->
 <template>
-  <v-container fluid>
+  <VContainer fluid>
     <!-- Header -->
     <div class="d-flex flex-wrap justify-space-between align-center mb-6 ga-4">
       <div>
@@ -13,7 +13,7 @@
         <p class="text-medium-emphasis">Showing {{ products.length }} products</p>
       </div>
       <div class="d-flex align-center ga-2">
-        <v-select
+        <VSelect
           v-model="sortBy"
           :items="sortOptions"
           label="Sort by"
@@ -22,16 +22,16 @@
           hide-details
           style="width: 180px;"
         />
-        <v-btn-toggle v-model="viewMode" mandatory density="compact" variant="outlined">
-          <v-btn value="grid" icon="mdi-view-grid" />
-          <v-btn value="list" icon="mdi-view-list" />
-        </v-btn-toggle>
+        <VBtnToggle v-model="viewMode" mandatory density="compact" variant="outlined">
+          <VBtn value="grid" icon="mdi-view-grid" />
+          <VBtn value="list" icon="mdi-view-list" />
+        </VBtnToggle>
       </div>
     </div>
 
     <!-- Product Grid -->
-    <v-row>
-      <v-col
+    <VRow>
+      <VCol
         v-for="product in products"
         :key="product.id"
         :cols="viewMode === 'grid' ? 12 : 12"
@@ -40,47 +40,47 @@
         :lg="viewMode === 'grid' ? 3 : 12"
       >
         <!-- Grid View Card -->
-        <v-card v-if="viewMode === 'grid'" class="h-100">
+        <VCard v-if="viewMode === 'grid'" class="h-100">
           <div class="position-relative">
-            <v-img :src="product.image" height="200" cover>
+            <VImg :src="product.image" height="200" cover>
               <template #placeholder>
                 <div class="d-flex align-center justify-center fill-height">
-                  <v-progress-circular indeterminate color="primary" />
+                  <VProgressCircular indeterminate color="primary" />
                 </div>
               </template>
-            </v-img>
+            </VImg>
 
             <!-- Badges -->
             <div class="position-absolute" style="top: 12px; left: 12px;">
-              <v-chip v-if="product.isNew" color="primary" size="small" class="mr-1">NEW</v-chip>
-              <v-chip v-if="product.discount" color="error" size="small">-{{ product.discount }}%</v-chip>
+              <VChip v-if="product.isNew" color="primary" size="small" class="mr-1">NEW</VChip>
+              <VChip v-if="product.discount" color="error" size="small">-{{ product.discount }}%</VChip>
             </div>
 
             <!-- Quick Actions -->
             <div class="position-absolute d-flex flex-column ga-1" style="top: 12px; right: 12px;">
-              <v-btn
+              <VBtn
                 icon
                 size="small"
                 variant="flat"
                 color="white"
                 @click="toggleWishlist(product.id)"
               >
-                <v-icon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
+                <VIcon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
                   {{ wishlist.includes(product.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
-                </v-icon>
-              </v-btn>
-              <v-btn icon size="small" variant="flat" color="white" @click="quickView(product)">
-                <v-icon color="grey">mdi-eye</v-icon>
-              </v-btn>
+                </VIcon>
+              </VBtn>
+              <VBtn icon size="small" variant="flat" color="white" @click="quickView(product)">
+                <VIcon color="grey">mdi-eye</VIcon>
+              </VBtn>
             </div>
           </div>
 
-          <v-card-text>
+          <VCardText>
             <p class="text-caption text-medium-emphasis mb-1">{{ product.category }}</p>
             <h4 class="text-subtitle-1 font-weight-medium mb-2 text-truncate">{{ product.name }}</h4>
 
             <div class="d-flex align-center mb-2">
-              <v-rating
+              <VRating
                 :model-value="product.rating"
                 color="warning"
                 density="compact"
@@ -98,31 +98,31 @@
                   ${{ product.originalPrice.toFixed(2) }}
                 </span>
               </div>
-              <v-btn icon size="small" color="primary" @click="addToCart(product)">
-                <v-icon>mdi-cart-plus</v-icon>
-              </v-btn>
+              <VBtn icon size="small" color="primary" @click="addToCart(product)">
+                <VIcon>mdi-cart-plus</VIcon>
+              </VBtn>
             </div>
-          </v-card-text>
-        </v-card>
+          </VCardText>
+        </VCard>
 
         <!-- List View Card -->
-        <v-card v-else>
-          <v-row no-gutters>
-            <v-col cols="3">
-              <v-img :src="product.image" height="100%" cover class="rounded-s" />
-            </v-col>
-            <v-col cols="9">
-              <v-card-text class="h-100 d-flex flex-column">
+        <VCard v-else>
+          <VRow no-gutters>
+            <VCol cols="3">
+              <VImg :src="product.image" height="100%" cover class="rounded-s" />
+            </VCol>
+            <VCol cols="9">
+              <VCardText class="h-100 d-flex flex-column">
                 <div class="d-flex justify-space-between align-start mb-2">
                   <div>
                     <div class="d-flex ga-1 mb-2">
-                      <v-chip v-if="product.isNew" color="primary" size="x-small">NEW</v-chip>
-                      <v-chip v-if="product.discount" color="error" size="x-small">-{{ product.discount }}%</v-chip>
-                      <v-chip size="x-small" variant="outlined">{{ product.category }}</v-chip>
+                      <VChip v-if="product.isNew" color="primary" size="x-small">NEW</VChip>
+                      <VChip v-if="product.discount" color="error" size="x-small">-{{ product.discount }}%</VChip>
+                      <VChip size="x-small" variant="outlined">{{ product.category }}</VChip>
                     </div>
                     <h4 class="text-h6 font-weight-medium">{{ product.name }}</h4>
                   </div>
-                  <v-btn icon="mdi-heart-outline" variant="text" size="small" />
+                  <VBtn icon="mdi-heart-outline" variant="text" size="small" />
                 </div>
 
                 <p class="text-body-2 text-medium-emphasis flex-grow-1">
@@ -131,7 +131,7 @@
 
                 <div class="d-flex justify-space-between align-center">
                   <div>
-                    <v-rating :model-value="product.rating" size="small" color="warning" density="compact" readonly />
+                    <VRating :model-value="product.rating" size="small" color="warning" density="compact" readonly />
                     <span class="text-caption text-medium-emphasis ml-2">{{ product.reviews }} reviews</span>
                   </div>
                   <div class="d-flex align-center ga-4">
@@ -141,29 +141,29 @@
                         ${{ product.originalPrice.toFixed(2) }}
                       </span>
                     </div>
-                    <v-btn color="primary" @click="addToCart(product)">
-                      <v-icon start>mdi-cart-plus</v-icon>
+                    <VBtn color="primary" @click="addToCart(product)">
+                      <VIcon start>mdi-cart-plus</VIcon>
                       Add to Cart
-                    </v-btn>
+                    </VBtn>
                   </div>
                 </div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
+              </VCardText>
+            </VCol>
+          </VRow>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Pagination -->
     <div class="d-flex justify-center mt-8">
-      <v-pagination
+      <VPagination
         v-model="page"
         :length="5"
         :total-visible="5"
         rounded
       />
     </div>
-  </v-container>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

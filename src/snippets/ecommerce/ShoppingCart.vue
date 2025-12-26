@@ -5,29 +5,29 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container>
+  <VContainer>
     <h1 class="text-h4 font-weight-bold mb-6">Shopping Cart</h1>
 
-    <v-row>
+    <VRow>
       <!-- Cart Items -->
-      <v-col cols="12" lg="8">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+      <VCol cols="12" lg="8">
+        <VCard>
+          <VCardTitle class="d-flex justify-space-between align-center">
             <span>Cart Items ({{ cartItems.length }})</span>
-            <v-btn variant="text" color="error" size="small" @click="clearCart">
+            <VBtn variant="text" color="error" size="small" @click="clearCart">
               Clear Cart
-            </v-btn>
-          </v-card-title>
+            </VBtn>
+          </VCardTitle>
 
-          <v-divider />
+          <VDivider />
 
-          <v-list v-if="cartItems.length" lines="two">
+          <VList v-if="cartItems.length" lines="two">
             <template v-for="(item, index) in cartItems" :key="item.id">
-              <v-list-item>
+              <VListItem>
                 <template #prepend>
-                  <v-avatar rounded size="80" class="mr-4">
-                    <v-img :src="item.image" />
-                  </v-avatar>
+                  <VAvatar rounded size="80" class="mr-4">
+                    <VImg :src="item.image" />
+                  </VAvatar>
                 </template>
 
                 <div class="d-flex justify-space-between align-center w-100">
@@ -35,15 +35,15 @@
                     <p class="text-caption text-medium-emphasis mb-0">{{ item.category }}</p>
                     <h4 class="text-subtitle-1 font-weight-medium mb-1">{{ item.name }}</h4>
                     <div class="d-flex ga-1">
-                      <v-chip v-if="item.color" size="x-small" variant="outlined">{{ item.color }}</v-chip>
-                      <v-chip v-if="item.size" size="x-small" variant="outlined">{{ item.size }}</v-chip>
+                      <VChip v-if="item.color" size="x-small" variant="outlined">{{ item.color }}</VChip>
+                      <VChip v-if="item.size" size="x-small" variant="outlined">{{ item.size }}</VChip>
                     </div>
                   </div>
 
                   <div class="d-flex align-center ga-4">
                     <!-- Quantity -->
                     <div class="d-flex align-center">
-                      <v-btn
+                      <VBtn
                         icon="mdi-minus"
                         size="small"
                         variant="outlined"
@@ -54,7 +54,7 @@
                       <span class="mx-3 font-weight-medium" style="min-width: 24px; text-align: center;">
                         {{ item.quantity }}
                       </span>
-                      <v-btn
+                      <VBtn
                         icon="mdi-plus"
                         size="small"
                         variant="outlined"
@@ -70,7 +70,7 @@
                     </div>
 
                     <!-- Remove -->
-                    <v-btn
+                    <VBtn
                       icon="mdi-delete-outline"
                       variant="text"
                       color="error"
@@ -79,53 +79,53 @@
                     />
                   </div>
                 </div>
-              </v-list-item>
+              </VListItem>
 
-              <v-divider v-if="index < cartItems.length - 1" />
+              <VDivider v-if="index < cartItems.length - 1" />
             </template>
-          </v-list>
+          </VList>
 
           <!-- Empty Cart -->
-          <v-card-text v-else class="text-center pa-12">
-            <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-cart-outline</v-icon>
+          <VCardText v-else class="text-center pa-12">
+            <VIcon size="80" color="grey-lighten-1" class="mb-4">mdi-cart-outline</VIcon>
             <h3 class="text-h6 mb-2">Your cart is empty</h3>
             <p class="text-body-2 text-medium-emphasis mb-6">
               Looks like you haven't added anything to your cart yet.
             </p>
-            <v-btn color="primary" size="large">Start Shopping</v-btn>
-          </v-card-text>
-        </v-card>
+            <VBtn color="primary" size="large">Start Shopping</VBtn>
+          </VCardText>
+        </VCard>
 
         <!-- Recommended Products -->
-        <v-card class="mt-6" v-if="cartItems.length">
-          <v-card-title>You May Also Like</v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col v-for="product in recommendedProducts" :key="product.id" cols="6" md="3">
-                <v-card variant="outlined">
-                  <v-img :src="product.image" height="120" cover />
-                  <v-card-text class="pa-3">
+        <VCard class="mt-6" v-if="cartItems.length">
+          <VCardTitle>You May Also Like</VCardTitle>
+          <VCardText>
+            <VRow>
+              <VCol v-for="product in recommendedProducts" :key="product.id" cols="6" md="3">
+                <VCard variant="outlined">
+                  <VImg :src="product.image" height="120" cover />
+                  <VCardText class="pa-3">
                     <p class="text-body-2 font-weight-medium text-truncate mb-1">{{ product.name }}</p>
                     <div class="d-flex justify-space-between align-center">
                       <span class="font-weight-bold text-primary">${{ product.price.toFixed(2) }}</span>
-                      <v-btn icon="mdi-plus" size="x-small" color="primary" variant="tonal" />
+                      <VBtn icon="mdi-plus" size="x-small" color="primary" variant="tonal" />
                     </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
+                  </VCardText>
+                </VCard>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCard>
+      </VCol>
 
       <!-- Order Summary -->
-      <v-col cols="12" lg="4">
-        <v-card class="sticky-card">
-          <v-card-title>Order Summary</v-card-title>
+      <VCol cols="12" lg="4">
+        <VCard class="sticky-card">
+          <VCardTitle>Order Summary</VCardTitle>
 
-          <v-card-text>
+          <VCardText>
             <!-- Promo Code -->
-            <v-text-field
+            <VTextField
               v-model="promoCode"
               label="Promo Code"
               variant="outlined"
@@ -135,22 +135,22 @@
               :color="promoApplied ? 'success' : undefined"
             >
               <template #append>
-                <v-btn
+                <VBtn
                   variant="text"
                   color="primary"
                   :disabled="!promoCode || promoApplied"
                   @click="applyPromo"
                 >
                   Apply
-                </v-btn>
+                </VBtn>
               </template>
-            </v-text-field>
+            </VTextField>
 
             <v-alert v-if="promoApplied" type="success" variant="tonal" density="compact" class="mb-4">
               Promo code applied! You saved $10.00
             </v-alert>
 
-            <v-divider class="mb-4" />
+            <VDivider class="mb-4" />
 
             <!-- Summary Lines -->
             <div class="d-flex justify-space-between mb-2">
@@ -172,33 +172,33 @@
               <span class="font-weight-medium">${{ tax.toFixed(2) }}</span>
             </div>
 
-            <v-divider class="my-4" />
+            <VDivider class="my-4" />
 
             <div class="d-flex justify-space-between mb-6">
               <span class="text-h6 font-weight-bold">Total</span>
               <span class="text-h6 font-weight-bold text-primary">${{ total.toFixed(2) }}</span>
             </div>
 
-            <v-btn color="primary" size="large" block class="mb-3" @click="checkout">
+            <VBtn color="primary" size="large" block class="mb-3" @click="checkout">
               Proceed to Checkout
-            </v-btn>
+            </VBtn>
 
-            <v-btn variant="outlined" size="large" block>
+            <VBtn variant="outlined" size="large" block>
               Continue Shopping
-            </v-btn>
+            </VBtn>
 
             <!-- Trust Badges -->
             <div class="d-flex justify-center ga-4 mt-6">
               <div class="text-center">
-                <v-icon color="success">mdi-shield-check</v-icon>
+                <VIcon color="success">mdi-shield-check</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Secure</p>
               </div>
               <div class="text-center">
-                <v-icon color="primary">mdi-truck-fast</v-icon>
+                <VIcon color="primary">mdi-truck-fast</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Fast Delivery</p>
               </div>
               <div class="text-center">
-                <v-icon color="warning">mdi-cash-refund</v-icon>
+                <VIcon color="warning">mdi-cash-refund</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Easy Returns</p>
               </div>
             </div>
@@ -207,16 +207,16 @@
             <div class="text-center mt-6">
               <p class="text-caption text-medium-emphasis mb-2">We Accept</p>
               <div class="d-flex justify-center ga-2">
-                <v-icon>mdi-credit-card</v-icon>
-                <v-icon>mdi-apple</v-icon>
-                <v-icon>mdi-google</v-icon>
+                <VIcon>mdi-credit-card</VIcon>
+                <VIcon>mdi-apple</VIcon>
+                <VIcon>mdi-google</VIcon>
               </div>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

@@ -5,7 +5,7 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container fluid>
+  <VContainer fluid>
     <!-- Header -->
     <div class="d-flex flex-wrap justify-space-between align-center mb-6 ga-4">
       <div>
@@ -13,7 +13,7 @@
         <p class="text-medium-emphasis">Overview of your store performance</p>
       </div>
       <div class="d-flex ga-2">
-        <v-select
+        <VSelect
           v-model="selectedPeriod"
           :items="periods"
           variant="outlined"
@@ -21,143 +21,143 @@
           hide-details
           style="width: 150px;"
         />
-        <v-btn color="primary" prepend-icon="mdi-download">
+        <VBtn color="primary" prepend-icon="mdi-download">
           Export
-        </v-btn>
+        </VBtn>
       </div>
     </div>
 
     <!-- Revenue Stats -->
-    <v-row class="mb-6">
-      <v-col cols="12" sm="6" lg="3">
-        <v-card>
-          <v-card-text>
+    <VRow class="mb-6">
+      <VCol cols="12" sm="6" lg="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between">
               <div>
                 <p class="text-medium-emphasis text-body-2">Total Revenue</p>
                 <h3 class="text-h4 font-weight-bold mt-1">$124,563</h3>
                 <div class="d-flex align-center mt-2">
-                  <v-icon color="success" size="small">mdi-arrow-up</v-icon>
+                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
                   <span class="text-success text-body-2 ml-1">+12.5%</span>
                 </div>
               </div>
-              <v-avatar color="primary" size="48" rounded="lg">
-                <v-icon>mdi-cash-multiple</v-icon>
-              </v-avatar>
+              <VAvatar color="primary" size="48" rounded="lg">
+                <VIcon>mdi-cash-multiple</VIcon>
+              </VAvatar>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+          </VCardText>
+        </VCard>
+      </VCol>
 
-      <v-col cols="12" sm="6" lg="3">
-        <v-card>
-          <v-card-text>
+      <VCol cols="12" sm="6" lg="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between">
               <div>
                 <p class="text-medium-emphasis text-body-2">Total Orders</p>
                 <h3 class="text-h4 font-weight-bold mt-1">3,456</h3>
                 <div class="d-flex align-center mt-2">
-                  <v-icon color="success" size="small">mdi-arrow-up</v-icon>
+                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
                   <span class="text-success text-body-2 ml-1">+8.2%</span>
                 </div>
               </div>
-              <v-avatar color="success" size="48" rounded="lg">
-                <v-icon>mdi-cart-check</v-icon>
-              </v-avatar>
+              <VAvatar color="success" size="48" rounded="lg">
+                <VIcon>mdi-cart-check</VIcon>
+              </VAvatar>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+          </VCardText>
+        </VCard>
+      </VCol>
 
-      <v-col cols="12" sm="6" lg="3">
-        <v-card>
-          <v-card-text>
+      <VCol cols="12" sm="6" lg="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between">
               <div>
                 <p class="text-medium-emphasis text-body-2">Avg. Order Value</p>
                 <h3 class="text-h4 font-weight-bold mt-1">$86.40</h3>
                 <div class="d-flex align-center mt-2">
-                  <v-icon color="error" size="small">mdi-arrow-down</v-icon>
+                  <VIcon color="error" size="small">mdi-arrow-down</VIcon>
                   <span class="text-error text-body-2 ml-1">-2.4%</span>
                 </div>
               </div>
-              <v-avatar color="warning" size="48" rounded="lg">
-                <v-icon>mdi-receipt</v-icon>
-              </v-avatar>
+              <VAvatar color="warning" size="48" rounded="lg">
+                <VIcon>mdi-receipt</VIcon>
+              </VAvatar>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+          </VCardText>
+        </VCard>
+      </VCol>
 
-      <v-col cols="12" sm="6" lg="3">
-        <v-card>
-          <v-card-text>
+      <VCol cols="12" sm="6" lg="3">
+        <VCard>
+          <VCardText>
             <div class="d-flex justify-space-between">
               <div>
                 <p class="text-medium-emphasis text-body-2">Conversion Rate</p>
                 <h3 class="text-h4 font-weight-bold mt-1">3.24%</h3>
                 <div class="d-flex align-center mt-2">
-                  <v-icon color="success" size="small">mdi-arrow-up</v-icon>
+                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
                   <span class="text-success text-body-2 ml-1">+0.5%</span>
                 </div>
               </div>
-              <v-avatar color="secondary" size="48" rounded="lg">
-                <v-icon>mdi-percent</v-icon>
-              </v-avatar>
+              <VAvatar color="secondary" size="48" rounded="lg">
+                <VIcon>mdi-percent</VIcon>
+              </VAvatar>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
-    <v-row>
+    <VRow>
       <!-- Sales Chart -->
-      <v-col cols="12" lg="8">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+      <VCol cols="12" lg="8">
+        <VCard>
+          <VCardTitle class="d-flex justify-space-between align-center">
             <span>Sales Overview</span>
-            <v-btn-toggle v-model="chartView" mandatory density="compact" variant="outlined">
-              <v-btn value="daily">Daily</v-btn>
-              <v-btn value="weekly">Weekly</v-btn>
-              <v-btn value="monthly">Monthly</v-btn>
-            </v-btn-toggle>
-          </v-card-title>
-          <v-card-text>
+            <VBtnToggle v-model="chartView" mandatory density="compact" variant="outlined">
+              <VBtn value="daily">Daily</VBtn>
+              <VBtn value="weekly">Weekly</VBtn>
+              <VBtn value="monthly">Monthly</VBtn>
+            </VBtnToggle>
+          </VCardTitle>
+          <VCardText>
             <!-- Chart Placeholder -->
             <div
               class="d-flex align-center justify-center rounded-lg"
               style="height: 300px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);"
             >
               <div class="text-center">
-                <v-icon size="64" color="primary" class="mb-2">mdi-chart-areaspline</v-icon>
+                <VIcon size="64" color="primary" class="mb-2">mdi-chart-areaspline</VIcon>
                 <p class="text-medium-emphasis">Sales chart goes here</p>
               </div>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+          </VCardText>
+        </VCard>
+      </VCol>
 
       <!-- Top Products -->
-      <v-col cols="12" lg="4">
-        <v-card>
-          <v-card-title>Top Products</v-card-title>
-          <v-card-text class="pa-0">
-            <v-list>
-              <v-list-item
+      <VCol cols="12" lg="4">
+        <VCard>
+          <VCardTitle>Top Products</VCardTitle>
+          <VCardText class="pa-0">
+            <VList>
+              <VListItem
                 v-for="product in topProducts"
                 :key="product.id"
               >
                 <template #prepend>
-                  <v-avatar rounded size="48" color="grey-lighten-3">
-                    <v-img :src="product.image" />
-                  </v-avatar>
+                  <VAvatar rounded size="48" color="grey-lighten-3">
+                    <VImg :src="product.image" />
+                  </VAvatar>
                 </template>
-                <v-list-item-title class="font-weight-medium">
+                <VListItemTitle class="font-weight-medium">
                   {{ product.name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
+                </VListItemTitle>
+                <VListItemSubtitle>
                   {{ product.sales }} sales
-                </v-list-item-subtitle>
+                </VListItemSubtitle>
                 <template #append>
                   <div class="text-right">
                     <div class="font-weight-medium">${{ product.revenue }}</div>
@@ -166,22 +166,22 @@
                     </div>
                   </div>
                 </template>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+              </VListItem>
+            </VList>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
-    <v-row class="mt-4">
+    <VRow class="mt-4">
       <!-- Recent Orders -->
-      <v-col cols="12" lg="8">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+      <VCol cols="12" lg="8">
+        <VCard>
+          <VCardTitle class="d-flex justify-space-between align-center">
             <span>Recent Orders</span>
-            <v-btn variant="text" color="primary" size="small">View All</v-btn>
-          </v-card-title>
-          <v-data-table
+            <VBtn variant="text" color="primary" size="small">View All</VBtn>
+          </VCardTitle>
+          <VDataTable
             :headers="orderHeaders"
             :items="recentOrders"
             :items-per-page="5"
@@ -189,35 +189,35 @@
           >
             <template #item.customer="{ item }">
               <div class="d-flex align-center py-2">
-                <v-avatar size="32" class="mr-2">
-                  <v-img :src="item.avatar" />
-                </v-avatar>
+                <VAvatar size="32" class="mr-2">
+                  <VImg :src="item.avatar" />
+                </VAvatar>
                 {{ item.customer }}
               </div>
             </template>
             <template #item.status="{ item }">
-              <v-chip :color="getStatusColor(item.status)" size="small">
+              <VChip :color="getStatusColor(item.status)" size="small">
                 {{ item.status }}
-              </v-chip>
+              </VChip>
             </template>
             <template #item.total="{ item }">
               <span class="font-weight-medium">${{ item.total }}</span>
             </template>
-          </v-data-table>
-        </v-card>
-      </v-col>
+          </VDataTable>
+        </VCard>
+      </VCol>
 
       <!-- Sales by Category -->
-      <v-col cols="12" lg="4">
-        <v-card>
-          <v-card-title>Sales by Category</v-card-title>
-          <v-card-text>
+      <VCol cols="12" lg="4">
+        <VCard>
+          <VCardTitle>Sales by Category</VCardTitle>
+          <VCardText>
             <div v-for="category in salesByCategory" :key="category.name" class="mb-4">
               <div class="d-flex justify-space-between mb-1">
                 <span>{{ category.name }}</span>
                 <span class="font-weight-medium">${{ category.sales.toLocaleString() }}</span>
               </div>
-              <v-progress-linear
+              <VProgressLinear
                 :model-value="category.percentage"
                 :color="category.color"
                 rounded
@@ -227,11 +227,11 @@
                 {{ category.percentage }}% of total sales
               </div>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

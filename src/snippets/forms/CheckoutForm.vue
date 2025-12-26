@@ -5,98 +5,98 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container>
-    <v-row>
+  <VContainer>
+    <VRow>
       <!-- Checkout Form -->
-      <v-col cols="12" lg="8">
-        <v-card class="mb-4">
-          <v-card-title class="d-flex align-center">
-            <v-icon color="primary" class="mr-2">mdi-map-marker</v-icon>
+      <VCol cols="12" lg="8">
+        <VCard class="mb-4">
+          <VCardTitle class="d-flex align-center">
+            <VIcon color="primary" class="mr-2">mdi-map-marker</VIcon>
             Shipping Information
-          </v-card-title>
-          <v-card-text>
-            <v-form ref="shippingFormRef" v-model="shippingValid">
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+          </VCardTitle>
+          <VCardText>
+            <VForm ref="shippingFormRef" v-model="shippingValid">
+              <VRow>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="shipping.firstName"
                     :rules="requiredRules"
                     label="First Name"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="shipping.lastName"
                     :rules="requiredRules"
                     label="Last Name"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12">
+                  <VTextField
                     v-model="shipping.address"
                     :rules="requiredRules"
                     label="Street Address"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="shipping.city"
                     :rules="requiredRules"
                     label="City"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <v-select
+                </VCol>
+                <VCol cols="12" sm="3">
+                  <VSelect
                     v-model="shipping.state"
                     :items="states"
                     :rules="requiredRules"
                     label="State"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="3">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="3">
+                  <VTextField
                     v-model="shipping.zip"
                     :rules="zipRules"
                     label="ZIP Code"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="shipping.email"
                     :rules="emailRules"
                     label="Email"
                     type="email"
                     variant="outlined"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="shipping.phone"
                     :rules="requiredRules"
                     label="Phone"
                     variant="outlined"
                   />
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card-text>
-        </v-card>
+                </VCol>
+              </VRow>
+            </VForm>
+          </VCardText>
+        </VCard>
 
         <!-- Shipping Method -->
-        <v-card class="mb-4">
-          <v-card-title class="d-flex align-center">
-            <v-icon color="primary" class="mr-2">mdi-truck-delivery</v-icon>
+        <VCard class="mb-4">
+          <VCardTitle class="d-flex align-center">
+            <VIcon color="primary" class="mr-2">mdi-truck-delivery</VIcon>
             Shipping Method
-          </v-card-title>
-          <v-card-text>
-            <v-radio-group v-model="shippingMethod" hide-details>
-              <v-card
+          </VCardTitle>
+          <VCardText>
+            <VRadioGroup v-model="shippingMethod" hide-details>
+              <VCard
                 v-for="method in shippingMethods"
                 :key="method.id"
                 :variant="shippingMethod === method.id ? 'tonal' : 'outlined'"
@@ -105,7 +105,7 @@
                 @click="shippingMethod = method.id"
               >
                 <div class="d-flex align-center">
-                  <v-radio :value="method.id" hide-details class="mr-4" />
+                  <VRadio :value="method.id" hide-details class="mr-4" />
                   <div class="flex-grow-1">
                     <div class="d-flex justify-space-between">
                       <span class="font-weight-medium">{{ method.name }}</span>
@@ -114,22 +114,22 @@
                     <span class="text-caption text-medium-emphasis">{{ method.description }}</span>
                   </div>
                 </div>
-              </v-card>
-            </v-radio-group>
-          </v-card-text>
-        </v-card>
+              </VCard>
+            </VRadioGroup>
+          </VCardText>
+        </VCard>
 
         <!-- Payment Information -->
-        <v-card>
-          <v-card-title class="d-flex align-center">
-            <v-icon color="primary" class="mr-2">mdi-credit-card</v-icon>
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon color="primary" class="mr-2">mdi-credit-card</VIcon>
             Payment Information
-          </v-card-title>
-          <v-card-text>
-            <v-form ref="paymentFormRef" v-model="paymentValid">
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
+          </VCardTitle>
+          <VCardText>
+            <VForm ref="paymentFormRef" v-model="paymentValid">
+              <VRow>
+                <VCol cols="12">
+                  <VTextField
                     v-model="payment.cardNumber"
                     :rules="cardRules"
                     label="Card Number"
@@ -137,18 +137,18 @@
                     placeholder="1234 5678 9012 3456"
                     prepend-inner-icon="mdi-credit-card"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="payment.expiry"
                     :rules="expiryRules"
                     label="Expiry Date"
                     variant="outlined"
                     placeholder="MM/YY"
                   />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12" sm="6">
+                  <VTextField
                     v-model="payment.cvv"
                     :rules="cvvRules"
                     label="CVV"
@@ -156,48 +156,48 @@
                     placeholder="123"
                     type="password"
                   />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
+                </VCol>
+                <VCol cols="12">
+                  <VTextField
                     v-model="payment.cardName"
                     :rules="requiredRules"
                     label="Name on Card"
                     variant="outlined"
                   />
-                </v-col>
-              </v-row>
+                </VCol>
+              </VRow>
 
-              <v-checkbox
+              <VCheckbox
                 v-model="sameAsBilling"
                 label="Billing address same as shipping"
                 color="primary"
               />
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
+            </VForm>
+          </VCardText>
+        </VCard>
+      </VCol>
 
       <!-- Order Summary -->
-      <v-col cols="12" lg="4">
-        <v-card class="sticky-card">
-          <v-card-title>Order Summary</v-card-title>
-          <v-card-text>
-            <v-list density="compact">
-              <v-list-item v-for="item in cartItems" :key="item.id">
+      <VCol cols="12" lg="4">
+        <VCard class="sticky-card">
+          <VCardTitle>Order Summary</VCardTitle>
+          <VCardText>
+            <VList density="compact">
+              <VListItem v-for="item in cartItems" :key="item.id">
                 <template #prepend>
-                  <v-avatar rounded size="48" class="mr-3">
-                    <v-img :src="item.image" />
-                  </v-avatar>
+                  <VAvatar rounded size="48" class="mr-3">
+                    <VImg :src="item.image" />
+                  </VAvatar>
                 </template>
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
-                <v-list-item-subtitle>Qty: {{ item.quantity }}</v-list-item-subtitle>
+                <VListItemTitle>{{ item.name }}</VListItemTitle>
+                <VListItemSubtitle>Qty: {{ item.quantity }}</VListItemSubtitle>
                 <template #append>
                   <span class="font-weight-medium">${{ (item.price * item.quantity).toFixed(2) }}</span>
                 </template>
-              </v-list-item>
-            </v-list>
+              </VListItem>
+            </VList>
 
-            <v-divider class="my-4" />
+            <VDivider class="my-4" />
 
             <div class="d-flex justify-space-between mb-2">
               <span class="text-medium-emphasis">Subtotal</span>
@@ -212,7 +212,7 @@
               <span>${{ tax.toFixed(2) }}</span>
             </div>
 
-            <v-text-field
+            <VTextField
               v-model="promoCode"
               label="Promo Code"
               variant="outlined"
@@ -222,14 +222,14 @@
               @click:append-inner="applyPromo"
             />
 
-            <v-divider class="mb-4" />
+            <VDivider class="mb-4" />
 
             <div class="d-flex justify-space-between mb-4">
               <span class="text-h6 font-weight-bold">Total</span>
               <span class="text-h6 font-weight-bold">${{ total.toFixed(2) }}</span>
             </div>
 
-            <v-btn
+            <VBtn
               color="primary"
               size="large"
               block
@@ -238,18 +238,18 @@
               @click="placeOrder"
             >
               Place Order
-              <v-icon end>mdi-lock</v-icon>
-            </v-btn>
+              <VIcon end>mdi-lock</VIcon>
+            </VBtn>
 
             <p class="text-caption text-medium-emphasis text-center mt-4">
-              <v-icon size="small">mdi-shield-check</v-icon>
+              <VIcon size="small">mdi-shield-check</VIcon>
               Secure checkout powered by Stripe
             </p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

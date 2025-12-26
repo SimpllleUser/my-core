@@ -5,32 +5,32 @@
   Variants: Standard, Horizontal, Compact, Featured
 -->
 <template>
-  <v-container fluid>
+  <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Product Card Variants</h2>
 
     <!-- Standard Product Cards -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Standard Cards</h3>
-    <v-row class="mb-8">
-      <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
-        <v-card class="h-100">
+    <VRow class="mb-8">
+      <VCol v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
+        <VCard class="h-100">
           <!-- Image with Badges -->
           <div class="position-relative">
-            <v-img :src="product.image" height="200" cover>
+            <VImg :src="product.image" height="200" cover>
               <template #placeholder>
                 <div class="d-flex align-center justify-center fill-height">
-                  <v-progress-circular indeterminate color="primary" />
+                  <VProgressCircular indeterminate color="primary" />
                 </div>
               </template>
-            </v-img>
+            </VImg>
 
             <!-- Badges -->
             <div class="position-absolute" style="top: 12px; left: 12px;">
-              <v-chip v-if="product.isNew" color="primary" size="small" class="mr-1">NEW</v-chip>
-              <v-chip v-if="product.discount" color="error" size="small">-{{ product.discount }}%</v-chip>
+              <VChip v-if="product.isNew" color="primary" size="small" class="mr-1">NEW</VChip>
+              <VChip v-if="product.discount" color="error" size="small">-{{ product.discount }}%</VChip>
             </div>
 
             <!-- Wishlist Button -->
-            <v-btn
+            <VBtn
               icon
               size="small"
               variant="flat"
@@ -39,18 +39,18 @@
               style="top: 12px; right: 12px;"
               @click="toggleWishlist(product.id)"
             >
-              <v-icon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
+              <VIcon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
                 {{ wishlist.includes(product.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
-              </v-icon>
-            </v-btn>
+              </VIcon>
+            </VBtn>
           </div>
 
-          <v-card-text>
+          <VCardText>
             <p class="text-caption text-medium-emphasis mb-1">{{ product.category }}</p>
             <h4 class="text-subtitle-1 font-weight-medium mb-2 text-truncate">{{ product.name }}</h4>
 
             <div class="d-flex align-center mb-2">
-              <v-rating
+              <VRating
                 :model-value="product.rating"
                 color="warning"
                 density="compact"
@@ -67,36 +67,36 @@
                 ${{ product.originalPrice.toFixed(2) }}
               </span>
             </div>
-          </v-card-text>
+          </VCardText>
 
-          <v-card-actions class="px-4 pb-4">
-            <v-btn color="primary" block variant="flat" @click="addToCart(product)">
-              <v-icon start>mdi-cart-plus</v-icon>
+          <VCardActions class="px-4 pb-4">
+            <VBtn color="primary" block variant="flat" @click="addToCart(product)">
+              <VIcon start>mdi-cart-plus</VIcon>
               Add to Cart
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+            </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Horizontal Product Cards -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Horizontal Cards</h3>
-    <v-row class="mb-8">
-      <v-col v-for="product in products.slice(0, 2)" :key="'h-' + product.id" cols="12" md="6">
-        <v-card>
-          <v-row no-gutters>
-            <v-col cols="4">
-              <v-img :src="product.image" height="100%" cover class="rounded-s" />
-            </v-col>
-            <v-col cols="8">
-              <v-card-text>
+    <VRow class="mb-8">
+      <VCol v-for="product in products.slice(0, 2)" :key="'h-' + product.id" cols="12" md="6">
+        <VCard>
+          <VRow no-gutters>
+            <VCol cols="4">
+              <VImg :src="product.image" height="100%" cover class="rounded-s" />
+            </VCol>
+            <VCol cols="8">
+              <VCardText>
                 <div class="d-flex justify-space-between align-start">
                   <div>
-                    <v-chip v-if="product.isNew" color="primary" size="x-small" class="mb-2">NEW</v-chip>
+                    <VChip v-if="product.isNew" color="primary" size="x-small" class="mb-2">NEW</VChip>
                     <h4 class="text-subtitle-1 font-weight-medium mb-1">{{ product.name }}</h4>
                     <p class="text-caption text-medium-emphasis mb-2">{{ product.category }}</p>
                   </div>
-                  <v-btn icon="mdi-heart-outline" variant="text" size="small" />
+                  <VBtn icon="mdi-heart-outline" variant="text" size="small" />
                 </div>
 
                 <p class="text-body-2 text-medium-emphasis mb-3 text-truncate-2">
@@ -105,51 +105,51 @@
 
                 <div class="d-flex align-center justify-space-between">
                   <div>
-                    <v-rating :model-value="product.rating" size="x-small" color="warning" density="compact" readonly />
+                    <VRating :model-value="product.rating" size="x-small" color="warning" density="compact" readonly />
                     <span class="text-h6 font-weight-bold text-primary d-block">${{ product.price.toFixed(2) }}</span>
                   </div>
-                  <v-btn color="primary" size="small">Add to Cart</v-btn>
+                  <VBtn color="primary" size="small">Add to Cart</VBtn>
                 </div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
+              </VCardText>
+            </VCol>
+          </VRow>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Compact Product Cards -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Compact Cards</h3>
-    <v-row class="mb-8">
-      <v-col v-for="product in products" :key="'c-' + product.id" cols="6" sm="4" md="3" lg="2">
-        <v-card class="text-center">
-          <v-img :src="product.image" height="120" cover />
-          <v-card-text class="pa-3">
+    <VRow class="mb-8">
+      <VCol v-for="product in products" :key="'c-' + product.id" cols="6" sm="4" md="3" lg="2">
+        <VCard class="text-center">
+          <VImg :src="product.image" height="120" cover />
+          <VCardText class="pa-3">
             <p class="text-body-2 font-weight-medium text-truncate mb-1">{{ product.name }}</p>
             <span class="text-subtitle-1 font-weight-bold text-primary">${{ product.price.toFixed(2) }}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Featured Product Card -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Featured Card</h3>
-    <v-card class="overflow-hidden">
-      <v-row no-gutters>
-        <v-col cols="12" md="6">
-          <v-img
+    <VCard class="overflow-hidden">
+      <VRow no-gutters>
+        <VCol cols="12" md="6">
+          <VImg
             :src="products[0].image"
             height="400"
             cover
           />
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex align-center">
-          <v-card-text class="pa-8">
-            <v-chip color="error" class="mb-4">FEATURED PRODUCT</v-chip>
+        </VCol>
+        <VCol cols="12" md="6" class="d-flex align-center">
+          <VCardText class="pa-8">
+            <VChip color="error" class="mb-4">FEATURED PRODUCT</VChip>
             <h2 class="text-h4 font-weight-bold mb-2">{{ products[0].name }}</h2>
             <p class="text-body-1 text-medium-emphasis mb-4">{{ products[0].description }}</p>
 
             <div class="d-flex align-center mb-4">
-              <v-rating :model-value="products[0].rating" color="warning" density="comfortable" readonly />
+              <VRating :model-value="products[0].rating" color="warning" density="comfortable" readonly />
               <span class="text-body-2 ml-2">{{ products[0].rating }} ({{ products[0].reviews }} reviews)</span>
             </div>
 
@@ -158,20 +158,20 @@
               <span v-if="products[0].originalPrice" class="text-h6 text-medium-emphasis text-decoration-line-through ml-2">
                 ${{ products[0].originalPrice.toFixed(2) }}
               </span>
-              <v-chip v-if="products[0].discount" color="success" size="small" class="ml-2">
+              <VChip v-if="products[0].discount" color="success" size="small" class="ml-2">
                 Save {{ products[0].discount }}%
-              </v-chip>
+              </VChip>
             </div>
 
             <div class="d-flex ga-3">
-              <v-btn color="primary" size="large" prepend-icon="mdi-cart-plus">Add to Cart</v-btn>
-              <v-btn variant="outlined" size="large" prepend-icon="mdi-heart-outline">Wishlist</v-btn>
+              <VBtn color="primary" size="large" prepend-icon="mdi-cart-plus">Add to Cart</VBtn>
+              <VBtn variant="outlined" size="large" prepend-icon="mdi-heart-outline">Wishlist</VBtn>
             </div>
-          </v-card-text>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-container>
+          </VCardText>
+        </VCol>
+      </VRow>
+    </VCard>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

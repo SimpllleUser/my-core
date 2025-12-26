@@ -5,9 +5,9 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container class="fill-height">
-    <v-row align="center" justify="center" class="text-center">
-      <v-col cols="12" md="8" lg="6">
+  <VContainer class="fill-height">
+    <VRow align="center" justify="center" class="text-center">
+      <VCol cols="12" md="8" lg="6">
         <!-- Style 1: Simple -->
         <div class="mb-16">
           <h1 class="text-h1 font-weight-bold text-primary mb-4">404</h1>
@@ -16,26 +16,26 @@
             Oops! The page you're looking for doesn't exist or has been moved.
           </p>
           <div class="d-flex justify-center ga-4">
-            <v-btn color="primary" size="large" prepend-icon="mdi-home" @click="goHome">
+            <VBtn color="primary" size="large" prepend-icon="mdi-home" @click="goHome">
               Go Home
-            </v-btn>
-            <v-btn variant="outlined" size="large" prepend-icon="mdi-arrow-left" @click="goBack">
+            </VBtn>
+            <VBtn variant="outlined" size="large" prepend-icon="mdi-arrow-left" @click="goBack">
               Go Back
-            </v-btn>
+            </VBtn>
           </div>
         </div>
 
-        <v-divider class="my-12" />
+        <VDivider class="my-12" />
 
         <!-- Style 2: With Illustration -->
         <div class="mb-16">
-          <v-icon size="160" color="primary" class="mb-6">mdi-file-search-outline</v-icon>
+          <VIcon size="160" color="primary" class="mb-6">mdi-file-search-outline</VIcon>
           <h2 class="text-h4 font-weight-bold mb-4">We've Lost This Page</h2>
           <p class="text-body-1 text-medium-emphasis mb-6 mx-auto" style="max-width: 400px;">
             Sorry, the page you are looking for could not be found. It might have been removed, renamed, or didn't exist in the first place.
           </p>
 
-          <v-text-field
+          <VTextField
             v-model="searchQuery"
             variant="outlined"
             placeholder="Search for something else..."
@@ -45,42 +45,42 @@
             hide-details
           >
             <template #append-inner>
-              <v-btn color="primary" variant="flat" size="small">Search</v-btn>
+              <VBtn color="primary" variant="flat" size="small">Search</VBtn>
             </template>
-          </v-text-field>
+          </VTextField>
 
           <p class="text-body-2 text-medium-emphasis">
             Or try these helpful links:
           </p>
           <div class="d-flex justify-center ga-2 flex-wrap">
-            <v-chip variant="outlined" @click="goHome">Home</v-chip>
-            <v-chip variant="outlined">Products</v-chip>
-            <v-chip variant="outlined">Support</v-chip>
-            <v-chip variant="outlined">Contact</v-chip>
+            <VChip variant="outlined" @click="goHome">Home</VChip>
+            <VChip variant="outlined">Products</VChip>
+            <VChip variant="outlined">Support</VChip>
+            <VChip variant="outlined">Contact</VChip>
           </div>
         </div>
 
-        <v-divider class="my-12" />
+        <VDivider class="my-12" />
 
         <!-- Style 3: Creative -->
         <div>
           <div class="text-h1 font-weight-bold mb-4" style="font-size: 120px !important;">
             <span class="text-primary">4</span>
-            <v-icon size="100" color="error" class="mx-n2">mdi-emoticon-sad-outline</v-icon>
+            <VIcon size="100" color="error" class="mx-n2">mdi-emoticon-sad-outline</VIcon>
             <span class="text-primary">4</span>
           </div>
           <h2 class="text-h4 font-weight-bold mb-4">Oops! You're Lost</h2>
           <p class="text-body-1 text-medium-emphasis mb-8">
             The page you're looking for isn't available. But don't worry, you can find plenty of other things on our homepage.
           </p>
-          <v-btn color="primary" size="x-large" rounded="pill" @click="goHome">
+          <VBtn color="primary" size="x-large" rounded="pill" @click="goHome">
             Back to Homepage
-            <v-icon end>mdi-arrow-right</v-icon>
-          </v-btn>
+            <VIcon end>mdi-arrow-right</VIcon>
+          </VBtn>
         </div>
-      </v-col>
-    </v-row>
-  </v-container>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

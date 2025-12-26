@@ -5,17 +5,17 @@
   Variants: Chat sidebar, Message bubbles
 -->
 <template>
-  <v-card style="height: 600px;">
-    <v-row no-gutters style="height: 100%;">
+  <VCard style="height: 600px;">
+    <VRow no-gutters style="height: 100%;">
       <!-- Conversations Sidebar -->
-      <v-col cols="4" class="border-e d-flex flex-column">
+      <VCol cols="4" class="border-e d-flex flex-column">
         <!-- Header -->
         <div class="pa-4 border-b">
           <div class="d-flex align-center justify-space-between mb-4">
             <h3 class="text-h6 font-weight-bold">Messages</h3>
-            <v-btn icon="mdi-pencil-plus" variant="text" size="small" />
+            <VBtn icon="mdi-pencil-plus" variant="text" size="small" />
           </div>
-          <v-text-field
+          <VTextField
             v-model="search"
             density="compact"
             variant="solo-filled"
@@ -27,61 +27,61 @@
         </div>
 
         <!-- Conversations List -->
-        <v-list class="overflow-y-auto flex-grow-1">
-          <v-list-item
+        <VList class="overflow-y-auto flex-grow-1">
+          <VListItem
             v-for="conversation in filteredConversations"
             :key="conversation.id"
             :class="{ 'bg-primary-lighten-5': activeConversation?.id === conversation.id }"
             @click="selectConversation(conversation)"
           >
             <template #prepend>
-              <v-badge
+              <VBadge
                 :color="conversation.online ? 'success' : 'grey'"
                 dot
                 location="bottom right"
                 offset-x="3"
                 offset-y="3"
               >
-                <v-avatar size="48">
-                  <v-img :src="conversation.avatar" />
-                </v-avatar>
-              </v-badge>
+                <VAvatar size="48">
+                  <VImg :src="conversation.avatar" />
+                </VAvatar>
+              </VBadge>
             </template>
 
-            <v-list-item-title class="font-weight-medium">
+            <VListItemTitle class="font-weight-medium">
               {{ conversation.name }}
-            </v-list-item-title>
-            <v-list-item-subtitle class="text-truncate">
+            </VListItemTitle>
+            <VListItemSubtitle class="text-truncate">
               {{ conversation.lastMessage }}
-            </v-list-item-subtitle>
+            </VListItemSubtitle>
 
             <template #append>
               <div class="text-right">
                 <p class="text-caption text-medium-emphasis mb-1">{{ conversation.time }}</p>
-                <v-badge v-if="conversation.unread" :content="conversation.unread" color="primary" inline />
+                <VBadge v-if="conversation.unread" :content="conversation.unread" color="primary" inline />
               </div>
             </template>
-          </v-list-item>
-        </v-list>
-      </v-col>
+          </VListItem>
+        </VList>
+      </VCol>
 
       <!-- Chat Area -->
-      <v-col cols="8" class="d-flex flex-column">
+      <VCol cols="8" class="d-flex flex-column">
         <template v-if="activeConversation">
           <!-- Chat Header -->
           <div class="pa-4 border-b d-flex align-center">
-            <v-avatar size="40" class="mr-3">
-              <v-img :src="activeConversation.avatar" />
-            </v-avatar>
+            <VAvatar size="40" class="mr-3">
+              <VImg :src="activeConversation.avatar" />
+            </VAvatar>
             <div class="flex-grow-1">
               <p class="font-weight-medium mb-0">{{ activeConversation.name }}</p>
               <p class="text-caption text-medium-emphasis mb-0">
                 {{ activeConversation.online ? 'Online' : 'Offline' }}
               </p>
             </div>
-            <v-btn icon="mdi-phone" variant="text" />
-            <v-btn icon="mdi-video" variant="text" />
-            <v-btn icon="mdi-dots-vertical" variant="text" />
+            <VBtn icon="mdi-phone" variant="text" />
+            <VBtn icon="mdi-video" variant="text" />
+            <VBtn icon="mdi-dots-vertical" variant="text" />
           </div>
 
           <!-- Messages -->
@@ -91,9 +91,9 @@
               :key="message.id"
               :class="['d-flex mb-4', message.sent ? 'justify-end' : 'justify-start']"
             >
-              <v-avatar v-if="!message.sent" size="32" class="mr-2 align-self-end">
-                <v-img :src="activeConversation.avatar" />
-              </v-avatar>
+              <VAvatar v-if="!message.sent" size="32" class="mr-2 align-self-end">
+                <VImg :src="activeConversation.avatar" />
+              </VAvatar>
 
               <div :class="['message-bubble', message.sent ? 'sent' : 'received']">
                 <p class="mb-1">{{ message.text }}</p>
@@ -101,9 +101,9 @@
                   <span class="text-caption" :class="message.sent ? 'text-white-darken-1' : 'text-medium-emphasis'">
                     {{ message.time }}
                   </span>
-                  <v-icon v-if="message.sent" size="16" class="ml-1" :color="message.read ? 'info' : 'white'">
+                  <VIcon v-if="message.sent" size="16" class="ml-1" :color="message.read ? 'info' : 'white'">
                     {{ message.read ? 'mdi-check-all' : 'mdi-check' }}
-                  </v-icon>
+                  </VIcon>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@
 
           <!-- Message Input -->
           <div class="pa-4 border-t">
-            <v-text-field
+            <VTextField
               v-model="newMessage"
               variant="solo-filled"
               flat
@@ -120,11 +120,11 @@
               @keyup.enter="sendMessage"
             >
               <template #prepend-inner>
-                <v-btn icon="mdi-emoticon-outline" variant="text" size="small" />
-                <v-btn icon="mdi-paperclip" variant="text" size="small" />
+                <VBtn icon="mdi-emoticon-outline" variant="text" size="small" />
+                <VBtn icon="mdi-paperclip" variant="text" size="small" />
               </template>
               <template #append-inner>
-                <v-btn
+                <VBtn
                   icon="mdi-send"
                   color="primary"
                   variant="flat"
@@ -133,19 +133,19 @@
                   @click="sendMessage"
                 />
               </template>
-            </v-text-field>
+            </VTextField>
           </div>
         </template>
 
         <!-- No Conversation Selected -->
         <div v-else class="d-flex flex-column align-center justify-center h-100">
-          <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-chat-outline</v-icon>
+          <VIcon size="80" color="grey-lighten-1" class="mb-4">mdi-chat-outline</VIcon>
           <p class="text-h6 text-medium-emphasis mb-2">Select a conversation</p>
           <p class="text-body-2 text-medium-emphasis">Choose a conversation to start messaging</p>
         </div>
-      </v-col>
-    </v-row>
-  </v-card>
+      </VCol>
+    </VRow>
+  </VCard>
 </template>
 
 <script setup lang="ts">

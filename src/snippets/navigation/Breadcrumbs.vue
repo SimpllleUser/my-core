@@ -5,93 +5,93 @@
   Variants: Simple, With Icons, Custom Dividers
 -->
 <template>
-  <v-container>
+  <VContainer>
     <h2 class="text-h5 font-weight-bold mb-6">Breadcrumbs Variants</h2>
 
     <!-- Simple Breadcrumbs -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Simple</h3>
-    <v-card class="mb-6 pa-4">
-      <v-breadcrumbs :items="simpleBreadcrumbs" />
-    </v-card>
+    <VCard class="mb-6 pa-4">
+      <VBreadcrumbs :items="simpleBreadcrumbs" />
+    </VCard>
 
     <!-- With Icons -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">With Icons</h3>
-    <v-card class="mb-6 pa-4">
-      <v-breadcrumbs :items="iconBreadcrumbs">
+    <VCard class="mb-6 pa-4">
+      <VBreadcrumbs :items="iconBreadcrumbs">
         <template #prepend>
-          <v-icon icon="mdi-home" size="small" />
+          <VIcon icon="mdi-home" size="small" />
         </template>
-      </v-breadcrumbs>
-    </v-card>
+      </VBreadcrumbs>
+    </VCard>
 
     <!-- Custom Divider -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Custom Dividers</h3>
-    <v-card class="mb-6 pa-4">
-      <v-breadcrumbs :items="simpleBreadcrumbs" divider=">">
+    <VCard class="mb-6 pa-4">
+      <VBreadcrumbs :items="simpleBreadcrumbs" divider=">">
         <template #divider>
-          <v-icon icon="mdi-chevron-right" />
+          <VIcon icon="mdi-chevron-right" />
         </template>
-      </v-breadcrumbs>
-    </v-card>
+      </VBreadcrumbs>
+    </VCard>
 
     <!-- With Background -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">With Background</h3>
-    <v-card class="mb-6">
-      <v-sheet color="grey-lighten-4" class="pa-4">
-        <v-breadcrumbs :items="simpleBreadcrumbs" class="pa-0" />
-      </v-sheet>
-    </v-card>
+    <VCard class="mb-6">
+      <VSheet color="grey-lighten-4" class="pa-4">
+        <VBreadcrumbs :items="simpleBreadcrumbs" class="pa-0" />
+      </VSheet>
+    </VCard>
 
     <!-- Large Breadcrumbs -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Large</h3>
-    <v-card class="mb-6 pa-4">
-      <v-breadcrumbs :items="simpleBreadcrumbs" density="comfortable">
+    <VCard class="mb-6 pa-4">
+      <VBreadcrumbs :items="simpleBreadcrumbs" density="comfortable">
         <template #title="{ item }">
           <span class="text-body-1">{{ item.title }}</span>
         </template>
-      </v-breadcrumbs>
-    </v-card>
+      </VBreadcrumbs>
+    </VCard>
 
     <!-- Breadcrumbs with Dropdown -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">With Dropdown (Collapsed)</h3>
-    <v-card class="mb-6 pa-4">
-      <v-breadcrumbs>
-        <v-breadcrumbs-item href="#">Home</v-breadcrumbs-item>
-        <v-breadcrumbs-divider>
-          <v-icon>mdi-chevron-right</v-icon>
+    <VCard class="mb-6 pa-4">
+      <VBreadcrumbs>
+        <VBreadcrumbs-item href="#">Home</v-breadcrumbs-item>
+        <VBreadcrumbs-divider>
+          <VIcon>mdi-chevron-right</VIcon>
         </v-breadcrumbs-divider>
-        <v-breadcrumbs-item>
-          <v-menu>
+        <VBreadcrumbs-item>
+          <VMenu>
             <template #activator="{ props }">
-              <v-btn variant="text" size="small" v-bind="props" class="text-none">
+              <VBtn variant="text" size="small" v-bind="props" class="text-none">
                 ...
-              </v-btn>
+              </VBtn>
             </template>
-            <v-list density="compact">
-              <v-list-item
+            <VList density="compact">
+              <VListItem
                 v-for="item in collapsedItems"
                 :key="item"
                 :title="item"
               />
-            </v-list>
-          </v-menu>
+            </VList>
+          </VMenu>
         </v-breadcrumbs-item>
-        <v-breadcrumbs-divider>
-          <v-icon>mdi-chevron-right</v-icon>
+        <VBreadcrumbs-divider>
+          <VIcon>mdi-chevron-right</VIcon>
         </v-breadcrumbs-divider>
-        <v-breadcrumbs-item href="#">Products</v-breadcrumbs-item>
-        <v-breadcrumbs-divider>
-          <v-icon>mdi-chevron-right</v-icon>
+        <VBreadcrumbs-item href="#">Products</v-breadcrumbs-item>
+        <VBreadcrumbs-divider>
+          <VIcon>mdi-chevron-right</VIcon>
         </v-breadcrumbs-divider>
-        <v-breadcrumbs-item disabled>iPhone 15 Pro</v-breadcrumbs-item>
-      </v-breadcrumbs>
-    </v-card>
+        <VBreadcrumbs-item disabled>iPhone 15 Pro</v-breadcrumbs-item>
+      </VBreadcrumbs>
+    </VCard>
 
     <!-- Breadcrumbs in Page Header -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Page Header with Breadcrumbs</h3>
-    <v-card class="mb-6">
-      <v-card-text>
-        <v-breadcrumbs :items="simpleBreadcrumbs" class="pa-0 mb-2" density="compact" />
+    <VCard class="mb-6">
+      <VCardText>
+        <VBreadcrumbs :items="simpleBreadcrumbs" class="pa-0 mb-2" density="compact" />
         <div class="d-flex justify-space-between align-center">
           <div>
             <h1 class="text-h4 font-weight-bold">Product Details</h1>
@@ -100,42 +100,42 @@
             </p>
           </div>
           <div class="d-flex ga-2">
-            <v-btn variant="outlined">Cancel</v-btn>
-            <v-btn color="primary">Save Changes</v-btn>
+            <VBtn variant="outlined">Cancel</VBtn>
+            <VBtn color="primary">Save Changes</VBtn>
           </div>
         </div>
-      </v-card-text>
-    </v-card>
+      </VCardText>
+    </VCard>
 
     <!-- Tabs Navigation -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Tabs Navigation</h3>
-    <v-card>
-      <v-tabs v-model="tab" color="primary">
-        <v-tab value="overview">Overview</v-tab>
-        <v-tab value="analytics">Analytics</v-tab>
-        <v-tab value="reports">Reports</v-tab>
-        <v-tab value="notifications">
+    <VCard>
+      <VTabs v-model="tab" color="primary">
+        <VTab value="overview">Overview</VTab>
+        <VTab value="analytics">Analytics</VTab>
+        <VTab value="reports">Reports</VTab>
+        <VTab value="notifications">
           Notifications
-          <v-badge content="3" color="error" class="ml-2" inline />
-        </v-tab>
-      </v-tabs>
-      <v-divider />
-      <v-tabs-window v-model="tab">
-        <v-tabs-window-item value="overview">
-          <v-card-text>Overview content goes here...</v-card-text>
+          <VBadge content="3" color="error" class="ml-2" inline />
+        </VTab>
+      </VTabs>
+      <VDivider />
+      <VTabs-window v-model="tab">
+        <VTabs-window-item value="overview">
+          <VCardText>Overview content goes here...</VCardText>
         </v-tabs-window-item>
-        <v-tabs-window-item value="analytics">
-          <v-card-text>Analytics content goes here...</v-card-text>
+        <VTabs-window-item value="analytics">
+          <VCardText>Analytics content goes here...</VCardText>
         </v-tabs-window-item>
-        <v-tabs-window-item value="reports">
-          <v-card-text>Reports content goes here...</v-card-text>
+        <VTabs-window-item value="reports">
+          <VCardText>Reports content goes here...</VCardText>
         </v-tabs-window-item>
-        <v-tabs-window-item value="notifications">
-          <v-card-text>Notifications content goes here...</v-card-text>
+        <VTabs-window-item value="notifications">
+          <VCardText>Notifications content goes here...</VCardText>
         </v-tabs-window-item>
       </v-tabs-window>
-    </v-card>
-  </v-container>
+    </VCard>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

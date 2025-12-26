@@ -8,25 +8,25 @@
   <div>
     <!-- Variant 1: Simple Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Simple Navbar</h3>
-    <v-app-bar color="primary" class="mb-8" flat>
-      <v-app-bar-nav-icon />
-      <v-app-bar-title>My Application</v-app-bar-title>
-      <v-spacer />
-      <v-btn variant="text">Features</v-btn>
-      <v-btn variant="text">Pricing</v-btn>
-      <v-btn variant="text">About</v-btn>
-      <v-btn variant="outlined" class="ml-2">Sign In</v-btn>
-    </v-app-bar>
+    <VAppBar color="primary" class="mb-8" flat>
+      <VAppBar-nav-icon />
+      <VAppBar-title>My Application</v-app-bar-title>
+      <VSpacer />
+      <VBtn variant="text">Features</VBtn>
+      <VBtn variant="text">Pricing</VBtn>
+      <VBtn variant="text">About</VBtn>
+      <VBtn variant="outlined" class="ml-2">Sign In</VBtn>
+    </VAppBar>
 
     <!-- Variant 2: Navbar with Search -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Search</h3>
-    <v-app-bar class="mb-8" flat border="b">
-      <v-app-bar-nav-icon />
-      <v-app-bar-title>
+    <VAppBar class="mb-8" flat border="b">
+      <VAppBar-nav-icon />
+      <VAppBar-title>
         <span class="font-weight-bold">Brand</span>
       </v-app-bar-title>
 
-      <v-text-field
+      <VTextField
         density="compact"
         variant="solo-filled"
         flat
@@ -37,165 +37,165 @@
         style="max-width: 400px;"
       />
 
-      <v-spacer />
+      <VSpacer />
 
-      <v-btn icon>
-        <v-badge content="3" color="error">
-          <v-icon>mdi-bell</v-icon>
-        </v-badge>
-      </v-btn>
-      <v-btn icon class="ml-2">
-        <v-avatar size="32">
-          <v-img src="https://randomuser.me/api/portraits/men/1.jpg" />
-        </v-avatar>
-      </v-btn>
-    </v-app-bar>
+      <VBtn icon>
+        <VBadge content="3" color="error">
+          <VIcon>mdi-bell</VIcon>
+        </VBadge>
+      </VBtn>
+      <VBtn icon class="ml-2">
+        <VAvatar size="32">
+          <VImg src="https://randomuser.me/api/portraits/men/1.jpg" />
+        </VAvatar>
+      </VBtn>
+    </VAppBar>
 
     <!-- Variant 3: Full Navbar with Mega Menu -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Mega Menu</h3>
-    <v-app-bar class="mb-8" flat border="b">
-      <v-container class="d-flex align-center">
-        <v-avatar color="primary" size="36" class="mr-2">
-          <v-icon>mdi-hexagon</v-icon>
-        </v-avatar>
+    <VAppBar class="mb-8" flat border="b">
+      <VContainer class="d-flex align-center">
+        <VAvatar color="primary" size="36" class="mr-2">
+          <VIcon>mdi-hexagon</VIcon>
+        </VAvatar>
         <span class="text-h6 font-weight-bold mr-8">TechCo</span>
 
-        <v-menu open-on-hover>
+        <VMenu open-on-hover>
           <template #activator="{ props }">
-            <v-btn variant="text" v-bind="props">
+            <VBtn variant="text" v-bind="props">
               Products
-              <v-icon end>mdi-chevron-down</v-icon>
-            </v-btn>
+              <VIcon end>mdi-chevron-down</VIcon>
+            </VBtn>
           </template>
-          <v-card min-width="600">
-            <v-card-text>
-              <v-row>
-                <v-col v-for="category in megaMenuItems" :key="category.title" cols="4">
+          <VCard min-width="600">
+            <VCardText>
+              <VRow>
+                <VCol v-for="category in megaMenuItems" :key="category.title" cols="4">
                   <h4 class="text-subtitle-2 font-weight-bold mb-2">{{ category.title }}</h4>
-                  <v-list density="compact" class="bg-transparent">
-                    <v-list-item
+                  <VList density="compact" class="bg-transparent">
+                    <VListItem
                       v-for="item in category.items"
                       :key="item"
                       :title="item"
                       class="px-0"
                     />
-                  </v-list>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-menu>
+                  </VList>
+                </VCol>
+              </VRow>
+            </VCardText>
+          </VCard>
+        </VMenu>
 
-        <v-btn variant="text">Solutions</v-btn>
-        <v-btn variant="text">Resources</v-btn>
-        <v-btn variant="text">Pricing</v-btn>
+        <VBtn variant="text">Solutions</VBtn>
+        <VBtn variant="text">Resources</VBtn>
+        <VBtn variant="text">Pricing</VBtn>
 
-        <v-spacer />
+        <VSpacer />
 
-        <v-btn variant="text">Sign In</v-btn>
-        <v-btn color="primary" class="ml-2">Get Started</v-btn>
-      </v-container>
-    </v-app-bar>
+        <VBtn variant="text">Sign In</VBtn>
+        <VBtn color="primary" class="ml-2">Get Started</VBtn>
+      </VContainer>
+    </VAppBar>
 
     <!-- Variant 4: User Profile Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With User Profile</h3>
-    <v-app-bar class="mb-8" flat border="b" color="surface">
-      <v-app-bar-nav-icon />
-      <v-app-bar-title>Dashboard</v-app-bar-title>
-      <v-spacer />
+    <VAppBar class="mb-8" flat border="b" color="surface">
+      <VAppBar-nav-icon />
+      <VAppBar-title>Dashboard</v-app-bar-title>
+      <VSpacer />
 
-      <v-btn icon class="mr-2">
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      <VBtn icon class="mr-2">
+        <VIcon>mdi-magnify</VIcon>
+      </VBtn>
 
-      <v-btn icon class="mr-2">
-        <v-badge content="5" color="error">
-          <v-icon>mdi-bell-outline</v-icon>
-        </v-badge>
-      </v-btn>
+      <VBtn icon class="mr-2">
+        <VBadge content="5" color="error">
+          <VIcon>mdi-bell-outline</VIcon>
+        </VBadge>
+      </VBtn>
 
-      <v-btn icon class="mr-2">
-        <v-badge content="2" color="primary">
-          <v-icon>mdi-email-outline</v-icon>
-        </v-badge>
-      </v-btn>
+      <VBtn icon class="mr-2">
+        <VBadge content="2" color="primary">
+          <VIcon>mdi-email-outline</VIcon>
+        </VBadge>
+      </VBtn>
 
-      <v-divider vertical class="mx-2" />
+      <VDivider vertical class="mx-2" />
 
-      <v-menu>
+      <VMenu>
         <template #activator="{ props }">
-          <v-btn variant="text" v-bind="props" class="text-none">
-            <v-avatar size="32" class="mr-2">
-              <v-img src="https://randomuser.me/api/portraits/women/44.jpg" />
-            </v-avatar>
+          <VBtn variant="text" v-bind="props" class="text-none">
+            <VAvatar size="32" class="mr-2">
+              <VImg src="https://randomuser.me/api/portraits/women/44.jpg" />
+            </VAvatar>
             <div class="d-none d-sm-block text-left">
               <div class="text-body-2 font-weight-medium">Sarah Johnson</div>
               <div class="text-caption text-medium-emphasis">Admin</div>
             </div>
-            <v-icon end>mdi-chevron-down</v-icon>
-          </v-btn>
+            <VIcon end>mdi-chevron-down</VIcon>
+          </VBtn>
         </template>
-        <v-list min-width="200">
-          <v-list-item prepend-icon="mdi-account" title="My Profile" />
-          <v-list-item prepend-icon="mdi-cog" title="Settings" />
-          <v-list-item prepend-icon="mdi-help-circle" title="Help" />
-          <v-divider />
-          <v-list-item prepend-icon="mdi-logout" title="Sign Out" />
-        </v-list>
-      </v-menu>
-    </v-app-bar>
+        <VList min-width="200">
+          <VListItem prepend-icon="mdi-account" title="My Profile" />
+          <VListItem prepend-icon="mdi-cog" title="Settings" />
+          <VListItem prepend-icon="mdi-help-circle" title="Help" />
+          <VDivider />
+          <VListItem prepend-icon="mdi-logout" title="Sign Out" />
+        </VList>
+      </VMenu>
+    </VAppBar>
 
     <!-- Variant 5: Transparent/Hero Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Transparent (Hero Style)</h3>
     <div class="position-relative mb-8" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px;">
-      <v-app-bar color="transparent" flat>
-        <v-container class="d-flex align-center">
-          <v-avatar color="white" size="36" class="mr-2">
-            <v-icon color="primary">mdi-rocket</v-icon>
-          </v-avatar>
+      <VAppBar color="transparent" flat>
+        <VContainer class="d-flex align-center">
+          <VAvatar color="white" size="36" class="mr-2">
+            <VIcon color="primary">mdi-rocket</VIcon>
+          </VAvatar>
           <span class="text-h6 font-weight-bold text-white">Startup</span>
 
-          <v-spacer />
+          <VSpacer />
 
-          <v-btn variant="text" class="text-white">Home</v-btn>
-          <v-btn variant="text" class="text-white">Features</v-btn>
-          <v-btn variant="text" class="text-white">Pricing</v-btn>
-          <v-btn variant="text" class="text-white">Contact</v-btn>
+          <VBtn variant="text" class="text-white">Home</VBtn>
+          <VBtn variant="text" class="text-white">Features</VBtn>
+          <VBtn variant="text" class="text-white">Pricing</VBtn>
+          <VBtn variant="text" class="text-white">Contact</VBtn>
 
-          <v-btn variant="outlined" class="text-white ml-4">Login</v-btn>
-          <v-btn color="white" class="ml-2">Sign Up</v-btn>
-        </v-container>
-      </v-app-bar>
+          <VBtn variant="outlined" class="text-white ml-4">Login</VBtn>
+          <VBtn color="white" class="ml-2">Sign Up</VBtn>
+        </VContainer>
+      </VAppBar>
       <div style="height: 100px;"></div>
     </div>
 
     <!-- Variant 6: Bottom Navigation -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Bottom Navigation (Mobile)</h3>
-    <v-card class="mx-auto" max-width="400">
+    <VCard class="mx-auto" max-width="400">
       <div style="height: 200px;" class="d-flex align-center justify-center bg-grey-lighten-4">
         <span class="text-medium-emphasis">Content Area</span>
       </div>
-      <v-bottom-navigation v-model="bottomNav" grow>
-        <v-btn value="home">
-          <v-icon>mdi-home</v-icon>
+      <VBottomNavigation v-model="bottomNav" grow>
+        <VBtn value="home">
+          <VIcon>mdi-home</VIcon>
           <span>Home</span>
-        </v-btn>
-        <v-btn value="search">
-          <v-icon>mdi-magnify</v-icon>
+        </VBtn>
+        <VBtn value="search">
+          <VIcon>mdi-magnify</VIcon>
           <span>Search</span>
-        </v-btn>
-        <v-btn value="favorites">
-          <v-badge content="3" color="error">
-            <v-icon>mdi-heart</v-icon>
-          </v-badge>
+        </VBtn>
+        <VBtn value="favorites">
+          <VBadge content="3" color="error">
+            <VIcon>mdi-heart</VIcon>
+          </VBadge>
           <span>Favorites</span>
-        </v-btn>
-        <v-btn value="profile">
-          <v-icon>mdi-account</v-icon>
+        </VBtn>
+        <VBtn value="profile">
+          <VIcon>mdi-account</VIcon>
           <span>Profile</span>
-        </v-btn>
-      </v-bottom-navigation>
-    </v-card>
+        </VBtn>
+      </VBottomNavigation>
+    </VCard>
   </div>
 </template>
 
