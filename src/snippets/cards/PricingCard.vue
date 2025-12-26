@@ -5,127 +5,127 @@
   Variants: Standard, Featured, Compact
 -->
 <template>
-  <v-container fluid>
+  <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Pricing Card Variants</h2>
 
     <!-- Standard Pricing Cards -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Standard Cards</h3>
-    <v-row class="mb-8" justify="center">
-      <v-col v-for="plan in pricingPlans" :key="plan.name" cols="12" sm="6" lg="4">
-        <v-card
+    <VRow class="mb-8" justify="center">
+      <VCol v-for="plan in pricingPlans" :key="plan.name" cols="12" sm="6" lg="4">
+        <VCard
           :class="{ 'border-primary border-2': plan.featured }"
           :elevation="plan.featured ? 8 : 2"
           height="100%"
           class="d-flex flex-column"
         >
-          <v-card-text class="text-center pa-6 flex-grow-0">
-            <v-chip
+          <VCardText class="text-center pa-6 flex-grow-0">
+            <VChip
               v-if="plan.featured"
               color="primary"
               class="mb-4"
             >
               Most Popular
-            </v-chip>
+            </VChip>
             <h3 class="text-h5 font-weight-bold mb-2">{{ plan.name }}</h3>
             <p class="text-body-2 text-medium-emphasis mb-4">{{ plan.description }}</p>
             <div class="mb-4">
               <span class="text-h3 font-weight-bold">${{ plan.price }}</span>
               <span class="text-body-2 text-medium-emphasis">/month</span>
             </div>
-          </v-card-text>
+          </VCardText>
 
-          <v-divider />
+          <VDivider />
 
-          <v-card-text class="flex-grow-1">
-            <v-list density="compact" class="bg-transparent">
-              <v-list-item
+          <VCardText class="flex-grow-1">
+            <VList density="compact" class="bg-transparent">
+              <VListItem
                 v-for="feature in plan.features"
                 :key="feature.text"
                 class="px-0"
               >
                 <template #prepend>
-                  <v-icon
+                  <VIcon
                     :color="feature.included ? 'success' : 'grey-lighten-1'"
                     size="small"
                     class="mr-2"
                   >
                     {{ feature.included ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                  </v-icon>
+                  </VIcon>
                 </template>
-                <v-list-item-title
+                <VListItemTitle
                   :class="{ 'text-medium-emphasis': !feature.included }"
                   class="text-body-2"
                 >
                   {{ feature.text }}
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
+                </VListItemTitle>
+              </VListItem>
+            </VList>
+          </VCardText>
 
-          <v-card-actions class="pa-6 pt-0">
-            <v-btn
+          <VCardActions class="pa-6 pt-0">
+            <VBtn
               :color="plan.featured ? 'primary' : undefined"
               :variant="plan.featured ? 'flat' : 'outlined'"
               block
               size="large"
             >
               {{ plan.cta }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+            </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Compact Pricing Cards -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Compact Cards</h3>
-    <v-row class="mb-8">
-      <v-col v-for="plan in compactPlans" :key="plan.name" cols="12" sm="6" md="3">
-        <v-card :color="plan.color" variant="tonal">
-          <v-card-text class="text-center">
-            <v-icon size="48" :color="plan.color" class="mb-3">{{ plan.icon }}</v-icon>
+    <VRow class="mb-8">
+      <VCol v-for="plan in compactPlans" :key="plan.name" cols="12" sm="6" md="3">
+        <VCard :color="plan.color" variant="tonal">
+          <VCardText class="text-center">
+            <VIcon size="48" :color="plan.color" class="mb-3">{{ plan.icon }}</VIcon>
             <h4 class="text-h6 font-weight-bold mb-1">{{ plan.name }}</h4>
             <div class="mb-3">
               <span class="text-h5 font-weight-bold">${{ plan.price }}</span>
               <span class="text-body-2">/mo</span>
             </div>
             <p class="text-body-2 text-medium-emphasis mb-4">{{ plan.users }}</p>
-            <v-btn :color="plan.color" block>Choose Plan</v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+            <VBtn :color="plan.color" block>Choose Plan</VBtn>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Horizontal Pricing Card -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Horizontal Card</h3>
-    <v-card class="mb-8">
-      <v-row no-gutters align="center">
-        <v-col cols="12" md="3" class="text-center pa-6 bg-primary">
+    <VCard class="mb-8">
+      <VRow no-gutters align="center">
+        <VCol cols="12" md="3" class="text-center pa-6 bg-primary">
           <h3 class="text-h5 font-weight-bold text-white mb-2">Enterprise</h3>
           <div class="mb-4">
             <span class="text-h3 font-weight-bold text-white">$299</span>
             <span class="text-white-darken-1">/month</span>
           </div>
-          <v-btn color="white" variant="flat">Contact Sales</v-btn>
-        </v-col>
-        <v-col cols="12" md="9">
-          <v-card-text>
-            <v-row>
-              <v-col v-for="feature in enterpriseFeatures" :key="feature" cols="12" sm="6" md="4">
+          <VBtn color="white" variant="flat">Contact Sales</VBtn>
+        </VCol>
+        <VCol cols="12" md="9">
+          <VCardText>
+            <VRow>
+              <VCol v-for="feature in enterpriseFeatures" :key="feature" cols="12" sm="6" md="4">
                 <div class="d-flex align-center mb-2">
-                  <v-icon color="success" size="small" class="mr-2">mdi-check-circle</v-icon>
+                  <VIcon color="success" size="small" class="mr-2">mdi-check-circle</VIcon>
                   <span class="text-body-2">{{ feature }}</span>
                 </div>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-col>
-      </v-row>
-    </v-card>
+              </VCol>
+            </VRow>
+          </VCardText>
+        </VCol>
+      </VRow>
+    </VCard>
 
     <!-- Comparison Table Card -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Comparison Table</h3>
-    <v-card>
-      <v-table>
+    <VCard>
+      <VTable>
         <thead>
           <tr>
             <th class="text-left">Feature</th>
@@ -140,9 +140,9 @@
             <td>{{ feature.name }}</td>
             <td v-for="plan in pricingPlans" :key="plan.name" class="text-center">
               <template v-if="typeof feature[plan.key] === 'boolean'">
-                <v-icon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
+                <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
                   {{ feature[plan.key] ? 'mdi-check' : 'mdi-close' }}
-                </v-icon>
+                </VIcon>
               </template>
               <template v-else>
                 {{ feature[plan.key] }}
@@ -154,19 +154,19 @@
           <tr>
             <td></td>
             <td v-for="plan in pricingPlans" :key="plan.name" class="text-center pa-4">
-              <v-btn
+              <VBtn
                 :color="plan.featured ? 'primary' : undefined"
                 :variant="plan.featured ? 'flat' : 'outlined'"
                 block
               >
                 Choose {{ plan.name }}
-              </v-btn>
+              </VBtn>
             </td>
           </tr>
         </tfoot>
-      </v-table>
-    </v-card>
-  </v-container>
+      </VTable>
+    </VCard>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

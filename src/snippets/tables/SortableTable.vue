@@ -5,10 +5,10 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-title>Orders List</v-card-title>
-      <v-table hover>
+  <VContainer fluid>
+    <VCard>
+      <VCardTitle>Orders List</VCardTitle>
+      <VTable hover>
         <thead>
           <tr>
             <th
@@ -19,9 +19,9 @@
             >
               <div class="d-flex align-center">
                 {{ header.title }}
-                <v-icon v-if="header.sortable" size="small" class="ml-1">
+                <VIcon v-if="header.sortable" size="small" class="ml-1">
                   {{ getSortIcon(header.key) }}
-                </v-icon>
+                </VIcon>
               </div>
             </th>
           </tr>
@@ -31,43 +31,43 @@
             <td class="font-weight-medium">{{ order.id }}</td>
             <td>
               <div class="d-flex align-center">
-                <v-avatar size="32" class="mr-2">
-                  <v-img :src="order.customer.avatar" />
-                </v-avatar>
+                <VAvatar size="32" class="mr-2">
+                  <VImg :src="order.customer.avatar" />
+                </VAvatar>
                 {{ order.customer.name }}
               </div>
             </td>
             <td>{{ order.product }}</td>
             <td class="font-weight-medium">${{ order.amount.toFixed(2) }}</td>
             <td>
-              <v-chip :color="getStatusColor(order.status)" size="small">
+              <VChip :color="getStatusColor(order.status)" size="small">
                 {{ order.status }}
-              </v-chip>
+              </VChip>
             </td>
             <td>{{ order.date }}</td>
             <td>
-              <v-btn icon="mdi-eye" variant="text" size="small" />
-              <v-btn icon="mdi-pencil" variant="text" size="small" />
+              <VBtn icon="mdi-eye" variant="text" size="small" />
+              <VBtn icon="mdi-pencil" variant="text" size="small" />
             </td>
           </tr>
         </tbody>
-      </v-table>
+      </VTable>
 
       <!-- Simple Pagination -->
-      <v-divider />
-      <v-card-text class="d-flex justify-space-between align-center">
+      <VDivider />
+      <VCardText class="d-flex justify-space-between align-center">
         <span class="text-body-2 text-medium-emphasis">
           Showing 1-{{ orders.length }} of {{ orders.length }} orders
         </span>
-        <v-pagination
+        <VPagination
           v-model="currentPage"
           :length="3"
           :total-visible="5"
           density="compact"
         />
-      </v-card-text>
-    </v-card>
-  </v-container>
+      </VCardText>
+    </VCard>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

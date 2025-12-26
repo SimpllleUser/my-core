@@ -5,21 +5,21 @@
   Variants: Horizontal, Sidebar, Modal
 -->
 <template>
-  <v-container fluid>
-    <v-row>
+  <VContainer fluid>
+    <VRow>
       <!-- Sidebar Filters -->
-      <v-col cols="12" md="3">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+      <VCol cols="12" md="3">
+        <VCard>
+          <VCardTitle class="d-flex justify-space-between align-center">
             <span>Filters</span>
-            <v-btn variant="text" size="small" color="primary" @click="resetFilters">
+            <VBtn variant="text" size="small" color="primary" @click="resetFilters">
               Reset All
-            </v-btn>
-          </v-card-title>
+            </VBtn>
+          </VCardTitle>
 
-          <v-card-text>
+          <VCardText>
             <!-- Search -->
-            <v-text-field
+            <VTextField
               v-model="filters.search"
               label="Search"
               variant="outlined"
@@ -30,7 +30,7 @@
             />
 
             <!-- Category -->
-            <v-select
+            <VSelect
               v-model="filters.category"
               :items="categories"
               label="Category"
@@ -45,7 +45,7 @@
               <label class="text-body-2 text-medium-emphasis mb-2 d-block">
                 Price Range: ${{ filters.priceRange[0] }} - ${{ filters.priceRange[1] }}
               </label>
-              <v-range-slider
+              <VRangeSlider
                 v-model="filters.priceRange"
                 :min="0"
                 :max="1000"
@@ -58,7 +58,7 @@
             <!-- Rating -->
             <div class="mb-4">
               <label class="text-body-2 text-medium-emphasis mb-2 d-block">Minimum Rating</label>
-              <v-rating
+              <VRating
                 v-model="filters.rating"
                 color="warning"
                 hover
@@ -68,7 +68,7 @@
             </div>
 
             <!-- Availability -->
-            <v-switch
+            <VSwitch
               v-model="filters.inStock"
               label="In Stock Only"
               color="primary"
@@ -77,10 +77,10 @@
             />
 
             <!-- Brand -->
-            <v-expansion-panels variant="accordion" class="mb-4">
-              <v-expansion-panel title="Brand">
-                <v-expansion-panel-text>
-                  <v-checkbox
+            <VExpansionPanels variant="accordion" class="mb-4">
+              <VExpansionPanel title="Brand">
+                <VExpansionPanelText>
+                  <VCheckbox
                     v-for="brand in brands"
                     :key="brand"
                     v-model="filters.brands"
@@ -90,15 +90,15 @@
                     density="compact"
                     hide-details
                   />
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
+                </VExpansionPanelText>
+              </VExpansionPanel>
+            </VExpansionPanels>
 
             <!-- Color -->
             <div class="mb-4">
               <label class="text-body-2 text-medium-emphasis mb-2 d-block">Color</label>
               <div class="d-flex flex-wrap ga-2">
-                <v-avatar
+                <VAvatar
                   v-for="color in colors"
                   :key="color.value"
                   :color="color.value"
@@ -107,81 +107,81 @@
                   :class="{ 'border-2 border-primary': filters.colors.includes(color.value) }"
                   @click="toggleColor(color.value)"
                 >
-                  <v-icon v-if="filters.colors.includes(color.value)" color="white" size="small">
+                  <VIcon v-if="filters.colors.includes(color.value)" color="white" size="small">
                     mdi-check
-                  </v-icon>
-                </v-avatar>
+                  </VIcon>
+                </VAvatar>
               </div>
             </div>
 
             <!-- Size -->
-            <v-chip-group
+            <VChipGroup
               v-model="filters.sizes"
               column
               multiple
               selected-class="text-primary"
             >
-              <v-chip v-for="size in sizes" :key="size" :value="size" filter variant="outlined">
+              <VChip v-for="size in sizes" :key="size" :value="size" filter variant="outlined">
                 {{ size }}
-              </v-chip>
-            </v-chip-group>
-          </v-card-text>
+              </VChip>
+            </VChipGroup>
+          </VCardText>
 
-          <v-divider />
+          <VDivider />
 
-          <v-card-actions>
-            <v-btn color="primary" block @click="applyFilters">
+          <VCardActions>
+            <VBtn color="primary" block @click="applyFilters">
               Apply Filters
-              <v-badge :content="activeFiltersCount" color="error" inline v-if="activeFiltersCount" />
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
+              <VBadge :content="activeFiltersCount" color="error" inline v-if="activeFiltersCount" />
+            </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
 
       <!-- Results Area -->
-      <v-col cols="12" md="9">
+      <VCol cols="12" md="9">
         <!-- Active Filters -->
-        <v-card class="mb-4" v-if="hasActiveFilters">
-          <v-card-text class="d-flex flex-wrap align-center ga-2 py-2">
+        <VCard class="mb-4" v-if="hasActiveFilters">
+          <VCardText class="d-flex flex-wrap align-center ga-2 py-2">
             <span class="text-body-2 text-medium-emphasis mr-2">Active Filters:</span>
 
-            <v-chip
+            <VChip
               v-if="filters.search"
               closable
               size="small"
               @click:close="filters.search = ''"
             >
               Search: {{ filters.search }}
-            </v-chip>
+            </VChip>
 
-            <v-chip
+            <VChip
               v-if="filters.category"
               closable
               size="small"
               @click:close="filters.category = ''"
             >
               {{ filters.category }}
-            </v-chip>
+            </VChip>
 
-            <v-chip
+            <VChip
               v-if="filters.priceRange[0] > 0 || filters.priceRange[1] < 1000"
               closable
               size="small"
               @click:close="filters.priceRange = [0, 1000]"
             >
               ${{ filters.priceRange[0] }} - ${{ filters.priceRange[1] }}
-            </v-chip>
+            </VChip>
 
-            <v-chip
+            <VChip
               v-if="filters.rating > 0"
               closable
               size="small"
               @click:close="filters.rating = 0"
             >
               {{ filters.rating }}+ Stars
-            </v-chip>
+            </VChip>
 
-            <v-chip
+            <VChip
               v-for="brand in filters.brands"
               :key="brand"
               closable
@@ -189,24 +189,24 @@
               @click:close="filters.brands = filters.brands.filter((b: string) => b !== brand)"
             >
               {{ brand }}
-            </v-chip>
+            </VChip>
 
-            <v-spacer />
+            <VSpacer />
 
-            <v-btn variant="text" size="small" @click="resetFilters">
+            <VBtn variant="text" size="small" @click="resetFilters">
               Clear All
-            </v-btn>
-          </v-card-text>
-        </v-card>
+            </VBtn>
+          </VCardText>
+        </VCard>
 
         <!-- Toolbar -->
-        <v-card class="mb-4">
-          <v-card-text class="d-flex justify-space-between align-center py-2">
+        <VCard class="mb-4">
+          <VCardText class="d-flex justify-space-between align-center py-2">
             <span class="text-body-2">
               Showing <strong>{{ filteredCount }}</strong> results
             </span>
             <div class="d-flex align-center ga-2">
-              <v-select
+              <VSelect
                 v-model="sortBy"
                 :items="sortOptions"
                 label="Sort by"
@@ -215,45 +215,45 @@
                 hide-details
                 style="width: 180px;"
               />
-              <v-btn-toggle v-model="viewMode" mandatory density="compact" variant="outlined">
-                <v-btn value="grid" icon="mdi-view-grid" />
-                <v-btn value="list" icon="mdi-view-list" />
-              </v-btn-toggle>
+              <VBtnToggle v-model="viewMode" mandatory density="compact" variant="outlined">
+                <VBtn value="grid" icon="mdi-view-grid" />
+                <VBtn value="list" icon="mdi-view-list" />
+              </VBtnToggle>
             </div>
-          </v-card-text>
-        </v-card>
+          </VCardText>
+        </VCard>
 
         <!-- Results Grid -->
-        <v-row>
-          <v-col
+        <VRow>
+          <VCol
             v-for="item in 8"
             :key="item"
             :cols="viewMode === 'grid' ? 6 : 12"
             :lg="viewMode === 'grid' ? 3 : 12"
           >
-            <v-card>
-              <v-img
+            <VCard>
+              <VImg
                 v-if="viewMode === 'grid'"
                 src="https://picsum.photos/seed/product/300/200"
                 height="150"
                 cover
               />
-              <v-card-text :class="viewMode === 'list' ? 'd-flex align-center' : ''">
-                <v-avatar v-if="viewMode === 'list'" rounded size="80" class="mr-4">
-                  <v-img src="https://picsum.photos/seed/product/100/100" />
-                </v-avatar>
+              <VCardText :class="viewMode === 'list' ? 'd-flex align-center' : ''">
+                <VAvatar v-if="viewMode === 'list'" rounded size="80" class="mr-4">
+                  <VImg src="https://picsum.photos/seed/product/100/100" />
+                </VAvatar>
                 <div>
                   <h4 class="text-subtitle-1 font-weight-medium">Product Name {{ item }}</h4>
-                  <v-rating :model-value="4" color="warning" size="small" density="compact" readonly />
+                  <VRating :model-value="4" color="warning" size="small" density="compact" readonly />
                   <p class="text-h6 font-weight-bold text-primary mb-0">$99.99</p>
                 </div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+              </VCardText>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

@@ -7,13 +7,13 @@
 <template>
   <v-layout>
     <!-- Sidebar Navigation -->
-    <v-navigation-drawer
+    <VNavigationDrawer
       v-model="drawer"
       :rail="rail"
       permanent
       @click="rail = false"
     >
-      <v-list-item
+      <VListItem
         :prepend-avatar="rail ? undefined : undefined"
         :prepend-icon="rail ? 'mdi-shield-crown' : undefined"
         title="Admin Panel"
@@ -21,23 +21,23 @@
         nav
       >
         <template #prepend>
-          <v-avatar v-if="!rail" color="primary" size="40">
-            <v-icon>mdi-shield-crown</v-icon>
-          </v-avatar>
+          <VAvatar v-if="!rail" color="primary" size="40">
+            <VIcon>mdi-shield-crown</VIcon>
+          </VAvatar>
         </template>
         <template #append>
-          <v-btn
+          <VBtn
             variant="text"
             :icon="rail ? 'mdi-chevron-right' : 'mdi-chevron-left'"
             @click.stop="rail = !rail"
           />
         </template>
-      </v-list-item>
+      </VListItem>
 
-      <v-divider />
+      <VDivider />
 
-      <v-list density="compact" nav>
-        <v-list-item
+      <VList density="compact" nav>
+        <VListItem
           v-for="item in menuItems"
           :key="item.title"
           :prepend-icon="item.icon"
@@ -48,35 +48,35 @@
           @click="activeMenu = item.title"
         >
           <template v-if="item.badge" #append>
-            <v-badge :content="item.badge" :color="item.badgeColor" inline />
+            <VBadge :content="item.badge" :color="item.badgeColor" inline />
           </template>
-        </v-list-item>
-      </v-list>
+        </VListItem>
+      </VList>
 
       <template #append>
-        <v-divider />
-        <v-list density="compact" nav>
-          <v-list-item
+        <VDivider />
+        <VList density="compact" nav>
+          <VListItem
             prepend-icon="mdi-cog"
             title="Settings"
             rounded="lg"
           />
-          <v-list-item
+          <VListItem
             prepend-icon="mdi-logout"
             title="Logout"
             rounded="lg"
           />
-        </v-list>
+        </VList>
       </template>
-    </v-navigation-drawer>
+    </VNavigationDrawer>
 
     <!-- Main Content -->
-    <v-main>
+    <VMain>
       <!-- Top App Bar -->
-      <v-app-bar flat border="b">
-        <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <VAppBar flat border="b">
+        <VAppBar-nav-icon @click="drawer = !drawer" />
 
-        <v-text-field
+        <VTextField
           density="compact"
           variant="solo-filled"
           flat
@@ -87,81 +87,81 @@
           style="max-width: 400px;"
         />
 
-        <v-spacer />
+        <VSpacer />
 
-        <v-btn icon>
-          <v-badge content="3" color="error">
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
+        <VBtn icon>
+          <VBadge content="3" color="error">
+            <VIcon>mdi-bell</VIcon>
+          </VBadge>
+        </VBtn>
 
-        <v-btn icon class="mx-2">
-          <v-badge content="5" color="primary">
-            <v-icon>mdi-email</v-icon>
-          </v-badge>
-        </v-btn>
+        <VBtn icon class="mx-2">
+          <VBadge content="5" color="primary">
+            <VIcon>mdi-email</VIcon>
+          </VBadge>
+        </VBtn>
 
-        <v-menu>
+        <VMenu>
           <template #activator="{ props }">
-            <v-btn v-bind="props" variant="text" class="ml-2">
-              <v-avatar size="32" class="mr-2">
-                <v-img src="https://randomuser.me/api/portraits/men/1.jpg" />
-              </v-avatar>
+            <VBtn v-bind="props" variant="text" class="ml-2">
+              <VAvatar size="32" class="mr-2">
+                <VImg src="https://randomuser.me/api/portraits/men/1.jpg" />
+              </VAvatar>
               <span class="d-none d-sm-inline">Admin User</span>
-              <v-icon end>mdi-chevron-down</v-icon>
-            </v-btn>
+              <VIcon end>mdi-chevron-down</VIcon>
+            </VBtn>
           </template>
-          <v-list>
-            <v-list-item prepend-icon="mdi-account" title="Profile" />
-            <v-list-item prepend-icon="mdi-cog" title="Settings" />
-            <v-divider />
-            <v-list-item prepend-icon="mdi-logout" title="Logout" />
-          </v-list>
-        </v-menu>
-      </v-app-bar>
+          <VList>
+            <VListItem prepend-icon="mdi-account" title="Profile" />
+            <VListItem prepend-icon="mdi-cog" title="Settings" />
+            <VDivider />
+            <VListItem prepend-icon="mdi-logout" title="Logout" />
+          </VList>
+        </VMenu>
+      </VAppBar>
 
       <!-- Dashboard Content -->
-      <v-container fluid class="pa-6">
+      <VContainer fluid class="pa-6">
         <!-- Welcome Section -->
-        <v-row class="mb-6">
-          <v-col>
+        <VRow class="mb-6">
+          <VCol>
             <h1 class="text-h4 font-weight-bold">Welcome back, Admin!</h1>
             <p class="text-medium-emphasis">Here's an overview of your system performance.</p>
-          </v-col>
-        </v-row>
+          </VCol>
+        </VRow>
 
         <!-- Quick Stats -->
-        <v-row class="mb-6">
-          <v-col v-for="stat in quickStats" :key="stat.title" cols="12" sm="6" lg="3">
-            <v-card :color="stat.color" variant="tonal">
-              <v-card-text>
+        <VRow class="mb-6">
+          <VCol v-for="stat in quickStats" :key="stat.title" cols="12" sm="6" lg="3">
+            <VCard :color="stat.color" variant="tonal">
+              <VCardText>
                 <div class="d-flex justify-space-between align-center">
                   <div>
                     <p class="text-body-2 mb-1">{{ stat.title }}</p>
                     <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
                     <p class="text-caption mt-1">
-                      <v-icon size="small" :color="stat.trendUp ? 'success' : 'error'">
+                      <VIcon size="small" :color="stat.trendUp ? 'success' : 'error'">
                         {{ stat.trendUp ? 'mdi-arrow-up' : 'mdi-arrow-down' }}
-                      </v-icon>
+                      </VIcon>
                       {{ stat.trend }} from yesterday
                     </p>
                   </div>
-                  <v-icon size="48" :color="stat.color">{{ stat.icon }}</v-icon>
+                  <VIcon size="48" :color="stat.color">{{ stat.icon }}</VIcon>
                 </div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+              </VCardText>
+            </VCard>
+          </VCol>
+        </VRow>
 
-        <v-row>
+        <VRow>
           <!-- Recent Users -->
-          <v-col cols="12" lg="8">
-            <v-card>
-              <v-card-title class="d-flex justify-space-between align-center">
+          <VCol cols="12" lg="8">
+            <VCard>
+              <VCardTitle class="d-flex justify-space-between align-center">
                 <span>Recent Users</span>
-                <v-btn variant="text" color="primary" size="small">View All</v-btn>
-              </v-card-title>
-              <v-data-table
+                <VBtn variant="text" color="primary" size="small">View All</VBtn>
+              </VCardTitle>
+              <VDataTable
                 :headers="userHeaders"
                 :items="recentUsers"
                 :items-per-page="5"
@@ -169,9 +169,9 @@
               >
                 <template #item.user="{ item }">
                   <div class="d-flex align-center py-2">
-                    <v-avatar size="36" class="mr-3">
-                      <v-img :src="item.avatar" />
-                    </v-avatar>
+                    <VAvatar size="36" class="mr-3">
+                      <VImg :src="item.avatar" />
+                    </VAvatar>
                     <div>
                       <div class="font-weight-medium">{{ item.name }}</div>
                       <div class="text-caption text-medium-emphasis">{{ item.email }}</div>
@@ -179,57 +179,57 @@
                   </div>
                 </template>
                 <template #item.status="{ item }">
-                  <v-chip :color="item.status === 'Active' ? 'success' : 'error'" size="small">
+                  <VChip :color="item.status === 'Active' ? 'success' : 'error'" size="small">
                     {{ item.status }}
-                  </v-chip>
+                  </VChip>
                 </template>
                 <template #item.actions>
-                  <v-btn icon="mdi-dots-vertical" variant="text" size="small" />
+                  <VBtn icon="mdi-dots-vertical" variant="text" size="small" />
                 </template>
-              </v-data-table>
-            </v-card>
-          </v-col>
+              </VDataTable>
+            </VCard>
+          </VCol>
 
           <!-- Quick Actions & System Status -->
-          <v-col cols="12" lg="4">
-            <v-card class="mb-4">
-              <v-card-title>Quick Actions</v-card-title>
-              <v-card-text>
-                <v-btn color="primary" block class="mb-2" prepend-icon="mdi-account-plus">
+          <VCol cols="12" lg="4">
+            <VCard class="mb-4">
+              <VCardTitle>Quick Actions</VCardTitle>
+              <VCardText>
+                <VBtn color="primary" block class="mb-2" prepend-icon="mdi-account-plus">
                   Add New User
-                </v-btn>
-                <v-btn color="secondary" block class="mb-2" prepend-icon="mdi-file-document-plus">
+                </VBtn>
+                <VBtn color="secondary" block class="mb-2" prepend-icon="mdi-file-document-plus">
                   Create Report
-                </v-btn>
-                <v-btn color="info" block prepend-icon="mdi-email">
+                </VBtn>
+                <VBtn color="info" block prepend-icon="mdi-email">
                   Send Newsletter
-                </v-btn>
-              </v-card-text>
-            </v-card>
+                </VBtn>
+              </VCardText>
+            </VCard>
 
-            <v-card>
-              <v-card-title>System Status</v-card-title>
-              <v-card-text>
-                <v-list density="compact">
-                  <v-list-item
+            <VCard>
+              <VCardTitle>System Status</VCardTitle>
+              <VCardText>
+                <VList density="compact">
+                  <VListItem
                     v-for="status in systemStatus"
                     :key="status.name"
                   >
                     <template #prepend>
-                      <v-icon :color="status.color" size="small">mdi-circle</v-icon>
+                      <VIcon :color="status.color" size="small">mdi-circle</VIcon>
                     </template>
-                    <v-list-item-title>{{ status.name }}</v-list-item-title>
+                    <VListItemTitle>{{ status.name }}</VListItemTitle>
                     <template #append>
                       <span class="text-caption">{{ status.value }}</span>
                     </template>
-                  </v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
+                  </VListItem>
+                </VList>
+              </VCardText>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VContainer>
+    </VMain>
   </v-layout>
 </template>
 

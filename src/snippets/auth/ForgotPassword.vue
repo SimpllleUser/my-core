@@ -5,21 +5,21 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="5" lg="4">
-        <v-card class="pa-4" elevation="8" rounded="lg">
-          <v-card-text class="text-center pb-0">
-            <v-avatar color="primary" size="80" class="mb-4">
-              <v-icon size="48" color="white">mdi-lock-reset</v-icon>
-            </v-avatar>
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="5" lg="4">
+        <VCard class="pa-4" elevation="8" rounded="lg">
+          <VCardText class="text-center pb-0">
+            <VAvatar color="primary" size="80" class="mb-4">
+              <VIcon size="48" color="white">mdi-lock-reset</VIcon>
+            </VAvatar>
             <h2 class="text-h5 font-weight-bold mb-2">Forgot Password?</h2>
             <p class="text-medium-emphasis mb-6">
               No worries! Enter your email address and we'll send you a link to reset your password.
             </p>
-          </v-card-text>
+          </VCardText>
 
-          <v-card-text>
+          <VCardText>
             <v-alert
               v-if="emailSent"
               type="success"
@@ -41,12 +41,12 @@
               {{ error }}
             </v-alert>
 
-            <v-form
+            <VForm
               v-if="!emailSent"
               ref="formRef"
               v-model="valid"
             >
-              <v-text-field
+              <VTextField
                 v-model="email"
                 :rules="emailRules"
                 label="Email Address"
@@ -56,7 +56,7 @@
                 placeholder="you@example.com"
               />
 
-              <v-btn
+              <VBtn
                 color="primary"
                 size="large"
                 block
@@ -66,10 +66,10 @@
                 @click="submit"
               >
                 Send Reset Link
-              </v-btn>
-            </v-form>
+              </VBtn>
+            </VForm>
 
-            <v-btn
+            <VBtn
               v-else
               color="primary"
               size="large"
@@ -78,18 +78,18 @@
               @click="resetForm"
             >
               Send Again
-            </v-btn>
-          </v-card-text>
+            </VBtn>
+          </VCardText>
 
-          <v-card-text class="text-center pt-2">
-            <v-btn variant="text" color="primary" prepend-icon="mdi-arrow-left">
+          <VCardText class="text-center pt-2">
+            <VBtn variant="text" color="primary" prepend-icon="mdi-arrow-left">
               Back to Login
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            </VBtn>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

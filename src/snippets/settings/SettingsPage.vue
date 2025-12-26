@@ -5,15 +5,15 @@
   Variants: Tabbed layout, Account settings, Notifications, Security
 -->
 <template>
-  <v-container>
+  <VContainer>
     <h1 class="text-h4 font-weight-bold mb-6">Settings</h1>
 
-    <v-row>
+    <VRow>
       <!-- Sidebar Navigation -->
-      <v-col cols="12" md="3">
-        <v-card>
-          <v-list nav density="compact">
-            <v-list-item
+      <VCol cols="12" md="3">
+        <VCard>
+          <VList nav density="compact">
+            <VListItem
               v-for="section in sections"
               :key="section.value"
               :prepend-icon="section.icon"
@@ -22,233 +22,233 @@
               rounded="lg"
               @click="activeSection = section.value"
             />
-          </v-list>
-        </v-card>
-      </v-col>
+          </VList>
+        </VCard>
+      </VCol>
 
       <!-- Settings Content -->
-      <v-col cols="12" md="9">
+      <VCol cols="12" md="9">
         <!-- Profile Settings -->
-        <v-card v-if="activeSection === 'profile'" class="mb-4">
-          <v-card-title>Profile Information</v-card-title>
-          <v-card-text>
+        <VCard v-if="activeSection === 'profile'" class="mb-4">
+          <VCardTitle>Profile Information</VCardTitle>
+          <VCardText>
             <div class="d-flex align-center mb-6">
-              <v-avatar size="80" class="mr-4">
-                <v-img src="https://randomuser.me/api/portraits/women/44.jpg" />
-              </v-avatar>
+              <VAvatar size="80" class="mr-4">
+                <VImg src="https://randomuser.me/api/portraits/women/44.jpg" />
+              </VAvatar>
               <div>
-                <v-btn variant="outlined" size="small" class="mr-2">Change Photo</v-btn>
-                <v-btn variant="text" size="small" color="error">Remove</v-btn>
+                <VBtn variant="outlined" size="small" class="mr-2">Change Photo</VBtn>
+                <VBtn variant="text" size="small" color="error">Remove</VBtn>
                 <p class="text-caption text-medium-emphasis mt-2 mb-0">
                   JPG, GIF or PNG. Max size 2MB
                 </p>
               </div>
             </div>
 
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
+            <VRow>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="profile.firstName"
                   label="First Name"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="profile.lastName"
                   label="Last Name"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="profile.email"
                   label="Email"
                   type="email"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="profile.phone"
                   label="Phone"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
+              </VCol>
+              <VCol cols="12">
+                <VTextarea
                   v-model="profile.bio"
                   label="Bio"
                   variant="outlined"
                   rows="3"
                 />
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-actions class="pa-4 pt-0">
-            <v-spacer />
-            <v-btn variant="text">Cancel</v-btn>
-            <v-btn color="primary">Save Changes</v-btn>
-          </v-card-actions>
-        </v-card>
+              </VCol>
+            </VRow>
+          </VCardText>
+          <VCardActions class="pa-4 pt-0">
+            <VSpacer />
+            <VBtn variant="text">Cancel</VBtn>
+            <VBtn color="primary">Save Changes</VBtn>
+          </VCardActions>
+        </VCard>
 
         <!-- Account Settings -->
-        <v-card v-if="activeSection === 'account'" class="mb-4">
-          <v-card-title>Account Settings</v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
+        <VCard v-if="activeSection === 'account'" class="mb-4">
+          <VCardTitle>Account Settings</VCardTitle>
+          <VCardText>
+            <VRow>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="account.username"
                   label="Username"
                   variant="outlined"
                   prepend-inner-icon="mdi-at"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VSelect
                   v-model="account.language"
                   :items="languages"
                   label="Language"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VSelect
                   v-model="account.timezone"
                   :items="timezones"
                   label="Timezone"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VSelect
                   v-model="account.currency"
                   :items="currencies"
                   label="Currency"
                   variant="outlined"
                 />
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-actions class="pa-4 pt-0">
-            <v-spacer />
-            <v-btn variant="text">Cancel</v-btn>
-            <v-btn color="primary">Save Changes</v-btn>
-          </v-card-actions>
-        </v-card>
+              </VCol>
+            </VRow>
+          </VCardText>
+          <VCardActions class="pa-4 pt-0">
+            <VSpacer />
+            <VBtn variant="text">Cancel</VBtn>
+            <VBtn color="primary">Save Changes</VBtn>
+          </VCardActions>
+        </VCard>
 
         <!-- Notifications Settings -->
-        <v-card v-if="activeSection === 'notifications'" class="mb-4">
-          <v-card-title>Notification Preferences</v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-subheader>Email Notifications</v-list-subheader>
-              <v-list-item v-for="item in emailNotifications" :key="item.title">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
+        <VCard v-if="activeSection === 'notifications'" class="mb-4">
+          <VCardTitle>Notification Preferences</VCardTitle>
+          <VCardText>
+            <VList>
+              <VList-subheader>Email Notifications</v-list-subheader>
+              <VListItem v-for="item in emailNotifications" :key="item.title">
+                <VListItemTitle>{{ item.title }}</VListItemTitle>
+                <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>
                 <template #append>
-                  <v-switch v-model="item.enabled" color="primary" hide-details />
+                  <VSwitch v-model="item.enabled" color="primary" hide-details />
                 </template>
-              </v-list-item>
+              </VListItem>
 
-              <v-divider class="my-4" />
+              <VDivider class="my-4" />
 
-              <v-list-subheader>Push Notifications</v-list-subheader>
-              <v-list-item v-for="item in pushNotifications" :key="item.title">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
+              <VList-subheader>Push Notifications</v-list-subheader>
+              <VListItem v-for="item in pushNotifications" :key="item.title">
+                <VListItemTitle>{{ item.title }}</VListItemTitle>
+                <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>
                 <template #append>
-                  <v-switch v-model="item.enabled" color="primary" hide-details />
+                  <VSwitch v-model="item.enabled" color="primary" hide-details />
                 </template>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
+              </VListItem>
+            </VList>
+          </VCardText>
+        </VCard>
 
         <!-- Security Settings -->
-        <v-card v-if="activeSection === 'security'" class="mb-4">
-          <v-card-title>Security</v-card-title>
-          <v-card-text>
+        <VCard v-if="activeSection === 'security'" class="mb-4">
+          <VCardTitle>Security</VCardTitle>
+          <VCardText>
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Change Password</h4>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
+            <VRow>
+              <VCol cols="12">
+                <VTextField
                   v-model="security.currentPassword"
                   label="Current Password"
                   type="password"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="security.newPassword"
                   label="New Password"
                   type="password"
                   variant="outlined"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="security.confirmPassword"
                   label="Confirm New Password"
                   type="password"
                   variant="outlined"
                 />
-              </v-col>
-            </v-row>
-            <v-btn color="primary" class="mb-8">Update Password</v-btn>
+              </VCol>
+            </VRow>
+            <VBtn color="primary" class="mb-8">Update Password</VBtn>
 
-            <v-divider class="mb-6" />
+            <VDivider class="mb-6" />
 
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Two-Factor Authentication</h4>
             <v-alert type="warning" variant="tonal" class="mb-4">
               Two-factor authentication adds an extra layer of security to your account.
             </v-alert>
-            <v-btn variant="outlined">Enable 2FA</v-btn>
+            <VBtn variant="outlined">Enable 2FA</VBtn>
 
-            <v-divider class="my-6" />
+            <VDivider class="my-6" />
 
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Active Sessions</h4>
-            <v-list density="compact">
-              <v-list-item v-for="session in sessions" :key="session.id">
+            <VList density="compact">
+              <VListItem v-for="session in sessions" :key="session.id">
                 <template #prepend>
-                  <v-icon>{{ session.icon }}</v-icon>
+                  <VIcon>{{ session.icon }}</VIcon>
                 </template>
-                <v-list-item-title>{{ session.device }}</v-list-item-title>
-                <v-list-item-subtitle>{{ session.location }} • {{ session.time }}</v-list-item-subtitle>
+                <VListItemTitle>{{ session.device }}</VListItemTitle>
+                <VListItemSubtitle>{{ session.location }} • {{ session.time }}</VListItemSubtitle>
                 <template #append>
-                  <v-chip v-if="session.current" color="success" size="small">Current</v-chip>
-                  <v-btn v-else variant="text" size="small" color="error">Revoke</v-btn>
+                  <VChip v-if="session.current" color="success" size="small">Current</VChip>
+                  <VBtn v-else variant="text" size="small" color="error">Revoke</VBtn>
                 </template>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
+              </VListItem>
+            </VList>
+          </VCardText>
+        </VCard>
 
         <!-- Appearance Settings -->
-        <v-card v-if="activeSection === 'appearance'">
-          <v-card-title>Appearance</v-card-title>
-          <v-card-text>
+        <VCard v-if="activeSection === 'appearance'">
+          <VCardTitle>Appearance</VCardTitle>
+          <VCardText>
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Theme</h4>
-            <v-btn-toggle v-model="appearance.theme" mandatory class="mb-6">
-              <v-btn value="light">
-                <v-icon start>mdi-white-balance-sunny</v-icon>
+            <VBtnToggle v-model="appearance.theme" mandatory class="mb-6">
+              <VBtn value="light">
+                <VIcon start>mdi-white-balance-sunny</VIcon>
                 Light
-              </v-btn>
-              <v-btn value="dark">
-                <v-icon start>mdi-moon-waning-crescent</v-icon>
+              </VBtn>
+              <VBtn value="dark">
+                <VIcon start>mdi-moon-waning-crescent</VIcon>
                 Dark
-              </v-btn>
-              <v-btn value="system">
-                <v-icon start>mdi-laptop</v-icon>
+              </VBtn>
+              <VBtn value="system">
+                <VIcon start>mdi-laptop</VIcon>
                 System
-              </v-btn>
-            </v-btn-toggle>
+              </VBtn>
+            </VBtnToggle>
 
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Accent Color</h4>
             <div class="d-flex ga-2 mb-6">
-              <v-avatar
+              <VAvatar
                 v-for="color in accentColors"
                 :key="color"
                 :color="color"
@@ -257,12 +257,12 @@
                 :class="{ 'border-2 border-black': appearance.accentColor === color }"
                 @click="appearance.accentColor = color"
               >
-                <v-icon v-if="appearance.accentColor === color" color="white" size="small">mdi-check</v-icon>
-              </v-avatar>
+                <VIcon v-if="appearance.accentColor === color" color="white" size="small">mdi-check</VIcon>
+              </VAvatar>
             </div>
 
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Font Size</h4>
-            <v-slider
+            <VSlider
               v-model="appearance.fontSize"
               :min="12"
               :max="20"
@@ -272,18 +272,18 @@
               class="mb-6"
             />
 
-            <v-switch
+            <VSwitch
               v-model="appearance.reducedMotion"
               label="Reduce motion"
               color="primary"
             />
-          </v-card-text>
-        </v-card>
+          </VCardText>
+        </VCard>
 
         <!-- Danger Zone -->
-        <v-card v-if="activeSection === 'danger'" color="error" variant="outlined">
-          <v-card-title class="text-error">Danger Zone</v-card-title>
-          <v-card-text>
+        <VCard v-if="activeSection === 'danger'" color="error" variant="outlined">
+          <VCardTitle class="text-error">Danger Zone</VCardTitle>
+          <VCardText>
             <v-alert type="warning" variant="tonal" class="mb-4">
               These actions are irreversible. Please proceed with caution.
             </v-alert>
@@ -295,7 +295,7 @@
                   Permanently delete your account and all associated data.
                 </p>
               </div>
-              <v-btn color="error" variant="outlined">Delete Account</v-btn>
+              <VBtn color="error" variant="outlined">Delete Account</VBtn>
             </div>
 
             <div class="d-flex justify-space-between align-center pa-4 rounded border">
@@ -305,13 +305,13 @@
                   Download all your data before deleting your account.
                 </p>
               </div>
-              <v-btn variant="outlined">Export Data</v-btn>
+              <VBtn variant="outlined">Export Data</VBtn>
             </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

@@ -8,120 +8,120 @@
   <div>
     <!-- Features Style 1: Grid Layout -->
     <section class="py-16">
-      <v-container>
+      <VContainer>
         <div class="text-center mb-12">
-          <v-chip color="primary" variant="tonal" class="mb-4">Features</v-chip>
+          <VChip color="primary" variant="tonal" class="mb-4">Features</VChip>
           <h2 class="text-h3 font-weight-bold mb-4">Everything You Need</h2>
           <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 600px;">
             Powerful features to help you manage and grow your business effectively.
           </p>
         </div>
 
-        <v-row>
-          <v-col v-for="feature in gridFeatures" :key="feature.title" cols="12" sm="6" lg="4">
-            <v-card height="100%" class="pa-6" variant="outlined" hover>
-              <v-avatar :color="feature.color" size="56" rounded="lg" class="mb-4">
-                <v-icon color="white" size="28">{{ feature.icon }}</v-icon>
-              </v-avatar>
+        <VRow>
+          <VCol v-for="feature in gridFeatures" :key="feature.title" cols="12" sm="6" lg="4">
+            <VCard height="100%" class="pa-6" variant="outlined" hover>
+              <VAvatar :color="feature.color" size="56" rounded="lg" class="mb-4">
+                <VIcon color="white" size="28">{{ feature.icon }}</VIcon>
+              </VAvatar>
               <h3 class="text-h6 font-weight-bold mb-2">{{ feature.title }}</h3>
               <p class="text-body-2 text-medium-emphasis mb-0">{{ feature.description }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VContainer>
     </section>
 
-    <v-divider />
+    <VDivider />
 
     <!-- Features Style 2: Alternating Layout -->
     <section class="py-16 bg-grey-lighten-5">
-      <v-container>
-        <v-row
+      <VContainer>
+        <VRow
           v-for="(feature, index) in alternatingFeatures"
           :key="feature.title"
           align="center"
           class="mb-12"
         >
-          <v-col cols="12" md="6" :order-md="index % 2 ? 2 : 1">
-            <v-chip :color="feature.color" variant="tonal" class="mb-4">{{ feature.badge }}</v-chip>
+          <VCol cols="12" md="6" :order-md="index % 2 ? 2 : 1">
+            <VChip :color="feature.color" variant="tonal" class="mb-4">{{ feature.badge }}</VChip>
             <h3 class="text-h4 font-weight-bold mb-4">{{ feature.title }}</h3>
             <p class="text-body-1 text-medium-emphasis mb-6">{{ feature.description }}</p>
-            <v-list density="compact" class="bg-transparent">
-              <v-list-item v-for="point in feature.points" :key="point" class="px-0">
+            <VList density="compact" class="bg-transparent">
+              <VListItem v-for="point in feature.points" :key="point" class="px-0">
                 <template #prepend>
-                  <v-icon :color="feature.color" size="small" class="mr-2">mdi-check-circle</v-icon>
+                  <VIcon :color="feature.color" size="small" class="mr-2">mdi-check-circle</VIcon>
                 </template>
-                <v-list-item-title class="text-body-2">{{ point }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-            <v-btn :color="feature.color" class="mt-4">
+                <VListItemTitle class="text-body-2">{{ point }}</VListItemTitle>
+              </VListItem>
+            </VList>
+            <VBtn :color="feature.color" class="mt-4">
               Learn More
-              <v-icon end>mdi-arrow-right</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col cols="12" md="6" :order-md="index % 2 ? 1 : 2">
-            <v-card class="pa-8 text-center" :color="feature.color" variant="tonal">
-              <v-icon :color="feature.color" size="200">{{ feature.icon }}</v-icon>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+              <VIcon end>mdi-arrow-right</VIcon>
+            </VBtn>
+          </VCol>
+          <VCol cols="12" md="6" :order-md="index % 2 ? 1 : 2">
+            <VCard class="pa-8 text-center" :color="feature.color" variant="tonal">
+              <VIcon :color="feature.color" size="200">{{ feature.icon }}</VIcon>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VContainer>
     </section>
 
-    <v-divider />
+    <VDivider />
 
     <!-- Features Style 3: Icon List -->
     <section class="py-16">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="5">
-            <v-chip color="secondary" variant="tonal" class="mb-4">Why Choose Us</v-chip>
+      <VContainer>
+        <VRow>
+          <VCol cols="12" md="5">
+            <VChip color="secondary" variant="tonal" class="mb-4">Why Choose Us</VChip>
             <h2 class="text-h3 font-weight-bold mb-4">Built for Modern Teams</h2>
             <p class="text-body-1 text-medium-emphasis">
               We've crafted every feature with your productivity in mind. Here's what makes us different.
             </p>
-          </v-col>
-          <v-col cols="12" md="7">
-            <v-row>
-              <v-col v-for="feature in compactFeatures" :key="feature.title" cols="12" sm="6">
+          </VCol>
+          <VCol cols="12" md="7">
+            <VRow>
+              <VCol v-for="feature in compactFeatures" :key="feature.title" cols="12" sm="6">
                 <div class="d-flex mb-6">
-                  <v-avatar color="primary" size="48" rounded="lg" class="mr-4">
-                    <v-icon color="white">{{ feature.icon }}</v-icon>
-                  </v-avatar>
+                  <VAvatar color="primary" size="48" rounded="lg" class="mr-4">
+                    <VIcon color="white">{{ feature.icon }}</VIcon>
+                  </VAvatar>
                   <div>
                     <h4 class="text-subtitle-1 font-weight-bold mb-1">{{ feature.title }}</h4>
                     <p class="text-body-2 text-medium-emphasis mb-0">{{ feature.description }}</p>
                   </div>
                 </div>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-container>
+              </VCol>
+            </VRow>
+          </VCol>
+        </VRow>
+      </VContainer>
     </section>
 
-    <v-divider />
+    <VDivider />
 
     <!-- Features Style 4: Stats + Features -->
     <section class="py-16" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
-      <v-container>
-        <v-row class="mb-12">
-          <v-col v-for="stat in stats" :key="stat.label" cols="6" md="3" class="text-center">
+      <VContainer>
+        <VRow class="mb-12">
+          <VCol v-for="stat in stats" :key="stat.label" cols="6" md="3" class="text-center">
             <h2 class="text-h2 font-weight-bold text-primary mb-2">{{ stat.value }}</h2>
             <p class="text-body-1 text-grey-lighten-1">{{ stat.label }}</p>
-          </v-col>
-        </v-row>
+          </VCol>
+        </VRow>
 
-        <v-row>
-          <v-col v-for="feature in darkFeatures" :key="feature.title" cols="12" sm="6" md="3">
-            <v-card color="rgba(255,255,255,0.05)" class="pa-6 text-center" height="100%">
-              <v-icon color="primary" size="48" class="mb-4">{{ feature.icon }}</v-icon>
+        <VRow>
+          <VCol v-for="feature in darkFeatures" :key="feature.title" cols="12" sm="6" md="3">
+            <VCard color="rgba(255,255,255,0.05)" class="pa-6 text-center" height="100%">
+              <VIcon color="primary" size="48" class="mb-4">{{ feature.icon }}</VIcon>
               <h4 class="text-subtitle-1 font-weight-bold text-white mb-2">{{ feature.title }}</h4>
               <p class="text-body-2 text-grey-lighten-1 mb-0">{{ feature.description }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+            </VCard>
+          </VCol>
+        </VRow>
+      </VContainer>
     </section>
   </div>
 </template>

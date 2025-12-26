@@ -5,61 +5,61 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="5" lg="4">
-        <v-card class="pa-4" elevation="8" rounded="lg">
-          <v-card-title class="text-h4 font-weight-bold text-center pb-0">
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="5" lg="4">
+        <VCard class="pa-4" elevation="8" rounded="lg">
+          <VCardTitle class="text-h4 font-weight-bold text-center pb-0">
             Welcome Back
-          </v-card-title>
-          <v-card-subtitle class="text-center pb-6">
+          </VCardTitle>
+          <VCardSubtitle class="text-center pb-6">
             Sign in to continue to your account
-          </v-card-subtitle>
+          </VCardSubtitle>
 
-          <v-card-text>
+          <VCardText>
             <!-- Social Login Buttons -->
             <div class="d-flex flex-column ga-3 mb-6">
-              <v-btn
+              <VBtn
                 variant="outlined"
                 size="large"
                 block
                 @click="socialLogin('google')"
               >
-                <v-icon start color="red">mdi-google</v-icon>
+                <VIcon start color="red">mdi-google</VIcon>
                 Continue with Google
-              </v-btn>
+              </VBtn>
 
-              <v-btn
+              <VBtn
                 variant="outlined"
                 size="large"
                 block
                 @click="socialLogin('github')"
               >
-                <v-icon start>mdi-github</v-icon>
+                <VIcon start>mdi-github</VIcon>
                 Continue with GitHub
-              </v-btn>
+              </VBtn>
 
-              <v-btn
+              <VBtn
                 variant="outlined"
                 size="large"
                 block
                 @click="socialLogin('facebook')"
               >
-                <v-icon start color="blue">mdi-facebook</v-icon>
+                <VIcon start color="blue">mdi-facebook</VIcon>
                 Continue with Facebook
-              </v-btn>
+              </VBtn>
             </div>
 
             <!-- Divider -->
             <div class="d-flex align-center mb-6">
-              <v-divider />
+              <VDivider />
               <span class="mx-4 text-medium-emphasis">OR</span>
-              <v-divider />
+              <VDivider />
             </div>
 
             <!-- Email/Password Form -->
-            <v-form ref="formRef" v-model="valid">
-              <v-text-field
+            <VForm ref="formRef" v-model="valid">
+              <VTextField
                 v-model="email"
                 :rules="emailRules"
                 label="Email address"
@@ -69,7 +69,7 @@
                 class="mb-2"
               />
 
-              <v-text-field
+              <VTextField
                 v-model="password"
                 :rules="passwordRules"
                 :type="showPassword ? 'text' : 'password'"
@@ -81,19 +81,19 @@
               />
 
               <div class="d-flex justify-space-between align-center my-4">
-                <v-checkbox
+                <VCheckbox
                   v-model="rememberMe"
                   label="Remember me"
                   color="primary"
                   density="compact"
                   hide-details
                 />
-                <v-btn variant="text" color="primary" size="small">
+                <VBtn variant="text" color="primary" size="small">
                   Forgot Password?
-                </v-btn>
+                </VBtn>
               </div>
 
-              <v-btn
+              <VBtn
                 color="primary"
                 size="large"
                 block
@@ -102,20 +102,20 @@
                 @click="submit"
               >
                 Sign In
-              </v-btn>
-            </v-form>
-          </v-card-text>
+              </VBtn>
+            </VForm>
+          </VCardText>
 
-          <v-card-text class="text-center pt-4">
+          <VCardText class="text-center pt-4">
             <span class="text-medium-emphasis">New to our platform?</span>
-            <v-btn variant="text" color="primary">
+            <VBtn variant="text" color="primary">
               Create an account
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            </VBtn>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

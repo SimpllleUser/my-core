@@ -5,128 +5,128 @@
   Variants: Simple, With Actions, Grouped by Date
 -->
 <template>
-  <v-container>
-    <v-row>
+  <VContainer>
+    <VRow>
       <!-- Notification Dropdown -->
-      <v-col cols="12" md="4">
+      <VCol cols="12" md="4">
         <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Dropdown Menu</h3>
-        <v-menu max-width="380">
+        <VMenu max-width="380">
           <template #activator="{ props }">
-            <v-btn v-bind="props" color="primary">
-              <v-badge content="5" color="error">
-                <v-icon>mdi-bell</v-icon>
-              </v-badge>
+            <VBtn v-bind="props" color="primary">
+              <VBadge content="5" color="error">
+                <VIcon>mdi-bell</VIcon>
+              </VBadge>
               <span class="ml-2">Notifications</span>
-            </v-btn>
+            </VBtn>
           </template>
-          <v-card>
-            <v-card-title class="d-flex justify-space-between align-center py-2">
+          <VCard>
+            <VCardTitle class="d-flex justify-space-between align-center py-2">
               <span class="text-body-1 font-weight-medium">Notifications</span>
-              <v-btn variant="text" size="small" color="primary">Mark all as read</v-btn>
-            </v-card-title>
-            <v-divider />
-            <v-list max-height="400" class="overflow-y-auto">
-              <v-list-item
+              <VBtn variant="text" size="small" color="primary">Mark all as read</VBtn>
+            </VCardTitle>
+            <VDivider />
+            <VList max-height="400" class="overflow-y-auto">
+              <VListItem
                 v-for="notification in notifications.slice(0, 5)"
                 :key="notification.id"
                 :class="{ 'bg-blue-lighten-5': !notification.read }"
               >
                 <template #prepend>
-                  <v-avatar :color="notification.color" size="40">
-                    <v-icon color="white" size="20">{{ notification.icon }}</v-icon>
-                  </v-avatar>
+                  <VAvatar :color="notification.color" size="40">
+                    <VIcon color="white" size="20">{{ notification.icon }}</VIcon>
+                  </VAvatar>
                 </template>
-                <v-list-item-title class="text-body-2">{{ notification.title }}</v-list-item-title>
-                <v-list-item-subtitle class="text-caption">{{ notification.time }}</v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-            <v-divider />
-            <v-card-actions class="justify-center">
-              <v-btn variant="text" color="primary">View All Notifications</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-col>
+                <VListItemTitle class="text-body-2">{{ notification.title }}</VListItemTitle>
+                <VListItemSubtitle class="text-caption">{{ notification.time }}</VListItemSubtitle>
+              </VListItem>
+            </VList>
+            <VDivider />
+            <VCardActions class="justify-center">
+              <VBtn variant="text" color="primary">View All Notifications</VBtn>
+            </VCardActions>
+          </VCard>
+        </VMenu>
+      </VCol>
 
       <!-- Full Notification List -->
-      <v-col cols="12" md="8">
+      <VCol cols="12" md="8">
         <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Full List</h3>
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+        <VCard>
+          <VCardTitle class="d-flex justify-space-between align-center">
             <span>All Notifications</span>
             <div>
-              <v-btn variant="text" size="small">Mark all as read</v-btn>
-              <v-btn variant="text" size="small" color="error">Clear all</v-btn>
+              <VBtn variant="text" size="small">Mark all as read</VBtn>
+              <VBtn variant="text" size="small" color="error">Clear all</VBtn>
             </div>
-          </v-card-title>
+          </VCardTitle>
 
-          <v-tabs v-model="tab" color="primary">
-            <v-tab value="all">All</v-tab>
-            <v-tab value="unread">
+          <VTabs v-model="tab" color="primary">
+            <VTab value="all">All</VTab>
+            <VTab value="unread">
               Unread
-              <v-badge content="3" color="error" inline class="ml-1" />
-            </v-tab>
-            <v-tab value="mentions">Mentions</v-tab>
-          </v-tabs>
+              <VBadge content="3" color="error" inline class="ml-1" />
+            </VTab>
+            <VTab value="mentions">Mentions</VTab>
+          </VTabs>
 
-          <v-divider />
+          <VDivider />
 
-          <v-list lines="two">
+          <VList lines="two">
             <template v-for="(notification, index) in filteredNotifications" :key="notification.id">
-              <v-list-item
+              <VListItem
                 :class="{ 'bg-blue-lighten-5': !notification.read }"
               >
                 <template #prepend>
-                  <v-avatar :color="notification.color" size="48">
-                    <v-img v-if="notification.avatar" :src="notification.avatar" />
-                    <v-icon v-else color="white">{{ notification.icon }}</v-icon>
-                  </v-avatar>
+                  <VAvatar :color="notification.color" size="48">
+                    <VImg v-if="notification.avatar" :src="notification.avatar" />
+                    <VIcon v-else color="white">{{ notification.icon }}</VIcon>
+                  </VAvatar>
                 </template>
 
-                <v-list-item-title class="font-weight-medium">
+                <VListItemTitle class="font-weight-medium">
                   {{ notification.title }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
+                </VListItemTitle>
+                <VListItemSubtitle>
                   {{ notification.description }}
-                </v-list-item-subtitle>
+                </VListItemSubtitle>
 
                 <template #append>
                   <div class="text-right">
                     <p class="text-caption text-medium-emphasis mb-1">{{ notification.time }}</p>
-                    <v-chip v-if="notification.type" :color="getTypeColor(notification.type)" size="x-small">
+                    <VChip v-if="notification.type" :color="getTypeColor(notification.type)" size="x-small">
                       {{ notification.type }}
-                    </v-chip>
+                    </VChip>
                   </div>
                 </template>
-              </v-list-item>
+              </VListItem>
 
-              <v-divider v-if="index < filteredNotifications.length - 1" />
+              <VDivider v-if="index < filteredNotifications.length - 1" />
             </template>
-          </v-list>
+          </VList>
 
-          <v-card-actions class="justify-center">
-            <v-btn variant="text" color="primary">Load More</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+          <VCardActions class="justify-center">
+            <VBtn variant="text" color="primary">Load More</VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
 
     <!-- Activity Feed -->
-    <v-row class="mt-6">
-      <v-col cols="12">
+    <VRow class="mt-6">
+      <VCol cols="12">
         <h3 class="text-subtitle-1 text-medium-emphasis mb-3">Activity Feed (Timeline)</h3>
-        <v-card>
-          <v-card-title>Recent Activity</v-card-title>
-          <v-card-text>
-            <v-timeline density="compact" side="end">
-              <v-timeline-item
+        <VCard>
+          <VCardTitle>Recent Activity</VCardTitle>
+          <VCardText>
+            <VTimeline density="compact" side="end">
+              <VTimeline-item
                 v-for="activity in activities"
                 :key="activity.id"
                 :dot-color="activity.color"
                 size="small"
               >
                 <template #icon>
-                  <v-icon size="16" color="white">{{ activity.icon }}</v-icon>
+                  <VIcon size="16" color="white">{{ activity.icon }}</VIcon>
                 </template>
                 <div class="d-flex justify-space-between align-start">
                   <div>
@@ -136,12 +136,12 @@
                   <span class="text-caption text-medium-emphasis">{{ activity.time }}</span>
                 </div>
               </v-timeline-item>
-            </v-timeline>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            </VTimeline>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

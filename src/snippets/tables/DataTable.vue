@@ -5,19 +5,19 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-title class="d-flex align-center">
+  <VContainer fluid>
+    <VCard>
+      <VCardTitle class="d-flex align-center">
         <span class="text-h6">Users Management</span>
-        <v-spacer />
-        <v-btn color="primary" prepend-icon="mdi-plus">Add User</v-btn>
-      </v-card-title>
+        <VSpacer />
+        <VBtn color="primary" prepend-icon="mdi-plus">Add User</VBtn>
+      </VCardTitle>
 
       <!-- Filters -->
-      <v-card-text class="pb-0">
-        <v-row>
-          <v-col cols="12" sm="4">
-            <v-text-field
+      <VCardText class="pb-0">
+        <VRow>
+          <VCol cols="12" sm="4">
+            <VTextField
               v-model="search"
               label="Search"
               prepend-inner-icon="mdi-magnify"
@@ -26,9 +26,9 @@
               hide-details
               clearable
             />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-select
+          </VCol>
+          <VCol cols="12" sm="3">
+            <VSelect
               v-model="statusFilter"
               :items="statusOptions"
               label="Status"
@@ -37,9 +37,9 @@
               hide-details
               clearable
             />
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-select
+          </VCol>
+          <VCol cols="12" sm="3">
+            <VSelect
               v-model="roleFilter"
               :items="roleOptions"
               label="Role"
@@ -48,15 +48,15 @@
               hide-details
               clearable
             />
-          </v-col>
-          <v-col cols="12" sm="2" class="d-flex align-center">
-            <v-btn variant="outlined" @click="resetFilters">Reset</v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
+          </VCol>
+          <VCol cols="12" sm="2" class="d-flex align-center">
+            <VBtn variant="outlined" @click="resetFilters">Reset</VBtn>
+          </VCol>
+        </VRow>
+      </VCardText>
 
       <!-- Data Table -->
-      <v-data-table
+      <VDataTable
         v-model:items-per-page="itemsPerPage"
         v-model:page="page"
         :headers="headers"
@@ -70,9 +70,9 @@
         <!-- User Column -->
         <template #item.user="{ item }">
           <div class="d-flex align-center py-2">
-            <v-avatar size="40" class="mr-3">
-              <v-img :src="item.avatar" />
-            </v-avatar>
+            <VAvatar size="40" class="mr-3">
+              <VImg :src="item.avatar" />
+            </VAvatar>
             <div>
               <div class="font-weight-medium">{{ item.name }}</div>
               <div class="text-caption text-medium-emphasis">{{ item.email }}</div>
@@ -82,19 +82,19 @@
 
         <!-- Role Column -->
         <template #item.role="{ item }">
-          <v-chip :color="getRoleColor(item.role)" size="small" variant="tonal">
+          <VChip :color="getRoleColor(item.role)" size="small" variant="tonal">
             {{ item.role }}
-          </v-chip>
+          </VChip>
         </template>
 
         <!-- Status Column -->
         <template #item.status="{ item }">
-          <v-chip :color="item.status === 'Active' ? 'success' : 'error'" size="small">
-            <v-icon start size="x-small">
+          <VChip :color="item.status === 'Active' ? 'success' : 'error'" size="small">
+            <VIcon start size="x-small">
               {{ item.status === 'Active' ? 'mdi-check-circle' : 'mdi-close-circle' }}
-            </v-icon>
+            </VIcon>
             {{ item.status }}
-          </v-chip>
+          </VChip>
         </template>
 
         <!-- Last Active Column -->
@@ -105,34 +105,34 @@
         <!-- Actions Column -->
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <v-btn icon="mdi-eye" variant="text" size="small" @click="viewUser(item)" />
-            <v-btn icon="mdi-pencil" variant="text" size="small" @click="editUser(item)" />
-            <v-menu>
+            <VBtn icon="mdi-eye" variant="text" size="small" @click="viewUser(item)" />
+            <VBtn icon="mdi-pencil" variant="text" size="small" @click="editUser(item)" />
+            <VMenu>
               <template #activator="{ props }">
-                <v-btn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" />
+                <VBtn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" />
               </template>
-              <v-list density="compact">
-                <v-list-item prepend-icon="mdi-account-key" @click="changeRole(item)">
-                  <v-list-item-title>Change Role</v-list-item-title>
-                </v-list-item>
-                <v-list-item prepend-icon="mdi-lock-reset" @click="resetPassword(item)">
-                  <v-list-item-title>Reset Password</v-list-item-title>
-                </v-list-item>
-                <v-divider />
-                <v-list-item prepend-icon="mdi-delete" class="text-error" @click="deleteUser(item)">
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+              <VList density="compact">
+                <VListItem prepend-icon="mdi-account-key" @click="changeRole(item)">
+                  <VListItemTitle>Change Role</VListItemTitle>
+                </VListItem>
+                <VListItem prepend-icon="mdi-lock-reset" @click="resetPassword(item)">
+                  <VListItemTitle>Reset Password</VListItemTitle>
+                </VListItem>
+                <VDivider />
+                <VListItem prepend-icon="mdi-delete" class="text-error" @click="deleteUser(item)">
+                  <VListItemTitle>Delete</VListItemTitle>
+                </VListItem>
+              </VList>
+            </VMenu>
           </div>
         </template>
 
         <!-- No Data -->
         <template #no-data>
           <div class="text-center pa-6">
-            <v-icon size="48" color="grey-lighten-1" class="mb-2">mdi-account-off</v-icon>
+            <VIcon size="48" color="grey-lighten-1" class="mb-2">mdi-account-off</VIcon>
             <p class="text-medium-emphasis">No users found</p>
-            <v-btn color="primary" @click="resetFilters">Reset Filters</v-btn>
+            <VBtn color="primary" @click="resetFilters">Reset Filters</VBtn>
           </div>
         </template>
 
@@ -140,9 +140,9 @@
         <template #loading>
           <v-skeleton-loader type="table-row@5" />
         </template>
-      </v-data-table>
-    </v-card>
-  </v-container>
+      </VDataTable>
+    </VCard>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

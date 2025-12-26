@@ -5,13 +5,13 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" md="8" lg="6">
-        <v-card elevation="8" rounded="lg">
-          <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" md="8" lg="6">
+        <VCard elevation="8" rounded="lg">
+          <VCardTitle class="text-h5 font-weight-bold pa-6 pb-0">
             Create Your Account
-          </v-card-title>
+          </VCardTitle>
 
           <v-stepper v-model="currentStep" alt-labels flat>
             <v-stepper-header>
@@ -21,14 +21,14 @@
                 title="Account"
                 subtitle="Basic info"
               />
-              <v-divider />
+              <VDivider />
               <v-stepper-item
                 :complete="currentStep > 2"
                 :value="2"
                 title="Personal"
                 subtitle="Your details"
               />
-              <v-divider />
+              <VDivider />
               <v-stepper-item
                 :complete="currentStep > 3"
                 :value="3"
@@ -40,12 +40,12 @@
             <v-stepper-window>
               <!-- Step 1: Account Information -->
               <v-stepper-window-item :value="1">
-                <v-card flat>
-                  <v-card-text>
-                    <v-form ref="step1FormRef" v-model="step1Valid">
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field
+                <VCard flat>
+                  <VCardText>
+                    <VForm ref="step1FormRef" v-model="step1Valid">
+                      <VRow>
+                        <VCol cols="12">
+                          <VTextField
                             v-model="form.email"
                             :rules="emailRules"
                             label="Email Address"
@@ -53,9 +53,9 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-email"
                           />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-text-field
+                        </VCol>
+                        <VCol cols="12" md="6">
+                          <VTextField
                             v-model="form.password"
                             :rules="passwordRules"
                             :type="showPassword ? 'text' : 'password'"
@@ -65,9 +65,9 @@
                             :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                             @click:append-inner="showPassword = !showPassword"
                           />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-text-field
+                        </VCol>
+                        <VCol cols="12" md="6">
+                          <VTextField
                             v-model="form.confirmPassword"
                             :rules="confirmPasswordRules"
                             :type="showPassword ? 'text' : 'password'"
@@ -75,47 +75,47 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-lock-check"
                           />
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-card-text>
-                </v-card>
+                        </VCol>
+                      </VRow>
+                    </VForm>
+                  </VCardText>
+                </VCard>
               </v-stepper-window-item>
 
               <!-- Step 2: Personal Information -->
               <v-stepper-window-item :value="2">
-                <v-card flat>
-                  <v-card-text>
-                    <v-form ref="step2FormRef" v-model="step2Valid">
-                      <v-row>
-                        <v-col cols="12" md="6">
-                          <v-text-field
+                <VCard flat>
+                  <VCardText>
+                    <VForm ref="step2FormRef" v-model="step2Valid">
+                      <VRow>
+                        <VCol cols="12" md="6">
+                          <VTextField
                             v-model="form.firstName"
                             :rules="requiredRules"
                             label="First Name"
                             variant="outlined"
                             prepend-inner-icon="mdi-account"
                           />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-text-field
+                        </VCol>
+                        <VCol cols="12" md="6">
+                          <VTextField
                             v-model="form.lastName"
                             :rules="requiredRules"
                             label="Last Name"
                             variant="outlined"
                             prepend-inner-icon="mdi-account"
                           />
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
+                        </VCol>
+                        <VCol cols="12">
+                          <VTextField
                             v-model="form.phone"
                             label="Phone Number"
                             variant="outlined"
                             prepend-inner-icon="mdi-phone"
                           />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-select
+                        </VCol>
+                        <VCol cols="12" md="6">
+                          <VSelect
                             v-model="form.country"
                             :items="countries"
                             :rules="requiredRules"
@@ -123,29 +123,29 @@
                             variant="outlined"
                             prepend-inner-icon="mdi-earth"
                           />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                          <v-text-field
+                        </VCol>
+                        <VCol cols="12" md="6">
+                          <VTextField
                             v-model="form.city"
                             label="City"
                             variant="outlined"
                             prepend-inner-icon="mdi-city"
                           />
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-card-text>
-                </v-card>
+                        </VCol>
+                      </VRow>
+                    </VForm>
+                  </VCardText>
+                </VCard>
               </v-stepper-window-item>
 
               <!-- Step 3: Preferences -->
               <v-stepper-window-item :value="3">
-                <v-card flat>
-                  <v-card-text>
-                    <v-form ref="step3FormRef" v-model="step3Valid">
-                      <v-row>
-                        <v-col cols="12">
-                          <v-select
+                <VCard flat>
+                  <VCardText>
+                    <VForm ref="step3FormRef" v-model="step3Valid">
+                      <VRow>
+                        <VCol cols="12">
+                          <VSelect
                             v-model="form.interests"
                             :items="interestOptions"
                             label="Interests"
@@ -155,23 +155,23 @@
                             closable-chips
                             prepend-inner-icon="mdi-heart"
                           />
-                        </v-col>
-                        <v-col cols="12">
-                          <v-select
+                        </VCol>
+                        <VCol cols="12">
+                          <VSelect
                             v-model="form.notifications"
                             :items="notificationOptions"
                             label="Notification Preferences"
                             variant="outlined"
                             prepend-inner-icon="mdi-bell"
                           />
-                        </v-col>
-                        <v-col cols="12">
-                          <v-checkbox
+                        </VCol>
+                        <VCol cols="12">
+                          <VCheckbox
                             v-model="form.newsletter"
                             label="Subscribe to newsletter"
                             color="primary"
                           />
-                          <v-checkbox
+                          <VCheckbox
                             v-model="form.terms"
                             :rules="[(v: boolean) => v || 'You must agree to the terms']"
                             color="primary"
@@ -182,33 +182,33 @@
                               and
                               <a href="#" class="text-primary ms-1">Privacy Policy</a>
                             </template>
-                          </v-checkbox>
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-card-text>
-                </v-card>
+                          </VCheckbox>
+                        </VCol>
+                      </VRow>
+                    </VForm>
+                  </VCardText>
+                </VCard>
               </v-stepper-window-item>
             </v-stepper-window>
 
-            <v-card-actions class="pa-6 pt-0">
-              <v-btn
+            <VCardActions class="pa-6 pt-0">
+              <VBtn
                 v-if="currentStep > 1"
                 variant="text"
                 @click="currentStep--"
               >
                 Back
-              </v-btn>
-              <v-spacer />
-              <v-btn
+              </VBtn>
+              <VSpacer />
+              <VBtn
                 v-if="currentStep < 3"
                 color="primary"
                 :disabled="!isCurrentStepValid"
                 @click="nextStep"
               >
                 Continue
-              </v-btn>
-              <v-btn
+              </VBtn>
+              <VBtn
                 v-else
                 color="primary"
                 :loading="loading"
@@ -216,18 +216,18 @@
                 @click="submit"
               >
                 Create Account
-              </v-btn>
-            </v-card-actions>
+              </VBtn>
+            </VCardActions>
           </v-stepper>
-        </v-card>
+        </VCard>
 
         <div class="text-center mt-4">
           <span class="text-medium-emphasis">Already have an account?</span>
-          <v-btn variant="text" color="primary">Sign In</v-btn>
+          <VBtn variant="text" color="primary">Sign In</VBtn>
         </div>
-      </v-col>
-    </v-row>
-  </v-container>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

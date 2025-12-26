@@ -6,10 +6,10 @@
 -->
 <template>
   <section class="py-16">
-    <v-container>
+    <VContainer>
       <!-- Header -->
       <div class="text-center mb-12">
-        <v-chip color="primary" variant="tonal" class="mb-4">Pricing</v-chip>
+        <VChip color="primary" variant="tonal" class="mb-4">Pricing</VChip>
         <h2 class="text-h3 font-weight-bold mb-4">Simple, Transparent Pricing</h2>
         <p class="text-body-1 text-medium-emphasis mx-auto mb-6" style="max-width: 600px;">
           Choose the perfect plan for your needs. No hidden fees, cancel anytime.
@@ -18,7 +18,7 @@
         <!-- Billing Toggle -->
         <div class="d-flex align-center justify-center ga-3">
           <span :class="{ 'text-medium-emphasis': isYearly }">Monthly</span>
-          <v-switch
+          <VSwitch
             v-model="isYearly"
             color="primary"
             hide-details
@@ -26,23 +26,23 @@
           />
           <span :class="{ 'text-medium-emphasis': !isYearly }">
             Yearly
-            <v-chip color="success" size="x-small" class="ml-1">Save 20%</v-chip>
+            <VChip color="success" size="x-small" class="ml-1">Save 20%</VChip>
           </span>
         </div>
       </div>
 
       <!-- Pricing Cards -->
-      <v-row justify="center">
-        <v-col v-for="plan in plans" :key="plan.name" cols="12" sm="6" lg="4">
-          <v-card
+      <VRow justify="center">
+        <VCol v-for="plan in plans" :key="plan.name" cols="12" sm="6" lg="4">
+          <VCard
             :class="{ 'border-primary border-2': plan.featured }"
             :elevation="plan.featured ? 12 : 2"
             height="100%"
             class="d-flex flex-column"
           >
-            <v-card-text class="flex-grow-1">
+            <VCardText class="flex-grow-1">
               <!-- Featured Badge -->
-              <v-chip
+              <VChip
                 v-if="plan.featured"
                 color="primary"
                 size="small"
@@ -50,7 +50,7 @@
                 style="top: 12px; right: 12px;"
               >
                 Most Popular
-              </v-chip>
+              </VChip>
 
               <!-- Plan Name & Price -->
               <div class="text-center pt-4 pb-6">
@@ -67,60 +67,60 @@
                 </p>
               </div>
 
-              <v-divider class="mb-4" />
+              <VDivider class="mb-4" />
 
               <!-- Features -->
-              <v-list density="compact" class="bg-transparent">
-                <v-list-item
+              <VList density="compact" class="bg-transparent">
+                <VListItem
                   v-for="feature in plan.features"
                   :key="feature.text"
                   class="px-0"
                 >
                   <template #prepend>
-                    <v-icon
+                    <VIcon
                       :color="feature.included ? 'success' : 'grey-lighten-1'"
                       size="small"
                       class="mr-2"
                     >
                       {{ feature.included ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                    </v-icon>
+                    </VIcon>
                   </template>
-                  <v-list-item-title
+                  <VListItemTitle
                     :class="{ 'text-medium-emphasis': !feature.included }"
                     class="text-body-2"
                   >
                     {{ feature.text }}
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-card-text>
+                  </VListItemTitle>
+                </VListItem>
+              </VList>
+            </VCardText>
 
-            <v-card-actions class="pa-4 pt-0">
-              <v-btn
+            <VCardActions class="pa-4 pt-0">
+              <VBtn
                 :color="plan.featured ? 'primary' : undefined"
                 :variant="plan.featured ? 'flat' : 'outlined'"
                 block
                 size="large"
               >
                 {{ plan.cta }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+              </VBtn>
+            </VCardActions>
+          </VCard>
+        </VCol>
+      </VRow>
 
       <!-- FAQ or Money Back Guarantee -->
       <div class="text-center mt-12">
-        <v-icon color="success" class="mr-2">mdi-shield-check</v-icon>
+        <VIcon color="success" class="mr-2">mdi-shield-check</VIcon>
         <span class="text-body-1">30-day money-back guarantee • No questions asked</span>
       </div>
 
       <!-- Feature Comparison Table -->
-      <v-card class="mt-16" variant="outlined">
-        <v-card-title class="text-center py-6">
+      <VCard class="mt-16" variant="outlined">
+        <VCardTitle class="text-center py-6">
           <h3 class="text-h5 font-weight-bold">Compare All Features</h3>
-        </v-card-title>
-        <v-table>
+        </VCardTitle>
+        <VTable>
           <thead>
             <tr>
               <th class="text-left">Feature</th>
@@ -134,9 +134,9 @@
               <td>{{ feature.name }}</td>
               <td v-for="plan in plans" :key="plan.name" class="text-center">
                 <template v-if="typeof feature[plan.key] === 'boolean'">
-                  <v-icon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
+                  <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
                     {{ feature[plan.key] ? 'mdi-check' : 'mdi-close' }}
-                  </v-icon>
+                  </VIcon>
                 </template>
                 <template v-else>
                   {{ feature[plan.key] }}
@@ -144,9 +144,9 @@
               </td>
             </tr>
           </tbody>
-        </v-table>
-      </v-card>
-    </v-container>
+        </VTable>
+      </VCard>
+    </VContainer>
   </section>
 </template>
 

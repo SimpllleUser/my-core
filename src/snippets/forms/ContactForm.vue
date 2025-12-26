@@ -5,16 +5,16 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col cols="12" md="8" lg="6">
-        <v-card class="pa-6">
-          <v-card-title class="text-h5 font-weight-bold px-0">
+  <VContainer>
+    <VRow justify="center">
+      <VCol cols="12" md="8" lg="6">
+        <VCard class="pa-6">
+          <VCardTitle class="text-h5 font-weight-bold px-0">
             Get In Touch
-          </v-card-title>
-          <v-card-subtitle class="px-0 mb-6">
+          </VCardTitle>
+          <VCardSubtitle class="px-0 mb-6">
             Fill out the form below and we'll get back to you within 24 hours.
-          </v-card-subtitle>
+          </VCardSubtitle>
 
           <v-alert
             v-if="submitted"
@@ -28,28 +28,28 @@
             Thank you for reaching out. We'll respond to your inquiry soon.
           </v-alert>
 
-          <v-form ref="formRef" v-model="valid" @submit.prevent="submit">
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
+          <VForm ref="formRef" v-model="valid" @submit.prevent="submit">
+            <VRow>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="form.firstName"
                   :rules="requiredRules"
                   label="First Name"
                   variant="outlined"
                   prepend-inner-icon="mdi-account"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="form.lastName"
                   :rules="requiredRules"
                   label="Last Name"
                   variant="outlined"
                   prepend-inner-icon="mdi-account"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="form.email"
                   :rules="emailRules"
                   label="Email"
@@ -57,17 +57,17 @@
                   variant="outlined"
                   prepend-inner-icon="mdi-email"
                 />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
+              </VCol>
+              <VCol cols="12" sm="6">
+                <VTextField
                   v-model="form.phone"
                   label="Phone (optional)"
                   variant="outlined"
                   prepend-inner-icon="mdi-phone"
                 />
-              </v-col>
-              <v-col cols="12">
-                <v-select
+              </VCol>
+              <VCol cols="12">
+                <VSelect
                   v-model="form.subject"
                   :items="subjects"
                   :rules="requiredRules"
@@ -75,9 +75,9 @@
                   variant="outlined"
                   prepend-inner-icon="mdi-tag"
                 />
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
+              </VCol>
+              <VCol cols="12">
+                <VTextarea
                   v-model="form.message"
                   :rules="messageRules"
                   label="Message"
@@ -86,26 +86,26 @@
                   counter="500"
                   prepend-inner-icon="mdi-message-text"
                 />
-              </v-col>
-              <v-col cols="12">
-                <v-checkbox
+              </VCol>
+              <VCol cols="12">
+                <VCheckbox
                   v-model="form.newsletter"
                   label="Subscribe to our newsletter for updates and tips"
                   color="primary"
                   hide-details
                 />
-              </v-col>
-            </v-row>
+              </VCol>
+            </VRow>
 
             <div class="d-flex justify-end mt-4">
-              <v-btn
+              <VBtn
                 variant="text"
                 class="mr-2"
                 @click="resetForm"
               >
                 Clear
-              </v-btn>
-              <v-btn
+              </VBtn>
+              <VBtn
                 color="primary"
                 size="large"
                 type="submit"
@@ -113,14 +113,14 @@
                 :disabled="!valid"
               >
                 Send Message
-                <v-icon end>mdi-send</v-icon>
-              </v-btn>
+                <VIcon end>mdi-send</VIcon>
+              </VBtn>
             </div>
-          </v-form>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          </VForm>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

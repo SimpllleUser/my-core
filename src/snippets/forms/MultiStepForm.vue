@@ -5,19 +5,19 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col cols="12" md="10" lg="8">
-        <v-card>
-          <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
+  <VContainer>
+    <VRow justify="center">
+      <VCol cols="12" md="10" lg="8">
+        <VCard>
+          <VCardTitle class="text-h5 font-weight-bold pa-6 pb-0">
             Job Application Form
-          </v-card-title>
-          <v-card-subtitle class="pa-6 pt-2">
+          </VCardTitle>
+          <VCardSubtitle class="pa-6 pt-2">
             Complete all steps to submit your application
-          </v-card-subtitle>
+          </VCardSubtitle>
 
           <!-- Progress Bar -->
-          <v-progress-linear
+          <VProgressLinear
             :model-value="progressPercent"
             color="primary"
             height="4"
@@ -30,100 +30,100 @@
             alt-labels
           >
             <template #item.1>
-              <v-card flat>
-                <v-card-title class="text-h6">Personal Information</v-card-title>
-                <v-card-text>
-                  <v-form ref="step1FormRef" v-model="step1Valid">
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+              <VCard flat>
+                <VCardTitle class="text-h6">Personal Information</VCardTitle>
+                <VCardText>
+                  <VForm ref="step1FormRef" v-model="step1Valid">
+                    <VRow>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.firstName"
                           :rules="requiredRules"
                           label="First Name"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.lastName"
                           :rules="requiredRules"
                           label="Last Name"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.email"
                           :rules="emailRules"
                           label="Email"
                           type="email"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.phone"
                           :rules="phoneRules"
                           label="Phone"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.dateOfBirth"
                           :rules="requiredRules"
                           label="Date of Birth"
                           type="date"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VSelect
                           v-model="form.gender"
                           :items="genders"
                           label="Gender"
                           variant="outlined"
                         />
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-card-text>
-              </v-card>
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
             </template>
 
             <template #item.2>
-              <v-card flat>
-                <v-card-title class="text-h6">Professional Experience</v-card-title>
-                <v-card-text>
-                  <v-form ref="step2FormRef" v-model="step2Valid">
-                    <v-row>
-                      <v-col cols="12" sm="6">
-                        <v-select
+              <VCard flat>
+                <VCardTitle class="text-h6">Professional Experience</VCardTitle>
+                <VCardText>
+                  <VForm ref="step2FormRef" v-model="step2Valid">
+                    <VRow>
+                      <VCol cols="12" sm="6">
+                        <VSelect
                           v-model="form.position"
                           :items="positions"
                           :rules="requiredRules"
                           label="Desired Position"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VSelect
                           v-model="form.experience"
                           :items="experienceLevels"
                           :rules="requiredRules"
                           label="Years of Experience"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12">
+                        <VTextField
                           v-model="form.currentCompany"
                           label="Current/Last Company"
                           variant="outlined"
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-select
+                      </VCol>
+                      <VCol cols="12">
+                        <VSelect
                           v-model="form.skills"
                           :items="skillOptions"
                           :rules="[(v: string[]) => v.length > 0 || 'Select at least one skill']"
@@ -133,39 +133,39 @@
                           chips
                           closable-chips
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VTextField
                           v-model="form.expectedSalary"
                           label="Expected Salary"
                           variant="outlined"
                           prefix="$"
                           type="number"
                         />
-                      </v-col>
-                      <v-col cols="12" sm="6">
-                        <v-select
+                      </VCol>
+                      <VCol cols="12" sm="6">
+                        <VSelect
                           v-model="form.startDate"
                           :items="startDates"
                           :rules="requiredRules"
                           label="Available Start Date"
                           variant="outlined"
                         />
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-card-text>
-              </v-card>
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
             </template>
 
             <template #item.3>
-              <v-card flat>
-                <v-card-title class="text-h6">Documents & Additional Info</v-card-title>
-                <v-card-text>
-                  <v-form ref="step3FormRef" v-model="step3Valid">
-                    <v-row>
-                      <v-col cols="12">
-                        <v-file-input
+              <VCard flat>
+                <VCardTitle class="text-h6">Documents & Additional Info</VCardTitle>
+                <VCardText>
+                  <VForm ref="step3FormRef" v-model="step3Valid">
+                    <VRow>
+                      <VCol cols="12">
+                        <VFileInput
                           v-model="form.resume"
                           :rules="fileRules"
                           label="Resume/CV"
@@ -174,9 +174,9 @@
                           prepend-icon="mdi-file-document"
                           show-size
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-file-input
+                      </VCol>
+                      <VCol cols="12">
+                        <VFileInput
                           v-model="form.coverLetter"
                           label="Cover Letter (Optional)"
                           variant="outlined"
@@ -184,91 +184,91 @@
                           prepend-icon="mdi-file-document-outline"
                           show-size
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12">
+                        <VTextField
                           v-model="form.linkedin"
                           label="LinkedIn Profile URL"
                           variant="outlined"
                           prepend-inner-icon="mdi-linkedin"
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
+                      </VCol>
+                      <VCol cols="12">
+                        <VTextField
                           v-model="form.portfolio"
                           label="Portfolio/Website URL"
                           variant="outlined"
                           prepend-inner-icon="mdi-web"
                         />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-textarea
+                      </VCol>
+                      <VCol cols="12">
+                        <VTextarea
                           v-model="form.additionalInfo"
                           label="Additional Information"
                           variant="outlined"
                           rows="4"
                           placeholder="Tell us anything else you'd like us to know..."
                         />
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-card-text>
-              </v-card>
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
             </template>
 
             <template #item.4>
-              <v-card flat>
-                <v-card-title class="text-h6">Review & Submit</v-card-title>
-                <v-card-text>
+              <VCard flat>
+                <VCardTitle class="text-h6">Review & Submit</VCardTitle>
+                <VCardText>
                   <!-- Summary -->
                   <v-alert type="info" variant="tonal" class="mb-6">
                     Please review your information before submitting.
                   </v-alert>
 
-                  <v-row>
-                    <v-col cols="12" md="6">
+                  <VRow>
+                    <VCol cols="12" md="6">
                       <h4 class="text-subtitle-1 font-weight-bold mb-3">Personal Information</h4>
-                      <v-list density="compact" class="bg-transparent">
-                        <v-list-item>
-                          <v-list-item-subtitle>Full Name</v-list-item-subtitle>
-                          <v-list-item-title>{{ form.firstName }} {{ form.lastName }}</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-subtitle>Email</v-list-item-subtitle>
-                          <v-list-item-title>{{ form.email }}</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-subtitle>Phone</v-list-item-subtitle>
-                          <v-list-item-title>{{ form.phone }}</v-list-item-title>
-                        </v-list-item>
-                      </v-list>
-                    </v-col>
-                    <v-col cols="12" md="6">
+                      <VList density="compact" class="bg-transparent">
+                        <VListItem>
+                          <VListItemSubtitle>Full Name</VListItemSubtitle>
+                          <VListItemTitle>{{ form.firstName }} {{ form.lastName }}</VListItemTitle>
+                        </VListItem>
+                        <VListItem>
+                          <VListItemSubtitle>Email</VListItemSubtitle>
+                          <VListItemTitle>{{ form.email }}</VListItemTitle>
+                        </VListItem>
+                        <VListItem>
+                          <VListItemSubtitle>Phone</VListItemSubtitle>
+                          <VListItemTitle>{{ form.phone }}</VListItemTitle>
+                        </VListItem>
+                      </VList>
+                    </VCol>
+                    <VCol cols="12" md="6">
                       <h4 class="text-subtitle-1 font-weight-bold mb-3">Professional Details</h4>
-                      <v-list density="compact" class="bg-transparent">
-                        <v-list-item>
-                          <v-list-item-subtitle>Position</v-list-item-subtitle>
-                          <v-list-item-title>{{ form.position }}</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-subtitle>Experience</v-list-item-subtitle>
-                          <v-list-item-title>{{ form.experience }}</v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-subtitle>Skills</v-list-item-subtitle>
-                          <v-list-item-title>
-                            <v-chip v-for="skill in form.skills" :key="skill" size="small" class="mr-1 mb-1">
+                      <VList density="compact" class="bg-transparent">
+                        <VListItem>
+                          <VListItemSubtitle>Position</VListItemSubtitle>
+                          <VListItemTitle>{{ form.position }}</VListItemTitle>
+                        </VListItem>
+                        <VListItem>
+                          <VListItemSubtitle>Experience</VListItemSubtitle>
+                          <VListItemTitle>{{ form.experience }}</VListItemTitle>
+                        </VListItem>
+                        <VListItem>
+                          <VListItemSubtitle>Skills</VListItemSubtitle>
+                          <VListItemTitle>
+                            <VChip v-for="skill in form.skills" :key="skill" size="small" class="mr-1 mb-1">
                               {{ skill }}
-                            </v-chip>
-                          </v-list-item-title>
-                        </v-list-item>
-                      </v-list>
-                    </v-col>
-                  </v-row>
+                            </VChip>
+                          </VListItemTitle>
+                        </VListItem>
+                      </VList>
+                    </VCol>
+                  </VRow>
 
-                  <v-divider class="my-4" />
+                  <VDivider class="my-4" />
 
-                  <v-checkbox
+                  <VCheckbox
                     v-model="form.agreeTerms"
                     :rules="[(v: boolean) => v || 'You must agree to continue']"
                     color="primary"
@@ -277,35 +277,35 @@
                       I agree to the <a href="#" class="text-primary">Terms of Service</a>
                       and <a href="#" class="text-primary">Privacy Policy</a>
                     </template>
-                  </v-checkbox>
-                </v-card-text>
-              </v-card>
+                  </VCheckbox>
+                </VCardText>
+              </VCard>
             </template>
           </v-stepper>
 
-          <v-divider />
+          <VDivider />
 
           <!-- Navigation Buttons -->
-          <v-card-actions class="pa-6">
-            <v-btn
+          <VCardActions class="pa-6">
+            <VBtn
               v-if="currentStep > 1"
               variant="text"
               @click="currentStep--"
             >
-              <v-icon start>mdi-arrow-left</v-icon>
+              <VIcon start>mdi-arrow-left</VIcon>
               Previous
-            </v-btn>
-            <v-spacer />
-            <v-btn
+            </VBtn>
+            <VSpacer />
+            <VBtn
               v-if="currentStep < 4"
               color="primary"
               :disabled="!isCurrentStepValid"
               @click="nextStep"
             >
               Next
-              <v-icon end>mdi-arrow-right</v-icon>
-            </v-btn>
-            <v-btn
+              <VIcon end>mdi-arrow-right</VIcon>
+            </VBtn>
+            <VBtn
               v-else
               color="primary"
               :loading="loading"
@@ -313,13 +313,13 @@
               @click="submit"
             >
               Submit Application
-              <v-icon end>mdi-send</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+              <VIcon end>mdi-send</VIcon>
+            </VBtn>
+          </VCardActions>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">
