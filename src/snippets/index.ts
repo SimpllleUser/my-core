@@ -7,7 +7,7 @@
  * All snippets are:
  * - Fully functional and responsive
  * - Using only Vuetify components (no external dependencies)
- * - Written in TypeScript
+ * - Written in TypeScript with Icons enum
  * - Support Light/Dark themes automatically
  */
 
@@ -56,9 +56,23 @@ export { default as EcommerceDashboard } from './dashboard/EcommerceDashboard.vu
 // Components: VCard, VDataTable, VProgressLinear
 
 // =============================================================================
-// LANDING PAGE SNIPPETS
+// LANDING PAGE SNIPPETS (Simple → Complex)
 // =============================================================================
 
+// Simple
+export { default as CtaSection } from './landing/CtaSection.vue'
+// Simple call-to-action sections
+// Components: VContainer, VRow, VCol, VBtn, VCard
+
+export { default as LogoCloudSection } from './landing/LogoCloudSection.vue'
+// Partner and client logos showcase
+// Components: VContainer, VRow, VCol, VIcon, VChip
+
+export { default as NewsletterSection } from './landing/NewsletterSection.vue'
+// Email subscription and newsletter signup
+// Components: VContainer, VTextField, VBtn, VCard
+
+// Medium
 export { default as HeroSection } from './landing/HeroSection.vue'
 // Multiple hero section styles (centered, split, gradient)
 // Components: VContainer, VRow, VCol, VBtn, VImg
@@ -67,6 +81,18 @@ export { default as FeaturesSection } from './landing/FeaturesSection.vue'
 // Feature showcases (grid, alternating, icons)
 // Components: VCard, VIcon, VRow, VCol
 
+export { default as StatsSection } from './landing/StatsSection.vue'
+// Statistics and metrics display
+// Components: VContainer, VRow, VCol, VCard, VIcon
+
+export { default as FaqSection } from './landing/FaqSection.vue'
+// Frequently asked questions with accordion
+// Components: VContainer, VExpansionPanels, VCard
+
+export { default as TeamSection } from './landing/TeamSection.vue'
+// Team members showcase with profiles
+// Components: VContainer, VCard, VAvatar, VBtn
+
 export { default as PricingSection } from './landing/PricingSection.vue'
 // Pricing tables with comparison
 // Components: VCard, VSwitch, VList, VTable
@@ -74,6 +100,46 @@ export { default as PricingSection } from './landing/PricingSection.vue'
 export { default as TestimonialsSection } from './landing/TestimonialsSection.vue'
 // Customer testimonials (grid, carousel, featured)
 // Components: VCard, VAvatar, VRating, VCarousel
+
+export { default as FooterSection } from './landing/FooterSection.vue'
+// Website footer with links, social icons
+// Components: VContainer, VRow, VCol, VBtn, VDivider
+
+// Complex
+export { default as FullLandingPage } from './landing/FullLandingPage.vue'
+// Complete landing page with all sections combined
+// Components: All major Vuetify components
+
+// =============================================================================
+// CHAT & MESSAGING SNIPPETS (Simple → Complex)
+// =============================================================================
+
+// Simple
+export { default as ChatBubble } from './chat/ChatBubble.vue'
+// Individual chat message bubbles
+// Components: VCard, VAvatar, VChip
+
+export { default as ChatInput } from './chat/ChatInput.vue'
+// Message input components with features
+// Components: VTextField, VBtn, VMenu, VCard
+
+// Medium
+export { default as ChatConversation } from './chat/ChatConversation.vue'
+// Full chat conversation with messages and input
+// Components: VCard, VAvatar, VTextField, VBtn
+
+export { default as ChatListView } from './chat/ChatListView.vue'
+// List of chat conversations with search
+// Components: VCard, VList, VAvatar, VBadge
+
+export { default as MessageTypes } from './chat/MessageTypes.vue'
+// Various message types (text, images, files, voice)
+// Components: VCard, VAvatar, VImg, VChip
+
+// Complex
+export { default as ChatFullApp } from './chat/ChatFullApp.vue'
+// Complete chat application with sidebar and details
+// Components: All major Vuetify components
 
 // =============================================================================
 // FORM SNIPPETS
@@ -213,6 +279,7 @@ export interface Snippet {
   description: string
   components: string[]
   category: string
+  complexity?: 'simple' | 'medium' | 'complex'
 }
 
 export const snippetCatalog: Snippet[] = [
@@ -229,11 +296,27 @@ export const snippetCatalog: Snippet[] = [
   { name: 'AdminPanel', path: 'dashboard/AdminPanel.vue', description: 'Admin dashboard with sidebar', components: ['VNavigationDrawer', 'VAppBar', 'VDataTable'], category: 'Dashboards' },
   { name: 'EcommerceDashboard', path: 'dashboard/EcommerceDashboard.vue', description: 'E-commerce focused dashboard', components: ['VCard', 'VDataTable', 'VProgressLinear'], category: 'Dashboards' },
 
-  // Landing
-  { name: 'HeroSection', path: 'landing/HeroSection.vue', description: 'Multiple hero section styles', components: ['VContainer', 'VRow', 'VCol', 'VBtn'], category: 'Landing Pages' },
-  { name: 'FeaturesSection', path: 'landing/FeaturesSection.vue', description: 'Feature showcases', components: ['VCard', 'VIcon', 'VRow', 'VCol'], category: 'Landing Pages' },
-  { name: 'PricingSection', path: 'landing/PricingSection.vue', description: 'Pricing tables with comparison', components: ['VCard', 'VSwitch', 'VList', 'VTable'], category: 'Landing Pages' },
-  { name: 'TestimonialsSection', path: 'landing/TestimonialsSection.vue', description: 'Customer testimonials', components: ['VCard', 'VAvatar', 'VRating'], category: 'Landing Pages' },
+  // Landing Pages (ordered by complexity)
+  { name: 'CtaSection', path: 'landing/CtaSection.vue', description: 'Simple call-to-action sections', components: ['VContainer', 'VBtn', 'VCard'], category: 'Landing Pages', complexity: 'simple' },
+  { name: 'LogoCloudSection', path: 'landing/LogoCloudSection.vue', description: 'Partner logos showcase', components: ['VContainer', 'VIcon', 'VChip'], category: 'Landing Pages', complexity: 'simple' },
+  { name: 'NewsletterSection', path: 'landing/NewsletterSection.vue', description: 'Newsletter signup forms', components: ['VContainer', 'VTextField', 'VBtn'], category: 'Landing Pages', complexity: 'simple' },
+  { name: 'HeroSection', path: 'landing/HeroSection.vue', description: 'Multiple hero section styles', components: ['VContainer', 'VRow', 'VCol', 'VBtn'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'FeaturesSection', path: 'landing/FeaturesSection.vue', description: 'Feature showcases', components: ['VCard', 'VIcon', 'VRow', 'VCol'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'StatsSection', path: 'landing/StatsSection.vue', description: 'Statistics and metrics', components: ['VContainer', 'VCard', 'VIcon'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'FaqSection', path: 'landing/FaqSection.vue', description: 'FAQ with accordion', components: ['VExpansionPanels', 'VCard', 'VList'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'TeamSection', path: 'landing/TeamSection.vue', description: 'Team members showcase', components: ['VCard', 'VAvatar', 'VBtn'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'PricingSection', path: 'landing/PricingSection.vue', description: 'Pricing tables with comparison', components: ['VCard', 'VSwitch', 'VList', 'VTable'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'TestimonialsSection', path: 'landing/TestimonialsSection.vue', description: 'Customer testimonials', components: ['VCard', 'VAvatar', 'VRating'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'FooterSection', path: 'landing/FooterSection.vue', description: 'Website footer sections', components: ['VContainer', 'VRow', 'VDivider'], category: 'Landing Pages', complexity: 'medium' },
+  { name: 'FullLandingPage', path: 'landing/FullLandingPage.vue', description: 'Complete landing page', components: ['All major components'], category: 'Landing Pages', complexity: 'complex' },
+
+  // Chat & Messaging (ordered by complexity)
+  { name: 'ChatBubble', path: 'chat/ChatBubble.vue', description: 'Chat message bubbles', components: ['VCard', 'VAvatar', 'VChip'], category: 'Chat & Messaging', complexity: 'simple' },
+  { name: 'ChatInput', path: 'chat/ChatInput.vue', description: 'Message input components', components: ['VTextField', 'VBtn', 'VMenu'], category: 'Chat & Messaging', complexity: 'simple' },
+  { name: 'ChatConversation', path: 'chat/ChatConversation.vue', description: 'Full chat conversation', components: ['VCard', 'VAvatar', 'VTextField'], category: 'Chat & Messaging', complexity: 'medium' },
+  { name: 'ChatListView', path: 'chat/ChatListView.vue', description: 'Chat list with search', components: ['VCard', 'VList', 'VBadge'], category: 'Chat & Messaging', complexity: 'medium' },
+  { name: 'MessageTypes', path: 'chat/MessageTypes.vue', description: 'Various message types', components: ['VCard', 'VAvatar', 'VImg'], category: 'Chat & Messaging', complexity: 'medium' },
+  { name: 'ChatFullApp', path: 'chat/ChatFullApp.vue', description: 'Complete chat application', components: ['All major components'], category: 'Chat & Messaging', complexity: 'complex' },
 
   // Forms
   { name: 'ContactForm', path: 'forms/ContactForm.vue', description: 'Contact form with validation', components: ['VCard', 'VTextField', 'VTextarea', 'VSelect'], category: 'Forms' },
@@ -281,6 +364,7 @@ export const categories = [
   'Authentication',
   'Dashboards',
   'Landing Pages',
+  'Chat & Messaging',
   'Forms',
   'Cards',
   'Tables',

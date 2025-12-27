@@ -53,7 +53,7 @@
         <VRow justify="center">
           <VCol cols="12" md="10" lg="8">
             <VCard class="pa-8 pa-md-12 text-center" variant="tonal" color="primary">
-              <VIcon size="64" color="primary" class="mb-6">mdi-format-quote-open</VIcon>
+              <VIcon size="64" color="primary" class="mb-6">{{ Icons.QuoteOpen }}</VIcon>
               <p class="text-h5 text-md-h4 font-weight-medium mb-8">
                 "This platform has completely transformed how our team works. We've increased productivity by 40% and reduced our meeting time by half. It's an absolute game-changer."
               </p>
@@ -103,7 +103,7 @@
                       <p class="text-caption text-medium-emphasis mb-0">{{ item.role }}</p>
                     </div>
                     <VSpacer />
-                    <VIcon color="primary" size="32">mdi-twitter</VIcon>
+                    <VIcon color="primary" size="32">{{ Icons.Twitter }}</VIcon>
                   </div>
                   <p class="text-body-2 mb-0">{{ item.text }}</p>
                 </VCard>
@@ -118,7 +118,7 @@
           <VRow justify="center" align="center" class="ga-8">
             <VCol v-for="company in companies" :key="company" cols="auto">
               <VChip variant="text" size="large" class="text-grey-lighten-1">
-                <VIcon start>mdi-domain</VIcon>
+                <VIcon start>{{ Icons.Domain }}</VIcon>
                 {{ company }}
               </VChip>
             </VCol>
@@ -179,6 +179,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Icons } from '@/shared/model'
 
 const testimonials = [
   {
@@ -232,9 +233,9 @@ const testimonials = [
 ]
 
 const carouselTestimonials = [
-  { name: 'Alex Turner', role: '@alexturner', avatar: 'https://randomuser.me/api/portraits/men/51.jpg', text: 'Just switched to this platform and wow, what a difference! The UI is so intuitive. 🚀' },
+  { name: 'Alex Turner', role: '@alexturner', avatar: 'https://randomuser.me/api/portraits/men/51.jpg', text: 'Just switched to this platform and wow, what a difference! The UI is so intuitive.' },
   { name: 'Sophie Williams', role: '@sophiew', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', text: 'Our team productivity has gone through the roof since we started using this. Highly recommend!' },
-  { name: 'James Lee', role: '@jameslee', avatar: 'https://randomuser.me/api/portraits/men/53.jpg', text: 'The customer support is amazing. Got a response within minutes. 👏' },
+  { name: 'James Lee', role: '@jameslee', avatar: 'https://randomuser.me/api/portraits/men/53.jpg', text: 'The customer support is amazing. Got a response within minutes.' },
   { name: 'Emma Davis', role: '@emmad', avatar: 'https://randomuser.me/api/portraits/women/54.jpg', text: "Best tool I've used in years. Simple, powerful, and affordable. What more could you ask for?" },
   { name: 'Chris Martin', role: '@chrism', avatar: 'https://randomuser.me/api/portraits/men/55.jpg', text: 'Finally found a solution that scales with our needs. Enterprise features without the enterprise price.' },
   { name: 'Olivia Brown', role: '@oliviab', avatar: 'https://randomuser.me/api/portraits/women/56.jpg', text: "The integrations are seamless. Connected all our tools in under an hour. That's impressive!" },
