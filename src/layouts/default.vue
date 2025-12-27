@@ -2,9 +2,28 @@
 import { NavBar, Icons, ThemeToggle } from '../shared';
 
 const navigationItems = [
-  { title: 'Home', route: '/', icon: Icons.Home },
-  {title: 'UI Builder', route: '/ui-builder', icon: Icons.Settings },
-  { title: 'About', route: '/about', icon: Icons.Account }
+  { title: 'Home', route: '/', icon: 'mdi-home' },
+  { title: 'About', route: '/about', icon: 'mdi-information' },
+  { title: 'UI Builder', route: '/ui-builder', icon: 'mdi-view-dashboard-edit' },
+  {
+    title: 'Examples',
+    icon: 'mdi-folder-open',
+    children: [
+      { title: 'Auth', route: '/examples/auth', icon: 'mdi-login' },
+      { title: 'Cards', route: '/examples/cards', icon: 'mdi-card' },
+      { title: 'Dashboard', route: '/examples/dashboard', icon: 'mdi-chart-box' },
+      { title: 'Ecommerce', route: '/examples/ecommerce', icon: 'mdi-cart' },
+      { title: 'Error Pages', route: '/examples/error-pages', icon: 'mdi-alert-circle' },
+      { title: 'Forms', route: '/examples/forms', icon: 'mdi-form-textbox' },
+      { title: 'Index', route: '/examples', icon: 'mdi-home' },
+      { title: 'Landing', route: '/examples/landing', icon: 'mdi-rocket-launch' },
+      { title: 'Lists', route: '/examples/lists', icon: 'mdi-format-list-bulleted' },
+      { title: 'Modals', route: '/examples/modals', icon: 'mdi-window-maximize' },
+      { title: 'Navigation', route: '/examples/navigation', icon: 'mdi-menu' },
+      { title: 'Settings', route: '/examples/settings', icon: 'mdi-cog' },
+      { title: 'Tables', route: '/examples/tables', icon: 'mdi-table' }
+    ]
+  }
 ];
 </script>
 

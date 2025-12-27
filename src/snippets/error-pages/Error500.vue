@@ -17,15 +17,15 @@
           Oops! Something went wrong on our end. Our team has been notified and is working to fix the issue.
         </p>
 
-        <v-alert type="info" variant="tonal" class="mb-8 text-left">
-          <v-alert-title>What you can do:</v-alert-title>
+        <VAlert type="info" variant="tonal" class="mb-8 text-left">
+          <VAlertTitle>What you can do:</VAlertTitle>
           <ul class="mt-2">
             <li>Refresh the page and try again</li>
             <li>Clear your browser cache</li>
             <li>Come back in a few minutes</li>
             <li>Contact support if the problem persists</li>
           </ul>
-        </v-alert>
+        </VAlert>
 
         <div class="d-flex justify-center ga-4 flex-wrap">
           <VBtn color="primary" size="large" prepend-icon="mdi-refresh" @click="refresh">

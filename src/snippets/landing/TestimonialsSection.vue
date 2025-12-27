@@ -84,13 +84,13 @@
           <p class="text-body-1 text-grey-lighten-1">Trusted by teams at leading companies</p>
         </div>
 
-        <v-carousel
+        <VCarousel
           hide-delimiters
           show-arrows="hover"
           height="auto"
           class="rounded-lg"
         >
-          <v-carousel-item v-for="(group, index) in carouselGroups" :key="index">
+          <VCarouselItem v-for="(group, index) in carouselGroups" :key="index">
             <VRow class="pa-4">
               <VCol v-for="item in group" :key="item.name" cols="12" md="4">
                 <VCard height="100%" class="pa-6">
@@ -109,8 +109,8 @@
                 </VCard>
               </VCol>
             </VRow>
-          </v-carousel-item>
-        </v-carousel>
+          </VCarouselItem>
+        </VCarousel>
 
         <!-- Company Logos -->
         <div class="text-center mt-12">

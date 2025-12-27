@@ -13,33 +13,33 @@
             Create Your Account
           </VCardTitle>
 
-          <v-stepper v-model="currentStep" alt-labels flat>
-            <v-stepper-header>
-              <v-stepper-item
+          <VStepper v-model="currentStep" alt-labels flat>
+            <VStepperHeader>
+              <VStepperItem
                 :complete="currentStep > 1"
                 :value="1"
                 title="Account"
                 subtitle="Basic info"
               />
               <VDivider />
-              <v-stepper-item
+              <VStepperItem
                 :complete="currentStep > 2"
                 :value="2"
                 title="Personal"
                 subtitle="Your details"
               />
               <VDivider />
-              <v-stepper-item
+              <VStepperItem
                 :complete="currentStep > 3"
                 :value="3"
                 title="Preferences"
                 subtitle="Customize"
               />
-            </v-stepper-header>
+            </VStepperHeader>
 
-            <v-stepper-window>
+            <VStepperWindow>
               <!-- Step 1: Account Information -->
-              <v-stepper-window-item :value="1">
+              <VStepperWindowItem :value="1">
                 <VCard flat>
                   <VCardText>
                     <VForm ref="step1FormRef" v-model="step1Valid">
@@ -80,10 +80,10 @@
                     </VForm>
                   </VCardText>
                 </VCard>
-              </v-stepper-window-item>
+              </VStepperWindowItem>
 
               <!-- Step 2: Personal Information -->
-              <v-stepper-window-item :value="2">
+              <VStepperWindowItem :value="2">
                 <VCard flat>
                   <VCardText>
                     <VForm ref="step2FormRef" v-model="step2Valid">
@@ -136,10 +136,10 @@
                     </VForm>
                   </VCardText>
                 </VCard>
-              </v-stepper-window-item>
+              </VStepperWindowItem>
 
               <!-- Step 3: Preferences -->
-              <v-stepper-window-item :value="3">
+              <VStepperWindowItem :value="3">
                 <VCard flat>
                   <VCardText>
                     <VForm ref="step3FormRef" v-model="step3Valid">
@@ -188,8 +188,8 @@
                     </VForm>
                   </VCardText>
                 </VCard>
-              </v-stepper-window-item>
-            </v-stepper-window>
+              </VStepperWindowItem>
+            </VStepperWindow>
 
             <VCardActions class="pa-6 pt-0">
               <VBtn
@@ -218,7 +218,7 @@
                 Create Account
               </VBtn>
             </VCardActions>
-          </v-stepper>
+          </VStepper>
         </VCard>
 
         <div class="text-center mt-4">

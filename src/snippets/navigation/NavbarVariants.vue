@@ -9,8 +9,8 @@
     <!-- Variant 1: Simple Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">Simple Navbar</h3>
     <VAppBar color="primary" class="mb-8" flat>
-      <VAppBar-nav-icon />
-      <VAppBar-title>My Application</v-app-bar-title>
+      <VAppBarNavIcon />
+      <VAppBarTitle>My Application</VAppBarTitle>
       <VSpacer />
       <VBtn variant="text">Features</VBtn>
       <VBtn variant="text">Pricing</VBtn>
@@ -21,10 +21,10 @@
     <!-- Variant 2: Navbar with Search -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With Search</h3>
     <VAppBar class="mb-8" flat border="b">
-      <VAppBar-nav-icon />
-      <VAppBar-title>
+      <VAppBarNavIcon />
+      <VAppBarTitle>
         <span class="font-weight-bold">Brand</span>
-      </v-app-bar-title>
+      </VAppBarTitle>
 
       <VTextField
         density="compact"
@@ -100,8 +100,8 @@
     <!-- Variant 4: User Profile Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With User Profile</h3>
     <VAppBar class="mb-8" flat border="b" color="surface">
-      <VAppBar-nav-icon />
-      <VAppBar-title>Dashboard</v-app-bar-title>
+      <VAppBarNavIcon />
+      <VAppBarTitle>Dashboard</VAppBarTitle>
       <VSpacer />
 
       <VBtn icon class="mr-2">

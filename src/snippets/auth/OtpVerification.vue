@@ -21,7 +21,7 @@
           </VCardText>
 
           <VCardText>
-            <v-alert
+            <VAlert
               v-if="error"
               type="error"
               variant="tonal"
@@ -30,7 +30,7 @@
               @click:close="error = ''"
             >
               {{ error }}
-            </v-alert>
+            </VAlert>
 
             <!-- OTP Input -->
             <div class="d-flex justify-center ga-2 mb-6">

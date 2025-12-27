@@ -23,7 +23,7 @@
             height="4"
           />
 
-          <v-stepper
+          <VStepper
             v-model="currentStep"
             :items="stepTitles"
             flat
@@ -221,9 +221,9 @@
                 <VCardTitle class="text-h6">Review & Submit</VCardTitle>
                 <VCardText>
                   <!-- Summary -->
-                  <v-alert type="info" variant="tonal" class="mb-6">
+                  <VAlert type="info" variant="tonal" class="mb-6">
                     Please review your information before submitting.
-                  </v-alert>
+                  </VAlert>
 
                   <VRow>
                     <VCol cols="12" md="6">
@@ -281,7 +281,7 @@
                 </VCardText>
               </VCard>
             </template>
-          </v-stepper>
+          </VStepper>
 
           <VDivider />
 

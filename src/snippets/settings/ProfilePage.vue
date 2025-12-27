@@ -93,12 +93,12 @@
 
           <VDivider />
 
-          <VTabs-window v-model="tab">
+          <VTabsWindow v-model="tab">
             <!-- Activity Tab -->
-            <VTabs-window-item value="activity">
+            <VTabsWindowItem value="activity">
               <VCardText>
                 <VTimeline density="compact" side="end">
-                  <VTimeline-item
+                  <VTimelineItem
                     v-for="activity in activities"
                     :key="activity.id"
                     :dot-color="activity.color"
@@ -116,13 +116,13 @@
                         <p class="text-body-2 text-medium-emphasis mb-0">{{ activity.description }}</p>
                       </VCardText>
                     </VCard>
-                  </v-timeline-item>
+                  </VTimelineItem>
                 </VTimeline>
               </VCardText>
-            </v-tabs-window-item>
+            </VTabsWindowItem>
 
             <!-- Projects Tab -->
-            <VTabs-window-item value="projects">
+            <VTabsWindowItem value="projects">
               <VCardText>
                 <VRow>
                   <VCol v-for="project in projects" :key="project.id" cols="12" sm="6">
@@ -145,10 +145,10 @@
                   </VCol>
                 </VRow>
               </VCardText>
-            </v-tabs-window-item>
+            </VTabsWindowItem>
 
             <!-- Posts Tab -->
-            <VTabs-window-item value="posts">
+            <VTabsWindowItem value="posts">
               <VList lines="three">
                 <VListItem v-for="post in posts" :key="post.id">
                   <VListItemTitle class="font-weight-medium mb-1">{{ post.title }}</VListItemTitle>
@@ -164,8 +164,8 @@
                   </template>
                 </VListItem>
               </VList>
-            </v-tabs-window-item>
-          </v-tabs-window>
+            </VTabsWindowItem>
+          </VTabsWindow>
         </VCard>
       </VCol>
 
