@@ -1,7 +1,7 @@
 <!--
   Snippet: Team Section
   Description: Team members showcase with profiles
-  Components: VContainer, VRow, VCol, VCard, VAvatar, VBtn, VChip
+  Components: SectionHeader, TeamMemberCard, SocialLinks
   Complexity: Medium
 -->
 <template>
@@ -9,35 +9,23 @@
     <!-- Team Style 1: Simple Grid -->
     <section class="py-12">
       <VContainer>
-        <div class="text-center mb-8">
-          <VChip color="primary" variant="tonal" class="mb-4">Our Team</VChip>
-          <h2 class="text-h4 font-weight-bold mb-2">Meet the People Behind the Product</h2>
-          <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 600px;">
-            A diverse team of passionate individuals dedicated to building the best product.
-          </p>
-        </div>
+        <SectionHeader
+          title="Meet the People Behind the Product"
+          subtitle="A diverse team of passionate individuals dedicated to building the best product."
+          chip="Our Team"
+        />
 
         <VRow>
           <VCol v-for="member in teamMembers" :key="member.name" cols="12" sm="6" md="3">
-            <VCard class="text-center pa-6" hover>
-              <VAvatar size="96" class="mb-4">
-                <VImg :src="member.avatar" />
-              </VAvatar>
-              <h4 class="text-subtitle-1 font-weight-bold mb-1">{{ member.name }}</h4>
-              <p class="text-body-2 text-primary mb-3">{{ member.role }}</p>
-              <div class="d-flex justify-center ga-1">
-                <VBtn
-                  v-for="social in member.socials"
-                  :key="social.platform"
-                  icon
-                  size="small"
-                  variant="text"
-                  color="grey-darken-1"
-                >
-                  <VIcon size="18">{{ social.icon }}</VIcon>
-                </VBtn>
-              </div>
-            </VCard>
+            <TeamMemberCard
+              :name="member.name"
+              :role="member.role"
+              :avatar="member.avatar"
+              :socials="member.socials"
+              layout="centered"
+              :avatar-size="96"
+              content-class="pa-6"
+            />
           </VCol>
         </VRow>
       </VContainer>
@@ -48,37 +36,23 @@
     <!-- Team Style 2: Cards with Bio -->
     <section class="py-12 bg-grey-lighten-5">
       <VContainer>
-        <div class="text-center mb-8">
-          <h2 class="text-h4 font-weight-bold mb-2">Leadership Team</h2>
-        </div>
+        <SectionHeader
+          title="Leadership Team"
+          :chip="undefined"
+        />
 
         <VRow>
           <VCol v-for="member in leadershipTeam" :key="member.name" cols="12" md="6" lg="4">
-            <VCard class="pa-6" height="100%">
-              <div class="d-flex align-start mb-4">
-                <VAvatar size="80" class="mr-4">
-                  <VImg :src="member.avatar" />
-                </VAvatar>
-                <div>
-                  <h4 class="text-h6 font-weight-bold mb-0">{{ member.name }}</h4>
-                  <p class="text-body-2 text-primary mb-1">{{ member.role }}</p>
-                  <VChip size="x-small" variant="outlined">{{ member.department }}</VChip>
-                </div>
-              </div>
-              <p class="text-body-2 text-medium-emphasis mb-4">{{ member.bio }}</p>
-              <div class="d-flex ga-2">
-                <VBtn
-                  v-for="social in member.socials"
-                  :key="social.platform"
-                  variant="tonal"
-                  size="small"
-                  rounded
-                >
-                  <VIcon start size="16">{{ social.icon }}</VIcon>
-                  {{ social.platform }}
-                </VBtn>
-              </div>
-            </VCard>
+            <TeamMemberCard
+              :name="member.name"
+              :role="member.role"
+              :avatar="member.avatar"
+              :department="member.department"
+              :bio="member.bio"
+              :socials="member.socials"
+              layout="default"
+              :show-social-labels="true"
+            />
           </VCol>
         </VRow>
       </VContainer>
@@ -103,34 +77,18 @@
             </div>
           </VCol>
           <VCol cols="12" md="8">
-            <VCard
+            <TeamMemberCard
               v-for="member in teamMembers.slice(0, 4)"
               :key="member.name"
+              :name="member.name"
+              :role="member.role"
+              :avatar="member.avatar"
+              :socials="member.socials"
+              layout="horizontal"
+              card-variant="outlined"
               class="mb-4"
-              variant="outlined"
-            >
-              <VRow align="center" no-gutters>
-                <VCol cols="auto" class="pa-4">
-                  <VAvatar size="64">
-                    <VImg :src="member.avatar" />
-                  </VAvatar>
-                </VCol>
-                <VCol class="pa-4">
-                  <h4 class="text-subtitle-1 font-weight-bold mb-0">{{ member.name }}</h4>
-                  <p class="text-body-2 text-primary mb-0">{{ member.role }}</p>
-                </VCol>
-                <VCol cols="auto" class="pa-4">
-                  <VBtn
-                    v-for="social in member.socials"
-                    :key="social.platform"
-                    icon
-                    variant="text"
-                  >
-                    <VIcon>{{ social.icon }}</VIcon>
-                  </VBtn>
-                </VCol>
-              </VRow>
-            </VCard>
+              :avatar-size="64"
+            />
           </VCol>
         </VRow>
       </VContainer>
@@ -140,8 +98,19 @@
 
 <script setup lang="ts">
 import { Icons } from '@/shared/model'
+import { SectionHeader, TeamMemberCard } from '@/shared/ui/snippets'
+import type { ISocialLink } from '@/shared/ui/snippets'
 
-const teamMembers = [
+interface ITeamMemberData {
+  name: string
+  role: string
+  avatar: string
+  department?: string
+  bio?: string
+  socials: ISocialLink[]
+}
+
+const teamMembers: ITeamMemberData[] = [
   {
     name: 'Sarah Johnson',
     role: 'CEO & Co-founder',
@@ -180,7 +149,7 @@ const teamMembers = [
   },
 ]
 
-const leadershipTeam = [
+const leadershipTeam: ITeamMemberData[] = [
   {
     name: 'Sarah Johnson',
     role: 'CEO & Co-founder',

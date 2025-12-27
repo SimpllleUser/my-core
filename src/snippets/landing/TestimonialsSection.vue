@@ -1,7 +1,7 @@
 <!--
   Snippet: Testimonials Section
   Description: Customer testimonials and reviews showcase
-  Components: VContainer, VRow, VCol, VCard, VAvatar, VRating, VCarousel
+  Components: SectionHeader, TestimonialCard, StatCard, AvatarWithInfo
   Variants: Grid layout, Carousel, Featured testimonial
 -->
 <template>
@@ -9,37 +9,23 @@
     <!-- Testimonials Style 1: Grid Layout -->
     <section class="py-16 bg-grey-lighten-5">
       <VContainer>
-        <div class="text-center mb-12">
-          <VChip color="primary" variant="tonal" class="mb-4">Testimonials</VChip>
-          <h2 class="text-h3 font-weight-bold mb-4">Loved by Thousands</h2>
-          <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 600px;">
-            Don't just take our word for it. Here's what our customers have to say.
-          </p>
-        </div>
+        <SectionHeader
+          title="Loved by Thousands"
+          subtitle="Don't just take our word for it. Here's what our customers have to say."
+          chip="Testimonials"
+          title-class="text-h3"
+        />
 
         <VRow>
           <VCol v-for="testimonial in testimonials" :key="testimonial.name" cols="12" md="6" lg="4">
-            <VCard height="100%" class="pa-6">
-              <VRating
-                :model-value="testimonial.rating"
-                color="warning"
-                readonly
-                density="compact"
-                class="mb-4"
-              />
-              <p class="text-body-1 mb-6">"{{ testimonial.text }}"</p>
-              <div class="d-flex align-center">
-                <VAvatar size="48" class="mr-3">
-                  <VImg :src="testimonial.avatar" />
-                </VAvatar>
-                <div>
-                  <p class="font-weight-medium mb-0">{{ testimonial.name }}</p>
-                  <p class="text-caption text-medium-emphasis mb-0">
-                    {{ testimonial.role }} at {{ testimonial.company }}
-                  </p>
-                </div>
-              </div>
-            </VCard>
+            <TestimonialCard
+              :name="testimonial.name"
+              :role="testimonial.role"
+              :company="testimonial.company"
+              :avatar="testimonial.avatar"
+              :text="testimonial.text"
+              :rating="testimonial.rating"
+            />
           </VCol>
         </VRow>
       </VContainer>
@@ -52,23 +38,24 @@
       <VContainer>
         <VRow justify="center">
           <VCol cols="12" md="10" lg="8">
-            <VCard class="pa-8 pa-md-12 text-center" variant="tonal" color="primary">
-              <VIcon size="64" color="primary" class="mb-6">{{ Icons.QuoteOpen }}</VIcon>
-              <p class="text-h5 text-md-h4 font-weight-medium mb-8">
-                "This platform has completely transformed how our team works. We've increased productivity by 40% and reduced our meeting time by half. It's an absolute game-changer."
-              </p>
-              <VAvatar size="64" class="mb-4">
-                <VImg src="https://randomuser.me/api/portraits/women/44.jpg" />
-              </VAvatar>
-              <p class="text-h6 font-weight-bold mb-1">Sarah Johnson</p>
-              <p class="text-body-2 text-medium-emphasis mb-4">CEO, TechStartup Inc.</p>
-              <VRating
-                :model-value="5"
-                color="warning"
-                readonly
-                density="comfortable"
-              />
-            </VCard>
+            <TestimonialCard
+              name="Sarah Johnson"
+              role="CEO"
+              company="TechStartup Inc."
+              avatar="https://randomuser.me/api/portraits/women/44.jpg"
+              text="This platform has completely transformed how our team works. We've increased productivity by 40% and reduced our meeting time by half. It's an absolute game-changer."
+              :rating="5"
+              centered
+              card-variant="tonal"
+              card-color="primary"
+              content-class="pa-8 pa-md-12"
+              text-class="text-h5 text-md-h4 font-weight-medium"
+              :show-quote-icon="true"
+              rating-position="bottom"
+              rating-density="comfortable"
+              :avatar-size="64"
+              avatar-class="mb-4"
+            />
           </VCol>
         </VRow>
       </VContainer>
@@ -95,13 +82,11 @@
               <VCol v-for="item in group" :key="item.name" cols="12" md="4">
                 <VCard height="100%" class="pa-6">
                   <div class="d-flex align-center mb-4">
-                    <VAvatar size="48" class="mr-3">
-                      <VImg :src="item.avatar" />
-                    </VAvatar>
-                    <div>
-                      <p class="font-weight-medium mb-0">{{ item.name }}</p>
-                      <p class="text-caption text-medium-emphasis mb-0">{{ item.role }}</p>
-                    </div>
+                    <AvatarWithInfo
+                      :name="item.name"
+                      :avatar="item.avatar"
+                      :subtitle="item.role"
+                    />
                     <VSpacer />
                     <VIcon color="primary" size="32">{{ Icons.Twitter }}</VIcon>
                   </div>
@@ -141,14 +126,29 @@
               </p>
               <VRow>
                 <VCol cols="6">
-                  <h3 class="text-h3 font-weight-bold text-primary">4.9</h3>
-                  <VRating :model-value="4.9" color="warning" readonly half-increments density="compact" />
-                  <p class="text-caption text-medium-emphasis mt-1">2,847 reviews</p>
+                  <StatCard
+                    value="4.9"
+                    :centered="false"
+                    value-class="text-h3 text-primary"
+                    content-class="pa-0"
+                  >
+                    <template #label>
+                      <VRating :model-value="4.9" color="warning" readonly half-increments density="compact" />
+                      <p class="text-caption text-medium-emphasis mt-1 mb-0">2,847 reviews</p>
+                    </template>
+                  </StatCard>
                 </VCol>
                 <VCol cols="6">
-                  <h3 class="text-h3 font-weight-bold text-primary">98%</h3>
-                  <p class="text-body-2">Customer satisfaction</p>
-                  <p class="text-caption text-medium-emphasis">Based on surveys</p>
+                  <StatCard
+                    value="98%"
+                    label="Customer satisfaction"
+                    :centered="false"
+                    value-class="text-h3 text-primary"
+                    label-class="text-body-2"
+                    content-class="pa-0"
+                  >
+                    <p class="text-caption text-medium-emphasis mb-0">Based on surveys</p>
+                  </StatCard>
                 </VCol>
               </VRow>
             </div>
@@ -156,18 +156,19 @@
           <VCol cols="12" md="8">
             <VRow>
               <VCol v-for="review in shortReviews" :key="review.name" cols="12" sm="6">
-                <VCard variant="outlined" class="pa-4">
-                  <div class="d-flex align-center mb-3">
-                    <VAvatar size="40" class="mr-3">
-                      <VImg :src="review.avatar" />
-                    </VAvatar>
-                    <div>
-                      <p class="text-body-2 font-weight-medium mb-0">{{ review.name }}</p>
-                      <VRating :model-value="review.rating" color="warning" readonly density="compact" size="small" />
-                    </div>
-                  </div>
-                  <p class="text-body-2 text-medium-emphasis mb-0">"{{ review.text }}"</p>
-                </VCard>
+                <TestimonialCard
+                  :name="review.name"
+                  :avatar="review.avatar"
+                  :text="review.text"
+                  :rating="review.rating"
+                  role=""
+                  card-variant="outlined"
+                  content-class="pa-4"
+                  :avatar-size="40"
+                  name-class="text-body-2 font-weight-medium"
+                  text-class="text-body-2 text-medium-emphasis"
+                  rating-size="small"
+                />
               </VCol>
             </VRow>
           </VCol>
@@ -180,8 +181,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Icons } from '@/shared/model'
+import { SectionHeader, TestimonialCard, StatCard, AvatarWithInfo } from '@/shared/ui/snippets'
+import type { ITestimonial } from '@/shared/ui/snippets'
 
-const testimonials = [
+const testimonials: ITestimonial[] = [
   {
     name: 'John Smith',
     role: 'Product Manager',
@@ -232,7 +235,14 @@ const testimonials = [
   },
 ]
 
-const carouselTestimonials = [
+interface ICarouselTestimonial {
+  name: string
+  role: string
+  avatar: string
+  text: string
+}
+
+const carouselTestimonials: ICarouselTestimonial[] = [
   { name: 'Alex Turner', role: '@alexturner', avatar: 'https://randomuser.me/api/portraits/men/51.jpg', text: 'Just switched to this platform and wow, what a difference! The UI is so intuitive.' },
   { name: 'Sophie Williams', role: '@sophiew', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', text: 'Our team productivity has gone through the roof since we started using this. Highly recommend!' },
   { name: 'James Lee', role: '@jameslee', avatar: 'https://randomuser.me/api/portraits/men/53.jpg', text: 'The customer support is amazing. Got a response within minutes.' },
@@ -242,7 +252,7 @@ const carouselTestimonials = [
 ]
 
 const carouselGroups = computed(() => {
-  const groups = []
+  const groups: ICarouselTestimonial[][] = []
   for (let i = 0; i < carouselTestimonials.length; i += 3) {
     groups.push(carouselTestimonials.slice(i, i + 3))
   }
@@ -251,7 +261,14 @@ const carouselGroups = computed(() => {
 
 const companies = ['Google', 'Microsoft', 'Airbnb', 'Spotify', 'Slack']
 
-const shortReviews = [
+interface IShortReview {
+  name: string
+  avatar: string
+  rating: number
+  text: string
+}
+
+const shortReviews: IShortReview[] = [
   { name: 'Robert Kim', avatar: 'https://randomuser.me/api/portraits/men/61.jpg', rating: 5, text: 'Absolutely love it! Game changer for our team.' },
   { name: 'Jennifer Lopez', avatar: 'https://randomuser.me/api/portraits/women/62.jpg', rating: 5, text: 'Simple, powerful, and reliable. Perfect combo.' },
   { name: 'Tom Harris', avatar: 'https://randomuser.me/api/portraits/men/63.jpg', rating: 5, text: 'Best investment for our startup. Period.' },

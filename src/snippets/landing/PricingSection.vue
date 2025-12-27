@@ -1,22 +1,22 @@
 <!--
   Snippet: Pricing Section
   Description: Pricing tables with feature comparison
-  Components: VContainer, VRow, VCol, VCard, VBtn, VChip, VSwitch, VList
+  Components: SectionHeader, PricingCard, FeatureItem
   Variants: Monthly/Yearly toggle, Featured plan highlight
 -->
 <template>
   <section class="py-16">
     <VContainer>
       <!-- Header -->
-      <div class="text-center mb-12">
-        <VChip color="primary" variant="tonal" class="mb-4">Pricing</VChip>
-        <h2 class="text-h3 font-weight-bold mb-4">Simple, Transparent Pricing</h2>
-        <p class="text-body-1 text-medium-emphasis mx-auto mb-6" style="max-width: 600px;">
-          Choose the perfect plan for your needs. No hidden fees, cancel anytime.
-        </p>
-
+      <SectionHeader
+        title="Simple, Transparent Pricing"
+        subtitle="Choose the perfect plan for your needs. No hidden fees, cancel anytime."
+        chip="Pricing"
+        title-class="text-h3"
+        class="mb-6"
+      >
         <!-- Billing Toggle -->
-        <div class="d-flex align-center justify-center ga-3">
+        <div class="d-flex align-center justify-center ga-3 mt-6">
           <span :class="{ 'text-medium-emphasis': isYearly }">Monthly</span>
           <VSwitch
             v-model="isYearly"
@@ -29,83 +29,23 @@
             <VChip color="success" size="x-small" class="ml-1">Save 20%</VChip>
           </span>
         </div>
-      </div>
+      </SectionHeader>
 
       <!-- Pricing Cards -->
       <VRow justify="center">
         <VCol v-for="plan in plans" :key="plan.name" cols="12" sm="6" lg="4">
-          <VCard
-            :class="{ 'border-primary border-2': plan.featured }"
-            :elevation="plan.featured ? 12 : 2"
-            height="100%"
-            class="d-flex flex-column"
-          >
-            <VCardText class="flex-grow-1">
-              <!-- Featured Badge -->
-              <VChip
-                v-if="plan.featured"
-                color="primary"
-                size="small"
-                class="position-absolute"
-                style="top: 12px; right: 12px;"
-              >
-                Most Popular
-              </VChip>
-
-              <!-- Plan Name & Price -->
-              <div class="text-center pt-4 pb-6">
-                <h3 class="text-h5 font-weight-bold mb-2">{{ plan.name }}</h3>
-                <p class="text-body-2 text-medium-emphasis mb-4">{{ plan.description }}</p>
-                <div class="d-flex align-baseline justify-center">
-                  <span class="text-h3 font-weight-bold">
-                    ${{ isYearly ? plan.yearlyPrice : plan.monthlyPrice }}
-                  </span>
-                  <span class="text-medium-emphasis ml-1">/month</span>
-                </div>
-                <p v-if="isYearly" class="text-caption text-medium-emphasis mt-1">
-                  Billed annually (${{ plan.yearlyPrice * 12 }}/year)
-                </p>
-              </div>
-
-              <VDivider class="mb-4" />
-
-              <!-- Features -->
-              <VList density="compact" class="bg-transparent">
-                <VListItem
-                  v-for="feature in plan.features"
-                  :key="feature.text"
-                  class="px-0"
-                >
-                  <template #prepend>
-                    <VIcon
-                      :color="feature.included ? 'success' : 'grey-lighten-1'"
-                      size="small"
-                      class="mr-2"
-                    >
-                      {{ feature.included ? Icons.CheckCircle : Icons.CloseCircle }}
-                    </VIcon>
-                  </template>
-                  <VListItemTitle
-                    :class="{ 'text-medium-emphasis': !feature.included }"
-                    class="text-body-2"
-                  >
-                    {{ feature.text }}
-                  </VListItemTitle>
-                </VListItem>
-              </VList>
-            </VCardText>
-
-            <VCardActions class="pa-4 pt-0">
-              <VBtn
-                :color="plan.featured ? 'primary' : undefined"
-                :variant="plan.featured ? 'flat' : 'outlined'"
-                block
-                size="large"
-              >
-                {{ plan.cta }}
-              </VBtn>
-            </VCardActions>
-          </VCard>
+          <PricingCard
+            :name="plan.name"
+            :description="plan.description"
+            :monthly-price="plan.monthlyPrice"
+            :yearly-price="plan.yearlyPrice"
+            :is-yearly="isYearly"
+            :features="plan.features"
+            :cta="plan.cta"
+            :featured="plan.featured"
+            :billing-note="isYearly ? `Billed annually ($${plan.yearlyPrice * 12}/year)` : undefined"
+            @select="handleSelectPlan(plan)"
+          />
         </VCol>
       </VRow>
 
@@ -153,10 +93,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icons } from '@/shared/model'
+import { SectionHeader, PricingCard } from '@/shared/ui/snippets'
+import type { IPricingPlan, IPricingFeature } from '@/shared/ui/snippets'
 
 const isYearly = ref(false)
 
-const plans = [
+interface IPlan extends IPricingPlan {
+  key: string
+}
+
+const plans: IPlan[] = [
   {
     name: 'Starter',
     key: 'starter',
@@ -213,7 +159,15 @@ const plans = [
   },
 ]
 
-const comparisonFeatures = [
+interface IComparisonFeature {
+  name: string
+  starter: string | boolean
+  professional: string | boolean
+  enterprise: string | boolean
+  [key: string]: string | boolean
+}
+
+const comparisonFeatures: IComparisonFeature[] = [
   { name: 'Projects', starter: '3', professional: 'Unlimited', enterprise: 'Unlimited' },
   { name: 'Storage', starter: '1 GB', professional: '50 GB', enterprise: 'Unlimited' },
   { name: 'Team members', starter: '1', professional: '10', enterprise: 'Unlimited' },
@@ -224,4 +178,8 @@ const comparisonFeatures = [
   { name: 'SSO', starter: false, professional: false, enterprise: true },
   { name: 'SLA', starter: false, professional: false, enterprise: true },
 ]
+
+const handleSelectPlan = (plan: IPlan) => {
+  console.log('Selected plan:', plan.name)
+}
 </script>
