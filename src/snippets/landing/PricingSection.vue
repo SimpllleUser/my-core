@@ -82,7 +82,7 @@
                       size="small"
                       class="mr-2"
                     >
-                      {{ feature.included ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                      {{ feature.included ? Icons.CheckCircle : Icons.CloseCircle }}
                     </VIcon>
                   </template>
                   <VListItemTitle
@@ -111,7 +111,7 @@
 
       <!-- FAQ or Money Back Guarantee -->
       <div class="text-center mt-12">
-        <VIcon color="success" class="mr-2">mdi-shield-check</VIcon>
+        <VIcon color="success" class="mr-2">{{ Icons.ShieldCheck }}</VIcon>
         <span class="text-body-1">30-day money-back guarantee • No questions asked</span>
       </div>
 
@@ -135,7 +135,7 @@
               <td v-for="plan in plans" :key="plan.name" class="text-center">
                 <template v-if="typeof feature[plan.key] === 'boolean'">
                   <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
-                    {{ feature[plan.key] ? 'mdi-check' : 'mdi-close' }}
+                    {{ feature[plan.key] ? Icons.Check : Icons.Close }}
                   </VIcon>
                 </template>
                 <template v-else>
@@ -152,6 +152,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Icons } from '@/shared/model'
 
 const isYearly = ref(false)
 

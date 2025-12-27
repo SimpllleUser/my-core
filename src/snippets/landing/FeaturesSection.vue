@@ -49,14 +49,14 @@
             <VList density="compact" class="bg-transparent">
               <VListItem v-for="point in feature.points" :key="point" class="px-0">
                 <template #prepend>
-                  <VIcon :color="feature.color" size="small" class="mr-2">mdi-check-circle</VIcon>
+                  <VIcon :color="feature.color" size="small" class="mr-2">{{ Icons.CheckCircle }}</VIcon>
                 </template>
                 <VListItemTitle class="text-body-2">{{ point }}</VListItemTitle>
               </VListItem>
             </VList>
             <VBtn :color="feature.color" class="mt-4">
               Learn More
-              <VIcon end>mdi-arrow-right</VIcon>
+              <VIcon end>{{ Icons.ArrowRight }}</VIcon>
             </VBtn>
           </VCol>
           <VCol cols="12" md="6" :order-md="index % 2 ? 1 : 2">
@@ -127,13 +127,15 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
+
 const gridFeatures = [
-  { title: 'Lightning Fast', description: 'Optimized for speed with sub-second response times and instant updates.', icon: 'mdi-lightning-bolt', color: 'warning' },
-  { title: 'Secure by Default', description: 'Enterprise-grade security with end-to-end encryption and compliance.', icon: 'mdi-shield-check', color: 'success' },
-  { title: 'Easy Integration', description: 'Connect with 100+ tools and services you already use every day.', icon: 'mdi-puzzle', color: 'primary' },
-  { title: 'Real-time Sync', description: 'Stay in sync across all devices with instant updates and notifications.', icon: 'mdi-sync', color: 'info' },
-  { title: 'Smart Analytics', description: 'Get actionable insights with powerful analytics and custom reports.', icon: 'mdi-chart-line', color: 'secondary' },
-  { title: '24/7 Support', description: 'Our team is here to help you succeed, any time of day or night.', icon: 'mdi-headset', color: 'error' },
+  { title: 'Lightning Fast', description: 'Optimized for speed with sub-second response times and instant updates.', icon: Icons.Bolt, color: 'warning' },
+  { title: 'Secure by Default', description: 'Enterprise-grade security with end-to-end encryption and compliance.', icon: Icons.ShieldCheck, color: 'success' },
+  { title: 'Easy Integration', description: 'Connect with 100+ tools and services you already use every day.', icon: Icons.Puzzle, color: 'primary' },
+  { title: 'Real-time Sync', description: 'Stay in sync across all devices with instant updates and notifications.', icon: Icons.Sync, color: 'info' },
+  { title: 'Smart Analytics', description: 'Get actionable insights with powerful analytics and custom reports.', icon: Icons.ChartLine, color: 'secondary' },
+  { title: '24/7 Support', description: 'Our team is here to help you succeed, any time of day or night.', icon: Icons.Headphones, color: 'error' },
 ]
 
 const alternatingFeatures = [
@@ -141,7 +143,7 @@ const alternatingFeatures = [
     title: 'Powerful Automation',
     description: 'Automate repetitive tasks and focus on what matters most. Set up workflows in minutes.',
     badge: 'Automation',
-    icon: 'mdi-robot',
+    icon: Icons.Robot,
     color: 'primary',
     points: ['Custom workflow builder', 'Trigger-based actions', 'Third-party integrations'],
   },
@@ -149,17 +151,17 @@ const alternatingFeatures = [
     title: 'Team Collaboration',
     description: 'Work together seamlessly with real-time collaboration tools and smart notifications.',
     badge: 'Collaboration',
-    icon: 'mdi-account-group',
+    icon: Icons.AccountGroup,
     color: 'success',
     points: ['Real-time editing', 'Comments and mentions', 'Role-based permissions'],
   },
 ]
 
 const compactFeatures = [
-  { title: 'Cloud Storage', description: 'Unlimited storage for all your files', icon: 'mdi-cloud' },
-  { title: 'Version Control', description: 'Track changes and restore anytime', icon: 'mdi-history' },
-  { title: 'Mobile Ready', description: 'Full functionality on any device', icon: 'mdi-cellphone' },
-  { title: 'API Access', description: 'Build custom integrations easily', icon: 'mdi-api' },
+  { title: 'Cloud Storage', description: 'Unlimited storage for all your files', icon: Icons.Cloud },
+  { title: 'Version Control', description: 'Track changes and restore anytime', icon: Icons.History },
+  { title: 'Mobile Ready', description: 'Full functionality on any device', icon: Icons.Cellphone },
+  { title: 'API Access', description: 'Build custom integrations easily', icon: Icons.Api },
 ]
 
 const stats = [
@@ -170,9 +172,9 @@ const stats = [
 ]
 
 const darkFeatures = [
-  { title: 'Fast Deployment', description: 'Deploy in seconds with one click', icon: 'mdi-rocket-launch' },
-  { title: 'Auto Scaling', description: 'Handle any traffic automatically', icon: 'mdi-chart-areaspline' },
-  { title: 'Global CDN', description: 'Fast loading worldwide', icon: 'mdi-earth' },
-  { title: 'Zero Downtime', description: 'Updates without interruption', icon: 'mdi-clock-check' },
+  { title: 'Fast Deployment', description: 'Deploy in seconds with one click', icon: Icons.RocketLaunch },
+  { title: 'Auto Scaling', description: 'Handle any traffic automatically', icon: Icons.ChartAreaspline },
+  { title: 'Global CDN', description: 'Fast loading worldwide', icon: Icons.Earth },
+  { title: 'Zero Downtime', description: 'Updates without interruption', icon: Icons.ClockCheck },
 ]
 </script>
