@@ -270,6 +270,74 @@ export { default as ShoppingCart } from './ecommerce/ShoppingCart.vue'
 // Components: VCard, VList, VTextField, VBtn
 
 // =============================================================================
+// FINTECH SNIPPETS
+// =============================================================================
+
+export { default as WalletOverview } from './fintech/WalletOverview.vue'
+// Digital wallet overview with balance and quick actions
+// Components: StatCard, SectionHeader, VCard
+
+export { default as TransactionHistory } from './fintech/TransactionHistory.vue'
+// Transaction list with filters and search
+// Components: TransactionItem, VCard, VList
+
+export { default as CryptoPortfolio } from './fintech/CryptoPortfolio.vue'
+// Cryptocurrency portfolio with assets and market data
+// Components: CryptoCard, StatCard, SectionHeader
+
+export { default as PaymentForm } from './fintech/PaymentForm.vue'
+// Payment forms with card input and checkout
+// Components: VCard, VTextField, VForm
+
+export { default as BankingDashboard } from './fintech/BankingDashboard.vue'
+// Full banking dashboard with accounts and analytics
+// Components: StatCard, VCard, VList
+
+// =============================================================================
+// BLOG SNIPPETS
+// =============================================================================
+
+export { default as BlogPostCards } from './blog/BlogPostCards.vue'
+// Blog post cards with various layouts
+// Components: BlogCard, SectionHeader
+
+export { default as BlogList } from './blog/BlogList.vue'
+// Blog post listings with filters and pagination
+// Components: BlogCard, VCard, VList
+
+export { default as ArticleView } from './blog/ArticleView.vue'
+// Full blog article page with author info
+// Components: SectionHeader, VCard
+
+export { default as CommentSection } from './blog/CommentSection.vue'
+// Blog comments with replies and voting
+// Components: VCard, VList, VTextarea
+
+// =============================================================================
+// SOCIAL MEDIA SNIPPETS
+// =============================================================================
+
+export { default as SocialFeed } from './social/SocialFeed.vue'
+// Social media feed with posts and stories
+// Components: SocialPostCard, VCard
+
+export { default as StoryCarousel } from './social/StoryCarousel.vue'
+// Social media stories carousel and viewer
+// Components: VCard, VAvatar, VImg
+
+export { default as SocialProfile } from './social/SocialProfile.vue'
+// Social media profile page with stats
+// Components: SocialPostCard, VCard, VTabs
+
+export { default as FollowersList } from './social/FollowersList.vue'
+// List of followers/following with actions
+// Components: VCard, VList, VAvatar
+
+export { default as SocialStats } from './social/SocialStats.vue'
+// Social media analytics and engagement stats
+// Components: StatCard, SectionHeader, VCard
+
+// =============================================================================
 // SNIPPET CATALOG
 // =============================================================================
 
@@ -358,6 +426,26 @@ export const snippetCatalog: Snippet[] = [
   // E-commerce
   { name: 'ProductGrid', path: 'ecommerce/ProductGrid.vue', description: 'Product grid with filters', components: ['VCard', 'VRating', 'VPagination'], category: 'E-commerce' },
   { name: 'ShoppingCart', path: 'ecommerce/ShoppingCart.vue', description: 'Shopping cart with summary', components: ['VCard', 'VList', 'VTextField', 'VBtn'], category: 'E-commerce' },
+
+  // FinTech
+  { name: 'WalletOverview', path: 'fintech/WalletOverview.vue', description: 'Digital wallet with balance and actions', components: ['StatCard', 'SectionHeader', 'VCard'], category: 'FinTech', complexity: 'medium' },
+  { name: 'TransactionHistory', path: 'fintech/TransactionHistory.vue', description: 'Transaction list with filters', components: ['TransactionItem', 'VCard', 'VList'], category: 'FinTech', complexity: 'medium' },
+  { name: 'CryptoPortfolio', path: 'fintech/CryptoPortfolio.vue', description: 'Cryptocurrency portfolio', components: ['CryptoCard', 'StatCard', 'VTable'], category: 'FinTech', complexity: 'complex' },
+  { name: 'PaymentForm', path: 'fintech/PaymentForm.vue', description: 'Payment forms with card input', components: ['VCard', 'VTextField', 'VForm'], category: 'FinTech', complexity: 'medium' },
+  { name: 'BankingDashboard', path: 'fintech/BankingDashboard.vue', description: 'Full banking dashboard', components: ['StatCard', 'VCard', 'VList', 'VTable'], category: 'FinTech', complexity: 'complex' },
+
+  // Blog
+  { name: 'BlogPostCards', path: 'blog/BlogPostCards.vue', description: 'Blog post cards with layouts', components: ['BlogCard', 'SectionHeader', 'VCard'], category: 'Blog', complexity: 'medium' },
+  { name: 'BlogList', path: 'blog/BlogList.vue', description: 'Blog listings with pagination', components: ['BlogCard', 'VCard', 'VPagination'], category: 'Blog', complexity: 'medium' },
+  { name: 'ArticleView', path: 'blog/ArticleView.vue', description: 'Full article page', components: ['SectionHeader', 'VCard', 'VImg'], category: 'Blog', complexity: 'complex' },
+  { name: 'CommentSection', path: 'blog/CommentSection.vue', description: 'Comments with replies', components: ['VCard', 'VList', 'VTextarea'], category: 'Blog', complexity: 'medium' },
+
+  // Social Media
+  { name: 'SocialFeed', path: 'social/SocialFeed.vue', description: 'Social media feed with stories', components: ['SocialPostCard', 'VCard', 'VList'], category: 'Social Media', complexity: 'complex' },
+  { name: 'StoryCarousel', path: 'social/StoryCarousel.vue', description: 'Stories carousel and viewer', components: ['VCard', 'VAvatar', 'VImg'], category: 'Social Media', complexity: 'medium' },
+  { name: 'SocialProfile', path: 'social/SocialProfile.vue', description: 'Social media profile page', components: ['SocialPostCard', 'VCard', 'VTabs'], category: 'Social Media', complexity: 'complex' },
+  { name: 'FollowersList', path: 'social/FollowersList.vue', description: 'Followers/following list', components: ['VCard', 'VList', 'VAvatar'], category: 'Social Media', complexity: 'medium' },
+  { name: 'SocialStats', path: 'social/SocialStats.vue', description: 'Social analytics stats', components: ['StatCard', 'SectionHeader', 'VCard'], category: 'Social Media', complexity: 'medium' },
 ]
 
 export const categories = [
@@ -374,4 +462,7 @@ export const categories = [
   'Error Pages',
   'Settings & Profile',
   'E-commerce',
+  'FinTech',
+  'Blog',
+  'Social Media',
 ]

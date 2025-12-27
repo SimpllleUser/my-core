@@ -15,3 +15,13 @@ export { default as SocialLinks } from './SocialLinks.vue'
 export { default as PriceDisplay } from './PriceDisplay.vue'
 export { default as AvatarWithInfo } from './AvatarWithInfo.vue'
 export { default as HeroSection } from './HeroSection.vue'
+
+// FinTech Components
+export { default as TransactionItem } from './TransactionItem.vue'
+export { default as CryptoCard } from './CryptoCard.vue'
+
+// Blog Components
+export { default as BlogCard } from './BlogCard.vue'
+
+// Social Media Components
+export { default as SocialPostCard } from './SocialPostCard.vue'
