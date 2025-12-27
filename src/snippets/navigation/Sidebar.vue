@@ -5,7 +5,7 @@
   Variants: Permanent, Mini, With Header
 -->
 <template>
-  <v-layout style="min-height: 600px;">
+  <VLayout style="min-height: 600px;">
     <VNavigationDrawer
       v-model="drawer"
       :rail="rail"
@@ -54,7 +54,7 @@
           </template>
         </VListItem>
 
-        <VList-group value="Pages">
+        <VListGroup value="Pages">
           <template #activator="{ props }">
             <VListItem
               v-bind="props"
@@ -71,9 +71,9 @@
             rounded="lg"
             @click="activeItem = page"
           />
-        </v-list-group>
+        </VListGroup>
 
-        <VList-group value="Components">
+        <VListGroup value="Components">
           <template #activator="{ props }">
             <VListItem
               v-bind="props"
@@ -90,14 +90,14 @@
             rounded="lg"
             @click="activeItem = component"
           />
-        </v-list-group>
+        </VListGroup>
       </VList>
 
       <VDivider class="my-2" />
 
       <!-- Secondary Navigation -->
       <VList density="compact" nav>
-        <VList-subheader v-if="!rail">SETTINGS</v-list-subheader>
+        <VListSubheader v-if="!rail">SETTINGS</VListSubheader>
         <VListItem
           v-for="item in settingsItems"
           :key="item.title"
@@ -140,7 +140,7 @@
         </VCard>
       </VContainer>
     </VMain>
-  </v-layout>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

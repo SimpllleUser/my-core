@@ -20,17 +20,17 @@
           </VCardText>
 
           <VCardText>
-            <v-alert
+            <VAlert
               v-if="emailSent"
               type="success"
               variant="tonal"
               class="mb-4"
             >
-              <v-alert-title>Email Sent!</v-alert-title>
+              <VAlertTitle>Email Sent!</VAlertTitle>
               Check your inbox for password reset instructions.
-            </v-alert>
+            </VAlert>
 
-            <v-alert
+            <VAlert
               v-if="error"
               type="error"
               variant="tonal"
@@ -39,7 +39,7 @@
               @click:close="error = ''"
             >
               {{ error }}
-            </v-alert>
+            </VAlert>
 
             <VForm
               v-if="!emailSent"

@@ -5,7 +5,7 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-layout>
+  <VLayout>
     <!-- Sidebar Navigation -->
     <VNavigationDrawer
       v-model="drawer"
@@ -74,7 +74,7 @@
     <VMain>
       <!-- Top App Bar -->
       <VAppBar flat border="b">
-        <VAppBar-nav-icon @click="drawer = !drawer" />
+        <VAppBarNavIcon @click="drawer = !drawer" />
 
         <VTextField
           density="compact"
@@ -230,7 +230,7 @@
         </VRow>
       </VContainer>
     </VMain>
-  </v-layout>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

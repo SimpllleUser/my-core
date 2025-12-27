@@ -143,7 +143,7 @@
           <VCardTitle>Notification Preferences</VCardTitle>
           <VCardText>
             <VList>
-              <VList-subheader>Email Notifications</v-list-subheader>
+              <VListSubheader>Email Notifications</VListSubheader>
               <VListItem v-for="item in emailNotifications" :key="item.title">
                 <VListItemTitle>{{ item.title }}</VListItemTitle>
                 <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>
@@ -154,7 +154,7 @@
 
               <VDivider class="my-4" />
 
-              <VList-subheader>Push Notifications</v-list-subheader>
+              <VListSubheader>Push Notifications</VListSubheader>
               <VListItem v-for="item in pushNotifications" :key="item.title">
                 <VListItemTitle>{{ item.title }}</VListItemTitle>
                 <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>
@@ -202,9 +202,9 @@
             <VDivider class="mb-6" />
 
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Two-Factor Authentication</h4>
-            <v-alert type="warning" variant="tonal" class="mb-4">
+            <VAlert type="warning" variant="tonal" class="mb-4">
               Two-factor authentication adds an extra layer of security to your account.
-            </v-alert>
+            </VAlert>
             <VBtn variant="outlined">Enable 2FA</VBtn>
 
             <VDivider class="my-6" />
@@ -284,9 +284,9 @@
         <VCard v-if="activeSection === 'danger'" color="error" variant="outlined">
           <VCardTitle class="text-error">Danger Zone</VCardTitle>
           <VCardText>
-            <v-alert type="warning" variant="tonal" class="mb-4">
+            <VAlert type="warning" variant="tonal" class="mb-4">
               These actions are irreversible. Please proceed with caution.
-            </v-alert>
+            </VAlert>
 
             <div class="d-flex justify-space-between align-center mb-4 pa-4 rounded border">
               <div>
