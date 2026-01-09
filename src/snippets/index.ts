@@ -15,17 +15,29 @@
 // AUTH SNIPPETS
 // =============================================================================
 
+export { default as AuthPageLayout } from './auth/AuthPageLayout.vue'
+// Highly customizable layout for authentication pages
+// Props: formPosition, backgroundType, backgroundColor, backgroundImage, backgroundGradient, overlayColor, overlayOpacity, splitRatio, sideContentBackground, showPattern
+// Slots: default, background, side-content, header, footer, logo, side-logo, side-title, side-subtitle
+// Components: VSheet, VContainer, VRow, VCol, VImg
+
 export { default as LoginSimple } from './auth/LoginSimple.vue'
-// Simple login form with email/password
-// Components: VCard, VTextField, VBtn, VCheckbox
+// Highly customizable login form with email/password
+// Props: formPosition, backgroundType, backgroundColor, backgroundImage, cardElevation, cardRounded, showToolbar, toolbarColor, inputVariant, submitButtonColor, etc.
+// Slots: logo, header, title, subtitle, prepend-form, email-field, password-field, remember-me, form-actions, submit-button, forgot-password, footer, side-content
+// Components: AuthPageLayout, VCard, VTextField, VBtn, VCheckbox
 
 export { default as LoginWithSocial } from './auth/LoginWithSocial.vue'
-// Login with social authentication (Google, GitHub, Facebook)
-// Components: VCard, VTextField, VBtn, VDivider
+// Highly customizable login form with social authentication options (Google, GitHub, Facebook)
+// Props: formPosition, backgroundType, socialProviders, socialButtonVariant, showDivider, dividerText, inputVariant, submitButtonColor, etc.
+// Slots: logo, header, title, subtitle, social-buttons, social-button, divider, prepend-form, email-field, password-field, submit-button, footer, side-content
+// Components: AuthPageLayout, VCard, VTextField, VBtn, VDivider, VIcon
 
 export { default as RegisterMultiStep } from './auth/RegisterMultiStep.vue'
-// Multi-step registration wizard
-// Components: VCard, VStepper, VTextField, VSelect
+// Highly customizable multi-step registration wizard
+// Props: formPosition, backgroundType, stepperAltLabels, stepperColor, steps, inputVariant, countries, interestOptions, primaryColor, etc.
+// Slots: logo, header, title, stepper-header, step-1, step-2, step-3, form-actions, back-button, continue-button, submit-button, footer, side-content
+// Components: AuthPageLayout, VCard, VStepper, VTextField, VSelect
 
 export { default as ForgotPassword } from './auth/ForgotPassword.vue'
 // Password recovery form
@@ -352,9 +364,10 @@ export interface Snippet {
 
 export const snippetCatalog: Snippet[] = [
   // Auth
-  { name: 'LoginSimple', path: 'auth/LoginSimple.vue', description: 'Simple login form with email/password', components: ['VCard', 'VTextField', 'VBtn', 'VCheckbox'], category: 'Authentication' },
-  { name: 'LoginWithSocial', path: 'auth/LoginWithSocial.vue', description: 'Login with social authentication', components: ['VCard', 'VTextField', 'VBtn', 'VDivider'], category: 'Authentication' },
-  { name: 'RegisterMultiStep', path: 'auth/RegisterMultiStep.vue', description: 'Multi-step registration wizard', components: ['VCard', 'VStepper', 'VTextField', 'VSelect'], category: 'Authentication' },
+  { name: 'AuthPageLayout', path: 'auth/AuthPageLayout.vue', description: 'Customizable layout for auth pages (position, background, split)', components: ['VSheet', 'VContainer', 'VRow', 'VCol', 'VImg'], category: 'Authentication' },
+  { name: 'LoginSimple', path: 'auth/LoginSimple.vue', description: 'Highly customizable login form with layout, styling and slot options', components: ['AuthPageLayout', 'VCard', 'VTextField', 'VBtn', 'VCheckbox'], category: 'Authentication' },
+  { name: 'LoginWithSocial', path: 'auth/LoginWithSocial.vue', description: 'Customizable login with social providers and layout options', components: ['AuthPageLayout', 'VCard', 'VTextField', 'VBtn', 'VDivider'], category: 'Authentication' },
+  { name: 'RegisterMultiStep', path: 'auth/RegisterMultiStep.vue', description: 'Customizable multi-step registration with layout options', components: ['AuthPageLayout', 'VCard', 'VStepper', 'VTextField', 'VSelect'], category: 'Authentication' },
   { name: 'ForgotPassword', path: 'auth/ForgotPassword.vue', description: 'Password recovery form', components: ['VCard', 'VTextField', 'VBtn', 'VAlert'], category: 'Authentication' },
   { name: 'OtpVerification', path: 'auth/OtpVerification.vue', description: 'OTP verification with 6-digit input', components: ['VCard', 'VTextField', 'VBtn'], category: 'Authentication' },
 
