@@ -295,7 +295,7 @@
 import { ref } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 
-export interface SocialProvider {
+ interface SocialProvider {
   id: string
   label: string
   icon: string
@@ -397,7 +397,11 @@ const props = withDefaults(defineProps<LoginWithSocialProps>(), {
   subtitle: 'Sign in to continue to your account',
 
   // Social login defaults
-  socialProviders: () => defaultSocialProviders,
+  socialProviders: () => [
+    { id: 'google', label: 'Continue with Google', icon: 'mdi-google', iconColor: 'red' },
+    { id: 'github', label: 'Continue with GitHub', icon: 'mdi-github' },
+    { id: 'facebook', label: 'Continue with Facebook', icon: 'mdi-facebook', iconColor: 'blue' },
+  ],
   socialButtonVariant: 'outlined',
   socialButtonSize: 'large',
 

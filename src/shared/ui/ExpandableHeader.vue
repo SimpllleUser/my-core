@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { IExpandableHeaderProps } from '../model';
+
+import type { IExpandableHeaderProps } from '../../shared/model/props.ts';
 
 const props = withDefaults(defineProps<IExpandableHeaderProps>(), {
   coverHeight: 120,

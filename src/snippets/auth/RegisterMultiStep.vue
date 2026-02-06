@@ -568,7 +568,11 @@ const props = withDefaults(defineProps<RegisterMultiStepProps>(), {
   stepperAltLabels: true,
   stepperFlat: true,
   stepperColor: 'primary',
-  steps: () => defaultSteps,
+  steps: () => [
+    { value: 1, title: 'Account', subtitle: 'Basic info' },
+    { value: 2, title: 'Personal', subtitle: 'Your details' },
+    { value: 3, title: 'Preferences', subtitle: 'Customize' },
+  ],
 
   // Form field defaults
   inputVariant: 'outlined',
@@ -595,10 +599,33 @@ const props = withDefaults(defineProps<RegisterMultiStepProps>(), {
   privacyLinkText: 'Privacy Policy',
   termsRequiredText: 'You must agree to the terms',
 
+
   // Options defaults
-  countries: () => defaultCountries,
-  interestOptions: () => defaultInterestOptions,
-  notificationOptions: () => defaultNotificationOptions,
+  countries: () => [
+    'United States',
+    'Canada',
+    'United Kingdom',
+    'Germany',
+    'France',
+    'Australia',
+    'Japan',
+    'Ukraine',
+  ],
+  interestOptions: () => [
+  'Technology',
+  'Design',
+  'Business',
+  'Marketing',
+  'Science',
+  'Art',
+  'Music',
+  'Sports',
+],
+  notificationOptions: () => [
+    { title: 'All notifications', value: 'all' },
+    { title: 'Important only', value: 'important' },
+    { title: 'None', value: 'none' },
+  ],
 
   // Button defaults
   primaryColor: 'primary',
