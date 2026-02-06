@@ -3,8 +3,27 @@ import { NavBar, Icons, ThemeToggle } from '../shared';
 
 const navigationItems = [
   { title: 'Home', route: '/', icon: Icons.Home },
-  {title: 'UI Builder', route: '/ui-builder', icon: Icons.Settings },
-  { title: 'About', route: '/about', icon: Icons.Account }
+  { title: 'About', route: '/about', icon: Icons.Info },
+  { title: 'UI Builder', route: '/ui-builder', icon: Icons.ViewDashboard },
+  {
+    title: 'Examples',
+    icon: Icons.FolderOpen,
+    children: [
+      { title: 'Auth', route: '/examples/auth', icon: Icons.Login },
+      { title: 'Cards', route: '/examples/cards', icon: Icons.Card },
+      { title: 'Dashboard', route: '/examples/dashboard', icon: Icons.ChartBox },
+      { title: 'Ecommerce', route: '/examples/ecommerce', icon: Icons.Cart },
+      { title: 'Error Pages', route: '/examples/error-pages', icon: Icons.AlertCircle },
+      { title: 'Forms', route: '/examples/forms', icon: Icons.FormTextbox },
+      { title: 'Index', route: '/examples', icon: Icons.Home },
+      { title: 'Landing', route: '/examples/landing', icon: Icons.RocketLaunch },
+      { title: 'Lists', route: '/examples/lists', icon: Icons.FormatListBulleted },
+      { title: 'Modals', route: '/examples/modals', icon: Icons.WindowMaximize },
+      { title: 'Navigation', route: '/examples/navigation', icon: Icons.Menu },
+      { title: 'Settings', route: '/examples/settings', icon: Icons.Cog },
+      { title: 'Tables', route: '/examples/tables', icon: Icons.Table }
+    ]
+  }
 ];
 </script>
 

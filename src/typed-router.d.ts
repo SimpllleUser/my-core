@@ -20,6 +20,19 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
+    '/examples/': RouteRecordInfo<'/examples/', '/examples', Record<never, never>, Record<never, never>>,
+    '/examples/auth': RouteRecordInfo<'/examples/auth', '/examples/auth', Record<never, never>, Record<never, never>>,
+    '/examples/cards': RouteRecordInfo<'/examples/cards', '/examples/cards', Record<never, never>, Record<never, never>>,
+    '/examples/dashboard': RouteRecordInfo<'/examples/dashboard', '/examples/dashboard', Record<never, never>, Record<never, never>>,
+    '/examples/ecommerce': RouteRecordInfo<'/examples/ecommerce', '/examples/ecommerce', Record<never, never>, Record<never, never>>,
+    '/examples/error-pages': RouteRecordInfo<'/examples/error-pages', '/examples/error-pages', Record<never, never>, Record<never, never>>,
+    '/examples/forms': RouteRecordInfo<'/examples/forms', '/examples/forms', Record<never, never>, Record<never, never>>,
+    '/examples/landing': RouteRecordInfo<'/examples/landing', '/examples/landing', Record<never, never>, Record<never, never>>,
+    '/examples/lists': RouteRecordInfo<'/examples/lists', '/examples/lists', Record<never, never>, Record<never, never>>,
+    '/examples/modals': RouteRecordInfo<'/examples/modals', '/examples/modals', Record<never, never>, Record<never, never>>,
+    '/examples/navigation': RouteRecordInfo<'/examples/navigation', '/examples/navigation', Record<never, never>, Record<never, never>>,
+    '/examples/settings': RouteRecordInfo<'/examples/settings', '/examples/settings', Record<never, never>, Record<never, never>>,
+    '/examples/tables': RouteRecordInfo<'/examples/tables', '/examples/tables', Record<never, never>, Record<never, never>>,
     '/ui-builder': RouteRecordInfo<'/ui-builder', '/ui-builder', Record<never, never>, Record<never, never>>,
   }
 
@@ -40,6 +53,58 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/about.vue': {
       routes: '/about'
+      views: never
+    }
+    'src/pages/examples/index.vue': {
+      routes: '/examples/'
+      views: never
+    }
+    'src/pages/examples/auth.vue': {
+      routes: '/examples/auth'
+      views: never
+    }
+    'src/pages/examples/cards.vue': {
+      routes: '/examples/cards'
+      views: never
+    }
+    'src/pages/examples/dashboard.vue': {
+      routes: '/examples/dashboard'
+      views: never
+    }
+    'src/pages/examples/ecommerce.vue': {
+      routes: '/examples/ecommerce'
+      views: never
+    }
+    'src/pages/examples/error-pages.vue': {
+      routes: '/examples/error-pages'
+      views: never
+    }
+    'src/pages/examples/forms.vue': {
+      routes: '/examples/forms'
+      views: never
+    }
+    'src/pages/examples/landing.vue': {
+      routes: '/examples/landing'
+      views: never
+    }
+    'src/pages/examples/lists.vue': {
+      routes: '/examples/lists'
+      views: never
+    }
+    'src/pages/examples/modals.vue': {
+      routes: '/examples/modals'
+      views: never
+    }
+    'src/pages/examples/navigation.vue': {
+      routes: '/examples/navigation'
+      views: never
+    }
+    'src/pages/examples/settings.vue': {
+      routes: '/examples/settings'
+      views: never
+    }
+    'src/pages/examples/tables.vue': {
+      routes: '/examples/tables'
       views: never
     }
     'src/pages/ui-builder.vue': {

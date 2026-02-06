@@ -56,11 +56,11 @@
     <h3 class="text-subtitle-1 text-medium-emphasis mb-3">With Dropdown (Collapsed)</h3>
     <VCard class="mb-6 pa-4">
       <VBreadcrumbs>
-        <VBreadcrumbs-item href="#">Home</v-breadcrumbs-item>
-        <VBreadcrumbs-divider>
+        <VBreadcrumbsItem href="#">Home</VBreadcrumbsItem>
+        <VBreadcrumbsDivider>
           <VIcon>mdi-chevron-right</VIcon>
-        </v-breadcrumbs-divider>
-        <VBreadcrumbs-item>
+        </VBreadcrumbsDivider>
+        <VBreadcrumbsItem>
           <VMenu>
             <template #activator="{ props }">
               <VBtn variant="text" size="small" v-bind="props" class="text-none">
@@ -75,15 +75,15 @@
               />
             </VList>
           </VMenu>
-        </v-breadcrumbs-item>
-        <VBreadcrumbs-divider>
+        </VBreadcrumbsItem>
+        <VBreadcrumbsDivider>
           <VIcon>mdi-chevron-right</VIcon>
-        </v-breadcrumbs-divider>
-        <VBreadcrumbs-item href="#">Products</v-breadcrumbs-item>
-        <VBreadcrumbs-divider>
+        </VBreadcrumbsDivider>
+        <VBreadcrumbsItem href="#">Products</VBreadcrumbsItem>
+        <VBreadcrumbsDivider>
           <VIcon>mdi-chevron-right</VIcon>
-        </v-breadcrumbs-divider>
-        <VBreadcrumbs-item disabled>iPhone 15 Pro</v-breadcrumbs-item>
+        </VBreadcrumbsDivider>
+        <VBreadcrumbsItem disabled>iPhone 15 Pro</VBreadcrumbsItem>
       </VBreadcrumbs>
     </VCard>
 
@@ -120,20 +120,20 @@
         </VTab>
       </VTabs>
       <VDivider />
-      <VTabs-window v-model="tab">
-        <VTabs-window-item value="overview">
+      <VTabsWindow v-model="tab">
+        <VTabsWindowItem value="overview">
           <VCardText>Overview content goes here...</VCardText>
-        </v-tabs-window-item>
-        <VTabs-window-item value="analytics">
+        </VTabsWindowItem>
+        <VTabsWindowItem value="analytics">
           <VCardText>Analytics content goes here...</VCardText>
-        </v-tabs-window-item>
-        <VTabs-window-item value="reports">
+        </VTabsWindowItem>
+        <VTabsWindowItem value="reports">
           <VCardText>Reports content goes here...</VCardText>
-        </v-tabs-window-item>
-        <VTabs-window-item value="notifications">
+        </VTabsWindowItem>
+        <VTabsWindowItem value="notifications">
           <VCardText>Notifications content goes here...</VCardText>
-        </v-tabs-window-item>
-      </v-tabs-window>
+        </VTabsWindowItem>
+      </VTabsWindow>
     </VCard>
   </VContainer>
 </template>

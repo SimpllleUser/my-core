@@ -143,7 +143,7 @@
           <VCardTitle>Notification Preferences</VCardTitle>
           <VCardText>
             <VList>
-              <VList-subheader>Email Notifications</v-list-subheader>
+              <VListSubheader>Email Notifications</VListSubheader>
               <VListItem v-for="item in emailNotifications" :key="item.title">
                 <VListItemTitle>{{ item.title }}</VListItemTitle>
                 <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>
@@ -154,7 +154,7 @@
 
               <VDivider class="my-4" />
 
-              <VList-subheader>Push Notifications</v-list-subheader>
+              <span>Push Notifications</span>
               <VListItem v-for="item in pushNotifications" :key="item.title">
                 <VListItemTitle>{{ item.title }}</VListItemTitle>
                 <VListItemSubtitle>{{ item.description }}</VListItemSubtitle>

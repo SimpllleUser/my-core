@@ -121,11 +121,11 @@
         <VRow align="center" justify="center" class="text-center">
           <VCol cols="12" md="10" lg="8">
             <div class="d-flex justify-center mb-6">
-              <VAvatar-group>
+              <VAvatarGroup>
                 <VAvatar v-for="n in 5" :key="n" size="40" class="border-2 border-white">
                   <VImg :src="`https://randomuser.me/api/portraits/${n % 2 ? 'men' : 'women'}/${n}.jpg`" />
                 </VAvatar>
-              </v-avatar-group>
+              </VAvatarGroup>
               <VChip class="ml-3" color="success" variant="flat">
                 <VIcon start size="small">mdi-star</VIcon>
                 4.9/5 from 2,000+ reviews

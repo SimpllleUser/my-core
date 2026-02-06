@@ -119,7 +119,7 @@
           <VCardTitle>Recent Activity</VCardTitle>
           <VCardText>
             <VTimeline density="compact" side="end">
-              <VTimeline-item
+              <VTimelineItem
                 v-for="activity in activities"
                 :key="activity.id"
                 :dot-color="activity.color"
@@ -135,7 +135,7 @@
                   </div>
                   <span class="text-caption text-medium-emphasis">{{ activity.time }}</span>
                 </div>
-              </v-timeline-item>
+              </VTimelineItem>
             </VTimeline>
           </VCardText>
         </VCard>

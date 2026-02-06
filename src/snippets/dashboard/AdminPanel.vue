@@ -74,7 +74,7 @@
     <VMain>
       <!-- Top App Bar -->
       <VAppBar flat border="b">
-        <VAppBar-nav-icon @click="drawer = !drawer" />
+        <VAppBarNavIcon @click="drawer = !drawer" />
 
         <VTextField
           density="compact"
