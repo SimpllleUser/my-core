@@ -100,7 +100,7 @@
     <!-- Variant 4: User Profile Navbar -->
     <h3 class="text-subtitle-1 text-medium-emphasis mb-4">With User Profile</h3>
     <VAppBar class="mb-8" flat border="b" color="surface">
-      <VAppBar-nav-icon />
+      <VAppBarNavIcon />
       <VAppBarTitle>Dashboard</VAppBarTitle>
       <VSpacer />
 

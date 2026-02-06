@@ -5,7 +5,7 @@
   Variants: Permanent, Mini, With Header
 -->
 <template>
-  <v-layout style="min-height: 600px;">
+  <VLayout style="min-height: 600px;">
     <VNavigationDrawer
       v-model="drawer"
       :rail="rail"
@@ -140,7 +140,7 @@
         </VCard>
       </VContainer>
     </VMain>
-  </v-layout>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

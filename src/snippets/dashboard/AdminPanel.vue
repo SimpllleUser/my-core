@@ -5,7 +5,7 @@
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
-  <v-layout>
+  <VLayout>
     <!-- Sidebar Navigation -->
     <VNavigationDrawer
       v-model="drawer"
@@ -230,7 +230,7 @@
         </VRow>
       </VContainer>
     </VMain>
-  </v-layout>
+  </VLayout>
 </template>
 
 <script setup lang="ts">

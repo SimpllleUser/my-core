@@ -41,17 +41,14 @@ const data = [
   }
 ];
 
-const getRowClass = (item: unknown, index: number) => {
-  return '';
-};
 </script>
 
 <template>
   <div>
     <Table
       :headers="headers"
-      :data="data"
-      :getRowClass="getRowClass"
+      :items="data"
+      :show-pagination="false"
     >
       <template #header.name="{ column }">
         <div class="d-flex align-center">

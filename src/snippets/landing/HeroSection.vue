@@ -12,7 +12,7 @@
         <VRow justify="center" class="text-center">
           <VCol cols="12" md="10" lg="8">
             <VChip color="primary" variant="tonal" class="mb-4">
-              <VIcon start size="small">mdi-star</VIcon>
+              <VIcon start size="small">{{ Icons.Star }}</VIcon>
               New Release
             </VChip>
             <h1 class="text-h2 text-md-h1 font-weight-bold mb-4">
@@ -24,18 +24,18 @@
             <div class="d-flex flex-wrap justify-center ga-4">
               <VBtn color="primary" size="x-large" rounded="pill">
                 Get Started Free
-                <VIcon end>mdi-arrow-right</VIcon>
+                <VIcon end>{{ Icons.ArrowRight }}</VIcon>
               </VBtn>
               <VBtn variant="outlined" size="x-large" rounded="pill">
-                <VIcon start>mdi-play-circle</VIcon>
+                <VIcon start>{{ Icons.PlayCircle }}</VIcon>
                 Watch Demo
               </VBtn>
             </div>
             <p class="text-body-2 text-medium-emphasis mt-4">
-              <VIcon size="small" color="success">mdi-check-circle</VIcon>
+              <VIcon size="small" color="success">{{ Icons.CheckCircle }}</VIcon>
               No credit card required
               <span class="mx-2">•</span>
-              <VIcon size="small" color="success">mdi-check-circle</VIcon>
+              <VIcon size="small" color="success">{{ Icons.CheckCircle }}</VIcon>
               14-day free trial
             </p>
           </VCol>
@@ -69,7 +69,7 @@
         <VRow align="center">
           <VCol cols="12" md="6">
             <VChip color="secondary" variant="tonal" class="mb-4">
-              <VIcon start size="small">mdi-rocket-launch</VIcon>
+              <VIcon start size="small">{{ Icons.RocketLaunch }}</VIcon>
               Launch Your Startup
             </VChip>
             <h1 class="text-h3 text-md-h2 font-weight-bold mb-4">
@@ -86,7 +86,7 @@
                 class="px-0"
               >
                 <template #prepend>
-                  <VIcon color="success" size="small" class="mr-2">mdi-check-circle</VIcon>
+                  <VIcon color="success" size="small" class="mr-2">{{ Icons.CheckCircle }}</VIcon>
                 </template>
                 <VListItemTitle>{{ feature }}</VListItemTitle>
               </VListItem>
@@ -98,7 +98,7 @@
               </VBtn>
               <VBtn variant="text" size="large" color="primary">
                 Learn More
-                <VIcon end>mdi-arrow-right</VIcon>
+                <VIcon end>{{ Icons.ArrowRight }}</VIcon>
               </VBtn>
             </div>
           </VCol>
@@ -127,7 +127,7 @@
                 </VAvatar>
               </VAvatarGroup>
               <VChip class="ml-3" color="success" variant="flat">
-                <VIcon start size="small">mdi-star</VIcon>
+                <VIcon start size="small">{{ Icons.Star }}</VIcon>
                 4.9/5 from 2,000+ reviews
               </VChip>
             </div>
@@ -166,6 +166,8 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
+
 const heroFeatures = [
   'Unlimited projects and collaborators',
   'Real-time sync across all devices',

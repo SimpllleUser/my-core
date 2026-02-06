@@ -138,7 +138,7 @@
 
         <!-- Loading -->
         <template #loading>
-          <v-skeleton-loader type="table-row@5" />
+          <VSkeletonLoader type="table-row@5" />
         </template>
       </VDataTable>
     </VCard>

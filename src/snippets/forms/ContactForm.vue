@@ -16,7 +16,7 @@
             Fill out the form below and we'll get back to you within 24 hours.
           </VCardSubtitle>
 
-          <v-alert
+          <VAlert
             v-if="submitted"
             type="success"
             variant="tonal"
@@ -24,9 +24,9 @@
             closable
             @click:close="submitted = false"
           >
-            <v-alert-title>Message Sent!</v-alert-title>
+            <VAlertTitle>Message Sent!</VAlertTitle>
             Thank you for reaching out. We'll respond to your inquiry soon.
-          </v-alert>
+          </VAlert>
 
           <VForm ref="formRef" v-model="valid" @submit.prevent="submit">
             <VRow>

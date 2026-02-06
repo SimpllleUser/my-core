@@ -22,16 +22,20 @@ declare module 'vue-router/auto-routes' {
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/examples/': RouteRecordInfo<'/examples/', '/examples', Record<never, never>, Record<never, never>>,
     '/examples/auth': RouteRecordInfo<'/examples/auth', '/examples/auth', Record<never, never>, Record<never, never>>,
+    '/examples/blog': RouteRecordInfo<'/examples/blog', '/examples/blog', Record<never, never>, Record<never, never>>,
     '/examples/cards': RouteRecordInfo<'/examples/cards', '/examples/cards', Record<never, never>, Record<never, never>>,
+    '/examples/chat': RouteRecordInfo<'/examples/chat', '/examples/chat', Record<never, never>, Record<never, never>>,
     '/examples/dashboard': RouteRecordInfo<'/examples/dashboard', '/examples/dashboard', Record<never, never>, Record<never, never>>,
     '/examples/ecommerce': RouteRecordInfo<'/examples/ecommerce', '/examples/ecommerce', Record<never, never>, Record<never, never>>,
     '/examples/error-pages': RouteRecordInfo<'/examples/error-pages', '/examples/error-pages', Record<never, never>, Record<never, never>>,
+    '/examples/fintech': RouteRecordInfo<'/examples/fintech', '/examples/fintech', Record<never, never>, Record<never, never>>,
     '/examples/forms': RouteRecordInfo<'/examples/forms', '/examples/forms', Record<never, never>, Record<never, never>>,
     '/examples/landing': RouteRecordInfo<'/examples/landing', '/examples/landing', Record<never, never>, Record<never, never>>,
     '/examples/lists': RouteRecordInfo<'/examples/lists', '/examples/lists', Record<never, never>, Record<never, never>>,
     '/examples/modals': RouteRecordInfo<'/examples/modals', '/examples/modals', Record<never, never>, Record<never, never>>,
     '/examples/navigation': RouteRecordInfo<'/examples/navigation', '/examples/navigation', Record<never, never>, Record<never, never>>,
     '/examples/settings': RouteRecordInfo<'/examples/settings', '/examples/settings', Record<never, never>, Record<never, never>>,
+    '/examples/social': RouteRecordInfo<'/examples/social', '/examples/social', Record<never, never>, Record<never, never>>,
     '/examples/tables': RouteRecordInfo<'/examples/tables', '/examples/tables', Record<never, never>, Record<never, never>>,
     '/ui-builder': RouteRecordInfo<'/ui-builder', '/ui-builder', Record<never, never>, Record<never, never>>,
   }
@@ -63,8 +67,16 @@ declare module 'vue-router/auto-routes' {
       routes: '/examples/auth'
       views: never
     }
+    'src/pages/examples/blog.vue': {
+      routes: '/examples/blog'
+      views: never
+    }
     'src/pages/examples/cards.vue': {
       routes: '/examples/cards'
+      views: never
+    }
+    'src/pages/examples/chat.vue': {
+      routes: '/examples/chat'
       views: never
     }
     'src/pages/examples/dashboard.vue': {
@@ -77,6 +89,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/examples/error-pages.vue': {
       routes: '/examples/error-pages'
+      views: never
+    }
+    'src/pages/examples/fintech.vue': {
+      routes: '/examples/fintech'
       views: never
     }
     'src/pages/examples/forms.vue': {
@@ -101,6 +117,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/examples/settings.vue': {
       routes: '/examples/settings'
+      views: never
+    }
+    'src/pages/examples/social.vue': {
+      routes: '/examples/social'
       views: never
     }
     'src/pages/examples/tables.vue': {

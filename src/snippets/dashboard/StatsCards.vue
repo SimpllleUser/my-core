@@ -123,7 +123,7 @@
               </VChip>
             </div>
             <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-            <v-sparkline
+            <VSparkline
               :model-value="stat.sparkline"
               :color="stat.color"
               :line-width="2"

@@ -146,9 +146,9 @@
               </template>
             </VTextField>
 
-            <v-alert v-if="promoApplied" type="success" variant="tonal" density="compact" class="mb-4">
+            <VAlert v-if="promoApplied" type="success" variant="tonal" density="compact" class="mb-4">
               Promo code applied! You saved $10.00
-            </v-alert>
+            </VAlert>
 
             <VDivider class="mb-4" />
 

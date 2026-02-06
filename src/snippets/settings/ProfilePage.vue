@@ -93,7 +93,7 @@
 
           <VDivider />
 
-          <VTabsWindowItem v-model="tab">
+          <VTabsWindow v-model="tab">
             <!-- Activity Tab -->
             <VTabsWindowItem value="activity">
               <VCardText>
@@ -116,7 +116,7 @@
                         <p class="text-body-2 text-medium-emphasis mb-0">{{ activity.description }}</p>
                       </VCardText>
                     </VCard>
-                  </VTimelineItem>timeline-item>
+                  </VTimelineItem>
                 </VTimeline>
               </VCardText>
             </VTabsWindowItem>
@@ -165,7 +165,7 @@
                 </VListItem>
               </VList>
             </VTabsWindowItem>
-          </VTabsWindowItem>
+          </VTabsWindow>
         </VCard>
       </VCol>
 

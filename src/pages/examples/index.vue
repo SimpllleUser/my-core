@@ -144,6 +144,34 @@ const categoryMap: Record<string, Omit<Category, 'count'>> = {
     icon: 'mdi-cart',
     color: 'deep-purple',
     description: 'Product grids and shopping carts'
+  },
+  'FinTech': {
+    name: 'FinTech',
+    route: 'fintech',
+    icon: 'mdi-bank',
+    color: 'teal',
+    description: 'Banking dashboards, wallets, and payments'
+  },
+  'Blog': {
+    name: 'Blog',
+    route: 'blog',
+    icon: 'mdi-post',
+    color: 'indigo',
+    description: 'Blog posts, articles, and comments'
+  },
+  'Social Media': {
+    name: 'Social Media',
+    route: 'social',
+    icon: 'mdi-share-variant',
+    color: 'pink',
+    description: 'Social feeds, profiles, and stories'
+  },
+  'Chat & Messaging': {
+    name: 'Chat & Messaging',
+    route: 'chat',
+    icon: 'mdi-message-text',
+    color: 'light-blue',
+    description: 'Chat interfaces and messaging apps'
   }
 }
 
