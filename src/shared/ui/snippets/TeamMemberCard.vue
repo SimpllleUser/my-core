@@ -10,14 +10,14 @@
     <template v-if="layout === 'horizontal'">
       <VRow align="center" no-gutters>
         <VCol cols="auto" class="pa-4">
-          <slot name="avatar">
+          <slot name="avatar" :avatar="avatar" :name="name">
             <VAvatar :size="avatarSize">
               <VImg :src="avatar" :alt="name" />
             </VAvatar>
           </slot>
         </VCol>
         <VCol class="pa-4">
-          <slot name="info">
+          <slot name="info" :name="name" :role="role" :department="department">
             <h4 :class="[nameClass, 'font-weight-bold mb-0']">{{ name }}</h4>
             <p :class="[roleClass, 'mb-0']">{{ role }}</p>
           </slot>
@@ -39,13 +39,13 @@
     <!-- Default/Centered Layout -->
     <template v-else-if="layout === 'centered'">
       <VCardText :class="['text-center', contentClass]">
-        <slot name="avatar">
+        <slot name="avatar" :avatar="avatar" :name="name">
           <VAvatar :size="avatarSize" class="mb-4">
             <VImg :src="avatar" :alt="name" />
           </VAvatar>
         </slot>
 
-        <slot name="info">
+        <slot name="info" :name="name" :role="role" :department="department">
           <h4 :class="[nameClass, 'font-weight-bold mb-1']">{{ name }}</h4>
           <p :class="[roleClass, 'mb-3']">{{ role }}</p>
         </slot>
@@ -70,24 +70,26 @@
     <template v-else>
       <VCardText :class="contentClass">
         <div :class="['d-flex', { 'align-start': bio, 'align-center': !bio }, 'mb-4']">
-          <slot name="avatar">
+          <slot name="avatar" :avatar="avatar" :name="name">
             <VAvatar :size="avatarSize" class="mr-4">
               <VImg :src="avatar" :alt="name" />
             </VAvatar>
           </slot>
 
           <div>
-            <slot name="info">
+            <slot name="info" :name="name" :role="role" :department="department">
               <h4 :class="[nameClass, 'font-weight-bold mb-0']">{{ name }}</h4>
               <p :class="[roleClass, 'mb-1']">{{ role }}</p>
-              <VChip v-if="department" size="x-small" variant="outlined">
-                {{ department }}
-              </VChip>
+              <slot name="department" :department="department">
+                <VChip v-if="department" :size="departmentChipSize" :variant="departmentChipVariant" :color="departmentChipColor">
+                  {{ department }}
+                </VChip>
+              </slot>
             </slot>
           </div>
         </div>
 
-        <slot name="bio">
+        <slot name="bio" :bio="bio">
           <p v-if="bio" :class="[bioClass, 'mb-4']">{{ bio }}</p>
         </slot>
 
@@ -109,7 +111,7 @@
 
 <script setup lang="ts">
 import { Variants, Sizes } from '@/shared/model'
-import type { VariantType, SizeType, ISocialLink } from './types'
+import type { ColorType, VariantType, SizeType, ISocialLink } from './types'
 import SocialLinks from './SocialLinks.vue'
 
 type LayoutType = 'centered' | 'horizontal' | 'default'
@@ -142,6 +144,11 @@ interface Props {
   roleClass?: string
   bioClass?: string
 
+  // Department chip
+  departmentChipSize?: SizeType
+  departmentChipVariant?: VariantType
+  departmentChipColor?: ColorType | string
+
   // Social links
   socialButtonVariant?: VariantType
   socialButtonSize?: SizeType
@@ -159,6 +166,8 @@ withDefaults(defineProps<Props>(), {
   nameClass: 'text-h6',
   roleClass: 'text-body-2 text-primary',
   bioClass: 'text-body-2 text-medium-emphasis',
+  departmentChipSize: Sizes.XSmall,
+  departmentChipVariant: Variants.Outlined,
   socialButtonVariant: Variants.Tonal,
   socialButtonSize: Sizes.Small,
   socialButtonColor: 'grey-darken-1',

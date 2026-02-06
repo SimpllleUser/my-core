@@ -1,24 +1,31 @@
 <template>
-  <div :class="['social-links d-flex flex-wrap', { 'justify-center': centered }, gapClass]">
+  <div :class="['social-links d-flex flex-wrap', { 'justify-center': centered }, containerClass, gapClass]">
     <slot :links="links">
-      <VBtn
-        v-for="link in links"
-        :key="link.platform"
-        :icon="iconOnly"
-        :variant="buttonVariant"
-        :size="buttonSize"
-        :color="buttonColor"
-        :rounded="rounded"
-        :href="link.url"
-        :target="link.url ? '_blank' : undefined"
-        :rel="link.url ? 'noopener noreferrer' : undefined"
-        @click="$emit('click', link)"
-      >
-        <VIcon :start="showLabel && !iconOnly" :size="iconSize">{{ link.icon }}</VIcon>
-        <template v-if="showLabel && !iconOnly">
-          {{ link.platform }}
-        </template>
-      </VBtn>
+      <template v-for="link in links" :key="link.platform">
+        <slot name="item" :link="link">
+          <VBtn
+            :icon="iconOnly"
+            :variant="buttonVariant"
+            :size="buttonSize"
+            :color="link.color || buttonColor"
+            :rounded="rounded"
+            :class="buttonClass"
+            :href="link.url"
+            :target="link.url ? linkTarget : undefined"
+            :rel="link.url ? linkRel : undefined"
+            @click="$emit('click', link)"
+          >
+            <slot name="item-icon" :link="link">
+              <VIcon :start="showLabel && !iconOnly" :size="iconSize">{{ link.icon }}</VIcon>
+            </slot>
+            <template v-if="showLabel && !iconOnly">
+              <slot name="item-label" :link="link">
+                {{ link.platform }}
+              </slot>
+            </template>
+          </VBtn>
+        </slot>
+      </template>
     </slot>
   </div>
 </template>
@@ -33,12 +40,16 @@ interface Props {
   buttonVariant?: VariantType
   buttonSize?: SizeType
   buttonColor?: string
+  buttonClass?: string
   iconSize?: SizeType | number
   iconOnly?: boolean
   showLabel?: boolean
   centered?: boolean
   rounded?: boolean | string
   gap?: number | string
+  containerClass?: string
+  linkTarget?: string
+  linkRel?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -51,6 +62,8 @@ const props = withDefaults(defineProps<Props>(), {
   centered: false,
   rounded: false,
   gap: 1,
+  linkTarget: '_blank',
+  linkRel: 'noopener noreferrer',
 })
 
 defineEmits<{

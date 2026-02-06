@@ -1,10 +1,10 @@
 <template>
-  <VCard :class="['product-card', cardClass]" :height="height" :variant="cardVariant">
+  <VCard :class="['product-card', cardClass]" :height="height" :variant="cardVariant" :hover="hover" :elevation="elevation">
     <!-- Standard Layout -->
     <template v-if="layout === 'standard'">
       <!-- Image with Badges -->
       <div class="position-relative">
-        <slot name="image">
+        <slot name="image" :image="image">
           <VImg :src="image" :height="imageHeight" cover>
             <template #placeholder>
               <div class="d-flex align-center justify-center fill-height">
@@ -16,7 +16,7 @@
 
         <!-- Badges -->
         <div class="position-absolute" style="top: 12px; left: 12px;">
-          <slot name="badges">
+          <slot name="badges" :isNew="isNew" :discount="discount">
             <VChip v-if="isNew" :color="newBadgeColor" :size="badgeSize" class="mr-1">
               {{ newBadgeText }}
             </VChip>
@@ -265,6 +265,8 @@ interface Props {
   cardClass?: string
   cardVariant?: VariantType
   height?: string | number
+  hover?: boolean
+  elevation?: number | string
 
   // Image
   imageHeight?: string | number

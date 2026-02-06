@@ -1,7 +1,7 @@
 <template>
   <!-- System Message -->
   <div v-if="type === 'system'" :class="['text-center', systemContainerClass]">
-    <slot name="system">
+    <slot name="system" :text="text">
       <VChip :size="systemChipSize" :variant="systemChipVariant" :color="systemChipColor">
         <VIcon v-if="systemIcon" start :size="systemIconSize">{{ systemIcon }}</VIcon>
         <slot>{{ text }}</slot>
@@ -34,7 +34,7 @@
     ]"
   >
     <!-- Avatar for received messages -->
-    <slot v-if="type === 'received'" name="avatar">
+    <slot v-if="type === 'received'" name="avatar" :avatar="avatar" :name="name">
       <VAvatar v-if="avatar" :size="avatarSize" class="mr-2 mt-1">
         <VImg :src="avatar" :alt="name" />
       </VAvatar>
@@ -48,7 +48,7 @@
       :style="{ maxWidth: maxWidth }"
     >
       <!-- Sender name for received messages -->
-      <slot v-if="type === 'received' && showName && name" name="name">
+      <slot v-if="type === 'received' && showName && name" name="name" :name="name">
         <span :class="[nameClass, 'mb-1']">{{ name }}</span>
       </slot>
 
@@ -84,10 +84,10 @@
 
       <!-- Time and read status -->
       <div :class="['d-flex align-center', timeContainerClass]">
-        <slot name="time">
+        <slot name="time" :time="time">
           <span :class="timeClass">{{ time }}</span>
         </slot>
-        <slot v-if="type === 'sent' && showReadStatus" name="read-status">
+        <slot v-if="type === 'sent' && showReadStatus" name="read-status" :isRead="isRead">
           <VIcon
             v-if="isRead !== undefined"
             :size="readStatusIconSize"

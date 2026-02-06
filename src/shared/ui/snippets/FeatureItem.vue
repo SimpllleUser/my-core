@@ -1,7 +1,7 @@
 <template>
-  <VListItem :class="['feature-item', itemClass]" v-bind="$attrs">
+  <VListItem :class="['feature-item', itemClass]" :density="density" v-bind="$attrs">
     <template #prepend>
-      <slot name="prepend">
+      <slot name="prepend" :icon="computedIcon" :iconColor="computedIconColor" :included="included">
         <VIcon
           :color="computedIconColor"
           :size="iconSize"
@@ -12,9 +12,17 @@
       </slot>
     </template>
 
-    <VListItemTitle :class="computedTextClass">
-      <slot>{{ text }}</slot>
-    </VListItemTitle>
+    <slot name="title" :text="text" :included="included">
+      <VListItemTitle :class="computedTextClass">
+        <slot>{{ text }}</slot>
+      </VListItemTitle>
+    </slot>
+
+    <slot name="subtitle">
+      <VListItemSubtitle v-if="subtitle" :class="subtitleTextClass">
+        {{ subtitle }}
+      </VListItemSubtitle>
+    </slot>
 
     <template v-if="$slots.append" #append>
       <slot name="append" />
@@ -29,6 +37,7 @@ import type { ColorType, SizeType, IconType } from './types'
 
 interface Props {
   text?: string
+  subtitle?: string
   icon?: IconType
   iconIncluded?: IconType
   iconExcluded?: IconType
@@ -39,8 +48,10 @@ interface Props {
   iconClass?: string
   included?: boolean
   textClass?: string
+  subtitleTextClass?: string
   itemClass?: string
   disabledClass?: string
+  density?: 'default' | 'comfortable' | 'compact'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -52,8 +63,10 @@ const props = withDefaults(defineProps<Props>(), {
   iconClass: 'mr-2',
   included: true,
   textClass: 'text-body-2',
+  subtitleTextClass: 'text-caption text-medium-emphasis',
   itemClass: 'px-0',
   disabledClass: 'text-medium-emphasis',
+  density: 'compact',
 })
 
 const computedIcon = computed(() => {
