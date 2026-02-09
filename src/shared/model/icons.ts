@@ -495,5 +495,45 @@ export enum Icons {
   Square = 'mdi-square',
   SquareOutline = 'mdi-square-outline',
   RadioboxMarked = 'mdi-radiobox-marked',
-  RadioboxBlank = 'mdi-radiobox-blank'
+  RadioboxBlank = 'mdi-radiobox-blank',
+
+  // Forms & Input
+  FormSelect = 'mdi-form-select',
+  FormTextbox = 'mdi-form-textbox',
+
+  // Cards
+  CardOutline = 'mdi-card-outline',
+  CardText = 'mdi-card-text',
+
+  // Windows & Dialogs
+  WindowOpen = 'mdi-window-open',
+  WindowMaximize = 'mdi-window-maximize',
+
+  // Content & Posts
+  Post = 'mdi-post',
+  NewspaperVariant = 'mdi-newspaper-variant',
+
+  // Misc missing icons
+  ShieldStarOutline = 'mdi-shield-star-outline',
+  Ungroup = 'mdi-ungroup',
+  DatabaseOff = 'mdi-database-off',
+  Keyboard = 'mdi-keyboard',
+  MessageTextOutline = 'mdi-message-text-outline',
+  MessageImage = 'mdi-message-image',
+  Select = 'mdi-select',
+  FolderMultipleOutline = 'mdi-folder-multiple-outline',
+  CommentMultiple = 'mdi-comment-multiple',
+  CommentAlert = 'mdi-comment-alert',
+  CommentQuote = 'mdi-comment-quote',
+  FileAlert = 'mdi-file-alert',
+  ServerOff = 'mdi-server-off',
+  Tools = 'mdi-tools',
+  ViewHeadline = 'mdi-view-headline',
+  ViewCarousel = 'mdi-view-carousel',
+  ArrowDecision = 'mdi-arrow-decision',
+  FeatureSearch = 'mdi-feature-search',
+  Storefront = 'mdi-storefront',
+  Bitcoin = 'mdi-bitcoin',
+  BankTransfer = 'mdi-bank-transfer',
+  Headset = 'mdi-headset'
 }

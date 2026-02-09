@@ -7,6 +7,12 @@ const router = createRouter({
   routes: setupLayouts(routes)
 });
 
+router.beforeEach((to) => {
+  if (to.path === '/') {
+    return '/examples';
+  }
+});
+
 router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload');
 });
