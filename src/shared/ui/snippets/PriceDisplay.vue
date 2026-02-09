@@ -1,34 +1,46 @@
 <template>
-  <div :class="['price-display', { 'd-flex align-center': inline }]">
-    <slot>
-      <span :class="[priceClass, 'font-weight-bold']">
-        <slot name="currency">{{ currencySymbol }}</slot>{{ formattedPrice }}
-      </span>
-      <span
-        v-if="originalPrice && originalPrice > price"
-        :class="originalPriceClass"
-      >
-        {{ currencySymbol }}{{ formattedOriginalPrice }}
-      </span>
+  <div :class="['price-display', { 'd-flex align-center': inline }, containerClass]">
+    <slot :price="price" :formattedPrice="formattedPrice" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
+      <!-- Current Price -->
+      <slot name="price" :price="price" :formattedPrice="formattedPrice">
+        <span :class="[priceClass, 'font-weight-bold']">
+          <slot name="currency">{{ currencySymbol }}</slot>{{ formattedPrice }}
+        </span>
+      </slot>
+
+      <!-- Original Price -->
+      <slot name="original-price" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
+        <span
+          v-if="originalPrice && originalPrice > price"
+          :class="originalPriceClass"
+        >
+          {{ currencySymbol }}{{ formattedOriginalPrice }}
+        </span>
+      </slot>
     </slot>
 
-    <slot name="discount">
+    <!-- Discount Badge -->
+    <slot name="discount" :discountPercentage="discountPercentage">
       <VChip
         v-if="showDiscount && discountPercentage > 0"
         :color="discountColor"
+        :variant="discountVariant"
         :size="discountSize"
         :class="discountClass"
       >
         {{ discountPrefix }}{{ discountPercentage }}%
       </VChip>
     </slot>
+
+    <!-- Additional content -->
+    <slot name="append" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Sizes } from '@/shared/model'
-import type { ColorType, SizeType } from './types'
+import { Colors, Variants, Sizes } from '@/shared/model'
+import type { ColorType, VariantType, SizeType } from './types'
 
 interface Props {
   price: number
@@ -37,9 +49,11 @@ interface Props {
   decimalPlaces?: number
   priceClass?: string
   originalPriceClass?: string
+  containerClass?: string
   inline?: boolean
   showDiscount?: boolean
   discountColor?: ColorType
+  discountVariant?: VariantType
   discountSize?: SizeType
   discountClass?: string
   discountPrefix?: string
@@ -53,6 +67,7 @@ const props = withDefaults(defineProps<Props>(), {
   inline: false,
   showDiscount: false,
   discountColor: Colors.Success,
+  discountVariant: Variants.Flat,
   discountSize: Sizes.Small,
   discountClass: 'ml-2',
   discountPrefix: '-',

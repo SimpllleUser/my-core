@@ -1,13 +1,13 @@
 <template>
   <div :class="['section-header', { 'text-center': centered }]" :style="containerStyle">
     <!-- Chip/Badge -->
-    <slot name="chip">
+    <slot name="chip" :chip="chip">
       <VChip
         v-if="chip"
         :color="chipColor"
         :variant="chipVariant"
         :size="chipSize"
-        class="mb-4"
+        :class="chipClass"
       >
         <slot name="chip-prepend">
           <VIcon v-if="chipIcon" start :size="chipIconSize">{{ chipIcon }}</VIcon>
@@ -18,7 +18,7 @@
     </slot>
 
     <!-- Title -->
-    <slot name="title">
+    <slot name="title" :title="title" :titleHighlight="titleHighlight">
       <component
         :is="titleTag"
         :class="[titleClass, 'font-weight-bold', { 'mb-2': subtitle || $slots.subtitle, 'mb-4': !subtitle && !$slots.subtitle }]"
@@ -31,7 +31,7 @@
     </slot>
 
     <!-- Subtitle/Description -->
-    <slot name="subtitle">
+    <slot name="subtitle" :subtitle="subtitle">
       <p
         v-if="subtitle"
         :class="[subtitleClass, 'text-medium-emphasis', { 'mx-auto': centered }]"
@@ -40,6 +40,9 @@
         {{ subtitle }}
       </p>
     </slot>
+
+    <!-- Actions -->
+    <slot name="actions" />
 
     <!-- Additional content -->
     <slot />
@@ -66,6 +69,7 @@ interface Props {
   chipSize?: SizeType
   chipIcon?: IconType
   chipIconSize?: SizeType | number
+  chipClass?: string
   centered?: boolean
   maxWidth?: string | number
 }
@@ -80,6 +84,7 @@ const props = withDefaults(defineProps<Props>(), {
   chipVariant: Variants.Tonal,
   chipSize: Sizes.Default,
   chipIconSize: Sizes.Small,
+  chipClass: 'mb-4',
   centered: true,
 })
 

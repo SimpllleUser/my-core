@@ -29,7 +29,7 @@
       </slot>
 
       <!-- Quote Text -->
-      <slot name="text">
+      <slot name="text" :text="text">
         <p :class="[textClass, 'mb-6']">
           <template v-if="showQuotes">"</template>{{ text }}<template v-if="showQuotes">"</template>
         </p>
@@ -37,18 +37,18 @@
 
       <!-- Author Info -->
       <div :class="['d-flex', { 'justify-center': centered }, 'align-center']">
-        <slot name="avatar">
+        <slot name="avatar" :avatar="avatar" :name="name">
           <VAvatar :size="avatarSize" :class="avatarClass">
             <VImg :src="avatar" :alt="name" />
           </VAvatar>
         </slot>
 
-        <slot name="author">
+        <slot name="author" :name="name" :role="role" :company="company">
           <div :class="{ 'text-center': centered && !avatar }">
             <p :class="[nameClass, 'mb-0']">{{ name }}</p>
             <p :class="[roleClass, 'mb-0']">
               {{ role }}
-              <template v-if="company"> at {{ company }}</template>
+              <template v-if="company">{{ companySeparator }}{{ company }}</template>
             </p>
           </div>
         </slot>
@@ -123,6 +123,9 @@ interface Props {
   textClass?: string
   nameClass?: string
   roleClass?: string
+
+  // Company
+  companySeparator?: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -147,6 +150,7 @@ withDefaults(defineProps<Props>(), {
   textClass: 'text-body-1',
   nameClass: 'font-weight-medium',
   roleClass: 'text-caption text-medium-emphasis',
+  companySeparator: ' at ',
 })
 </script>
 

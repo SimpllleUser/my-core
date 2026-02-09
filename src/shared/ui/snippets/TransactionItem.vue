@@ -4,14 +4,23 @@
   Props: type, status, title, description, amount, currency, date, icon, category
 -->
 <template>
-  <VListItem :class="itemClass">
+  <VListItem :class="itemClass" v-bind="$attrs">
     <template #prepend>
-      <VAvatar :color="iconBgColor" :size="iconContainerSize" :rounded="iconRounded">
-        <VIcon :color="iconColor" :size="iconSize">{{ displayIcon }}</VIcon>
-      </VAvatar>
+      <slot name="prepend" :type="type" :displayIcon="displayIcon" :iconBgColor="computedIconBgColor">
+        <VAvatar :color="computedIconBgColor" :size="iconContainerSize" :rounded="iconRounded" :class="iconContainerClass">
+          <slot name="icon" :icon="displayIcon" :type="type">
+            <VIcon :color="iconColor" :size="iconSize">{{ displayIcon }}</VIcon>
+          </slot>
+        </VAvatar>
+      </slot>
     </template>
 
-    <VListItemTitle :class="titleClass">{{ title }}</VListItemTitle>
+    <slot name="title-content" :title="title">
+      <VListItemTitle :class="titleClass">
+        <slot name="title">{{ title }}</slot>
+      </VListItemTitle>
+    </slot>
+
     <VListItemSubtitle :class="subtitleClass">
       <slot name="subtitle">
         {{ description || formattedDate }}
@@ -19,28 +28,37 @@
     </VListItemSubtitle>
 
     <template #append>
-      <div class="text-right">
-        <div :class="['font-weight-bold', amountClass]">
-          {{ amountPrefix }}{{ formattedAmount }}
+      <slot name="append" :amount="amount" :formattedAmount="formattedAmount" :status="status">
+        <div :class="appendClass">
+          <!-- Amount -->
+          <slot name="amount" :amount="amount" :formattedAmount="formattedAmount" :amountPrefix="amountPrefix">
+            <div :class="['font-weight-bold', amountClass, amountColorClass]">
+              {{ amountPrefix }}{{ formattedAmount }}
+            </div>
+          </slot>
+
+          <!-- Status -->
+          <slot name="status" :status="status" :statusColor="computedStatusColor">
+            <VChip
+              v-if="showStatus && status"
+              :color="computedStatusColor"
+              :size="statusChipSize"
+              :variant="statusChipVariant"
+              :class="statusClass"
+            >
+              {{ status }}
+            </VChip>
+          </slot>
         </div>
-        <VChip
-          v-if="showStatus"
-          :color="statusColor"
-          size="x-small"
-          variant="tonal"
-          class="mt-1"
-        >
-          {{ status }}
-        </VChip>
-      </div>
+      </slot>
     </template>
   </VListItem>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Icons } from '@/shared/model'
-import type { ColorType, IconType, TransactionType, TransactionStatus } from './types'
+import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import type { ColorType, VariantType, SizeType, IconType, TransactionType, TransactionStatus } from './types'
 
 interface Props {
   // Transaction data
@@ -59,6 +77,8 @@ interface Props {
   titleClass?: string
   subtitleClass?: string
   amountClass?: string
+  appendClass?: string
+  statusClass?: string
 
   // Icon
   iconColor?: ColorType | string
@@ -66,10 +86,25 @@ interface Props {
   iconSize?: number
   iconContainerSize?: number
   iconRounded?: string
+  iconContainerClass?: string
+
+  // Status chip
+  statusChipSize?: SizeType
+  statusChipVariant?: VariantType
 
   // Options
   showStatus?: boolean
   showSign?: boolean
+
+  // Custom type icons
+  incomeIcon?: IconType
+  expenseIcon?: IconType
+  transferIcon?: IconType
+
+  // Custom type colors
+  incomeColor?: ColorType
+  expenseColor?: ColorType
+  transferColor?: ColorType
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,33 +112,43 @@ const props = withDefaults(defineProps<Props>(), {
   currency: 'USD',
   titleClass: 'text-body-1 font-weight-medium',
   subtitleClass: 'text-caption text-medium-emphasis',
+  appendClass: 'text-right',
+  statusClass: 'mt-1',
   iconColor: 'white',
   iconSize: 20,
   iconContainerSize: 44,
   iconRounded: 'lg',
+  statusChipSize: Sizes.XSmall,
+  statusChipVariant: Variants.Tonal,
   showStatus: false,
   showSign: true,
+  incomeIcon: Icons.ArrowDown,
+  expenseIcon: Icons.ArrowUp,
+  transferIcon: Icons.SwapHorizontal,
+  incomeColor: Colors.Success,
+  expenseColor: Colors.Error,
+  transferColor: Colors.Info,
 })
 
-const typeConfig = {
-  income: { icon: Icons.ArrowDown, color: Colors.Success, prefix: '+' },
-  expense: { icon: Icons.ArrowUp, color: Colors.Error, prefix: '-' },
-  transfer: { icon: Icons.SwapHorizontal, color: Colors.Info, prefix: '' },
-}
+const typeConfig = computed(() => ({
+  income: { icon: props.incomeIcon, color: props.incomeColor, prefix: '+' },
+  expense: { icon: props.expenseIcon, color: props.expenseColor, prefix: '-' },
+  transfer: { icon: props.transferIcon, color: props.transferColor, prefix: '' },
+}))
 
-const statusConfig = {
+const statusConfig: Record<string, ColorType> = {
   completed: Colors.Success,
   pending: Colors.Warning,
   failed: Colors.Error,
 }
 
-const displayIcon = computed(() => props.icon || typeConfig[props.type].icon)
-const iconBgColor = computed(() => typeConfig[props.type].color)
-const statusColor = computed(() => statusConfig[props.status])
+const displayIcon = computed(() => props.icon || typeConfig.value[props.type].icon)
+const computedIconBgColor = computed(() => props.iconBgColor || typeConfig.value[props.type].color)
+const computedStatusColor = computed(() => statusConfig[props.status] || Colors.Info)
 
 const amountPrefix = computed(() => {
   if (!props.showSign) return ''
-  return typeConfig[props.type].prefix
+  return typeConfig.value[props.type].prefix
 })
 
 const amountColorClass = computed(() => {

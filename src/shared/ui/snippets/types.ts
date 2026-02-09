@@ -14,6 +14,7 @@ export interface ISocialLink {
   platform: string
   icon: IconType
   url?: string
+  color?: string
 }
 
 // ==================== Team Member ====================

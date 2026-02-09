@@ -8,7 +8,7 @@
   >
     <VCardText :class="contentClass">
       <!-- Icon -->
-      <slot name="icon">
+      <slot name="icon" :icon="icon" :iconColor="iconColor" :iconBgColor="iconBgColor">
         <VAvatar
           v-if="icon"
           :color="iconBgColor"
@@ -21,7 +21,7 @@
       </slot>
 
       <!-- Value -->
-      <slot name="value">
+      <slot name="value" :value="value" :prefix="prefix" :suffix="suffix">
         <component
           :is="valueTag"
           :class="[valueClass, 'font-weight-bold', valueMargin]"
@@ -37,13 +37,13 @@
       </slot>
 
       <!-- Label -->
-      <slot name="label">
+      <slot name="label" :label="label">
         <p v-if="label" :class="[labelClass, 'mb-0']">{{ label }}</p>
       </slot>
 
       <!-- Trend indicator -->
-      <slot name="trend">
-        <div v-if="trend !== undefined" :class="['d-flex align-center', { 'justify-center': centered }, 'mt-2']">
+      <slot name="trend" :trend="trend" :trendColor="trendColor" :trendIcon="trendIcon">
+        <div v-if="trend !== undefined" :class="['d-flex align-center', { 'justify-center': centered }, trendContainerClass]">
           <VIcon
             :color="trendColor"
             :size="trendIconSize"
@@ -115,6 +115,7 @@ interface Props {
   trendLabelClass?: string
   trendUpColor?: ColorType
   trendDownColor?: ColorType
+  trendContainerClass?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -139,6 +140,7 @@ const props = withDefaults(defineProps<Props>(), {
   trendLabelClass: 'text-caption text-medium-emphasis ml-1',
   trendUpColor: Colors.Success,
   trendDownColor: Colors.Error,
+  trendContainerClass: 'mt-2',
 })
 
 const trendColor = computed(() => {

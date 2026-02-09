@@ -9,7 +9,7 @@
   >
     <VCardText :class="contentClass">
       <!-- Icon -->
-      <slot name="icon">
+      <slot name="icon" :icon="icon" :iconColor="iconColor" :iconBgColor="iconBgColor">
         <VAvatar
           v-if="icon"
           :color="iconBgColor"
@@ -22,7 +22,7 @@
       </slot>
 
       <!-- Badge -->
-      <slot name="badge">
+      <slot name="badge" :badge="badge">
         <VChip
           v-if="badge"
           :color="badgeColor"
@@ -35,7 +35,7 @@
       </slot>
 
       <!-- Title -->
-      <slot name="title">
+      <slot name="title" :title="title">
         <component
           :is="titleTag"
           :class="[titleClass, 'font-weight-bold', titleMargin]"
@@ -45,15 +45,15 @@
       </slot>
 
       <!-- Description -->
-      <slot name="description">
+      <slot name="description" :description="description">
         <p v-if="description" :class="[descriptionClass, 'mb-0']">
           {{ description }}
         </p>
       </slot>
 
       <!-- Points List -->
-      <slot name="points">
-        <VList v-if="points && points.length" density="compact" class="bg-transparent mt-4">
+      <slot name="points" :points="points">
+        <VList v-if="points && points.length" :density="pointsDensity" :class="pointsListClass">
           <VListItem
             v-for="(point, index) in points"
             :key="index"
@@ -122,6 +122,8 @@ interface Props {
   points?: string[]
   pointIcon?: IconType
   pointIconColor?: ColorType
+  pointsDensity?: 'default' | 'comfortable' | 'compact'
+  pointsListClass?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -142,6 +144,8 @@ const props = withDefaults(defineProps<Props>(), {
   descriptionClass: 'text-body-2 text-medium-emphasis',
   pointIcon: Icons.CheckCircle,
   pointIconColor: Colors.Success,
+  pointsDensity: 'compact',
+  pointsListClass: 'bg-transparent mt-4',
 })
 
 const titleMargin = computed(() => {

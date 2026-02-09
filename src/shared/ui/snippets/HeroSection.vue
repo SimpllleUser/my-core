@@ -6,7 +6,7 @@
         <VRow justify="center" class="text-center">
           <VCol :cols="12" :md="contentColsMd" :lg="contentColsLg">
             <!-- Badge/Chip -->
-            <slot name="badge">
+            <slot name="badge" :badge="badge">
               <VChip
                 v-if="badge"
                 :color="badgeColor"
@@ -19,7 +19,7 @@
             </slot>
 
             <!-- Title -->
-            <slot name="title">
+            <slot name="title" :title="title" :titleHighlight="titleHighlight">
               <h1 :class="[titleClass, 'font-weight-bold mb-4']">
                 {{ title }}
                 <span v-if="titleHighlight" :class="titleHighlightClass">{{ titleHighlight }}</span>
@@ -27,7 +27,7 @@
             </slot>
 
             <!-- Subtitle -->
-            <slot name="subtitle">
+            <slot name="subtitle" :subtitle="subtitle">
               <p
                 v-if="subtitle"
                 :class="[subtitleClass, 'mx-auto mb-8']"
@@ -38,7 +38,7 @@
             </slot>
 
             <!-- CTAs -->
-            <slot name="ctas">
+            <slot name="ctas" :ctas="ctas">
               <div v-if="ctas?.length" class="d-flex flex-wrap justify-center ga-4">
                 <VBtn
                   v-for="(cta, index) in ctas"
@@ -58,7 +58,7 @@
             </slot>
 
             <!-- Features list -->
-            <slot name="features">
+            <slot name="features" :features="features">
               <p v-if="features?.length" :class="[featuresClass, 'mt-4']">
                 <template v-for="(feature, index) in features" :key="index">
                   <VIcon v-if="feature.icon" :size="featureIconSize" :color="featureIconColor">
@@ -75,7 +75,7 @@
         </VRow>
 
         <!-- Image below -->
-        <slot name="image">
+        <slot name="image" :image="image">
           <VRow v-if="image" justify="center" class="mt-8">
             <VCol :cols="12" :lg="imageColsLg">
               <VCard :class="imageCardClass" :elevation="imageElevation">
@@ -95,9 +95,9 @@
       <!-- Split Layout -->
       <template v-else-if="layout === 'split'">
         <VRow align="center">
-          <VCol cols="12" :md="6" :order-md="imagePosition === 'left' ? 2 : 1">
+          <VCol cols="12" :md="splitContentCols" :order-md="imagePosition === 'left' ? 2 : 1">
             <!-- Badge/Chip -->
-            <slot name="badge">
+            <slot name="badge" :badge="badge">
               <VChip
                 v-if="badge"
                 :color="badgeColor"
@@ -110,22 +110,22 @@
             </slot>
 
             <!-- Title -->
-            <slot name="title">
+            <slot name="title" :title="title">
               <h1 :class="[splitTitleClass, 'font-weight-bold mb-4']">
                 {{ title }}
               </h1>
             </slot>
 
             <!-- Subtitle -->
-            <slot name="subtitle">
+            <slot name="subtitle" :subtitle="subtitle">
               <p v-if="subtitle" :class="[subtitleClass, 'mb-6']">
                 {{ subtitle }}
               </p>
             </slot>
 
             <!-- Features list -->
-            <slot name="features">
-              <VList v-if="features?.length" density="compact" class="bg-transparent mb-6">
+            <slot name="features" :features="features">
+              <VList v-if="features?.length" density="compact" :class="splitFeaturesListClass">
                 <VListItem
                   v-for="(feature, index) in features"
                   :key="index"
@@ -142,7 +142,7 @@
             </slot>
 
             <!-- CTAs -->
-            <slot name="ctas">
+            <slot name="ctas" :ctas="ctas">
               <div v-if="ctas?.length" class="d-flex flex-wrap ga-3">
                 <VBtn
                   v-for="(cta, index) in ctas"
@@ -161,8 +161,8 @@
             <slot />
           </VCol>
 
-          <VCol cols="12" :md="6" :order-md="imagePosition === 'left' ? 1 : 2">
-            <slot name="image">
+          <VCol cols="12" :md="splitImageCols" :order-md="imagePosition === 'left' ? 1 : 2">
+            <slot name="image" :image="image">
               <VImg
                 v-if="image"
                 :src="image"
@@ -232,6 +232,11 @@ interface Props {
   featureDefaultIcon?: IconType
   featureSeparator?: string
 
+  // Split layout
+  splitContentCols?: number
+  splitImageCols?: number
+  splitFeaturesListClass?: string
+
   // Image styling
   imageColsLg?: number
   imageCardClass?: string
@@ -263,6 +268,9 @@ const props = withDefaults(defineProps<Props>(), {
   featureIconColor: Colors.Success,
   featureDefaultIcon: Icons.CheckCircle,
   featureSeparator: '•',
+  splitContentCols: 6,
+  splitImageCols: 6,
+  splitFeaturesListClass: 'bg-transparent mb-6',
   imageColsLg: 10,
   imageCardClass: 'elevation-12 rounded-xl overflow-hidden',
   imageElevation: 12,

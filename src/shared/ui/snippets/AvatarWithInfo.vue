@@ -1,7 +1,7 @@
 <template>
   <div :class="['avatar-with-info d-flex', alignClass, containerClass]">
     <!-- Avatar -->
-    <slot name="avatar">
+    <slot name="avatar" :avatar="avatar" :name="name" :initials="initials">
       <VAvatar :size="avatarSize" :class="avatarClass">
         <VImg v-if="avatar" :src="avatar" :alt="name" />
         <span v-else-if="initials" :class="initialsClass">{{ initials }}</span>
@@ -11,13 +11,13 @@
 
     <!-- Info -->
     <div :class="infoClass">
-      <slot name="name">
+      <slot name="name" :name="name">
         <component :is="nameTag" :class="[nameClass, 'mb-0']">
           {{ name }}
         </component>
       </slot>
 
-      <slot name="subtitle">
+      <slot name="subtitle" :subtitle="subtitle" :company="company">
         <p v-if="subtitle" :class="[subtitleClass, 'mb-0']">
           {{ subtitle }}
           <template v-if="company">
@@ -27,7 +27,7 @@
         </p>
       </slot>
 
-      <slot name="badge">
+      <slot name="badge" :badge="badge">
         <VChip
           v-if="badge"
           :size="badgeSize"
