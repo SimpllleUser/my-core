@@ -38,22 +38,6 @@
     </div>
 
     <slot
-      name="errors"
-      :errors="errors"
-      :has-errors="hasErrors"
-    >
-      <transition-group name="field-error">
-        <p
-          v-for="error in errors"
-          :key="error"
-          class="field-wrapper__error"
-        >
-          {{ error }}
-        </p>
-      </transition-group>
-    </slot>
-
-    <slot
       name="hint"
       :hint="field.config.hint"
     >
@@ -107,12 +91,6 @@ const hasErrors = computed(() => props.errors.length > 0);
   margin: 0;
 }
 
-.field-wrapper__error {
-  font-size: 0.75rem;
-  color: rgb(var(--v-theme-error));
-  margin: 0;
-}
-
 .field-wrapper__hint {
   font-size: 0.75rem;
   color: rgba(var(--v-theme-on-surface), 0.6);
@@ -123,14 +101,4 @@ const hasErrors = computed(() => props.errors.length > 0);
   color: rgb(var(--v-theme-error));
 }
 
-.field-error-enter-active,
-.field-error-leave-active {
-  transition: all 0.2s ease;
-}
-
-.field-error-enter-from,
-.field-error-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
 </style>
