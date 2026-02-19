@@ -1,7 +1,7 @@
 <!--
   Snippet: Contact Form
   Description: Contact form with validation and success state
-  Components: VCard, VTextField, VTextarea, VSelect, VBtn, VAlert
+  Components: VCard, DynamicField, FormConfig, useFormState
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
@@ -28,72 +28,28 @@
             Thank you for reaching out. We'll respond to your inquiry soon.
           </VAlert>
 
-          <VForm ref="formRef" v-model="valid" @submit.prevent="submit">
+          <VForm @submit.prevent="submit">
             <VRow>
               <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="form.firstName"
-                  :rules="requiredRules"
-                  label="First Name"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-account"
-                />
+                <DynamicField v-bind="bind.firstName" />
               </VCol>
               <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="form.lastName"
-                  :rules="requiredRules"
-                  label="Last Name"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-account"
-                />
+                <DynamicField v-bind="bind.lastName" />
               </VCol>
               <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="form.email"
-                  :rules="emailRules"
-                  label="Email"
-                  type="email"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-email"
-                />
+                <DynamicField v-bind="bind.email" />
               </VCol>
               <VCol cols="12" sm="6">
-                <VTextField
-                  v-model="form.phone"
-                  label="Phone (optional)"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-phone"
-                />
+                <DynamicField v-bind="bind.phone" />
               </VCol>
               <VCol cols="12">
-                <VSelect
-                  v-model="form.subject"
-                  :items="subjects"
-                  :rules="requiredRules"
-                  label="Subject"
-                  variant="outlined"
-                  prepend-inner-icon="mdi-tag"
-                />
+                <DynamicField v-bind="bind.subject" />
               </VCol>
               <VCol cols="12">
-                <VTextarea
-                  v-model="form.message"
-                  :rules="messageRules"
-                  label="Message"
-                  variant="outlined"
-                  rows="5"
-                  counter="500"
-                  prepend-inner-icon="mdi-message-text"
-                />
+                <DynamicField v-bind="bind.message" />
               </VCol>
               <VCol cols="12">
-                <VCheckbox
-                  v-model="form.newsletter"
-                  label="Subscribe to our newsletter for updates and tips"
-                  color="primary"
-                  hide-details
-                />
+                <DynamicField v-bind="bind.newsletter" />
               </VCol>
             </VRow>
 
@@ -101,7 +57,7 @@
               <VBtn
                 variant="text"
                 class="mr-2"
-                @click="resetForm"
+                @click="reset"
               >
                 Clear
               </VBtn>
@@ -110,7 +66,7 @@
                 size="large"
                 type="submit"
                 :loading="loading"
-                :disabled="!valid"
+                :disabled="!isValid"
               >
                 Send Message
                 <VIcon end>mdi-send</VIcon>
@@ -125,66 +81,77 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import {
+  FormConfig,
+  TextField,
+  EmailField,
+  SelectField,
+  TextareaField,
+  CheckboxField,
+  useFormState,
+  DynamicField,
+  minLength,
+  maxLength,
+} from '@/shared/form'
 
-const formRef = ref()
-const valid = ref(false)
 const loading = ref(false)
 const submitted = ref(false)
 
-const form = ref({
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  subject: '',
-  message: '',
-  newsletter: false,
+const form = new FormConfig({
+  firstName: new TextField({
+    label: 'First Name',
+    required: true,
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-account' },
+  }),
+  lastName: new TextField({
+    label: 'Last Name',
+    required: true,
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-account' },
+  }),
+  email: new EmailField({
+    label: 'Email',
+    required: true,
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-email' },
+  }),
+  phone: new TextField({
+    label: 'Phone (optional)',
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-phone' },
+  }),
+  subject: new SelectField({
+    label: 'Subject',
+    required: true,
+    options: [
+      { title: 'General Inquiry', value: 'General Inquiry' },
+      { title: 'Technical Support', value: 'Technical Support' },
+      { title: 'Sales Question', value: 'Sales Question' },
+      { title: 'Partnership Opportunity', value: 'Partnership Opportunity' },
+      { title: 'Feedback', value: 'Feedback' },
+      { title: 'Other', value: 'Other' },
+    ],
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-tag' },
+  }),
+  message: new TextareaField({
+    label: 'Message',
+    required: true,
+    rows: 5,
+    rules: [minLength(10), maxLength(500)],
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-message-text', counter: 500 },
+  }),
+  newsletter: new CheckboxField({
+    label: 'Subscribe to our newsletter for updates and tips',
+  }),
 })
 
-const subjects = [
-  'General Inquiry',
-  'Technical Support',
-  'Sales Question',
-  'Partnership Opportunity',
-  'Feedback',
-  'Other',
-]
+const { bind, isValid, validateAll, reset } = useFormState(form.getFields())
 
-const requiredRules = [(v: string) => !!v || 'This field is required']
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
-]
-const messageRules = [
-  (v: string) => !!v || 'Message is required',
-  (v: string) => v.length >= 10 || 'Message must be at least 10 characters',
-  (v: string) => v.length <= 500 || 'Message must be less than 500 characters',
-]
-
-const submit = async () => {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
+const submit = () => {
+  if (!validateAll()) return
 
   loading.value = true
-  // Simulate API call
   setTimeout(() => {
     loading.value = false
     submitted.value = true
-    console.log('Form submitted:', form.value)
-    resetForm()
+    reset()
   }, 1500)
-}
-
-const resetForm = () => {
-  formRef.value?.reset()
-  form.value = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-    newsletter: false,
-  }
 }
 </script>

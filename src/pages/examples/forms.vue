@@ -1,5 +1,16 @@
+<script setup lang="ts">
+import {
+  ContactForm,
+  CheckoutForm,
+  MultiStepForm,
+  FilterForm
+} from '@/snippets'
+import RegisterForm from '../../shared/form/example/RegisterForm.vue';
+</script>
+
 <template>
   <VContainer fluid class="pa-6">
+<!--    <RegisterForm />-->
     <!-- Header -->
     <VRow class="mb-6">
       <VCol cols="12">
@@ -94,12 +105,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  ContactForm,
-  CheckoutForm,
-  MultiStepForm,
-  FilterForm
-} from '@/snippets'
-</script>

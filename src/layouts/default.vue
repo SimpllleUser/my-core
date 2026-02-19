@@ -15,6 +15,7 @@ const navigationItems = [
       { title: 'Ecommerce', route: '/examples/ecommerce', icon: Icons.Cart },
       { title: 'Error Pages', route: '/examples/error-pages', icon: Icons.AlertCircle },
       { title: 'Forms', route: '/examples/forms', icon: Icons.FormTextbox },
+      { title: 'Form Module', route: '/examples/form-module', icon: Icons.FormSelect },
       { title: 'Index', route: '/examples', icon: Icons.Home },
       { title: 'Landing', route: '/examples/landing', icon: Icons.RocketLaunch },
       { title: 'Lists', route: '/examples/lists', icon: Icons.FormatListBulleted },

@@ -1,7 +1,7 @@
 <!--
   Snippet: Checkout Form
   Description: E-commerce checkout form with billing, shipping, and payment
-  Components: VCard, VTextField, VSelect, VRadioGroup, VDivider, VBtn
+  Components: VCard, DynamicField, FormConfig, useFormState, VRadioGroup
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
@@ -15,73 +15,31 @@
             Shipping Information
           </VCardTitle>
           <VCardText>
-            <VForm ref="shippingFormRef" v-model="shippingValid">
+            <VForm>
               <VRow>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="shipping.firstName"
-                    :rules="requiredRules"
-                    label="First Name"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.firstName" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="shipping.lastName"
-                    :rules="requiredRules"
-                    label="Last Name"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.lastName" />
                 </VCol>
                 <VCol cols="12">
-                  <VTextField
-                    v-model="shipping.address"
-                    :rules="requiredRules"
-                    label="Street Address"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.address" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="shipping.city"
-                    :rules="requiredRules"
-                    label="City"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.city" />
                 </VCol>
                 <VCol cols="12" sm="3">
-                  <VSelect
-                    v-model="shipping.state"
-                    :items="states"
-                    :rules="requiredRules"
-                    label="State"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.state" />
                 </VCol>
                 <VCol cols="12" sm="3">
-                  <VTextField
-                    v-model="shipping.zip"
-                    :rules="zipRules"
-                    label="ZIP Code"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.zip" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="shipping.email"
-                    :rules="emailRules"
-                    label="Email"
-                    type="email"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.email" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="shipping.phone"
-                    :rules="requiredRules"
-                    label="Phone"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="shippingBind.phone" />
                 </VCol>
               </VRow>
             </VForm>
@@ -126,44 +84,19 @@
             Payment Information
           </VCardTitle>
           <VCardText>
-            <VForm ref="paymentFormRef" v-model="paymentValid">
+            <VForm>
               <VRow>
                 <VCol cols="12">
-                  <VTextField
-                    v-model="payment.cardNumber"
-                    :rules="cardRules"
-                    label="Card Number"
-                    variant="outlined"
-                    placeholder="1234 5678 9012 3456"
-                    prepend-inner-icon="mdi-credit-card"
-                  />
+                  <DynamicField v-bind="paymentBind.cardNumber" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="payment.expiry"
-                    :rules="expiryRules"
-                    label="Expiry Date"
-                    variant="outlined"
-                    placeholder="MM/YY"
-                  />
+                  <DynamicField v-bind="paymentBind.expiry" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <VTextField
-                    v-model="payment.cvv"
-                    :rules="cvvRules"
-                    label="CVV"
-                    variant="outlined"
-                    placeholder="123"
-                    type="password"
-                  />
+                  <DynamicField v-bind="paymentBind.cvv" />
                 </VCol>
                 <VCol cols="12">
-                  <VTextField
-                    v-model="payment.cardName"
-                    :rules="requiredRules"
-                    label="Name on Card"
-                    variant="outlined"
-                  />
+                  <DynamicField v-bind="paymentBind.cardName" />
                 </VCol>
               </VRow>
 
@@ -254,35 +187,76 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import {
+  FormConfig,
+  TextField,
+  EmailField,
+  SelectField,
+  useFormState,
+  DynamicField,
+  pattern,
+} from '@/shared/form'
 
-const shippingFormRef = ref()
-const paymentFormRef = ref()
-const shippingValid = ref(false)
-const paymentValid = ref(false)
 const loading = ref(false)
 const promoCode = ref('')
 const sameAsBilling = ref(true)
 const shippingMethod = ref('standard')
 
-const shipping = ref({
-  firstName: '',
-  lastName: '',
-  address: '',
-  city: '',
-  state: '',
-  zip: '',
-  email: '',
-  phone: '',
+// --- Shipping Form ---
+const shippingForm = new FormConfig({
+  firstName: new TextField({ label: 'First Name', required: true }),
+  lastName: new TextField({ label: 'Last Name', required: true }),
+  address: new TextField({ label: 'Street Address', required: true }),
+  city: new TextField({ label: 'City', required: true }),
+  state: new SelectField({
+    label: 'State',
+    required: true,
+    options: ['CA', 'NY', 'TX', 'FL', 'WA', 'IL', 'PA', 'OH', 'GA', 'NC'].map(s => ({ title: s, value: s })),
+  }),
+  zip: new TextField({
+    label: 'ZIP Code',
+    required: true,
+    rules: [pattern(/^\d{5}(-\d{4})?$/, 'Please enter a valid ZIP code')],
+  }),
+  email: new EmailField({ label: 'Email', required: true }),
+  phone: new TextField({ label: 'Phone', required: true }),
 })
 
-const payment = ref({
-  cardNumber: '',
-  expiry: '',
-  cvv: '',
-  cardName: '',
+const {
+  bind: shippingBind,
+  isValid: shippingValid,
+  validateAll: shippingValidateAll,
+} = useFormState(shippingForm.getFields())
+
+// --- Payment Form ---
+const paymentForm = new FormConfig({
+  cardNumber: new TextField({
+    label: 'Card Number',
+    required: true,
+    placeholder: '1234 5678 9012 3456',
+    rules: [pattern(/^\d[\d\s]{14,18}$/, 'Please enter a valid card number')],
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-credit-card' },
+  }),
+  expiry: new TextField({
+    label: 'Expiry Date',
+    required: true,
+    placeholder: 'MM/YY',
+    rules: [pattern(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Please enter a valid expiry (MM/YY)')],
+  }),
+  cvv: new TextField({
+    label: 'CVV',
+    required: true,
+    placeholder: '123',
+    rules: [pattern(/^\d{3,4}$/, 'Please enter a valid CVV')],
+  }),
+  cardName: new TextField({ label: 'Name on Card', required: true }),
 })
 
-const states = ['CA', 'NY', 'TX', 'FL', 'WA', 'IL', 'PA', 'OH', 'GA', 'NC']
+const {
+  bind: paymentBind,
+  isValid: paymentValid,
+  validateAll: paymentValidateAll,
+} = useFormState(paymentForm.getFields())
 
 const shippingMethods = [
   { id: 'standard', name: 'Standard Shipping', description: '5-7 business days', price: 5.99 },
@@ -296,28 +270,6 @@ const cartItems = [
   { id: 3, name: 'USB-C Cable', quantity: 3, price: 14.99, image: 'https://picsum.photos/seed/item3/100' },
 ]
 
-const requiredRules = [(v: string) => !!v || 'This field is required']
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
-]
-const zipRules = [
-  (v: string) => !!v || 'ZIP code is required',
-  (v: string) => /^\d{5}(-\d{4})?$/.test(v) || 'Please enter a valid ZIP code',
-]
-const cardRules = [
-  (v: string) => !!v || 'Card number is required',
-  (v: string) => v.replace(/\s/g, '').length >= 16 || 'Please enter a valid card number',
-]
-const expiryRules = [
-  (v: string) => !!v || 'Expiry date is required',
-  (v: string) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(v) || 'Please enter a valid expiry (MM/YY)',
-]
-const cvvRules = [
-  (v: string) => !!v || 'CVV is required',
-  (v: string) => /^\d{3,4}$/.test(v) || 'Please enter a valid CVV',
-]
-
 const subtotal = computed(() => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0))
 const selectedShippingPrice = computed(() => shippingMethods.find(m => m.id === shippingMethod.value)?.price || 0)
 const tax = computed(() => subtotal.value * 0.08)
@@ -328,11 +280,13 @@ const applyPromo = () => {
   console.log('Apply promo:', promoCode.value)
 }
 
-const placeOrder = async () => {
+const placeOrder = () => {
+  if (!shippingValidateAll() || !paymentValidateAll()) return
+
   loading.value = true
   setTimeout(() => {
     loading.value = false
-    console.log('Order placed:', { shipping: shipping.value, payment: payment.value })
+    console.log('Order placed')
   }, 2000)
 }
 </script>

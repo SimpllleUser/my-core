@@ -1,7 +1,7 @@
 <!--
   Snippet: Multi-Step Form
   Description: Wizard-style form with progress indicator and validation per step
-  Components: VCard, VStepper, VTextField, VSelect, VFileInput, VBtn
+  Components: VCard, VStepper, DynamicField, FormConfig, useFormState, VFileInput
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <template>
@@ -33,60 +33,26 @@
               <VCard flat>
                 <VCardTitle class="text-h6">Personal Information</VCardTitle>
                 <VCardText>
-                  <VForm ref="step1FormRef" v-model="step1Valid">
-                    <VRow>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.firstName"
-                          :rules="requiredRules"
-                          label="First Name"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.lastName"
-                          :rules="requiredRules"
-                          label="Last Name"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.email"
-                          :rules="emailRules"
-                          label="Email"
-                          type="email"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.phone"
-                          :rules="phoneRules"
-                          label="Phone"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.dateOfBirth"
-                          :rules="requiredRules"
-                          label="Date of Birth"
-                          type="date"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VSelect
-                          v-model="form.gender"
-                          :items="genders"
-                          label="Gender"
-                          variant="outlined"
-                        />
-                      </VCol>
-                    </VRow>
-                  </VForm>
+                  <VRow>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.firstName" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.lastName" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.email" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.phone" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.dateOfBirth" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step1Bind.gender" />
+                    </VCol>
+                  </VRow>
                 </VCardText>
               </VCard>
             </template>
@@ -95,65 +61,26 @@
               <VCard flat>
                 <VCardTitle class="text-h6">Professional Experience</VCardTitle>
                 <VCardText>
-                  <VForm ref="step2FormRef" v-model="step2Valid">
-                    <VRow>
-                      <VCol cols="12" sm="6">
-                        <VSelect
-                          v-model="form.position"
-                          :items="positions"
-                          :rules="requiredRules"
-                          label="Desired Position"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VSelect
-                          v-model="form.experience"
-                          :items="experienceLevels"
-                          :rules="requiredRules"
-                          label="Years of Experience"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VTextField
-                          v-model="form.currentCompany"
-                          label="Current/Last Company"
-                          variant="outlined"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VSelect
-                          v-model="form.skills"
-                          :items="skillOptions"
-                          :rules="[(v: string[]) => v.length > 0 || 'Select at least one skill']"
-                          label="Key Skills"
-                          variant="outlined"
-                          multiple
-                          chips
-                          closable-chips
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VTextField
-                          v-model="form.expectedSalary"
-                          label="Expected Salary"
-                          variant="outlined"
-                          prefix="$"
-                          type="number"
-                        />
-                      </VCol>
-                      <VCol cols="12" sm="6">
-                        <VSelect
-                          v-model="form.startDate"
-                          :items="startDates"
-                          :rules="requiredRules"
-                          label="Available Start Date"
-                          variant="outlined"
-                        />
-                      </VCol>
-                    </VRow>
-                  </VForm>
+                  <VRow>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step2Bind.position" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step2Bind.experience" />
+                    </VCol>
+                    <VCol cols="12">
+                      <DynamicField v-bind="step2Bind.currentCompany" />
+                    </VCol>
+                    <VCol cols="12">
+                      <DynamicField v-bind="step2Bind.skills" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step2Bind.expectedSalary" />
+                    </VCol>
+                    <VCol cols="12" sm="6">
+                      <DynamicField v-bind="step2Bind.startDate" />
+                    </VCol>
+                  </VRow>
                 </VCardText>
               </VCard>
             </template>
@@ -162,56 +89,38 @@
               <VCard flat>
                 <VCardTitle class="text-h6">Documents & Additional Info</VCardTitle>
                 <VCardText>
-                  <VForm ref="step3FormRef" v-model="step3Valid">
-                    <VRow>
-                      <VCol cols="12">
-                        <VFileInput
-                          v-model="form.resume"
-                          :rules="fileRules"
-                          label="Resume/CV"
-                          variant="outlined"
-                          accept=".pdf,.doc,.docx"
-                          prepend-icon="mdi-file-document"
-                          show-size
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VFileInput
-                          v-model="form.coverLetter"
-                          label="Cover Letter (Optional)"
-                          variant="outlined"
-                          accept=".pdf,.doc,.docx"
-                          prepend-icon="mdi-file-document-outline"
-                          show-size
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VTextField
-                          v-model="form.linkedin"
-                          label="LinkedIn Profile URL"
-                          variant="outlined"
-                          prepend-inner-icon="mdi-linkedin"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VTextField
-                          v-model="form.portfolio"
-                          label="Portfolio/Website URL"
-                          variant="outlined"
-                          prepend-inner-icon="mdi-web"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VTextarea
-                          v-model="form.additionalInfo"
-                          label="Additional Information"
-                          variant="outlined"
-                          rows="4"
-                          placeholder="Tell us anything else you'd like us to know..."
-                        />
-                      </VCol>
-                    </VRow>
-                  </VForm>
+                  <VRow>
+                    <VCol cols="12">
+                      <VFileInput
+                        v-model="documents.resume"
+                        :rules="fileRules"
+                        label="Resume/CV"
+                        variant="outlined"
+                        accept=".pdf,.doc,.docx"
+                        prepend-icon="mdi-file-document"
+                        show-size
+                      />
+                    </VCol>
+                    <VCol cols="12">
+                      <VFileInput
+                        v-model="documents.coverLetter"
+                        label="Cover Letter (Optional)"
+                        variant="outlined"
+                        accept=".pdf,.doc,.docx"
+                        prepend-icon="mdi-file-document-outline"
+                        show-size
+                      />
+                    </VCol>
+                    <VCol cols="12">
+                      <DynamicField v-bind="step3Bind.linkedin" />
+                    </VCol>
+                    <VCol cols="12">
+                      <DynamicField v-bind="step3Bind.portfolio" />
+                    </VCol>
+                    <VCol cols="12">
+                      <DynamicField v-bind="step3Bind.additionalInfo" />
+                    </VCol>
+                  </VRow>
                 </VCardText>
               </VCard>
             </template>
@@ -220,7 +129,6 @@
               <VCard flat>
                 <VCardTitle class="text-h6">Review & Submit</VCardTitle>
                 <VCardText>
-                  <!-- Summary -->
                   <VAlert type="info" variant="tonal" class="mb-6">
                     Please review your information before submitting.
                   </VAlert>
@@ -231,15 +139,15 @@
                       <VList density="compact" class="bg-transparent">
                         <VListItem>
                           <VListItemSubtitle>Full Name</VListItemSubtitle>
-                          <VListItemTitle>{{ form.firstName }} {{ form.lastName }}</VListItemTitle>
+                          <VListItemTitle>{{ step1Values.firstName }} {{ step1Values.lastName }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Email</VListItemSubtitle>
-                          <VListItemTitle>{{ form.email }}</VListItemTitle>
+                          <VListItemTitle>{{ step1Values.email }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Phone</VListItemSubtitle>
-                          <VListItemTitle>{{ form.phone }}</VListItemTitle>
+                          <VListItemTitle>{{ step1Values.phone }}</VListItemTitle>
                         </VListItem>
                       </VList>
                     </VCol>
@@ -248,16 +156,16 @@
                       <VList density="compact" class="bg-transparent">
                         <VListItem>
                           <VListItemSubtitle>Position</VListItemSubtitle>
-                          <VListItemTitle>{{ form.position }}</VListItemTitle>
+                          <VListItemTitle>{{ step2Values.position }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Experience</VListItemSubtitle>
-                          <VListItemTitle>{{ form.experience }}</VListItemTitle>
+                          <VListItemTitle>{{ step2Values.experience }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Skills</VListItemSubtitle>
                           <VListItemTitle>
-                            <VChip v-for="skill in form.skills" :key="skill" size="small" class="mr-1 mb-1">
+                            <VChip v-for="skill in (step2Values.skills as string[])" :key="skill" size="small" class="mr-1 mb-1">
                               {{ skill }}
                             </VChip>
                           </VListItemTitle>
@@ -268,16 +176,7 @@
 
                   <VDivider class="my-4" />
 
-                  <VCheckbox
-                    v-model="form.agreeTerms"
-                    :rules="[(v: boolean) => v || 'You must agree to continue']"
-                    color="primary"
-                  >
-                    <template #label>
-                      I agree to the <a href="#" class="text-primary">Terms of Service</a>
-                      and <a href="#" class="text-primary">Privacy Policy</a>
-                    </template>
-                  </VCheckbox>
+                  <DynamicField v-bind="reviewBind.agreeTerms" />
                 </VCardText>
               </VCard>
             </template>
@@ -309,7 +208,7 @@
               v-else
               color="primary"
               :loading="loading"
-              :disabled="!form.agreeTerms"
+              :disabled="!reviewValid"
               @click="submit"
             >
               Submit Application
@@ -324,59 +223,149 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import {
+  FormConfig,
+  TextField,
+  EmailField,
+  SelectField,
+  TextareaField,
+  CheckboxField,
+  useFormState,
+  DynamicField,
+  required,
+  pattern,
+} from '@/shared/form'
 
 const currentStep = ref(1)
 const loading = ref(false)
 
-const step1FormRef = ref()
-const step2FormRef = ref()
-const step3FormRef = ref()
-
-const step1Valid = ref(false)
-const step2Valid = ref(false)
-const step3Valid = ref(false)
-
-const form = ref({
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  dateOfBirth: '',
-  gender: '',
-  position: '',
-  experience: '',
-  currentCompany: '',
-  skills: [] as string[],
-  expectedSalary: '',
-  startDate: '',
-  resume: null as File | null,
-  coverLetter: null as File | null,
-  linkedin: '',
-  portfolio: '',
-  additionalInfo: '',
-  agreeTerms: false,
+// --- Step 1: Personal Information ---
+const step1Form = new FormConfig({
+  firstName: new TextField({ label: 'First Name', required: true }),
+  lastName: new TextField({ label: 'Last Name', required: true }),
+  email: new EmailField({ label: 'Email', required: true }),
+  phone: new TextField({
+    label: 'Phone',
+    required: true,
+    rules: [pattern(/^[\d\s\-+()]+$/, 'Please enter a valid phone number')],
+  }),
+  dateOfBirth: new TextField({
+    label: 'Date of Birth',
+    required: true,
+    vuetifyProps: { type: 'date' },
+  }),
+  gender: new SelectField({
+    label: 'Gender',
+    options: [
+      { title: 'Male', value: 'Male' },
+      { title: 'Female', value: 'Female' },
+      { title: 'Non-binary', value: 'Non-binary' },
+      { title: 'Prefer not to say', value: 'Prefer not to say' },
+    ],
+  }),
 })
 
-const stepTitles = ['Personal', 'Experience', 'Documents', 'Review']
-const genders = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
-const positions = ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'DevOps Engineer', 'UI/UX Designer', 'Product Manager']
-const experienceLevels = ['0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years']
-const skillOptions = ['JavaScript', 'TypeScript', 'Vue.js', 'React', 'Angular', 'Node.js', 'Python', 'Go', 'Docker', 'AWS', 'Git']
-const startDates = ['Immediately', 'Within 2 weeks', 'Within 1 month', 'Within 2 months', 'More than 2 months']
+const {
+  bind: step1Bind,
+  isValid: step1Valid,
+  validateAll: step1ValidateAll,
+  values: step1Values,
+} = useFormState(step1Form.getFields())
 
-const requiredRules = [(v: string) => !!v || 'This field is required']
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
-]
-const phoneRules = [
-  (v: string) => !!v || 'Phone is required',
-  (v: string) => /^[\d\s\-+()]+$/.test(v) || 'Please enter a valid phone number',
-]
+// --- Step 2: Professional Experience ---
+const step2Form = new FormConfig({
+  position: new SelectField({
+    label: 'Desired Position',
+    required: true,
+    options: [
+      'Frontend Developer', 'Backend Developer', 'Full Stack Developer',
+      'DevOps Engineer', 'UI/UX Designer', 'Product Manager',
+    ].map(p => ({ title: p, value: p })),
+  }),
+  experience: new SelectField({
+    label: 'Years of Experience',
+    required: true,
+    options: [
+      '0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years',
+    ].map(e => ({ title: e, value: e })),
+  }),
+  currentCompany: new TextField({ label: 'Current/Last Company' }),
+  skills: new SelectField({
+    label: 'Key Skills',
+    required: true,
+    multiple: true,
+    options: [
+      'JavaScript', 'TypeScript', 'Vue.js', 'React', 'Angular',
+      'Node.js', 'Python', 'Go', 'Docker', 'AWS', 'Git',
+    ].map(s => ({ title: s, value: s })),
+    vuetifyProps: { chips: true, 'closable-chips': true },
+  }),
+  expectedSalary: new TextField({
+    label: 'Expected Salary',
+    vuetifyProps: { prefix: '$', type: 'number' },
+  }),
+  startDate: new SelectField({
+    label: 'Available Start Date',
+    required: true,
+    options: [
+      'Immediately', 'Within 2 weeks', 'Within 1 month',
+      'Within 2 months', 'More than 2 months',
+    ].map(d => ({ title: d, value: d })),
+  }),
+})
+
+const {
+  bind: step2Bind,
+  isValid: step2Valid,
+  validateAll: step2ValidateAll,
+  values: step2Values,
+} = useFormState(step2Form.getFields())
+
+// --- Step 3: Documents (file inputs stay as raw Vuetify) ---
+const step3Form = new FormConfig({
+  linkedin: new TextField({
+    label: 'LinkedIn Profile URL',
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-linkedin' },
+  }),
+  portfolio: new TextField({
+    label: 'Portfolio/Website URL',
+    vuetifyProps: { 'prepend-inner-icon': 'mdi-web' },
+  }),
+  additionalInfo: new TextareaField({
+    label: 'Additional Information',
+    placeholder: "Tell us anything else you'd like us to know...",
+    rows: 4,
+  }),
+})
+
+const { bind: step3Bind } = useFormState(step3Form.getFields())
+
+const documents = ref({
+  resume: null as File | null,
+  coverLetter: null as File | null,
+})
+
 const fileRules = [
   (v: File | null) => !!v || 'Resume is required',
   (v: File | null) => !v || v.size < 5000000 || 'File size should be less than 5 MB',
 ]
+
+// --- Step 4: Review ---
+const reviewForm = new FormConfig({
+  agreeTerms: new CheckboxField({
+    label: 'I agree to the Terms of Service and Privacy Policy',
+    required: true,
+    rules: [required('You must agree to continue')],
+  }),
+})
+
+const {
+  bind: reviewBind,
+  isValid: reviewValid,
+  validateAll: reviewValidateAll,
+} = useFormState(reviewForm.getFields())
+
+const stepTitles = ['Personal', 'Experience', 'Documents', 'Review']
 
 const progressPercent = computed(() => ((currentStep.value - 1) / 3) * 100)
 
@@ -384,30 +373,29 @@ const isCurrentStepValid = computed(() => {
   switch (currentStep.value) {
     case 1: return step1Valid.value
     case 2: return step2Valid.value
-    case 3: return step3Valid.value
+    case 3: return !!documents.value.resume
     default: return true
   }
 })
 
-const nextStep = async () => {
-  let formRef
+const nextStep = () => {
+  let valid = false
   switch (currentStep.value) {
-    case 1: formRef = step1FormRef.value; break
-    case 2: formRef = step2FormRef.value; break
-    case 3: formRef = step3FormRef.value; break
+    case 1: valid = step1ValidateAll(); break
+    case 2: valid = step2ValidateAll(); break
+    case 3: valid = !!documents.value.resume; break
+    default: valid = true
   }
-
-  if (formRef) {
-    const { valid } = await formRef.validate()
-    if (valid) currentStep.value++
-  }
+  if (valid) currentStep.value++
 }
 
-const submit = async () => {
+const submit = () => {
+  if (!reviewValidateAll()) return
+
   loading.value = true
   setTimeout(() => {
     loading.value = false
-    console.log('Application submitted:', form.value)
+    console.log('Application submitted')
   }, 2000)
 }
 </script>
