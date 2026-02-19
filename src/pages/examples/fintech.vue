@@ -114,12 +114,12 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   WalletOverview,
   TransactionHistory,
   CryptoPortfolio,
   PaymentForm,
   BankingDashboard
-} from '@/snippets'
+} from '../../snippets'
 </script>

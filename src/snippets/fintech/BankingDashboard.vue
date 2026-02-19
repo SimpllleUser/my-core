@@ -270,8 +270,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons, Colors } from '@/shared/model'
-import type { TransactionType } from '@/shared/ui/snippets'
+import { Icons, Colors } from '../../shared/model'
+import type { TransactionType } from '../../shared/ui/snippets'
 
 const selectedPeriod = ref('This Month')
 const periods = ['This Week', 'This Month', 'This Year']

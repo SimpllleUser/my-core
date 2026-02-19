@@ -222,7 +222,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import { ref, computed } from 'vue'
 import {
   FormConfig,
@@ -235,7 +235,7 @@ import {
   DynamicField,
   required,
   pattern,
-} from '@/shared/form'
+} from '../../shared/form'
 
 const currentStep = ref(1)
 const loading = ref(false)

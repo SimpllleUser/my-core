@@ -310,8 +310,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { Icons } from '@/shared/model'
-import type { IPaymentCard } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { IPaymentCard } from '../../shared/ui/snippets'
 
 // Form data
 const cardNumber = ref('')

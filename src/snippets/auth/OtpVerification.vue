@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const loading = ref(false)

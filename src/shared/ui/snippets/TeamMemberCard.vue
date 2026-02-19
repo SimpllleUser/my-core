@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { Variants, Sizes } from '@/shared/model'
+import { Variants, Sizes } from '../../model'
 import type { ColorType, VariantType, SizeType, ISocialLink } from './types'
 import SocialLinks from './SocialLinks.vue'
 

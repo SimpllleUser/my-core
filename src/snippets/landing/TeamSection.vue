@@ -97,9 +97,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, TeamMemberCard } from '@/shared/ui/snippets'
-import type { ISocialLink } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, TeamMemberCard } from '../../shared/ui/snippets'
+import type { ISocialLink } from '../../shared/ui/snippets'
 
 interface ITeamMemberData {
   name: string

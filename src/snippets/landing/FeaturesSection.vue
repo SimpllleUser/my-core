@@ -147,9 +147,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, FeatureCard, StatCard } from '@/shared/ui/snippets'
-import type { IFeature, IStat } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, FeatureCard, StatCard } from '../../shared/ui/snippets'
+import type { IFeature, IStat } from '../../shared/ui/snippets'
 
 interface IGridFeature {
   title: string

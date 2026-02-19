@@ -170,8 +170,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons, Colors } from '@/shared/model'
-import type { ITransaction, TransactionType, TransactionStatus } from '@/shared/ui/snippets'
+import { Icons, Colors } from '../../shared/model'
+import type { ITransaction, TransactionType, TransactionStatus } from '../../shared/ui/snippets'
 
 const searchQuery = ref('')
 const typeFilter = ref('all')

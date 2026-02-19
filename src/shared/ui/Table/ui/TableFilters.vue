@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../model'
 import type { TableFiltersProps, FilterState } from '../types';
 
 const props = withDefaults(defineProps<TableFiltersProps>(), {

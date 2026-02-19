@@ -223,9 +223,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard } from '@/shared/ui/snippets'
-import type { IStat } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard } from '../../shared/ui/snippets'
+import type { IStat } from '../../shared/ui/snippets'
 
 const timePeriod = ref('7d')
 const contentType = ref('All')

@@ -64,7 +64,7 @@ Server: web-server-01
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 const refresh = () => {
   window.location.reload()
 }

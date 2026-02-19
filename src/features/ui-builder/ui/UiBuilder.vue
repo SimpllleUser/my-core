@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../shared/model'
 import '../styles.scss';
 import { computed, onMounted, onBeforeUnmount } from 'vue';
 import Palette from './Palette.vue';

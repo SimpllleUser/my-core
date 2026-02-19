@@ -60,9 +60,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   DataTable,
   SortableTable
-} from '@/snippets'
+} from '../../snippets'
 </script>

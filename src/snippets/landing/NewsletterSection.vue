@@ -120,7 +120,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 
 const email = ref('')
 

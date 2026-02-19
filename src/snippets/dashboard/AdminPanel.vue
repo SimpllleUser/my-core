@@ -234,7 +234,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import { ref } from 'vue'
 
 const drawer = ref(true)

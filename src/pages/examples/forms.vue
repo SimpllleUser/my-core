@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   ContactForm,
   CheckoutForm,
   MultiStepForm,
   FilterForm
-} from '@/snippets'
+} from '../../snippets'
 import RegisterForm from '../../shared/form/example/RegisterForm.vue';
 </script>
 

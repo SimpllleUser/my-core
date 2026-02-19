@@ -179,9 +179,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard, CryptoCard } from '@/shared/ui/snippets'
-import type { IStat, ICryptoAsset } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard, CryptoCard } from '../../shared/ui/snippets'
+import type { IStat, ICryptoAsset } from '../../shared/ui/snippets'
 
 const search = ref('')
 

@@ -232,9 +232,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SocialPostCard } from '@/shared/ui/snippets'
-import type { ISocialUser, ISocialPost } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SocialPostCard } from '../../shared/ui/snippets'
+import type { ISocialUser, ISocialPost } from '../../shared/ui/snippets'
 
 const activeTab = ref('posts')
 const gridView = ref('grid')

@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   ChatBubble,
   ChatInput,
@@ -140,5 +140,5 @@ import {
   ChatListView,
   MessageTypes,
   ChatFullApp
-} from '@/snippets'
+} from '../../snippets'
 </script>

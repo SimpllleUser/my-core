@@ -228,8 +228,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import type { ISocialUser } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { ISocialUser } from '../../shared/ui/snippets'
 
 const searchQuery = ref('')
 const tabSearch = ref('')

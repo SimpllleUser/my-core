@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../model'
 import type { TableProps, FilterState, Header } from '../types';
 import TableHeader from './TableHeader.vue';
 import TableFilters from './TableFilters.vue';

@@ -180,9 +180,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, TestimonialCard, StatCard, AvatarWithInfo } from '@/shared/ui/snippets'
-import type { ITestimonial } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, TestimonialCard, StatCard, AvatarWithInfo } from '../../shared/ui/snippets'
+import type { ITestimonial } from '../../shared/ui/snippets'
 
 const testimonials: ITestimonial[] = [
   {

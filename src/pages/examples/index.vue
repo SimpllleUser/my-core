@@ -49,8 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { snippetCatalog } from '@/snippets'
+import { Icons } from '../../shared/model'
+import { snippetCatalog } from '../../snippets'
 
 interface Category {
   name: string

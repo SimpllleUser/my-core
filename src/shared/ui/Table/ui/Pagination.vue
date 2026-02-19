@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PaginationProps } from '../types.ts';
 import type { EmitEvent } from '../../../model/base.ts';
-import { Sizes } from '@/shared';
+import { Sizes } from '../../..';
 
 const props = defineProps<PaginationProps>();
 const emit = defineEmits<

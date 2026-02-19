@@ -172,7 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import { computed } from 'vue'
 
 export interface AuthPageLayoutProps {

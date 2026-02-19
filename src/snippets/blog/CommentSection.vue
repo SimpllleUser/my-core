@@ -232,8 +232,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Icons } from '@/shared/model'
-import type { IBlogComment } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { IBlogComment } from '../../shared/ui/snippets'
 
 const newComment = ref('')
 const sortOrder = ref('Newest')

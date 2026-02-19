@@ -92,9 +92,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, PricingCard } from '@/shared/ui/snippets'
-import type { IPricingPlan, IPricingFeature } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, PricingCard } from '../../shared/ui/snippets'
+import type { IPricingPlan, IPricingFeature } from '../../shared/ui/snippets'
 
 const isYearly = ref(false)
 

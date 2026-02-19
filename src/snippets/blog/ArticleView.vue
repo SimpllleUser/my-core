@@ -241,8 +241,8 @@ console.log(greeting);</code></pre>
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import type { IBlogPost, IBlogAuthor } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { IBlogPost, IBlogAuthor } from '../../shared/ui/snippets'
 
 const author: IBlogAuthor = {
   id: 1,

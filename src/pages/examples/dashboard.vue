@@ -96,11 +96,11 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   AnalyticsOverview,
   StatsCards,
   AdminPanel,
   EcommerceDashboard
-} from '@/snippets'
+} from '../../snippets'
 </script>

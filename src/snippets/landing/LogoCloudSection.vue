@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 
 const companies = [
   { name: 'Google', icon: Icons.Google },

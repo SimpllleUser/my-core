@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Variants, Sizes } from '@/shared/model'
+import { Variants, Sizes } from '../../model'
 import type { VariantType, SizeType, ISocialLink } from './types'
 
 interface Props {

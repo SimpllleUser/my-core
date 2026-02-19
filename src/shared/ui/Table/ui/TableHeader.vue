@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../model'
 import type { TableHeaderProps } from '../types';
 
 withDefaults(defineProps<TableHeaderProps>(), {

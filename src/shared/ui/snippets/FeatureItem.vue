@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Sizes, Icons } from '@/shared/model'
+import { Colors, Sizes, Icons } from '../../model'
 import type { ColorType, SizeType, IconType } from './types'
 
 interface Props {

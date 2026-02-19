@@ -1,5 +1,5 @@
-import type { Colors, Variants, Sizes } from '@/shared/model'
-import type { Icons } from '@/shared/model'
+import type { Colors, Variants, Sizes } from '../../model'
+import type { Icons } from '../../model'
 
 // ==================== Base Types ====================
 

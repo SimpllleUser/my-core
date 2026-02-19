@@ -247,9 +247,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SocialPostCard } from '@/shared/ui/snippets'
-import type { ISocialPost, ISocialUser, ISocialStory } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SocialPostCard } from '../../shared/ui/snippets'
+import type { ISocialPost, ISocialUser, ISocialStory } from '../../shared/ui/snippets'
 
 const user1: ISocialUser = {
   id: 1,

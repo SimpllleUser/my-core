@@ -60,9 +60,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   NotificationList,
   ChatList
-} from '@/snippets'
+} from '../../snippets'
 </script>

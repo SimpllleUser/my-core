@@ -78,10 +78,10 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   Error404,
   Error500,
   Maintenance
-} from '@/snippets'
+} from '../../snippets'
 </script>

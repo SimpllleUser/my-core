@@ -176,7 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 const simpleStats = [
   { title: 'Total Users', value: '24,532', icon: Icons.AccountGroup, color: 'primary' },
   { title: 'Revenue', value: '$45,678', icon: Icons.CurrencyUsd, color: 'success' },

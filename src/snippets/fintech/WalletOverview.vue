@@ -131,9 +131,9 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard } from '@/shared/ui/snippets'
-import type { IStat, IBankAccount } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard } from '../../shared/ui/snippets'
+import type { IStat, IBankAccount } from '../../shared/ui/snippets'
 
 const quickStats: (IStat & { trend?: number })[] = [
   { value: '$8,420', label: 'Income', icon: Icons.ArrowDown, color: 'success', trend: 12.5 },

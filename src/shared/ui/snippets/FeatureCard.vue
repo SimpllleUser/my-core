@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType } from './types'
 
 interface Props {

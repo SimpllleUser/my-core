@@ -237,7 +237,7 @@
 </template>
 
 <script setup lang="ts">
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType } from './types'
 import PriceDisplay from './PriceDisplay.vue'
 

@@ -249,7 +249,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 const teamMembers = [
   { name: 'John Doe', role: 'CEO & Founder', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
   { name: 'Jane Smith', role: 'CTO', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },

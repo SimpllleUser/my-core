@@ -114,12 +114,12 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import {
   SocialFeed,
   StoryCarousel,
   SocialProfile,
   FollowersList,
   SocialStats
-} from '@/snippets'
+} from '../../snippets'
 </script>

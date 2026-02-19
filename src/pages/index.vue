@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Table } from '@/shared';
+import { Table } from '../shared';
 
 const headers = [
   {

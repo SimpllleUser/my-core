@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../model'
 import {
   FormConfig,
   TextField,
@@ -11,7 +11,7 @@ import {
   DynamicField,
   required,
   minLength
-} from '@/shared/form';
+} from '..';
 
 const form = new FormConfig({
   name: new TextField({

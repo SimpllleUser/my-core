@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../model'
 import type { TableEmptyProps } from '../types';
 
 withDefaults(defineProps<TableEmptyProps>(), {

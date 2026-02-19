@@ -192,9 +192,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, BlogCard } from '@/shared/ui/snippets'
-import type { IBlogPost, IBlogCategory, IBlogAuthor } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { SectionHeader, BlogCard } from '../../shared/ui/snippets'
+import type { IBlogPost, IBlogCategory, IBlogAuthor } from '../../shared/ui/snippets'
 
 const viewMode = ref('grid')
 

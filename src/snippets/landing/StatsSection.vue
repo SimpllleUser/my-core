@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 
 const simpleStats = [
   { value: '10K+', label: 'Active Users' },

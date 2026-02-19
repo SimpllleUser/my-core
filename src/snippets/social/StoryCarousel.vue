@@ -208,8 +208,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Icons } from '@/shared/model'
-import type { ISocialStory } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { ISocialStory } from '../../shared/ui/snippets'
 
 const currentIndex = ref(0)
 

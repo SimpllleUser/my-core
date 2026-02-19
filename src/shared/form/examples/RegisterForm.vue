@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../model'
 import {
   FormConfig,
   TextField,
@@ -9,8 +9,8 @@ import {
   CheckboxField,
   useFormState,
   DynamicField
-} from '@/shared/lib/form';
-import { required, minLength } from '@/shared/form';
+} from '../../lib/form';
+import { required, minLength } from '..';
 
 const form = new FormConfig({
   name: new TextField({

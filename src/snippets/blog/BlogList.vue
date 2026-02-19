@@ -217,8 +217,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDisplay } from 'vuetify'
-import { Icons } from '@/shared/model'
-import type { IBlogPost, IBlogAuthor, IBlogCategory } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import type { IBlogPost, IBlogAuthor, IBlogCategory } from '../../shared/ui/snippets'
 
 const { mobile } = useDisplay()
 const isMobile = computed(() => mobile.value)

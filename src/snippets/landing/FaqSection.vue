@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 
 const activeCategory = ref('General')
 

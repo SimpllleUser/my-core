@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../shared/model'
 import { defineComponent, h } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 import { VRow, VCol, VBtn } from 'vuetify/components';

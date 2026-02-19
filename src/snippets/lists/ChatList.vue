@@ -149,7 +149,7 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../shared/model'
 import { ref, computed, nextTick } from 'vue'
 
 const search = ref('')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
+import { Icons } from '../../../shared/model'
 import { computed, ref, watch } from 'vue';
 import type { FieldDefinition, SelectOption, RadioOption } from '../types';
 import { getRegisteredComponent } from '../registry';

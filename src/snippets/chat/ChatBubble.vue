@@ -54,6 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { ChatMessage } from '@/shared/ui/snippets'
+import { Icons } from '../../shared/model'
+import { ChatMessage } from '../../shared/ui/snippets'
 </script>
