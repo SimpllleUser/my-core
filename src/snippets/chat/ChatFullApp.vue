@@ -4,6 +4,94 @@
   Components: All major Vuetify components
   Complexity: Complex
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+
+const search = ref('')
+const newMessage = ref('')
+const showDetails = ref(false)
+
+const chats = ref([
+  {
+    id: 1,
+    name: 'Emily Chen',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    lastMessage: 'Perfect! Talk to you then!',
+    time: '10:37 AM',
+    online: true,
+    unread: 0,
+    email: 'emily.chen@example.com',
+    role: 'Product Designer',
+    location: 'San Francisco, CA',
+    timezone: '10:37 AM (PST)',
+    lastSeen: '10 min ago',
+  },
+  {
+    id: 2,
+    name: 'Michael Brown',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    lastMessage: 'Sounds good, let me know!',
+    time: '9:15 AM',
+    online: false,
+    unread: 2,
+    email: 'michael.b@example.com',
+    role: 'Software Engineer',
+    location: 'New York, NY',
+    timezone: '1:37 PM (EST)',
+    lastSeen: '1 hour ago',
+  },
+  {
+    id: 3,
+    name: 'Sarah Johnson',
+    avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
+    lastMessage: 'I reviewed the proposal',
+    time: 'Yesterday',
+    online: true,
+    unread: 0,
+    email: 'sarah.j@example.com',
+    role: 'Project Manager',
+    location: 'Austin, TX',
+    timezone: '11:37 AM (CST)',
+    lastSeen: '5 min ago',
+  },
+  {
+    id: 4,
+    name: 'David Wilson',
+    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
+    lastMessage: 'Thanks for the update!',
+    time: 'Yesterday',
+    online: false,
+    unread: 5,
+    email: 'david.w@example.com',
+    role: 'CTO',
+    location: 'Seattle, WA',
+    timezone: '10:37 AM (PST)',
+    lastSeen: '2 hours ago',
+  },
+])
+
+const selectedChat = ref(chats.value[0])
+
+const messages = ref([
+  { text: 'Hey! How are you doing?', sent: true, time: '10:30 AM' },
+  { text: "Hi! I'm good, thanks! How about you?", sent: false, time: '10:32 AM' },
+  { text: "I'm great! Did you review the proposal?", sent: true, time: '10:33 AM' },
+  { text: 'Yes! I have some feedback. Can we schedule a call?', sent: false, time: '10:35 AM' },
+  { text: "Sure! I'm free at 2 PM. Does that work?", sent: true, time: '10:36 AM' },
+  { text: 'Perfect! Talk to you then!', sent: false, time: '10:37 AM' },
+])
+
+const sendMessage = () => {
+  if (!newMessage.value.trim()) return
+  messages.value.push({
+    text: newMessage.value,
+    sent: true,
+    time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+  })
+  newMessage.value = ''
+}
+</script>
 <template>
   <VCard height="700" class="d-flex">
     <!-- Sidebar -->
@@ -262,92 +350,3 @@
     </VNavigationDrawer>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-
-const search = ref('')
-const newMessage = ref('')
-const showDetails = ref(false)
-
-const chats = ref([
-  {
-    id: 1,
-    name: 'Emily Chen',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    lastMessage: 'Perfect! Talk to you then!',
-    time: '10:37 AM',
-    online: true,
-    unread: 0,
-    email: 'emily.chen@example.com',
-    role: 'Product Designer',
-    location: 'San Francisco, CA',
-    timezone: '10:37 AM (PST)',
-    lastSeen: '10 min ago',
-  },
-  {
-    id: 2,
-    name: 'Michael Brown',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    lastMessage: 'Sounds good, let me know!',
-    time: '9:15 AM',
-    online: false,
-    unread: 2,
-    email: 'michael.b@example.com',
-    role: 'Software Engineer',
-    location: 'New York, NY',
-    timezone: '1:37 PM (EST)',
-    lastSeen: '1 hour ago',
-  },
-  {
-    id: 3,
-    name: 'Sarah Johnson',
-    avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
-    lastMessage: 'I reviewed the proposal',
-    time: 'Yesterday',
-    online: true,
-    unread: 0,
-    email: 'sarah.j@example.com',
-    role: 'Project Manager',
-    location: 'Austin, TX',
-    timezone: '11:37 AM (CST)',
-    lastSeen: '5 min ago',
-  },
-  {
-    id: 4,
-    name: 'David Wilson',
-    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
-    lastMessage: 'Thanks for the update!',
-    time: 'Yesterday',
-    online: false,
-    unread: 5,
-    email: 'david.w@example.com',
-    role: 'CTO',
-    location: 'Seattle, WA',
-    timezone: '10:37 AM (PST)',
-    lastSeen: '2 hours ago',
-  },
-])
-
-const selectedChat = ref(chats.value[0])
-
-const messages = ref([
-  { text: 'Hey! How are you doing?', sent: true, time: '10:30 AM' },
-  { text: "Hi! I'm good, thanks! How about you?", sent: false, time: '10:32 AM' },
-  { text: "I'm great! Did you review the proposal?", sent: true, time: '10:33 AM' },
-  { text: 'Yes! I have some feedback. Can we schedule a call?', sent: false, time: '10:35 AM' },
-  { text: "Sure! I'm free at 2 PM. Does that work?", sent: true, time: '10:36 AM' },
-  { text: 'Perfect! Talk to you then!', sent: false, time: '10:37 AM' },
-])
-
-const sendMessage = () => {
-  if (!newMessage.value.trim()) return
-  messages.value.push({
-    text: newMessage.value,
-    sent: true,
-    time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-  })
-  newMessage.value = ''
-}
-</script>

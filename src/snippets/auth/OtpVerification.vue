@@ -4,89 +4,6 @@
   Components: VCard, VTextField, VBtn, VAlert
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
-<template>
-  <VContainer class="fill-height" fluid>
-    <VRow align="center" justify="center">
-      <VCol cols="12" sm="8" md="5" lg="4">
-        <VCard class="pa-4" elevation="8" rounded="lg">
-          <VCardText class="text-center pb-0">
-            <VAvatar color="primary" size="80" class="mb-4">
-              <VIcon size="48" color="white">{{ Icons.ShieldKey }}</VIcon>
-            </VAvatar>
-            <h2 class="text-h5 font-weight-bold mb-2">Verify Your Identity</h2>
-            <p class="text-medium-emphasis mb-2">
-              We've sent a 6-digit code to
-            </p>
-            <p class="font-weight-medium mb-6">{{ maskedEmail }}</p>
-          </VCardText>
-
-          <VCardText>
-            <VAlert
-              v-if="error"
-              type="error"
-              variant="tonal"
-              class="mb-4"
-              closable
-              @click:close="error = ''"
-            >
-              {{ error }}
-            </VAlert>
-
-            <!-- OTP Input -->
-            <div class="d-flex justify-center ga-2 mb-6">
-              <VTextField
-                v-for="(_, index) in otpDigits"
-                :key="index"
-                :ref="(el) => setOtpRef(el, index)"
-                v-model="otpDigits[index]"
-                variant="outlined"
-                density="comfortable"
-                class="otp-input"
-                maxlength="1"
-                type="text"
-                inputmode="numeric"
-                hide-details
-                @input="onOtpInput(index)"
-                @keydown="onOtpKeydown($event, index)"
-                @paste="onPaste"
-              />
-            </div>
-
-            <VBtn
-              color="primary"
-              size="large"
-              block
-              :loading="loading"
-              :disabled="!isOtpComplete"
-              @click="verify"
-            >
-              Verify
-            </VBtn>
-
-            <div class="text-center mt-6">
-              <p class="text-medium-emphasis mb-2">Didn't receive the code?</p>
-              <VBtn
-                variant="text"
-                color="primary"
-                :disabled="resendCooldown > 0"
-                @click="resendCode"
-              >
-                {{ resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Code' }}
-              </VBtn>
-            </div>
-          </VCardText>
-
-          <VCardText class="text-center pt-2">
-            <VBtn variant="text" color="primary" :prepend-icon="Icons.ArrowLeft">
-              Back to Login
-            </VBtn>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-  </VContainer>
-</template>
-
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
@@ -202,7 +119,88 @@ onUnmounted(() => {
   if (cooldownInterval) clearInterval(cooldownInterval)
 })
 </script>
+<template>
+  <VContainer class="fill-height" fluid>
+    <VRow align="center" justify="center">
+      <VCol cols="12" sm="8" md="5" lg="4">
+        <VCard class="pa-4" elevation="8" rounded="lg">
+          <VCardText class="text-center pb-0">
+            <VAvatar color="primary" size="80" class="mb-4">
+              <VIcon size="48" color="white">{{ Icons.ShieldKey }}</VIcon>
+            </VAvatar>
+            <h2 class="text-h5 font-weight-bold mb-2">Verify Your Identity</h2>
+            <p class="text-medium-emphasis mb-2">
+              We've sent a 6-digit code to
+            </p>
+            <p class="font-weight-medium mb-6">{{ maskedEmail }}</p>
+          </VCardText>
 
+          <VCardText>
+            <VAlert
+              v-if="error"
+              type="error"
+              variant="tonal"
+              class="mb-4"
+              closable
+              @click:close="error = ''"
+            >
+              {{ error }}
+            </VAlert>
+
+            <!-- OTP Input -->
+            <div class="d-flex justify-center ga-2 mb-6">
+              <VTextField
+                v-for="(_, index) in otpDigits"
+                :key="index"
+                :ref="(el) => setOtpRef(el, index)"
+                v-model="otpDigits[index]"
+                variant="outlined"
+                density="comfortable"
+                class="otp-input"
+                maxlength="1"
+                type="text"
+                inputmode="numeric"
+                hide-details
+                @input="onOtpInput(index)"
+                @keydown="onOtpKeydown($event, index)"
+                @paste="onPaste"
+              />
+            </div>
+
+            <VBtn
+              color="primary"
+              size="large"
+              block
+              :loading="loading"
+              :disabled="!isOtpComplete"
+              @click="verify"
+            >
+              Verify
+            </VBtn>
+
+            <div class="text-center mt-6">
+              <p class="text-medium-emphasis mb-2">Didn't receive the code?</p>
+              <VBtn
+                variant="text"
+                color="primary"
+                :disabled="resendCooldown > 0"
+                @click="resendCode"
+              >
+                {{ resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Code' }}
+              </VBtn>
+            </div>
+          </VCardText>
+
+          <VCardText class="text-center pt-2">
+            <VBtn variant="text" color="primary" :prepend-icon="Icons.ArrowLeft">
+              Back to Login
+            </VBtn>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
+</template>
 <style scoped>
 .otp-input {
   max-width: 50px;

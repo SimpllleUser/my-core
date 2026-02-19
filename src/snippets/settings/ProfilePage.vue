@@ -4,6 +4,40 @@
   Components: VCard, VAvatar, VTabs, VList, VChip, VBtn
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const tab = ref('activity')
+
+const skills = ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems', 'User Testing']
+
+const activities = [
+  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: Icons.CheckCircle, color: 'success' },
+  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: Icons.FileDocument, color: 'primary' },
+  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: Icons.Medal, color: 'warning' },
+  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: Icons.AccountGroup, color: 'info' },
+]
+
+const projects = [
+  { id: 1, title: 'Dashboard Redesign', description: 'Modern admin dashboard with dark mode', image: 'https://picsum.photos/seed/proj1/400/200', likes: 234, views: 1205, category: 'UI Design' },
+  { id: 2, title: 'Mobile Banking App', description: 'iOS app for personal finance', image: 'https://picsum.photos/seed/proj2/400/200', likes: 189, views: 892, category: 'Mobile' },
+  { id: 3, title: 'E-commerce Platform', description: 'Full e-commerce design system', image: 'https://picsum.photos/seed/proj3/400/200', likes: 312, views: 1567, category: 'Web Design' },
+  { id: 4, title: 'Brand Identity', description: 'Complete brand guidelines', image: 'https://picsum.photos/seed/proj4/400/200', likes: 156, views: 743, category: 'Branding' },
+]
+
+const posts = [
+  { id: 1, title: 'The Future of Design Systems', excerpt: 'How modern design systems are evolving to meet the demands of complex applications...', date: 'Jan 15, 2024', likes: 234 },
+  { id: 2, title: '10 Tips for Better UX Research', excerpt: 'Essential tips for conducting effective user research that drives design decisions...', date: 'Jan 10, 2024', likes: 189 },
+  { id: 3, title: 'Designing for Accessibility', excerpt: 'A comprehensive guide to creating inclusive designs that work for everyone...', date: 'Jan 5, 2024', likes: 156 },
+]
+
+const similarProfiles = [
+  { name: 'Mike Chen', role: 'UX Designer', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+  { name: 'Emily Davis', role: 'UI Designer', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
+  { name: 'John Smith', role: 'Product Designer', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
+]
+</script>
 <template>
   <VContainer>
     <!-- Profile Header -->
@@ -226,38 +260,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const tab = ref('activity')
-
-const skills = ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems', 'User Testing']
-
-const activities = [
-  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: Icons.CheckCircle, color: 'success' },
-  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: Icons.FileDocument, color: 'primary' },
-  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: Icons.Medal, color: 'warning' },
-  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: Icons.AccountGroup, color: 'info' },
-]
-
-const projects = [
-  { id: 1, title: 'Dashboard Redesign', description: 'Modern admin dashboard with dark mode', image: 'https://picsum.photos/seed/proj1/400/200', likes: 234, views: 1205, category: 'UI Design' },
-  { id: 2, title: 'Mobile Banking App', description: 'iOS app for personal finance', image: 'https://picsum.photos/seed/proj2/400/200', likes: 189, views: 892, category: 'Mobile' },
-  { id: 3, title: 'E-commerce Platform', description: 'Full e-commerce design system', image: 'https://picsum.photos/seed/proj3/400/200', likes: 312, views: 1567, category: 'Web Design' },
-  { id: 4, title: 'Brand Identity', description: 'Complete brand guidelines', image: 'https://picsum.photos/seed/proj4/400/200', likes: 156, views: 743, category: 'Branding' },
-]
-
-const posts = [
-  { id: 1, title: 'The Future of Design Systems', excerpt: 'How modern design systems are evolving to meet the demands of complex applications...', date: 'Jan 15, 2024', likes: 234 },
-  { id: 2, title: '10 Tips for Better UX Research', excerpt: 'Essential tips for conducting effective user research that drives design decisions...', date: 'Jan 10, 2024', likes: 189 },
-  { id: 3, title: 'Designing for Accessibility', excerpt: 'A comprehensive guide to creating inclusive designs that work for everyone...', date: 'Jan 5, 2024', likes: 156 },
-]
-
-const similarProfiles = [
-  { name: 'Mike Chen', role: 'UX Designer', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Emily Davis', role: 'UI Designer', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
-  { name: 'John Smith', role: 'Product Designer', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
-]
-</script>

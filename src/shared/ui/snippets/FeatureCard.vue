@@ -1,3 +1,77 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Colors, Variants, Sizes, Icons } from '../../model'
+import type { ColorType, VariantType, SizeType, IconType } from './types'
+
+interface Props {
+  // Card props
+  cardVariant?: VariantType
+  cardColor?: ColorType | string
+  elevation?: number | string
+  hover?: boolean
+  height?: string | number
+  cardClass?: string
+  contentClass?: string
+  centered?: boolean
+
+  // Icon props
+  icon?: IconType
+  iconColor?: ColorType | string
+  iconBgColor?: ColorType | string
+  iconSize?: SizeType | number
+  iconContainerSize?: SizeType | number
+  iconRounded?: string
+  iconContainerClass?: string
+
+  // Badge props
+  badge?: string
+  badgeColor?: ColorType
+  badgeVariant?: VariantType
+  badgeSize?: SizeType
+
+  // Title props
+  title: string
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'
+  titleClass?: string
+
+  // Description props
+  description?: string
+  descriptionClass?: string
+
+  // Points list
+  points?: string[]
+  pointIcon?: IconType
+  pointIconColor?: ColorType
+  pointsDensity?: 'default' | 'comfortable' | 'compact'
+  pointsListClass?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  cardVariant: Variants.Outlined,
+  elevation: 0,
+  hover: true,
+  contentClass: 'pa-6',
+  centered: false,
+  iconColor: 'white',
+  iconSize: 28,
+  iconContainerSize: 56,
+  iconRounded: 'lg',
+  iconContainerClass: 'mb-4',
+  badgeVariant: Variants.Tonal,
+  badgeSize: Sizes.Default,
+  titleTag: 'h3',
+  titleClass: 'text-h6',
+  descriptionClass: 'text-body-2 text-medium-emphasis',
+  pointIcon: Icons.CheckCircle,
+  pointIconColor: Colors.Success,
+  pointsDensity: 'compact',
+  pointsListClass: 'bg-transparent mt-4',
+})
+
+const titleMargin = computed(() => {
+  return props.description || props.points?.length ? 'mb-2' : 'mb-0'
+})
+</script>
 <template>
   <VCard
     :variant="cardVariant"
@@ -77,82 +151,6 @@
     </VCardText>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '../../model'
-import type { ColorType, VariantType, SizeType, IconType } from './types'
-
-interface Props {
-  // Card props
-  cardVariant?: VariantType
-  cardColor?: ColorType | string
-  elevation?: number | string
-  hover?: boolean
-  height?: string | number
-  cardClass?: string
-  contentClass?: string
-  centered?: boolean
-
-  // Icon props
-  icon?: IconType
-  iconColor?: ColorType | string
-  iconBgColor?: ColorType | string
-  iconSize?: SizeType | number
-  iconContainerSize?: SizeType | number
-  iconRounded?: string
-  iconContainerClass?: string
-
-  // Badge props
-  badge?: string
-  badgeColor?: ColorType
-  badgeVariant?: VariantType
-  badgeSize?: SizeType
-
-  // Title props
-  title: string
-  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'
-  titleClass?: string
-
-  // Description props
-  description?: string
-  descriptionClass?: string
-
-  // Points list
-  points?: string[]
-  pointIcon?: IconType
-  pointIconColor?: ColorType
-  pointsDensity?: 'default' | 'comfortable' | 'compact'
-  pointsListClass?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  cardVariant: Variants.Outlined,
-  elevation: 0,
-  hover: true,
-  contentClass: 'pa-6',
-  centered: false,
-  iconColor: 'white',
-  iconSize: 28,
-  iconContainerSize: 56,
-  iconRounded: 'lg',
-  iconContainerClass: 'mb-4',
-  badgeVariant: Variants.Tonal,
-  badgeSize: Sizes.Default,
-  titleTag: 'h3',
-  titleClass: 'text-h6',
-  descriptionClass: 'text-body-2 text-medium-emphasis',
-  pointIcon: Icons.CheckCircle,
-  pointIconColor: Colors.Success,
-  pointsDensity: 'compact',
-  pointsListClass: 'bg-transparent mt-4',
-})
-
-const titleMargin = computed(() => {
-  return props.description || props.points?.length ? 'mb-2' : 'mb-0'
-})
-</script>
-
 <style scoped>
 .feature-card {
   height: 100%;

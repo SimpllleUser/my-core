@@ -4,6 +4,18 @@
   Components: VAppBar, VToolbar, VBtn, VMenu, VList, VTextField
   Variants: Simple, With Search, With User Menu, Transparent
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const bottomNav = ref('home')
+
+const megaMenuItems = [
+  { title: 'Platform', items: ['Overview', 'Features', 'Integrations', 'API'] },
+  { title: 'Solutions', items: ['Enterprise', 'Small Business', 'Startups', 'Developers'] },
+  { title: 'Resources', items: ['Documentation', 'Blog', 'Community', 'Support'] },
+]
+</script>
 <template>
   <div>
     <!-- Variant 1: Simple Navbar -->
@@ -198,16 +210,3 @@
     </VCard>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const bottomNav = ref('home')
-
-const megaMenuItems = [
-  { title: 'Platform', items: ['Overview', 'Features', 'Integrations', 'API'] },
-  { title: 'Solutions', items: ['Enterprise', 'Small Business', 'Startups', 'Developers'] },
-  { title: 'Resources', items: ['Documentation', 'Blog', 'Community', 'Support'] },
-]
-</script>

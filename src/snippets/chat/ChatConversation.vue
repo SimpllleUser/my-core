@@ -4,6 +4,45 @@
   Components: VCard, VAvatar, VTextField, VBtn, VList
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+
+const newMessage = ref('')
+const isTyping = ref(false)
+
+const messages = ref([
+  { text: 'Hey! How are you doing?', sent: true, time: '10:30 AM', read: true },
+  { text: "Hi! I'm good, thanks! How about you?", sent: false, time: '10:32 AM' },
+  { text: "I'm great! Did you get a chance to review the proposal?", sent: true, time: '10:33 AM', read: true },
+  { text: "Yes, I did! I have some feedback. Can we schedule a call to discuss?", sent: false, time: '10:35 AM' },
+  { text: "Sure! I'm free at 2 PM. Does that work?", sent: true, time: '10:36 AM', read: true },
+  { text: 'Perfect! 2 PM works great. Talk to you then!', sent: false, time: '10:37 AM' },
+])
+
+const sendMessage = () => {
+  if (!newMessage.value.trim()) return
+
+  messages.value.push({
+    text: newMessage.value,
+    sent: true,
+    time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+    read: false,
+  })
+  newMessage.value = ''
+
+  // Simulate typing response
+  isTyping.value = true
+  setTimeout(() => {
+    isTyping.value = false
+    messages.value.push({
+      text: 'Thanks for your message! I\'ll get back to you soon.',
+      sent: false,
+      time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+    })
+  }, 2000)
+}
+</script>
 <template>
   <VCard class="d-flex flex-column" height="600" variant="outlined">
     <!-- Chat Header -->
@@ -110,47 +149,6 @@
     </VCardActions>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-
-const newMessage = ref('')
-const isTyping = ref(false)
-
-const messages = ref([
-  { text: 'Hey! How are you doing?', sent: true, time: '10:30 AM', read: true },
-  { text: "Hi! I'm good, thanks! How about you?", sent: false, time: '10:32 AM' },
-  { text: "I'm great! Did you get a chance to review the proposal?", sent: true, time: '10:33 AM', read: true },
-  { text: "Yes, I did! I have some feedback. Can we schedule a call to discuss?", sent: false, time: '10:35 AM' },
-  { text: "Sure! I'm free at 2 PM. Does that work?", sent: true, time: '10:36 AM', read: true },
-  { text: 'Perfect! 2 PM works great. Talk to you then!', sent: false, time: '10:37 AM' },
-])
-
-const sendMessage = () => {
-  if (!newMessage.value.trim()) return
-
-  messages.value.push({
-    text: newMessage.value,
-    sent: true,
-    time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-    read: false,
-  })
-  newMessage.value = ''
-
-  // Simulate typing response
-  isTyping.value = true
-  setTimeout(() => {
-    isTyping.value = false
-    messages.value.push({
-      text: 'Thanks for your message! I\'ll get back to you soon.',
-      sent: false,
-      time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-    })
-  }, 2000)
-}
-</script>
-
 <style scoped>
 .typing-dot {
   width: 6px;

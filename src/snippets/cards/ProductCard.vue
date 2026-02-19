@@ -4,6 +4,80 @@
   Components: VCard, VImg, VBtn, VChip, VRating, VIcon
   Variants: Standard, Horizontal, Compact, Featured
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const wishlist = ref<number[]>([])
+
+const products = [
+  {
+    id: 1,
+    name: 'Wireless Bluetooth Headphones',
+    category: 'Electronics',
+    price: 79.99,
+    originalPrice: 129.99,
+    rating: 4.5,
+    reviews: 234,
+    image: 'https://picsum.photos/seed/prod1/400/400',
+    isNew: true,
+    discount: 38,
+    description: 'Premium wireless headphones with active noise cancellation and 30-hour battery life.',
+  },
+  {
+    id: 2,
+    name: 'Smart Watch Pro',
+    category: 'Electronics',
+    price: 249.99,
+    originalPrice: null,
+    rating: 4.8,
+    reviews: 567,
+    image: 'https://picsum.photos/seed/prod2/400/400',
+    isNew: false,
+    discount: null,
+    description: 'Advanced smartwatch with health monitoring, GPS, and water resistance.',
+  },
+  {
+    id: 3,
+    name: 'Leather Messenger Bag',
+    category: 'Accessories',
+    price: 89.99,
+    originalPrice: 119.99,
+    rating: 4.2,
+    reviews: 89,
+    image: 'https://picsum.photos/seed/prod3/400/400',
+    isNew: false,
+    discount: 25,
+    description: 'Handcrafted genuine leather bag perfect for work or casual use.',
+  },
+  {
+    id: 4,
+    name: 'Minimalist Desk Lamp',
+    category: 'Home',
+    price: 45.99,
+    originalPrice: null,
+    rating: 4.6,
+    reviews: 156,
+    image: 'https://picsum.photos/seed/prod4/400/400',
+    isNew: true,
+    discount: null,
+    description: 'Modern LED desk lamp with adjustable brightness and color temperature.',
+  },
+]
+
+const toggleWishlist = (id: number) => {
+  const index = wishlist.value.indexOf(id)
+  if (index > -1) {
+    wishlist.value.splice(index, 1)
+  } else {
+    wishlist.value.push(id)
+  }
+}
+
+const addToCart = (product: typeof products[0]) => {
+  console.log('Added to cart:', product.name)
+}
+</script>
 <template>
   <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Product Card Variants</h2>
@@ -173,82 +247,6 @@
     </VCard>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const wishlist = ref<number[]>([])
-
-const products = [
-  {
-    id: 1,
-    name: 'Wireless Bluetooth Headphones',
-    category: 'Electronics',
-    price: 79.99,
-    originalPrice: 129.99,
-    rating: 4.5,
-    reviews: 234,
-    image: 'https://picsum.photos/seed/prod1/400/400',
-    isNew: true,
-    discount: 38,
-    description: 'Premium wireless headphones with active noise cancellation and 30-hour battery life.',
-  },
-  {
-    id: 2,
-    name: 'Smart Watch Pro',
-    category: 'Electronics',
-    price: 249.99,
-    originalPrice: null,
-    rating: 4.8,
-    reviews: 567,
-    image: 'https://picsum.photos/seed/prod2/400/400',
-    isNew: false,
-    discount: null,
-    description: 'Advanced smartwatch with health monitoring, GPS, and water resistance.',
-  },
-  {
-    id: 3,
-    name: 'Leather Messenger Bag',
-    category: 'Accessories',
-    price: 89.99,
-    originalPrice: 119.99,
-    rating: 4.2,
-    reviews: 89,
-    image: 'https://picsum.photos/seed/prod3/400/400',
-    isNew: false,
-    discount: 25,
-    description: 'Handcrafted genuine leather bag perfect for work or casual use.',
-  },
-  {
-    id: 4,
-    name: 'Minimalist Desk Lamp',
-    category: 'Home',
-    price: 45.99,
-    originalPrice: null,
-    rating: 4.6,
-    reviews: 156,
-    image: 'https://picsum.photos/seed/prod4/400/400',
-    isNew: true,
-    discount: null,
-    description: 'Modern LED desk lamp with adjustable brightness and color temperature.',
-  },
-]
-
-const toggleWishlist = (id: number) => {
-  const index = wishlist.value.indexOf(id)
-  if (index > -1) {
-    wishlist.value.splice(index, 1)
-  } else {
-    wishlist.value.push(id)
-  }
-}
-
-const addToCart = (product: typeof products[0]) => {
-  console.log('Added to cart:', product.name)
-}
-</script>
-
 <style scoped>
 .text-truncate-2 {
   display: -webkit-box;

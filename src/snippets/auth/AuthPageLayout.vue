@@ -24,153 +24,6 @@
     - footer: Footer below the form
     - logo: Logo placement
 -->
-<template>
-  <VSheet
-    :class="containerClasses"
-    :style="containerStyles"
-    class="auth-page-layout"
-  >
-    <!-- Background Layer -->
-    <div
-      v-if="backgroundType !== 'split'"
-      class="auth-page-layout__background"
-      :style="backgroundStyles"
-    >
-      <slot name="background">
-        <VImg
-          v-if="backgroundType === 'image' && backgroundImage"
-          :src="backgroundImage"
-          cover
-          class="auth-page-layout__background-image"
-        />
-      </slot>
-
-      <!-- Overlay -->
-      <div
-        v-if="showOverlay"
-        class="auth-page-layout__overlay"
-        :style="overlayStyles"
-      />
-    </div>
-
-    <!-- Split Layout -->
-    <template v-if="backgroundType === 'split'">
-      <VRow no-gutters class="fill-height">
-        <!-- Side Content (Left or Right based on formPosition) -->
-        <VCol
-          v-if="formPosition === 'right'"
-          cols="12"
-          :md="splitRatio"
-          class="d-none d-md-flex"
-        >
-          <VSheet
-            class="auth-page-layout__side-content fill-height w-100"
-            :style="sideContentStyles"
-          >
-            <slot name="side-content">
-              <div class="d-flex flex-column align-center justify-center fill-height pa-8">
-                <slot name="side-logo">
-                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
-                </slot>
-                <slot name="side-title">
-                  <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
-                    Welcome Back
-                  </h1>
-                </slot>
-                <slot name="side-subtitle">
-                  <p class="text-body-1 text-white text-center" style="max-width: 400px;">
-                    Sign in to continue to your account and access all features.
-                  </p>
-                </slot>
-              </div>
-            </slot>
-          </VSheet>
-        </VCol>
-
-        <!-- Form Content -->
-        <VCol
-          cols="12"
-          :md="12 - splitRatio"
-          class="d-flex align-center justify-center"
-        >
-          <div
-            class="auth-page-layout__form-wrapper pa-4 pa-md-8"
-            :style="formWrapperStyles"
-          >
-            <slot name="logo" />
-            <slot name="header" />
-            <slot />
-            <slot name="footer" />
-          </div>
-        </VCol>
-
-        <!-- Side Content (Right when formPosition is left) -->
-        <VCol
-          v-if="formPosition === 'left'"
-          cols="12"
-          :md="splitRatio"
-          class="d-none d-md-flex"
-        >
-          <VSheet
-            class="auth-page-layout__side-content fill-height w-100"
-            :style="sideContentStyles"
-          >
-            <slot name="side-content">
-              <div class="d-flex flex-column align-center justify-center fill-height pa-8">
-                <slot name="side-logo">
-                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
-                </slot>
-                <slot name="side-title">
-                  <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
-                    Welcome Back
-                  </h1>
-                </slot>
-                <slot name="side-subtitle">
-                  <p class="text-body-1 text-white text-center" style="max-width: 400px;">
-                    Sign in to continue to your account and access all features.
-                  </p>
-                </slot>
-              </div>
-            </slot>
-          </VSheet>
-        </VCol>
-      </VRow>
-    </template>
-
-    <!-- Non-Split Layout -->
-    <VContainer
-      v-else
-      fluid
-      class="auth-page-layout__container fill-height"
-    >
-      <VRow
-        align="center"
-        :justify="rowJustify"
-        class="fill-height"
-      >
-        <VCol
-          cols="12"
-          :sm="colSizes.sm"
-          :md="colSizes.md"
-          :lg="colSizes.lg"
-          :offset-md="colOffsets.md"
-          :offset-lg="colOffsets.lg"
-        >
-          <div
-            class="auth-page-layout__form-wrapper"
-            :style="formWrapperStyles"
-          >
-            <slot name="logo" />
-            <slot name="header" />
-            <slot />
-            <slot name="footer" />
-          </div>
-        </VCol>
-      </VRow>
-    </VContainer>
-  </VSheet>
-</template>
-
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { computed } from 'vue'
@@ -322,7 +175,152 @@ const colOffsets = computed(() => {
   return { md: 0, lg: 0 }
 })
 </script>
+<template>
+  <VSheet
+    :class="containerClasses"
+    :style="containerStyles"
+    class="auth-page-layout"
+  >
+    <!-- Background Layer -->
+    <div
+      v-if="backgroundType !== 'split'"
+      class="auth-page-layout__background"
+      :style="backgroundStyles"
+    >
+      <slot name="background">
+        <VImg
+          v-if="backgroundType === 'image' && backgroundImage"
+          :src="backgroundImage"
+          cover
+          class="auth-page-layout__background-image"
+        />
+      </slot>
 
+      <!-- Overlay -->
+      <div
+        v-if="showOverlay"
+        class="auth-page-layout__overlay"
+        :style="overlayStyles"
+      />
+    </div>
+
+    <!-- Split Layout -->
+    <template v-if="backgroundType === 'split'">
+      <VRow no-gutters class="fill-height">
+        <!-- Side Content (Left or Right based on formPosition) -->
+        <VCol
+          v-if="formPosition === 'right'"
+          cols="12"
+          :md="splitRatio"
+          class="d-none d-md-flex"
+        >
+          <VSheet
+            class="auth-page-layout__side-content fill-height w-100"
+            :style="sideContentStyles"
+          >
+            <slot name="side-content">
+              <div class="d-flex flex-column align-center justify-center fill-height pa-8">
+                <slot name="side-logo">
+                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
+                </slot>
+                <slot name="side-title">
+                  <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
+                    Welcome Back
+                  </h1>
+                </slot>
+                <slot name="side-subtitle">
+                  <p class="text-body-1 text-white text-center" style="max-width: 400px;">
+                    Sign in to continue to your account and access all features.
+                  </p>
+                </slot>
+              </div>
+            </slot>
+          </VSheet>
+        </VCol>
+
+        <!-- Form Content -->
+        <VCol
+          cols="12"
+          :md="12 - splitRatio"
+          class="d-flex align-center justify-center"
+        >
+          <div
+            class="auth-page-layout__form-wrapper pa-4 pa-md-8"
+            :style="formWrapperStyles"
+          >
+            <slot name="logo" />
+            <slot name="header" />
+            <slot />
+            <slot name="footer" />
+          </div>
+        </VCol>
+
+        <!-- Side Content (Right when formPosition is left) -->
+        <VCol
+          v-if="formPosition === 'left'"
+          cols="12"
+          :md="splitRatio"
+          class="d-none d-md-flex"
+        >
+          <VSheet
+            class="auth-page-layout__side-content fill-height w-100"
+            :style="sideContentStyles"
+          >
+            <slot name="side-content">
+              <div class="d-flex flex-column align-center justify-center fill-height pa-8">
+                <slot name="side-logo">
+                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
+                </slot>
+                <slot name="side-title">
+                  <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
+                    Welcome Back
+                  </h1>
+                </slot>
+                <slot name="side-subtitle">
+                  <p class="text-body-1 text-white text-center" style="max-width: 400px;">
+                    Sign in to continue to your account and access all features.
+                  </p>
+                </slot>
+              </div>
+            </slot>
+          </VSheet>
+        </VCol>
+      </VRow>
+    </template>
+
+    <!-- Non-Split Layout -->
+    <VContainer
+      v-else
+      fluid
+      class="auth-page-layout__container fill-height"
+    >
+      <VRow
+        align="center"
+        :justify="rowJustify"
+        class="fill-height"
+      >
+        <VCol
+          cols="12"
+          :sm="colSizes.sm"
+          :md="colSizes.md"
+          :lg="colSizes.lg"
+          :offset-md="colOffsets.md"
+          :offset-lg="colOffsets.lg"
+        >
+          <div
+            class="auth-page-layout__form-wrapper"
+            :style="formWrapperStyles"
+          >
+            <slot name="logo" />
+            <slot name="header" />
+            <slot />
+            <slot name="footer" />
+          </div>
+        </VCol>
+      </VRow>
+    </VContainer>
+  </VSheet>
+</template>
 <style scoped>
 .auth-page-layout {
   position: relative;

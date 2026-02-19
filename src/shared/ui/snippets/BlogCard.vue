@@ -3,118 +3,6 @@
   Description: Blog post card with image, title, excerpt, author, and metadata
   Props: title, excerpt, image, author, publishedAt, readTime, category, tags, likes, comments
 -->
-<template>
-  <VCard :variant="cardVariant" :elevation="elevation" :class="['blog-card', cardClass]" :hover="hover">
-    <!-- Image -->
-    <slot name="image" :image="image" :category="category">
-      <VImg
-        v-if="image"
-        :src="image"
-        :height="imageHeight"
-        :cover="imageCover"
-        :class="imageClass"
-      >
-        <template #placeholder>
-          <div class="d-flex align-center justify-center fill-height">
-            <VProgressCircular indeterminate :color="placeholderColor" />
-          </div>
-        </template>
-
-        <slot name="image-overlay" :category="category">
-          <VChip
-            v-if="category && showCategoryOnImage"
-            :color="categoryColor"
-            :size="categorySize"
-            :variant="categoryVariant"
-            class="position-absolute ma-3"
-            style="top: 0; left: 0;"
-          >
-            {{ category }}
-          </VChip>
-        </slot>
-      </VImg>
-    </slot>
-
-    <VCardText :class="contentClass">
-      <!-- Author & Date -->
-      <slot name="meta" :author="author" :formattedDate="formattedDate" :readTime="readTime">
-        <div v-if="showMeta" :class="['d-flex align-center', metaClass]">
-          <slot name="author-avatar" :author="author">
-            <VAvatar v-if="author?.avatar" :size="authorAvatarSize" :class="authorAvatarClass">
-              <VImg :src="author.avatar" :alt="author.name" />
-            </VAvatar>
-          </slot>
-          <div>
-            <slot name="author-name" :author="author">
-              <div :class="authorNameClass">{{ author?.name }}</div>
-            </slot>
-            <slot name="date" :formattedDate="formattedDate" :readTime="readTime">
-              <div :class="dateClass">
-                {{ formattedDate }}
-                <span v-if="readTime && showReadTime"> · {{ readTime }} {{ readTimeText }}</span>
-              </div>
-            </slot>
-          </div>
-        </div>
-      </slot>
-
-      <!-- Title -->
-      <slot name="title" :title="title">
-        <component :is="titleTag" :class="titleClass">{{ title }}</component>
-      </slot>
-
-      <!-- Excerpt -->
-      <slot name="excerpt" :excerpt="excerpt">
-        <p v-if="excerpt" :class="excerptClass">{{ excerpt }}</p>
-      </slot>
-
-      <!-- Tags -->
-      <slot name="tags" :tags="tags">
-        <div v-if="tags?.length && showTags" :class="['d-flex flex-wrap', tagsContainerClass]">
-          <VChip
-            v-for="tag in tags"
-            :key="tag"
-            :size="tagSize"
-            :variant="tagVariant"
-            :color="tagColor"
-          >
-            {{ tag }}
-          </VChip>
-        </div>
-      </slot>
-
-      <!-- Actions / Footer -->
-      <slot name="footer" :likes="likes" :comments="comments">
-        <div v-if="showActions" :class="['d-flex align-center justify-space-between', actionsClass]">
-          <div v-if="showStats" class="d-flex align-center ga-4">
-            <slot name="likes" :likes="likes">
-              <div :class="['d-flex align-center', statsClass]">
-                <VIcon :size="statsIconSize" class="mr-1">{{ likesIcon }}</VIcon>
-                {{ formatNumber(likes || 0) }}
-              </div>
-            </slot>
-            <slot name="comments-count" :comments="comments">
-              <div :class="['d-flex align-center', statsClass]">
-                <VIcon :size="statsIconSize" class="mr-1">{{ commentsIcon }}</VIcon>
-                {{ formatNumber(comments || 0) }}
-              </div>
-            </slot>
-          </div>
-          <slot name="actions">
-            <VBtn :variant="readMoreVariant" :size="readMoreSize" :color="readMoreColor" @click="$emit('read-more')">
-              {{ readMoreText }}
-              <VIcon v-if="readMoreIcon" end :size="readMoreIconSize">{{ readMoreIcon }}</VIcon>
-            </VBtn>
-          </slot>
-        </div>
-      </slot>
-
-      <!-- Additional content -->
-      <slot />
-    </VCardText>
-  </VCard>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Colors, Variants, Sizes, Icons } from '../../model'
@@ -259,7 +147,117 @@ const formatNumber = (num: number): string => {
   return num.toString()
 }
 </script>
+<template>
+  <VCard :variant="cardVariant" :elevation="elevation" :class="['blog-card', cardClass]" :hover="hover">
+    <!-- Image -->
+    <slot name="image" :image="image" :category="category">
+      <VImg
+        v-if="image"
+        :src="image"
+        :height="imageHeight"
+        :cover="imageCover"
+        :class="imageClass"
+      >
+        <template #placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <VProgressCircular indeterminate :color="placeholderColor" />
+          </div>
+        </template>
 
+        <slot name="image-overlay" :category="category">
+          <VChip
+            v-if="category && showCategoryOnImage"
+            :color="categoryColor"
+            :size="categorySize"
+            :variant="categoryVariant"
+            class="position-absolute ma-3"
+            style="top: 0; left: 0;"
+          >
+            {{ category }}
+          </VChip>
+        </slot>
+      </VImg>
+    </slot>
+
+    <VCardText :class="contentClass">
+      <!-- Author & Date -->
+      <slot name="meta" :author="author" :formattedDate="formattedDate" :readTime="readTime">
+        <div v-if="showMeta" :class="['d-flex align-center', metaClass]">
+          <slot name="author-avatar" :author="author">
+            <VAvatar v-if="author?.avatar" :size="authorAvatarSize" :class="authorAvatarClass">
+              <VImg :src="author.avatar" :alt="author.name" />
+            </VAvatar>
+          </slot>
+          <div>
+            <slot name="author-name" :author="author">
+              <div :class="authorNameClass">{{ author?.name }}</div>
+            </slot>
+            <slot name="date" :formattedDate="formattedDate" :readTime="readTime">
+              <div :class="dateClass">
+                {{ formattedDate }}
+                <span v-if="readTime && showReadTime"> · {{ readTime }} {{ readTimeText }}</span>
+              </div>
+            </slot>
+          </div>
+        </div>
+      </slot>
+
+      <!-- Title -->
+      <slot name="title" :title="title">
+        <component :is="titleTag" :class="titleClass">{{ title }}</component>
+      </slot>
+
+      <!-- Excerpt -->
+      <slot name="excerpt" :excerpt="excerpt">
+        <p v-if="excerpt" :class="excerptClass">{{ excerpt }}</p>
+      </slot>
+
+      <!-- Tags -->
+      <slot name="tags" :tags="tags">
+        <div v-if="tags?.length && showTags" :class="['d-flex flex-wrap', tagsContainerClass]">
+          <VChip
+            v-for="tag in tags"
+            :key="tag"
+            :size="tagSize"
+            :variant="tagVariant"
+            :color="tagColor"
+          >
+            {{ tag }}
+          </VChip>
+        </div>
+      </slot>
+
+      <!-- Actions / Footer -->
+      <slot name="footer" :likes="likes" :comments="comments">
+        <div v-if="showActions" :class="['d-flex align-center justify-space-between', actionsClass]">
+          <div v-if="showStats" class="d-flex align-center ga-4">
+            <slot name="likes" :likes="likes">
+              <div :class="['d-flex align-center', statsClass]">
+                <VIcon :size="statsIconSize" class="mr-1">{{ likesIcon }}</VIcon>
+                {{ formatNumber(likes || 0) }}
+              </div>
+            </slot>
+            <slot name="comments-count" :comments="comments">
+              <div :class="['d-flex align-center', statsClass]">
+                <VIcon :size="statsIconSize" class="mr-1">{{ commentsIcon }}</VIcon>
+                {{ formatNumber(comments || 0) }}
+              </div>
+            </slot>
+          </div>
+          <slot name="actions">
+            <VBtn :variant="readMoreVariant" :size="readMoreSize" :color="readMoreColor" @click="$emit('read-more')">
+              {{ readMoreText }}
+              <VIcon v-if="readMoreIcon" end :size="readMoreIconSize">{{ readMoreIcon }}</VIcon>
+            </VBtn>
+          </slot>
+        </div>
+      </slot>
+
+      <!-- Additional content -->
+      <slot />
+    </VCardText>
+  </VCard>
+</template>
 <style scoped>
 .blog-card {
   height: 100%;

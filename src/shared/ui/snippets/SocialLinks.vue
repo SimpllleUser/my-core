@@ -1,35 +1,3 @@
-<template>
-  <div :class="['social-links d-flex flex-wrap', { 'justify-center': centered }, containerClass, gapClass]">
-    <slot :links="links">
-      <template v-for="link in links" :key="link.platform">
-        <slot name="item" :link="link">
-          <VBtn
-            :icon="iconOnly"
-            :variant="buttonVariant"
-            :size="buttonSize"
-            :color="link.color || buttonColor"
-            :rounded="rounded"
-            :class="buttonClass"
-            :href="link.url"
-            :target="link.url ? linkTarget : undefined"
-            :rel="link.url ? linkRel : undefined"
-            @click="$emit('click', link)"
-          >
-            <slot name="item-icon" :link="link">
-              <VIcon :start="showLabel && !iconOnly" :size="iconSize">{{ link.icon }}</VIcon>
-            </slot>
-            <template v-if="showLabel && !iconOnly">
-              <slot name="item-label" :link="link">
-                {{ link.platform }}
-              </slot>
-            </template>
-          </VBtn>
-        </slot>
-      </template>
-    </slot>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Variants, Sizes } from '../../model'
@@ -72,7 +40,37 @@ defineEmits<{
 
 const gapClass = computed(() => `ga-${props.gap}`)
 </script>
-
+<template>
+  <div :class="['social-links d-flex flex-wrap', { 'justify-center': centered }, containerClass, gapClass]">
+    <slot :links="links">
+      <template v-for="link in links" :key="link.platform">
+        <slot name="item" :link="link">
+          <VBtn
+            :icon="iconOnly"
+            :variant="buttonVariant"
+            :size="buttonSize"
+            :color="link.color || buttonColor"
+            :rounded="rounded"
+            :class="buttonClass"
+            :href="link.url"
+            :target="link.url ? linkTarget : undefined"
+            :rel="link.url ? linkRel : undefined"
+            @click="$emit('click', link)"
+          >
+            <slot name="item-icon" :link="link">
+              <VIcon :start="showLabel && !iconOnly" :size="iconSize">{{ link.icon }}</VIcon>
+            </slot>
+            <template v-if="showLabel && !iconOnly">
+              <slot name="item-label" :link="link">
+                {{ link.platform }}
+              </slot>
+            </template>
+          </VBtn>
+        </slot>
+      </template>
+    </slot>
+  </div>
+</template>
 <style scoped>
 .social-links {
   flex-wrap: wrap;

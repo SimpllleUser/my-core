@@ -1,54 +1,3 @@
-<template>
-  <div :class="['section-header', { 'text-center': centered }]" :style="containerStyle">
-    <!-- Chip/Badge -->
-    <slot name="chip" :chip="chip">
-      <VChip
-        v-if="chip"
-        :color="chipColor"
-        :variant="chipVariant"
-        :size="chipSize"
-        :class="chipClass"
-      >
-        <slot name="chip-prepend">
-          <VIcon v-if="chipIcon" start :size="chipIconSize">{{ chipIcon }}</VIcon>
-        </slot>
-        {{ chip }}
-        <slot name="chip-append" />
-      </VChip>
-    </slot>
-
-    <!-- Title -->
-    <slot name="title" :title="title" :titleHighlight="titleHighlight">
-      <component
-        :is="titleTag"
-        :class="[titleClass, 'font-weight-bold', { 'mb-2': subtitle || $slots.subtitle, 'mb-4': !subtitle && !$slots.subtitle }]"
-      >
-        <slot name="title-prepend" />
-        {{ title }}
-        <span v-if="titleHighlight" :class="titleHighlightClass">{{ titleHighlight }}</span>
-        <slot name="title-append" />
-      </component>
-    </slot>
-
-    <!-- Subtitle/Description -->
-    <slot name="subtitle" :subtitle="subtitle">
-      <p
-        v-if="subtitle"
-        :class="[subtitleClass, 'text-medium-emphasis', { 'mx-auto': centered }]"
-        :style="subtitleStyle"
-      >
-        {{ subtitle }}
-      </p>
-    </slot>
-
-    <!-- Actions -->
-    <slot name="actions" />
-
-    <!-- Additional content -->
-    <slot />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Colors, Variants, Sizes } from '../../model'
@@ -100,7 +49,56 @@ const subtitleStyle = computed(() => {
   return { maxWidth: width }
 })
 </script>
+<template>
+  <div :class="['section-header', { 'text-center': centered }]" :style="containerStyle">
+    <!-- Chip/Badge -->
+    <slot name="chip" :chip="chip">
+      <VChip
+        v-if="chip"
+        :color="chipColor"
+        :variant="chipVariant"
+        :size="chipSize"
+        :class="chipClass"
+      >
+        <slot name="chip-prepend">
+          <VIcon v-if="chipIcon" start :size="chipIconSize">{{ chipIcon }}</VIcon>
+        </slot>
+        {{ chip }}
+        <slot name="chip-append" />
+      </VChip>
+    </slot>
 
+    <!-- Title -->
+    <slot name="title" :title="title" :titleHighlight="titleHighlight">
+      <component
+        :is="titleTag"
+        :class="[titleClass, 'font-weight-bold', { 'mb-2': subtitle || $slots.subtitle, 'mb-4': !subtitle && !$slots.subtitle }]"
+      >
+        <slot name="title-prepend" />
+        {{ title }}
+        <span v-if="titleHighlight" :class="titleHighlightClass">{{ titleHighlight }}</span>
+        <slot name="title-append" />
+      </component>
+    </slot>
+
+    <!-- Subtitle/Description -->
+    <slot name="subtitle" :subtitle="subtitle">
+      <p
+        v-if="subtitle"
+        :class="[subtitleClass, 'text-medium-emphasis', { 'mx-auto': centered }]"
+        :style="subtitleStyle"
+      >
+        {{ subtitle }}
+      </p>
+    </slot>
+
+    <!-- Actions -->
+    <slot name="actions" />
+
+    <!-- Additional content -->
+    <slot />
+  </div>
+</template>
 <style scoped>
 .section-header {
   margin-bottom: 2rem;

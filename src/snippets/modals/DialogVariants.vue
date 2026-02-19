@@ -4,6 +4,36 @@
   Components: VDialog, VCard, VBtn, VTextField, VForm
   Variants: Confirm, Alert, Form Modal, Fullscreen
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const confirmDialog = ref(false)
+const alertDialog = ref(false)
+const formDialog = ref(false)
+const infoDialog = ref(false)
+const successDialog = ref(false)
+const loadingDialog = ref(false)
+const fullscreenDialog = ref(false)
+const scrollableDialog = ref(false)
+
+const formRef = ref()
+const formValid = ref(false)
+const newUser = ref({ name: '', email: '', role: '' })
+
+const showLoading = () => {
+  loadingDialog.value = true
+  setTimeout(() => {
+    loadingDialog.value = false
+  }, 3000)
+}
+
+const saveUser = () => {
+  console.log('Saving user:', newUser.value)
+  formDialog.value = false
+  newUser.value = { name: '', email: '', role: '' }
+}
+</script>
 <template>
   <VContainer>
     <h2 class="text-h5 font-weight-bold mb-6">Dialog Variants</h2>
@@ -247,34 +277,3 @@
     </VDialog>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const confirmDialog = ref(false)
-const alertDialog = ref(false)
-const formDialog = ref(false)
-const infoDialog = ref(false)
-const successDialog = ref(false)
-const loadingDialog = ref(false)
-const fullscreenDialog = ref(false)
-const scrollableDialog = ref(false)
-
-const formRef = ref()
-const formValid = ref(false)
-const newUser = ref({ name: '', email: '', role: '' })
-
-const showLoading = () => {
-  loadingDialog.value = true
-  setTimeout(() => {
-    loadingDialog.value = false
-  }, 3000)
-}
-
-const saveUser = () => {
-  console.log('Saving user:', newUser.value)
-  formDialog.value = false
-  newUser.value = { name: '', email: '', role: '' }
-}
-</script>

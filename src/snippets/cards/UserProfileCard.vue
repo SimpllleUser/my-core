@@ -4,6 +4,15 @@
   Components: VCard, VAvatar, VBtn, VChip, VDivider, VList
   Variants: Simple, Detailed, Horizontal, Social
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+const teamMembers = [
+  { name: 'John Doe', role: 'CEO & Founder', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
+  { name: 'Jane Smith', role: 'CTO', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
+  { name: 'Mike Johnson', role: 'Lead Designer', avatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
+  { name: 'Emily Davis', role: 'Marketing Head', avatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
+]
+</script>
 <template>
   <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">User Profile Card Variants</h2>
@@ -247,13 +256,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-const teamMembers = [
-  { name: 'John Doe', role: 'CEO & Founder', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
-  { name: 'Jane Smith', role: 'CTO', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
-  { name: 'Mike Johnson', role: 'Lead Designer', avatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
-  { name: 'Emily Davis', role: 'Marketing Head', avatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
-]
-</script>

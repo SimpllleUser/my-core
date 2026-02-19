@@ -4,6 +4,43 @@
   Components: VCard, VTextField, VBtn, VAlert
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const formRef = ref()
+const valid = ref(false)
+const loading = ref(false)
+const emailSent = ref(false)
+const error = ref('')
+const email = ref('')
+
+const emailRules = [
+  (v: string) => !!v || 'Email is required',
+  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
+]
+
+const submit = async () => {
+  const { valid } = await formRef.value.validate()
+  if (!valid) return
+
+  loading.value = true
+  error.value = ''
+
+  // Simulate API call
+  setTimeout(() => {
+    loading.value = false
+    // Simulate success (or set error.value for failure)
+    emailSent.value = true
+    console.log('Reset email sent to:', email.value)
+  }, 1500)
+}
+
+const resetForm = () => {
+  emailSent.value = false
+  email.value = ''
+}
+</script>
 <template>
   <VContainer class="fill-height" fluid>
     <VRow align="center" justify="center">
@@ -91,41 +128,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const formRef = ref()
-const valid = ref(false)
-const loading = ref(false)
-const emailSent = ref(false)
-const error = ref('')
-const email = ref('')
-
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
-]
-
-const submit = async () => {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
-
-  loading.value = true
-  error.value = ''
-
-  // Simulate API call
-  setTimeout(() => {
-    loading.value = false
-    // Simulate success (or set error.value for failure)
-    emailSent.value = true
-    console.log('Reset email sent to:', email.value)
-  }, 1500)
-}
-
-const resetForm = () => {
-  emailSent.value = false
-  email.value = ''
-}
-</script>

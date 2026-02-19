@@ -4,6 +4,55 @@
   Components: VContainer, VBtn, VIcon, VProgressLinear, VTextField
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const email = ref('')
+const progress = ref(68)
+
+const timeUnits = ref([
+  { label: 'Hours', value: '02' },
+  { label: 'Minutes', value: '34' },
+  { label: 'Seconds', value: '56' },
+  { label: '', value: '' },
+])
+
+let countdownInterval: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  let totalSeconds = 2 * 3600 + 34 * 60 + 56
+
+  countdownInterval = setInterval(() => {
+    totalSeconds--
+
+    if (totalSeconds <= 0) {
+      clearInterval(countdownInterval!)
+      return
+    }
+
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = totalSeconds % 60
+
+    timeUnits.value = [
+      { label: 'Hours', value: hours.toString().padStart(2, '0') },
+      { label: 'Minutes', value: minutes.toString().padStart(2, '0') },
+      { label: 'Seconds', value: seconds.toString().padStart(2, '0') },
+      { label: '', value: '' },
+    ]
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if (countdownInterval) clearInterval(countdownInterval)
+})
+
+const subscribe = () => {
+  console.log('Subscribe:', email.value)
+  email.value = ''
+}
+</script>
 <template>
   <VContainer class="fill-height">
     <VRow align="center" justify="center" class="text-center">
@@ -86,53 +135,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const email = ref('')
-const progress = ref(68)
-
-const timeUnits = ref([
-  { label: 'Hours', value: '02' },
-  { label: 'Minutes', value: '34' },
-  { label: 'Seconds', value: '56' },
-  { label: '', value: '' },
-])
-
-let countdownInterval: ReturnType<typeof setInterval> | null = null
-
-onMounted(() => {
-  let totalSeconds = 2 * 3600 + 34 * 60 + 56
-
-  countdownInterval = setInterval(() => {
-    totalSeconds--
-
-    if (totalSeconds <= 0) {
-      clearInterval(countdownInterval!)
-      return
-    }
-
-    const hours = Math.floor(totalSeconds / 3600)
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-    const seconds = totalSeconds % 60
-
-    timeUnits.value = [
-      { label: 'Hours', value: hours.toString().padStart(2, '0') },
-      { label: 'Minutes', value: minutes.toString().padStart(2, '0') },
-      { label: 'Seconds', value: seconds.toString().padStart(2, '0') },
-      { label: '', value: '' },
-    ]
-  }, 1000)
-})
-
-onUnmounted(() => {
-  if (countdownInterval) clearInterval(countdownInterval)
-})
-
-const subscribe = () => {
-  console.log('Subscribe:', email.value)
-  email.value = ''
-}
-</script>

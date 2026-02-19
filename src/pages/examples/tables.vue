@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  DataTable,
+  SortableTable
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -58,11 +65,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import {
-  DataTable,
-  SortableTable
-} from '../../snippets'
-</script>

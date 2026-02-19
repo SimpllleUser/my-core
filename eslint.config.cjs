@@ -33,6 +33,9 @@ module.exports = [
           group: ['@/*'],
           message: 'Використовуйте відносні імпорти замість alias @/. Наприклад: "../shared/model" замість "@/shared/model".'
         }]
+      }],
+      'vue/block-order': ['error', {
+        order: ['script', 'template', 'style']
       }]
     }
   },

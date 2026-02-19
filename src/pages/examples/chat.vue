@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  ChatBubble,
+  ChatInput,
+  ChatConversation,
+  ChatListView,
+  MessageTypes,
+  ChatFullApp
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -130,15 +141,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import {
-  ChatBubble,
-  ChatInput,
-  ChatConversation,
-  ChatListView,
-  MessageTypes,
-  ChatFullApp
-} from '../../snippets'
-</script>

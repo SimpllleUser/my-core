@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  WalletOverview,
+  TransactionHistory,
+  CryptoPortfolio,
+  PaymentForm,
+  BankingDashboard
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -112,14 +122,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import {
-  WalletOverview,
-  TransactionHistory,
-  CryptoPortfolio,
-  PaymentForm,
-  BankingDashboard
-} from '../../snippets'
-</script>

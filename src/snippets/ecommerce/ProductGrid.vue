@@ -4,6 +4,51 @@
   Components: VCard, VRow, VCol, VBtn, VChip, VSelect, VRating, VPagination
   Variants: Grid view, List view
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const sortBy = ref('featured')
+const viewMode = ref<'grid' | 'list'>('grid')
+const page = ref(1)
+const wishlist = ref<number[]>([])
+
+const sortOptions = [
+  { title: 'Featured', value: 'featured' },
+  { title: 'Price: Low to High', value: 'price_asc' },
+  { title: 'Price: High to Low', value: 'price_desc' },
+  { title: 'Rating', value: 'rating' },
+  { title: 'Newest', value: 'newest' },
+]
+
+const products = [
+  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, originalPrice: 129.99, rating: 4.5, reviews: 234, image: 'https://picsum.photos/seed/prod1/400/400', isNew: true, discount: 38, description: 'Premium wireless headphones with active noise cancellation and 30-hour battery life.' },
+  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, originalPrice: null, rating: 4.8, reviews: 567, image: 'https://picsum.photos/seed/prod2/400/400', isNew: false, discount: null, description: 'Advanced smartwatch with health monitoring, GPS, and water resistance up to 50m.' },
+  { id: 3, name: 'Leather Messenger Bag', category: 'Accessories', price: 89.99, originalPrice: 119.99, rating: 4.2, reviews: 89, image: 'https://picsum.photos/seed/prod3/400/400', isNew: false, discount: 25, description: 'Handcrafted genuine leather bag perfect for work or casual use.' },
+  { id: 4, name: 'Minimalist Desk Lamp', category: 'Home', price: 45.99, originalPrice: null, rating: 4.6, reviews: 156, image: 'https://picsum.photos/seed/prod4/400/400', isNew: true, discount: null, description: 'Modern LED desk lamp with adjustable brightness and color temperature.' },
+  { id: 5, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, originalPrice: 159.99, rating: 4.7, reviews: 312, image: 'https://picsum.photos/seed/prod5/400/400', isNew: false, discount: 19, description: 'Lightweight running shoes with advanced cushioning technology.' },
+  { id: 6, name: 'Portable Bluetooth Speaker', category: 'Electronics', price: 59.99, originalPrice: null, rating: 4.4, reviews: 178, image: 'https://picsum.photos/seed/prod6/400/400', isNew: true, discount: null, description: 'Waterproof speaker with 360-degree sound and 12-hour battery life.' },
+  { id: 7, name: 'Yoga Mat Premium', category: 'Sports', price: 39.99, originalPrice: 49.99, rating: 4.3, reviews: 95, image: 'https://picsum.photos/seed/prod7/400/400', isNew: false, discount: 20, description: 'Eco-friendly yoga mat with non-slip surface and carrying strap.' },
+  { id: 8, name: 'Coffee Maker Deluxe', category: 'Home', price: 149.99, originalPrice: null, rating: 4.9, reviews: 423, image: 'https://picsum.photos/seed/prod8/400/400', isNew: false, discount: null, description: 'Programmable coffee maker with built-in grinder and thermal carafe.' },
+]
+
+const toggleWishlist = (id: number) => {
+  const index = wishlist.value.indexOf(id)
+  if (index > -1) {
+    wishlist.value.splice(index, 1)
+  } else {
+    wishlist.value.push(id)
+  }
+}
+
+const quickView = (product: typeof products[0]) => {
+  console.log('Quick view:', product.name)
+}
+
+const addToCart = (product: typeof products[0]) => {
+  console.log('Added to cart:', product.name)
+}
+</script>
 <template>
   <VContainer fluid>
     <!-- Header -->
@@ -165,49 +210,3 @@
     </div>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const sortBy = ref('featured')
-const viewMode = ref<'grid' | 'list'>('grid')
-const page = ref(1)
-const wishlist = ref<number[]>([])
-
-const sortOptions = [
-  { title: 'Featured', value: 'featured' },
-  { title: 'Price: Low to High', value: 'price_asc' },
-  { title: 'Price: High to Low', value: 'price_desc' },
-  { title: 'Rating', value: 'rating' },
-  { title: 'Newest', value: 'newest' },
-]
-
-const products = [
-  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, originalPrice: 129.99, rating: 4.5, reviews: 234, image: 'https://picsum.photos/seed/prod1/400/400', isNew: true, discount: 38, description: 'Premium wireless headphones with active noise cancellation and 30-hour battery life.' },
-  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, originalPrice: null, rating: 4.8, reviews: 567, image: 'https://picsum.photos/seed/prod2/400/400', isNew: false, discount: null, description: 'Advanced smartwatch with health monitoring, GPS, and water resistance up to 50m.' },
-  { id: 3, name: 'Leather Messenger Bag', category: 'Accessories', price: 89.99, originalPrice: 119.99, rating: 4.2, reviews: 89, image: 'https://picsum.photos/seed/prod3/400/400', isNew: false, discount: 25, description: 'Handcrafted genuine leather bag perfect for work or casual use.' },
-  { id: 4, name: 'Minimalist Desk Lamp', category: 'Home', price: 45.99, originalPrice: null, rating: 4.6, reviews: 156, image: 'https://picsum.photos/seed/prod4/400/400', isNew: true, discount: null, description: 'Modern LED desk lamp with adjustable brightness and color temperature.' },
-  { id: 5, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, originalPrice: 159.99, rating: 4.7, reviews: 312, image: 'https://picsum.photos/seed/prod5/400/400', isNew: false, discount: 19, description: 'Lightweight running shoes with advanced cushioning technology.' },
-  { id: 6, name: 'Portable Bluetooth Speaker', category: 'Electronics', price: 59.99, originalPrice: null, rating: 4.4, reviews: 178, image: 'https://picsum.photos/seed/prod6/400/400', isNew: true, discount: null, description: 'Waterproof speaker with 360-degree sound and 12-hour battery life.' },
-  { id: 7, name: 'Yoga Mat Premium', category: 'Sports', price: 39.99, originalPrice: 49.99, rating: 4.3, reviews: 95, image: 'https://picsum.photos/seed/prod7/400/400', isNew: false, discount: 20, description: 'Eco-friendly yoga mat with non-slip surface and carrying strap.' },
-  { id: 8, name: 'Coffee Maker Deluxe', category: 'Home', price: 149.99, originalPrice: null, rating: 4.9, reviews: 423, image: 'https://picsum.photos/seed/prod8/400/400', isNew: false, discount: null, description: 'Programmable coffee maker with built-in grinder and thermal carafe.' },
-]
-
-const toggleWishlist = (id: number) => {
-  const index = wishlist.value.indexOf(id)
-  if (index > -1) {
-    wishlist.value.splice(index, 1)
-  } else {
-    wishlist.value.push(id)
-  }
-}
-
-const quickView = (product: typeof products[0]) => {
-  console.log('Quick view:', product.name)
-}
-
-const addToCart = (product: typeof products[0]) => {
-  console.log('Added to cart:', product.name)
-}
-</script>

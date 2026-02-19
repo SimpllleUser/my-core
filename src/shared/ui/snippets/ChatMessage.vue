@@ -1,3 +1,96 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Colors, Variants, Sizes, Icons } from '../../model'
+import type { ColorType, VariantType, SizeType, IconType, ChatMessageType } from './types'
+
+interface Props {
+  // Message data
+  type: ChatMessageType | 'typing'
+  text?: string
+  time?: string
+  avatar?: string
+  name?: string
+  isRead?: boolean
+  reaction?: string
+
+  // Layout
+  maxWidth?: string
+
+  // Avatar
+  avatarSize?: SizeType | number
+
+  // Bubble styling
+  bubbleClass?: string
+  sentBubbleColor?: ColorType
+  sentBubbleClass?: string
+  receivedBubbleColor?: ColorType | string
+  receivedBubbleClass?: string
+
+  // Text
+  textClass?: string
+  nameClass?: string
+  showName?: boolean
+
+  // Time
+  timeClass?: string
+  timeContainerClass?: string
+
+  // Read status
+  showReadStatus?: boolean
+  readStatusIconRead?: IconType
+  readStatusIconUnread?: IconType
+  readStatusIconSize?: SizeType | number
+  readStatusReadColor?: ColorType
+  readStatusUnreadColor?: ColorType | string
+
+  // Reaction
+  reactionSize?: SizeType
+  reactionVariant?: VariantType
+  reactionPosition?: { bottom: string; right: string }
+
+  // System message
+  systemIcon?: IconType
+  systemIconSize?: SizeType | number
+  systemChipSize?: SizeType
+  systemChipVariant?: VariantType
+  systemChipColor?: ColorType | string
+  systemContainerClass?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  maxWidth: '70%',
+  avatarSize: 36,
+  bubbleClass: 'rounded-xl',
+  sentBubbleColor: Colors.Primary,
+  sentBubbleClass: 'rounded-te-0',
+  receivedBubbleColor: 'grey-lighten-4',
+  receivedBubbleClass: 'rounded-ts-0',
+  textClass: 'text-body-2',
+  nameClass: 'text-caption font-weight-medium',
+  showName: false,
+  timeClass: 'text-caption text-medium-emphasis',
+  timeContainerClass: 'mt-1',
+  showReadStatus: true,
+  readStatusIconRead: Icons.CheckAll,
+  readStatusIconUnread: Icons.Check,
+  readStatusIconSize: 14,
+  readStatusReadColor: Colors.Primary,
+  readStatusUnreadColor: 'grey',
+  reactionSize: Sizes.XSmall,
+  reactionVariant: Variants.Flat,
+  reactionPosition: { bottom: '-8px', right: '8px' },
+  systemIconSize: 14,
+  systemChipSize: Sizes.Small,
+  systemChipVariant: Variants.Outlined,
+  systemChipColor: 'grey',
+  systemContainerClass: 'my-6',
+})
+
+const reactionStyle = computed(() => ({
+  bottom: props.reactionPosition.bottom,
+  right: props.reactionPosition.right,
+}))
+</script>
 <template>
   <!-- System Message -->
   <div v-if="type === 'system'" :class="['text-center', systemContainerClass]">
@@ -100,101 +193,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '../../model'
-import type { ColorType, VariantType, SizeType, IconType, ChatMessageType } from './types'
-
-interface Props {
-  // Message data
-  type: ChatMessageType | 'typing'
-  text?: string
-  time?: string
-  avatar?: string
-  name?: string
-  isRead?: boolean
-  reaction?: string
-
-  // Layout
-  maxWidth?: string
-
-  // Avatar
-  avatarSize?: SizeType | number
-
-  // Bubble styling
-  bubbleClass?: string
-  sentBubbleColor?: ColorType
-  sentBubbleClass?: string
-  receivedBubbleColor?: ColorType | string
-  receivedBubbleClass?: string
-
-  // Text
-  textClass?: string
-  nameClass?: string
-  showName?: boolean
-
-  // Time
-  timeClass?: string
-  timeContainerClass?: string
-
-  // Read status
-  showReadStatus?: boolean
-  readStatusIconRead?: IconType
-  readStatusIconUnread?: IconType
-  readStatusIconSize?: SizeType | number
-  readStatusReadColor?: ColorType
-  readStatusUnreadColor?: ColorType | string
-
-  // Reaction
-  reactionSize?: SizeType
-  reactionVariant?: VariantType
-  reactionPosition?: { bottom: string; right: string }
-
-  // System message
-  systemIcon?: IconType
-  systemIconSize?: SizeType | number
-  systemChipSize?: SizeType
-  systemChipVariant?: VariantType
-  systemChipColor?: ColorType | string
-  systemContainerClass?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  maxWidth: '70%',
-  avatarSize: 36,
-  bubbleClass: 'rounded-xl',
-  sentBubbleColor: Colors.Primary,
-  sentBubbleClass: 'rounded-te-0',
-  receivedBubbleColor: 'grey-lighten-4',
-  receivedBubbleClass: 'rounded-ts-0',
-  textClass: 'text-body-2',
-  nameClass: 'text-caption font-weight-medium',
-  showName: false,
-  timeClass: 'text-caption text-medium-emphasis',
-  timeContainerClass: 'mt-1',
-  showReadStatus: true,
-  readStatusIconRead: Icons.CheckAll,
-  readStatusIconUnread: Icons.Check,
-  readStatusIconSize: 14,
-  readStatusReadColor: Colors.Primary,
-  readStatusUnreadColor: 'grey',
-  reactionSize: Sizes.XSmall,
-  reactionVariant: Variants.Flat,
-  reactionPosition: { bottom: '-8px', right: '8px' },
-  systemIconSize: 14,
-  systemChipSize: Sizes.Small,
-  systemChipVariant: Variants.Outlined,
-  systemChipColor: 'grey',
-  systemContainerClass: 'my-6',
-})
-
-const reactionStyle = computed(() => ({
-  bottom: props.reactionPosition.bottom,
-  right: props.reactionPosition.right,
-}))
-</script>
-
 <style scoped>
 .typing-dot {
   width: 8px;

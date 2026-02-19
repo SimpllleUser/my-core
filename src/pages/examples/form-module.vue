@@ -1,3 +1,194 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+import {
+  FormConfig,
+  TextField,
+  EmailField,
+  PasswordField,
+  SelectField,
+  TextareaField,
+  CheckboxField,
+  useFormState,
+  DynamicField,
+  minLength,
+  maxLength,
+  required,
+} from '../../shared/form'
+
+// --- Registration Form ---
+const registerForm = new FormConfig({
+  name: new TextField({
+    label: "Ім'я",
+    placeholder: "Введіть ваше ім'я",
+    required: true,
+    rules: [minLength(2)],
+  }),
+  email: new EmailField({
+    label: 'Email',
+    placeholder: 'user@example.com',
+    required: true,
+  }),
+  role: new SelectField({
+    label: 'Роль',
+    required: true,
+    options: [
+      { title: 'Адмін', value: 'admin' },
+      { title: 'Менеджер', value: 'manager' },
+      { title: 'Користувач', value: 'user' },
+    ],
+  }),
+  password: new PasswordField({
+    label: 'Пароль',
+    required: true,
+    rules: [minLength(8)],
+  }),
+  agree: new CheckboxField({
+    label: 'Я погоджуюсь з умовами',
+    required: true,
+    rules: [required('Необхідно прийняти умови')],
+  }),
+})
+
+const {
+  bind: registerBind,
+  isValid: registerValid,
+  validateAll: registerValidateAll,
+  reset: registerReset,
+} = useFormState(registerForm.getFields())
+
+const registerSubmitted = ref(false)
+const handleRegister = () => {
+  if (!registerValidateAll()) return
+  registerSubmitted.value = true
+  registerReset()
+}
+
+// --- Login Form ---
+const loginForm = new FormConfig({
+  email: new EmailField({
+    label: 'Email',
+    placeholder: 'user@example.com',
+    required: true,
+  }),
+  password: new PasswordField({
+    label: 'Пароль',
+    required: true,
+    rules: [minLength(6)],
+  }),
+  remember: new CheckboxField({
+    label: "Запам'ятати мене",
+  }),
+})
+
+const {
+  bind: loginBind,
+  isValid: loginValid,
+  validateAll: loginValidateAll,
+  reset: loginReset,
+} = useFormState(loginForm.getFields())
+
+const loginSubmitted = ref(false)
+const handleLogin = () => {
+  if (!loginValidateAll()) return
+  loginSubmitted.value = true
+  loginReset()
+}
+
+// --- Feedback Form ---
+const feedbackForm = new FormConfig({
+  name: new TextField({
+    label: "Ім'я",
+    required: true,
+    rules: [minLength(2)],
+  }),
+  email: new EmailField({
+    label: 'Email',
+    required: true,
+  }),
+  category: new SelectField({
+    label: 'Категорія',
+    required: true,
+    options: [
+      { title: 'Баг', value: 'bug' },
+      { title: 'Пропозиція', value: 'feature' },
+      { title: 'Питання', value: 'question' },
+      { title: 'Інше', value: 'other' },
+    ],
+  }),
+  message: new TextareaField({
+    label: 'Повідомлення',
+    placeholder: 'Опишіть вашу проблему або пропозицію...',
+    required: true,
+    rules: [minLength(10), maxLength(500)],
+    rows: 4,
+    autoGrow: true,
+  }),
+})
+
+const {
+  bind: feedbackBind,
+  isValid: feedbackValid,
+  validateAll: feedbackValidateAll,
+  reset: feedbackReset,
+} = useFormState(feedbackForm.getFields())
+
+const feedbackSubmitted = ref(false)
+const handleFeedback = () => {
+  if (!feedbackValidateAll()) return
+  feedbackSubmitted.value = true
+  feedbackReset()
+}
+
+// --- Profile Settings Form ---
+const profileForm = new FormConfig({
+  firstName: new TextField({
+    label: "Ім'я",
+    required: true,
+    defaultValue: 'Іван',
+    rules: [minLength(2)],
+  }),
+  lastName: new TextField({
+    label: 'Прізвище',
+    required: true,
+    defaultValue: 'Петренко',
+    rules: [minLength(2)],
+  }),
+  bio: new TextareaField({
+    label: 'Про себе',
+    defaultValue: 'Frontend developer з Києва',
+    rows: 3,
+    autoGrow: true,
+    rules: [maxLength(200)],
+  }),
+  language: new SelectField({
+    label: 'Мова інтерфейсу',
+    defaultValue: 'uk',
+    options: [
+      { title: 'Українська', value: 'uk' },
+      { title: 'English', value: 'en' },
+      { title: 'Polski', value: 'pl' },
+    ],
+  }),
+  notifications: new CheckboxField({
+    label: 'Отримувати сповіщення на email',
+    defaultValue: true,
+  }),
+})
+
+const {
+  bind: profileBind,
+  isDirty: profileDirty,
+  validateAll: profileValidateAll,
+  reset: profileReset,
+} = useFormState(profileForm.getFields())
+
+const profileSubmitted = ref(false)
+const handleProfile = () => {
+  if (!profileValidateAll()) return
+  profileSubmitted.value = true
+}
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -196,195 +387,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-import {
-  FormConfig,
-  TextField,
-  EmailField,
-  PasswordField,
-  SelectField,
-  TextareaField,
-  CheckboxField,
-  useFormState,
-  DynamicField,
-  minLength,
-  maxLength,
-  required,
-} from '../../shared/form'
-
-// --- Registration Form ---
-const registerForm = new FormConfig({
-  name: new TextField({
-    label: "Ім'я",
-    placeholder: "Введіть ваше ім'я",
-    required: true,
-    rules: [minLength(2)],
-  }),
-  email: new EmailField({
-    label: 'Email',
-    placeholder: 'user@example.com',
-    required: true,
-  }),
-  role: new SelectField({
-    label: 'Роль',
-    required: true,
-    options: [
-      { title: 'Адмін', value: 'admin' },
-      { title: 'Менеджер', value: 'manager' },
-      { title: 'Користувач', value: 'user' },
-    ],
-  }),
-  password: new PasswordField({
-    label: 'Пароль',
-    required: true,
-    rules: [minLength(8)],
-  }),
-  agree: new CheckboxField({
-    label: 'Я погоджуюсь з умовами',
-    required: true,
-    rules: [required('Необхідно прийняти умови')],
-  }),
-})
-
-const {
-  bind: registerBind,
-  isValid: registerValid,
-  validateAll: registerValidateAll,
-  reset: registerReset,
-} = useFormState(registerForm.getFields())
-
-const registerSubmitted = ref(false)
-const handleRegister = () => {
-  if (!registerValidateAll()) return
-  registerSubmitted.value = true
-  registerReset()
-}
-
-// --- Login Form ---
-const loginForm = new FormConfig({
-  email: new EmailField({
-    label: 'Email',
-    placeholder: 'user@example.com',
-    required: true,
-  }),
-  password: new PasswordField({
-    label: 'Пароль',
-    required: true,
-    rules: [minLength(6)],
-  }),
-  remember: new CheckboxField({
-    label: "Запам'ятати мене",
-  }),
-})
-
-const {
-  bind: loginBind,
-  isValid: loginValid,
-  validateAll: loginValidateAll,
-  reset: loginReset,
-} = useFormState(loginForm.getFields())
-
-const loginSubmitted = ref(false)
-const handleLogin = () => {
-  if (!loginValidateAll()) return
-  loginSubmitted.value = true
-  loginReset()
-}
-
-// --- Feedback Form ---
-const feedbackForm = new FormConfig({
-  name: new TextField({
-    label: "Ім'я",
-    required: true,
-    rules: [minLength(2)],
-  }),
-  email: new EmailField({
-    label: 'Email',
-    required: true,
-  }),
-  category: new SelectField({
-    label: 'Категорія',
-    required: true,
-    options: [
-      { title: 'Баг', value: 'bug' },
-      { title: 'Пропозиція', value: 'feature' },
-      { title: 'Питання', value: 'question' },
-      { title: 'Інше', value: 'other' },
-    ],
-  }),
-  message: new TextareaField({
-    label: 'Повідомлення',
-    placeholder: 'Опишіть вашу проблему або пропозицію...',
-    required: true,
-    rules: [minLength(10), maxLength(500)],
-    rows: 4,
-    autoGrow: true,
-  }),
-})
-
-const {
-  bind: feedbackBind,
-  isValid: feedbackValid,
-  validateAll: feedbackValidateAll,
-  reset: feedbackReset,
-} = useFormState(feedbackForm.getFields())
-
-const feedbackSubmitted = ref(false)
-const handleFeedback = () => {
-  if (!feedbackValidateAll()) return
-  feedbackSubmitted.value = true
-  feedbackReset()
-}
-
-// --- Profile Settings Form ---
-const profileForm = new FormConfig({
-  firstName: new TextField({
-    label: "Ім'я",
-    required: true,
-    defaultValue: 'Іван',
-    rules: [minLength(2)],
-  }),
-  lastName: new TextField({
-    label: 'Прізвище',
-    required: true,
-    defaultValue: 'Петренко',
-    rules: [minLength(2)],
-  }),
-  bio: new TextareaField({
-    label: 'Про себе',
-    defaultValue: 'Frontend developer з Києва',
-    rows: 3,
-    autoGrow: true,
-    rules: [maxLength(200)],
-  }),
-  language: new SelectField({
-    label: 'Мова інтерфейсу',
-    defaultValue: 'uk',
-    options: [
-      { title: 'Українська', value: 'uk' },
-      { title: 'English', value: 'en' },
-      { title: 'Polski', value: 'pl' },
-    ],
-  }),
-  notifications: new CheckboxField({
-    label: 'Отримувати сповіщення на email',
-    defaultValue: true,
-  }),
-})
-
-const {
-  bind: profileBind,
-  isDirty: profileDirty,
-  validateAll: profileValidateAll,
-  reset: profileReset,
-} = useFormState(profileForm.getFields())
-
-const profileSubmitted = ref(false)
-const handleProfile = () => {
-  if (!profileValidateAll()) return
-  profileSubmitted.value = true
-}
-</script>

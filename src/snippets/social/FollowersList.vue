@@ -4,6 +4,94 @@
   Components: None (standalone)
   Variants: Grid view, list view, with suggestions
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+import type { ISocialUser } from '../../shared/ui/snippets'
+
+const searchQuery = ref('')
+const tabSearch = ref('')
+const activeTab = ref('followers')
+const selectedCategory = ref(0)
+
+const categories = ['All', 'Suggested', 'Recent', 'Popular', 'Verified']
+
+const followers: ISocialUser[] = [
+  { id: 1, name: 'Alex Thompson', username: 'alexthompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', verified: true, isFollowing: true },
+  { id: 2, name: 'Emily Davis', username: 'emilydavis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', verified: false, isFollowing: false },
+  { id: 3, name: 'James Wilson', username: 'jameswilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg', verified: true, isFollowing: true },
+  { id: 4, name: 'Lisa Park', username: 'lisapark', avatar: 'https://randomuser.me/api/portraits/women/35.jpg', verified: false, isFollowing: false },
+  { id: 5, name: 'Michael Brown', username: 'michaelbrown', avatar: 'https://randomuser.me/api/portraits/men/45.jpg', verified: false, isFollowing: true },
+]
+
+const tabUsers: (ISocialUser & { bio?: string })[] = [
+  { id: 1, name: 'Sarah Miller', username: 'sarahmiller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg', bio: 'Designer & Creative Director', verified: true, isFollowing: true },
+  { id: 2, name: 'David Kim', username: 'davidkim', avatar: 'https://randomuser.me/api/portraits/men/52.jpg', bio: 'Software Engineer at Tech Co', verified: false, isFollowing: false },
+  { id: 3, name: 'Emma Wilson', username: 'emmawilson', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', bio: 'Travel & Lifestyle Blogger', verified: true, isFollowing: true },
+  { id: 4, name: 'John Smith', username: 'johnsmith', avatar: 'https://randomuser.me/api/portraits/men/55.jpg', bio: 'Photographer & Videographer', verified: false, isFollowing: false },
+]
+
+const gridUsers: ISocialUser[] = [
+  { id: 1, name: 'Olivia Taylor', username: 'oliviataylor', avatar: 'https://randomuser.me/api/portraits/women/55.jpg', verified: true, followers: 45600 },
+  { id: 2, name: 'Noah Johnson', username: 'noahjohnson', avatar: 'https://randomuser.me/api/portraits/men/58.jpg', verified: false, followers: 23400 },
+  { id: 3, name: 'Sophia Lee', username: 'sophialee', avatar: 'https://randomuser.me/api/portraits/women/58.jpg', verified: true, followers: 89200 },
+  { id: 4, name: 'Liam Brown', username: 'liambrown', avatar: 'https://randomuser.me/api/portraits/men/62.jpg', verified: false, followers: 12300 },
+  { id: 5, name: 'Ava Martinez', username: 'avamartinez', avatar: 'https://randomuser.me/api/portraits/women/62.jpg', verified: true, followers: 156000 },
+  { id: 6, name: 'Ethan Garcia', username: 'ethangarcia', avatar: 'https://randomuser.me/api/portraits/men/65.jpg', verified: false, followers: 8900 },
+]
+
+interface MutualUser extends ISocialUser {
+  mutuals: { id: number; name: string; avatar: string }[]
+  mutualCount: number
+}
+
+const mutualFollowers: MutualUser[] = [
+  {
+    id: 1,
+    name: 'Jessica Thompson',
+    username: 'jessicathompson',
+    avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
+    verified: true,
+    mutuals: [
+      { id: 1, name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' },
+      { id: 2, name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
+      { id: 3, name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg' },
+    ],
+    mutualCount: 12,
+  },
+  {
+    id: 2,
+    name: 'Ryan Cooper',
+    username: 'ryancooper',
+    avatar: 'https://randomuser.me/api/portraits/men/68.jpg',
+    verified: false,
+    mutuals: [
+      { id: 1, name: 'Lisa Park', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' },
+      { id: 2, name: 'Michael Brown', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
+    ],
+    mutualCount: 5,
+  },
+  {
+    id: 3,
+    name: 'Amanda White',
+    username: 'amandawhite',
+    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+    verified: true,
+    mutuals: [
+      { id: 1, name: 'Sarah Miller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg' },
+      { id: 2, name: 'David Kim', avatar: 'https://randomuser.me/api/portraits/men/52.jpg' },
+      { id: 3, name: 'Emma Wilson', avatar: 'https://randomuser.me/api/portraits/women/52.jpg' },
+    ],
+    mutualCount: 8,
+  },
+]
+
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
+  return num.toString()
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Simple Followers List -->
@@ -225,92 +313,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-import type { ISocialUser } from '../../shared/ui/snippets'
-
-const searchQuery = ref('')
-const tabSearch = ref('')
-const activeTab = ref('followers')
-const selectedCategory = ref(0)
-
-const categories = ['All', 'Suggested', 'Recent', 'Popular', 'Verified']
-
-const followers: ISocialUser[] = [
-  { id: 1, name: 'Alex Thompson', username: 'alexthompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', verified: true, isFollowing: true },
-  { id: 2, name: 'Emily Davis', username: 'emilydavis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', verified: false, isFollowing: false },
-  { id: 3, name: 'James Wilson', username: 'jameswilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg', verified: true, isFollowing: true },
-  { id: 4, name: 'Lisa Park', username: 'lisapark', avatar: 'https://randomuser.me/api/portraits/women/35.jpg', verified: false, isFollowing: false },
-  { id: 5, name: 'Michael Brown', username: 'michaelbrown', avatar: 'https://randomuser.me/api/portraits/men/45.jpg', verified: false, isFollowing: true },
-]
-
-const tabUsers: (ISocialUser & { bio?: string })[] = [
-  { id: 1, name: 'Sarah Miller', username: 'sarahmiller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg', bio: 'Designer & Creative Director', verified: true, isFollowing: true },
-  { id: 2, name: 'David Kim', username: 'davidkim', avatar: 'https://randomuser.me/api/portraits/men/52.jpg', bio: 'Software Engineer at Tech Co', verified: false, isFollowing: false },
-  { id: 3, name: 'Emma Wilson', username: 'emmawilson', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', bio: 'Travel & Lifestyle Blogger', verified: true, isFollowing: true },
-  { id: 4, name: 'John Smith', username: 'johnsmith', avatar: 'https://randomuser.me/api/portraits/men/55.jpg', bio: 'Photographer & Videographer', verified: false, isFollowing: false },
-]
-
-const gridUsers: ISocialUser[] = [
-  { id: 1, name: 'Olivia Taylor', username: 'oliviataylor', avatar: 'https://randomuser.me/api/portraits/women/55.jpg', verified: true, followers: 45600 },
-  { id: 2, name: 'Noah Johnson', username: 'noahjohnson', avatar: 'https://randomuser.me/api/portraits/men/58.jpg', verified: false, followers: 23400 },
-  { id: 3, name: 'Sophia Lee', username: 'sophialee', avatar: 'https://randomuser.me/api/portraits/women/58.jpg', verified: true, followers: 89200 },
-  { id: 4, name: 'Liam Brown', username: 'liambrown', avatar: 'https://randomuser.me/api/portraits/men/62.jpg', verified: false, followers: 12300 },
-  { id: 5, name: 'Ava Martinez', username: 'avamartinez', avatar: 'https://randomuser.me/api/portraits/women/62.jpg', verified: true, followers: 156000 },
-  { id: 6, name: 'Ethan Garcia', username: 'ethangarcia', avatar: 'https://randomuser.me/api/portraits/men/65.jpg', verified: false, followers: 8900 },
-]
-
-interface MutualUser extends ISocialUser {
-  mutuals: { id: number; name: string; avatar: string }[]
-  mutualCount: number
-}
-
-const mutualFollowers: MutualUser[] = [
-  {
-    id: 1,
-    name: 'Jessica Thompson',
-    username: 'jessicathompson',
-    avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    verified: true,
-    mutuals: [
-      { id: 1, name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' },
-      { id: 2, name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
-      { id: 3, name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg' },
-    ],
-    mutualCount: 12,
-  },
-  {
-    id: 2,
-    name: 'Ryan Cooper',
-    username: 'ryancooper',
-    avatar: 'https://randomuser.me/api/portraits/men/68.jpg',
-    verified: false,
-    mutuals: [
-      { id: 1, name: 'Lisa Park', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' },
-      { id: 2, name: 'Michael Brown', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
-    ],
-    mutualCount: 5,
-  },
-  {
-    id: 3,
-    name: 'Amanda White',
-    username: 'amandawhite',
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-    verified: true,
-    mutuals: [
-      { id: 1, name: 'Sarah Miller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg' },
-      { id: 2, name: 'David Kim', avatar: 'https://randomuser.me/api/portraits/men/52.jpg' },
-      { id: 3, name: 'Emma Wilson', avatar: 'https://randomuser.me/api/portraits/women/52.jpg' },
-    ],
-    mutualCount: 8,
-  },
-]
-
-const formatNumber = (num: number): string => {
-  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
-  return num.toString()
-}
-</script>

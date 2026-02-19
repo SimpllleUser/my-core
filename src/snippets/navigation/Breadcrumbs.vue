@@ -4,6 +4,27 @@
   Components: VBreadcrumbs, VBreadcrumbsItem, VIcon
   Variants: Simple, With Icons, Custom Dividers
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const tab = ref('overview')
+
+const simpleBreadcrumbs = [
+  { title: 'Home', disabled: false, href: '#' },
+  { title: 'Category', disabled: false, href: '#' },
+  { title: 'Products', disabled: false, href: '#' },
+  { title: 'Current Page', disabled: true },
+]
+
+const iconBreadcrumbs = [
+  { title: 'Dashboard', disabled: false, href: '#' },
+  { title: 'E-commerce', disabled: false, href: '#' },
+  { title: 'Products', disabled: true },
+]
+
+const collapsedItems = ['Category', 'Subcategory', 'Electronics']
+</script>
 <template>
   <VContainer>
     <h2 class="text-h5 font-weight-bold mb-6">Breadcrumbs Variants</h2>
@@ -137,25 +158,3 @@
     </VCard>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const tab = ref('overview')
-
-const simpleBreadcrumbs = [
-  { title: 'Home', disabled: false, href: '#' },
-  { title: 'Category', disabled: false, href: '#' },
-  { title: 'Products', disabled: false, href: '#' },
-  { title: 'Current Page', disabled: true },
-]
-
-const iconBreadcrumbs = [
-  { title: 'Dashboard', disabled: false, href: '#' },
-  { title: 'E-commerce', disabled: false, href: '#' },
-  { title: 'Products', disabled: true },
-]
-
-const collapsedItems = ['Category', 'Subcategory', 'Electronics']
-</script>

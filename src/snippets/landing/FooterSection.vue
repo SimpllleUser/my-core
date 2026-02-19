@@ -4,6 +4,37 @@
   Components: VContainer, VRow, VCol, VBtn, VDivider, VTextField
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+
+const simpleLinks = ['About', 'Features', 'Pricing', 'Blog', 'Contact']
+
+const socialLinks = [
+  { name: 'Twitter', icon: Icons.Twitter },
+  { name: 'Github', icon: Icons.Github },
+  { name: 'LinkedIn', icon: Icons.LinkedIn },
+  { name: 'Instagram', icon: Icons.Instagram },
+]
+
+const footerColumns = [
+  {
+    title: 'Product',
+    links: ['Features', 'Pricing', 'Integrations', 'API', 'Changelog'],
+  },
+  {
+    title: 'Company',
+    links: ['About', 'Blog', 'Careers', 'Press', 'Partners'],
+  },
+  {
+    title: 'Resources',
+    links: ['Documentation', 'Help Center', 'Community', 'Tutorials', 'Status'],
+  },
+  {
+    title: 'Legal',
+    links: ['Privacy', 'Terms', 'Cookies', 'Licenses'],
+  },
+]
+</script>
 <template>
   <div>
     <!-- Footer Style 1: Simple -->
@@ -187,35 +218,3 @@
     </footer>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-
-const simpleLinks = ['About', 'Features', 'Pricing', 'Blog', 'Contact']
-
-const socialLinks = [
-  { name: 'Twitter', icon: Icons.Twitter },
-  { name: 'Github', icon: Icons.Github },
-  { name: 'LinkedIn', icon: Icons.LinkedIn },
-  { name: 'Instagram', icon: Icons.Instagram },
-]
-
-const footerColumns = [
-  {
-    title: 'Product',
-    links: ['Features', 'Pricing', 'Integrations', 'API', 'Changelog'],
-  },
-  {
-    title: 'Company',
-    links: ['About', 'Blog', 'Careers', 'Press', 'Partners'],
-  },
-  {
-    title: 'Resources',
-    links: ['Documentation', 'Help Center', 'Community', 'Tutorials', 'Status'],
-  },
-  {
-    title: 'Legal',
-    links: ['Privacy', 'Terms', 'Cookies', 'Licenses'],
-  },
-]
-</script>

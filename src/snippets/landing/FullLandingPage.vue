@@ -4,6 +4,56 @@
   Components: All major Vuetify components
   Complexity: Complex - Full page example
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+
+const drawer = ref(false)
+const navLinks = ['Features', 'Pricing', 'About', 'Blog']
+
+const companies = [
+  { name: 'Google', icon: Icons.Google },
+  { name: 'Microsoft', icon: Icons.Microsoft },
+  { name: 'Apple', icon: Icons.Apple },
+  { name: 'Slack', icon: Icons.Slack },
+  { name: 'Spotify', icon: Icons.Spotify },
+]
+
+const features = [
+  { title: 'Lightning Fast', description: 'Optimized for speed with instant updates.', icon: Icons.Bolt, color: 'warning' },
+  { title: 'Secure', description: 'Enterprise-grade security built-in.', icon: Icons.ShieldCheck, color: 'success' },
+  { title: 'Integrations', description: 'Connect with 100+ tools.', icon: Icons.Puzzle, color: 'primary' },
+  { title: 'Analytics', description: 'Powerful insights and reports.', icon: Icons.ChartLine, color: 'secondary' },
+  { title: 'Collaboration', description: 'Work together in real-time.', icon: Icons.AccountGroup, color: 'info' },
+  { title: 'Support', description: '24/7 dedicated support team.', icon: Icons.Headphones, color: 'error' },
+]
+
+const stats = [
+  { value: '10K+', label: 'Users' },
+  { value: '99.9%', label: 'Uptime' },
+  { value: '150+', label: 'Countries' },
+  { value: '24/7', label: 'Support' },
+]
+
+const testimonials = [
+  { name: 'John Smith', role: 'CEO, Acme Inc', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', text: 'This tool transformed our workflow completely.' },
+  { name: 'Emily Chen', role: 'CTO, StartupXYZ', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', text: 'Best investment we made this year.' },
+  { name: 'Michael Brown', role: 'Founder, DesignCo', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', text: 'A tool that just works. Highly recommended!' },
+]
+
+const plans = [
+  { name: 'Starter', description: 'For individuals', price: 9, featured: false, features: ['3 projects', '1 GB storage', 'Basic analytics'] },
+  { name: 'Pro', description: 'For growing teams', price: 29, featured: true, features: ['Unlimited projects', '50 GB storage', 'Advanced analytics', 'Priority support'] },
+  { name: 'Enterprise', description: 'For large orgs', price: 99, featured: false, features: ['Everything in Pro', 'Unlimited storage', 'Custom integrations', 'Dedicated manager'] },
+]
+
+const footerColumns = [
+  { title: 'Product', links: ['Features', 'Pricing', 'API'] },
+  { title: 'Company', links: ['About', 'Blog', 'Careers'] },
+  { title: 'Resources', links: ['Docs', 'Help', 'Community'] },
+  { title: 'Legal', links: ['Privacy', 'Terms'] },
+]
+</script>
 <template>
   <div>
     <!-- Navigation -->
@@ -283,54 +333,3 @@
     </footer>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-
-const drawer = ref(false)
-const navLinks = ['Features', 'Pricing', 'About', 'Blog']
-
-const companies = [
-  { name: 'Google', icon: Icons.Google },
-  { name: 'Microsoft', icon: Icons.Microsoft },
-  { name: 'Apple', icon: Icons.Apple },
-  { name: 'Slack', icon: Icons.Slack },
-  { name: 'Spotify', icon: Icons.Spotify },
-]
-
-const features = [
-  { title: 'Lightning Fast', description: 'Optimized for speed with instant updates.', icon: Icons.Bolt, color: 'warning' },
-  { title: 'Secure', description: 'Enterprise-grade security built-in.', icon: Icons.ShieldCheck, color: 'success' },
-  { title: 'Integrations', description: 'Connect with 100+ tools.', icon: Icons.Puzzle, color: 'primary' },
-  { title: 'Analytics', description: 'Powerful insights and reports.', icon: Icons.ChartLine, color: 'secondary' },
-  { title: 'Collaboration', description: 'Work together in real-time.', icon: Icons.AccountGroup, color: 'info' },
-  { title: 'Support', description: '24/7 dedicated support team.', icon: Icons.Headphones, color: 'error' },
-]
-
-const stats = [
-  { value: '10K+', label: 'Users' },
-  { value: '99.9%', label: 'Uptime' },
-  { value: '150+', label: 'Countries' },
-  { value: '24/7', label: 'Support' },
-]
-
-const testimonials = [
-  { name: 'John Smith', role: 'CEO, Acme Inc', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', text: 'This tool transformed our workflow completely.' },
-  { name: 'Emily Chen', role: 'CTO, StartupXYZ', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', text: 'Best investment we made this year.' },
-  { name: 'Michael Brown', role: 'Founder, DesignCo', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', text: 'A tool that just works. Highly recommended!' },
-]
-
-const plans = [
-  { name: 'Starter', description: 'For individuals', price: 9, featured: false, features: ['3 projects', '1 GB storage', 'Basic analytics'] },
-  { name: 'Pro', description: 'For growing teams', price: 29, featured: true, features: ['Unlimited projects', '50 GB storage', 'Advanced analytics', 'Priority support'] },
-  { name: 'Enterprise', description: 'For large orgs', price: 99, featured: false, features: ['Everything in Pro', 'Unlimited storage', 'Custom integrations', 'Dedicated manager'] },
-]
-
-const footerColumns = [
-  { title: 'Product', links: ['Features', 'Pricing', 'API'] },
-  { title: 'Company', links: ['About', 'Blog', 'Careers'] },
-  { title: 'Resources', links: ['Docs', 'Help', 'Community'] },
-  { title: 'Legal', links: ['Privacy', 'Terms'] },
-]
-</script>

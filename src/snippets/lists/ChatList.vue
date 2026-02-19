@@ -4,6 +4,74 @@
   Components: VList, VListItem, VAvatar, VTextField, VBtn
   Variants: Chat sidebar, Message bubbles
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref, computed, nextTick } from 'vue'
+
+const search = ref('')
+const newMessage = ref('')
+const messagesContainer = ref<HTMLElement | null>(null)
+
+interface Conversation {
+  id: number
+  name: string
+  avatar: string
+  lastMessage: string
+  time: string
+  online: boolean
+  unread: number
+}
+
+const conversations: Conversation[] = [
+  { id: 1, name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', lastMessage: 'That sounds great! Let me know when...', time: '2 min', online: true, unread: 3 },
+  { id: 2, name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', lastMessage: 'The project is almost done', time: '1 hour', online: true, unread: 0 },
+  { id: 3, name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', lastMessage: 'Can we schedule a call tomorrow?', time: '3 hours', online: false, unread: 1 },
+  { id: 4, name: 'John Smith', avatar: 'https://randomuser.me/api/portraits/men/45.jpg', lastMessage: 'Thanks for the update!', time: 'Yesterday', online: false, unread: 0 },
+  { id: 5, name: 'Lisa Anderson', avatar: 'https://randomuser.me/api/portraits/women/65.jpg', lastMessage: 'See you at the meeting', time: 'Yesterday', online: true, unread: 0 },
+]
+
+const activeConversation = ref<Conversation | null>(null)
+
+const messages = ref([
+  { id: 1, text: 'Hey! How are you doing?', time: '10:30 AM', sent: false, read: true },
+  { id: 2, text: "Hi Sarah! I'm doing great, thanks for asking. How about you?", time: '10:32 AM', sent: true, read: true },
+  { id: 3, text: "I'm good too! Just finished the design mockups for the new project.", time: '10:33 AM', sent: false, read: true },
+  { id: 4, text: "That's awesome! Can't wait to see them. When can you share?", time: '10:35 AM', sent: true, read: true },
+  { id: 5, text: 'I can share them now if you have time to review?', time: '10:36 AM', sent: false, read: true },
+  { id: 6, text: 'Perfect! Send them over. 👍', time: '10:37 AM', sent: true, read: false },
+])
+
+const filteredConversations = computed(() => {
+  if (!search.value) return conversations
+  return conversations.filter(c =>
+    c.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+})
+
+const selectConversation = (conversation: Conversation) => {
+  activeConversation.value = conversation
+}
+
+const sendMessage = () => {
+  if (!newMessage.value.trim()) return
+
+  messages.value.push({
+    id: messages.value.length + 1,
+    text: newMessage.value,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    sent: true,
+    read: false,
+  })
+
+  newMessage.value = ''
+
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
+  })
+}
+</script>
 <template>
   <VCard style="height: 600px;">
     <VRow no-gutters style="height: 100%;">
@@ -147,76 +215,6 @@
     </VRow>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref, computed, nextTick } from 'vue'
-
-const search = ref('')
-const newMessage = ref('')
-const messagesContainer = ref<HTMLElement | null>(null)
-
-interface Conversation {
-  id: number
-  name: string
-  avatar: string
-  lastMessage: string
-  time: string
-  online: boolean
-  unread: number
-}
-
-const conversations: Conversation[] = [
-  { id: 1, name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', lastMessage: 'That sounds great! Let me know when...', time: '2 min', online: true, unread: 3 },
-  { id: 2, name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', lastMessage: 'The project is almost done', time: '1 hour', online: true, unread: 0 },
-  { id: 3, name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', lastMessage: 'Can we schedule a call tomorrow?', time: '3 hours', online: false, unread: 1 },
-  { id: 4, name: 'John Smith', avatar: 'https://randomuser.me/api/portraits/men/45.jpg', lastMessage: 'Thanks for the update!', time: 'Yesterday', online: false, unread: 0 },
-  { id: 5, name: 'Lisa Anderson', avatar: 'https://randomuser.me/api/portraits/women/65.jpg', lastMessage: 'See you at the meeting', time: 'Yesterday', online: true, unread: 0 },
-]
-
-const activeConversation = ref<Conversation | null>(null)
-
-const messages = ref([
-  { id: 1, text: 'Hey! How are you doing?', time: '10:30 AM', sent: false, read: true },
-  { id: 2, text: "Hi Sarah! I'm doing great, thanks for asking. How about you?", time: '10:32 AM', sent: true, read: true },
-  { id: 3, text: "I'm good too! Just finished the design mockups for the new project.", time: '10:33 AM', sent: false, read: true },
-  { id: 4, text: "That's awesome! Can't wait to see them. When can you share?", time: '10:35 AM', sent: true, read: true },
-  { id: 5, text: 'I can share them now if you have time to review?', time: '10:36 AM', sent: false, read: true },
-  { id: 6, text: 'Perfect! Send them over. 👍', time: '10:37 AM', sent: true, read: false },
-])
-
-const filteredConversations = computed(() => {
-  if (!search.value) return conversations
-  return conversations.filter(c =>
-    c.name.toLowerCase().includes(search.value.toLowerCase())
-  )
-})
-
-const selectConversation = (conversation: Conversation) => {
-  activeConversation.value = conversation
-}
-
-const sendMessage = () => {
-  if (!newMessage.value.trim()) return
-
-  messages.value.push({
-    id: messages.value.length + 1,
-    text: newMessage.value,
-    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    sent: true,
-    read: false,
-  })
-
-  newMessage.value = ''
-
-  nextTick(() => {
-    if (messagesContainer.value) {
-      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
-    }
-  })
-}
-</script>
-
 <style scoped>
 .message-bubble {
   max-width: 70%;

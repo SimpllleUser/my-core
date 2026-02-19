@@ -4,6 +4,60 @@
   Components: None (standalone)
   Variants: Simple list, threaded, with voting
 -->
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { Icons } from '../../shared/model'
+import type { IBlogComment } from '../../shared/ui/snippets'
+
+const newComment = ref('')
+const sortOrder = ref('Newest')
+const activeTab = ref('top')
+
+const simpleComments: IBlogComment[] = [
+  { id: 1, author: { name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, content: 'Great article! I\'ve been looking for a comprehensive guide like this. The examples are really helpful.', createdAt: '2 hours ago', likes: 24 },
+  { id: 2, author: { name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, content: 'This helped me understand the concept much better. Would love to see more content like this!', createdAt: '5 hours ago', likes: 18 },
+  { id: 3, author: { name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg' }, content: 'I have a question about the implementation. How would you handle edge cases?', createdAt: '1 day ago', likes: 7 },
+]
+
+const threadedComments: (IBlogComment & { replies?: IBlogComment[] })[] = [
+  {
+    id: 1,
+    author: { name: 'Sarah Miller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg' },
+    content: 'This is exactly what I was looking for! The step-by-step approach makes it easy to follow. I implemented this in my project and it works perfectly.',
+    createdAt: '3 hours ago',
+    likes: 32,
+    replies: [
+      { id: 11, author: { name: 'Author', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, content: 'Thanks Sarah! Glad it helped. Feel free to reach out if you have any questions.', createdAt: '2 hours ago', likes: 8 },
+      { id: 12, author: { name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, content: 'I had the same experience! Really well written article.', createdAt: '1 hour ago', likes: 3 },
+    ],
+  },
+  {
+    id: 2,
+    author: { name: 'David Kim', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
+    content: 'Could you elaborate more on the performance implications? I\'m curious about how this scales with larger datasets.',
+    createdAt: '6 hours ago',
+    likes: 15,
+    replies: [
+      { id: 21, author: { name: 'Author', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, content: 'Great question! I\'ll be covering performance optimization in my next article. Stay tuned!', createdAt: '4 hours ago', likes: 12 },
+    ],
+  },
+]
+
+interface VotingComment extends IBlogComment {
+  votes: number
+  isOP?: boolean
+}
+
+const votingComments: VotingComment[] = [
+  { id: 1, author: { name: 'TechEnthusiast', avatar: 'https://randomuser.me/api/portraits/men/52.jpg' }, content: 'The best explanation I\'ve seen on this topic. Bookmarked for future reference!', createdAt: '4 hours ago', likes: 0, votes: 156, isOP: false },
+  { id: 2, author: { name: 'DevPro2024', avatar: 'https://randomuser.me/api/portraits/women/55.jpg' }, content: 'I\'ve been using this approach for months and can confirm it works great in production.', createdAt: '8 hours ago', likes: 0, votes: 89, isOP: false },
+  { id: 3, author: { name: 'CodeMaster', avatar: 'https://randomuser.me/api/portraits/men/58.jpg' }, content: 'Minor correction: in the third example, you might want to add error handling for edge cases.', createdAt: '1 day ago', likes: 0, votes: 45, isOP: true },
+]
+
+const totalComments = computed(() => {
+  return threadedComments.reduce((acc, c) => acc + 1 + (c.replies?.length || 0), 0)
+})
+</script>
 <template>
   <div>
     <!-- Style 1: Simple Comment List -->
@@ -229,58 +283,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Icons } from '../../shared/model'
-import type { IBlogComment } from '../../shared/ui/snippets'
-
-const newComment = ref('')
-const sortOrder = ref('Newest')
-const activeTab = ref('top')
-
-const simpleComments: IBlogComment[] = [
-  { id: 1, author: { name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, content: 'Great article! I\'ve been looking for a comprehensive guide like this. The examples are really helpful.', createdAt: '2 hours ago', likes: 24 },
-  { id: 2, author: { name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, content: 'This helped me understand the concept much better. Would love to see more content like this!', createdAt: '5 hours ago', likes: 18 },
-  { id: 3, author: { name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/35.jpg' }, content: 'I have a question about the implementation. How would you handle edge cases?', createdAt: '1 day ago', likes: 7 },
-]
-
-const threadedComments: (IBlogComment & { replies?: IBlogComment[] })[] = [
-  {
-    id: 1,
-    author: { name: 'Sarah Miller', avatar: 'https://randomuser.me/api/portraits/women/42.jpg' },
-    content: 'This is exactly what I was looking for! The step-by-step approach makes it easy to follow. I implemented this in my project and it works perfectly.',
-    createdAt: '3 hours ago',
-    likes: 32,
-    replies: [
-      { id: 11, author: { name: 'Author', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, content: 'Thanks Sarah! Glad it helped. Feel free to reach out if you have any questions.', createdAt: '2 hours ago', likes: 8 },
-      { id: 12, author: { name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, content: 'I had the same experience! Really well written article.', createdAt: '1 hour ago', likes: 3 },
-    ],
-  },
-  {
-    id: 2,
-    author: { name: 'David Kim', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
-    content: 'Could you elaborate more on the performance implications? I\'m curious about how this scales with larger datasets.',
-    createdAt: '6 hours ago',
-    likes: 15,
-    replies: [
-      { id: 21, author: { name: 'Author', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, content: 'Great question! I\'ll be covering performance optimization in my next article. Stay tuned!', createdAt: '4 hours ago', likes: 12 },
-    ],
-  },
-]
-
-interface VotingComment extends IBlogComment {
-  votes: number
-  isOP?: boolean
-}
-
-const votingComments: VotingComment[] = [
-  { id: 1, author: { name: 'TechEnthusiast', avatar: 'https://randomuser.me/api/portraits/men/52.jpg' }, content: 'The best explanation I\'ve seen on this topic. Bookmarked for future reference!', createdAt: '4 hours ago', likes: 0, votes: 156, isOP: false },
-  { id: 2, author: { name: 'DevPro2024', avatar: 'https://randomuser.me/api/portraits/women/55.jpg' }, content: 'I\'ve been using this approach for months and can confirm it works great in production.', createdAt: '8 hours ago', likes: 0, votes: 89, isOP: false },
-  { id: 3, author: { name: 'CodeMaster', avatar: 'https://randomuser.me/api/portraits/men/58.jpg' }, content: 'Minor correction: in the third example, you might want to add error handling for edge cases.', createdAt: '1 day ago', likes: 0, votes: 45, isOP: true },
-]
-
-const totalComments = computed(() => {
-  return threadedComments.reduce((acc, c) => acc + 1 + (c.replies?.length || 0), 0)
-})
-</script>

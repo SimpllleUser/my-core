@@ -4,6 +4,16 @@
   Components: VContainer, VRow, VCol, VBtn, VImg
   Variants: Multiple hero styles included
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+
+const heroFeatures = [
+  'Unlimited projects and collaborators',
+  'Real-time sync across all devices',
+  'Advanced analytics and reporting',
+  '24/7 priority support',
+]
+</script>
 <template>
   <div>
     <!-- Hero Style 1: Centered Text with Image Below -->
@@ -164,18 +174,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-
-const heroFeatures = [
-  'Unlimited projects and collaborators',
-  'Real-time sync across all devices',
-  'Advanced analytics and reporting',
-  '24/7 priority support',
-]
-</script>
-
 <style scoped>
 .text-gradient {
   background: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);

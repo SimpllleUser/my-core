@@ -1,53 +1,3 @@
-<template>
-  <VContainer fluid class="pa-6">
-    <VRow>
-      <VCol cols="12">
-        <h1 class="text-h3 font-weight-bold mb-2">UI Snippets Examples</h1>
-        <p class="text-h6 text-medium-emphasis mb-6">
-          Browse our comprehensive collection of ready-to-use UI components built with Vuetify 3
-        </p>
-      </VCol>
-    </VRow>
-
-    <VRow>
-      <VCol
-        v-for="category in categories"
-        :key="category.route"
-        cols="12"
-        sm="6"
-        md="4"
-        lg="3"
-      >
-        <VCard
-          :to="`/examples/${category.route}`"
-          hover
-          class="h-100"
-        >
-          <VCardText class="d-flex flex-column align-center pa-6">
-            <VIcon
-              :icon="category.icon"
-              size="64"
-              :color="category.color"
-              class="mb-4"
-            />
-            <h3 class="text-h5 mb-2 text-center">{{ category.name }}</h3>
-            <p class="text-body-2 text-center text-medium-emphasis">
-              {{ category.description }}
-            </p>
-            <VChip
-              :color="category.color"
-              size="small"
-              class="mt-4"
-            >
-              {{ category.count }} snippets
-            </VChip>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-  </VContainer>
-</template>
-
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { snippetCatalog } from '../../snippets'
@@ -186,3 +136,52 @@ const categories: Category[] = Object.entries(categoryMap).map(([key, value]) =>
   count: categoryCounts[key] || 0
 }))
 </script>
+<template>
+  <VContainer fluid class="pa-6">
+    <VRow>
+      <VCol cols="12">
+        <h1 class="text-h3 font-weight-bold mb-2">UI Snippets Examples</h1>
+        <p class="text-h6 text-medium-emphasis mb-6">
+          Browse our comprehensive collection of ready-to-use UI components built with Vuetify 3
+        </p>
+      </VCol>
+    </VRow>
+
+    <VRow>
+      <VCol
+        v-for="category in categories"
+        :key="category.route"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
+        <VCard
+          :to="`/examples/${category.route}`"
+          hover
+          class="h-100"
+        >
+          <VCardText class="d-flex flex-column align-center pa-6">
+            <VIcon
+              :icon="category.icon"
+              size="64"
+              :color="category.color"
+              class="mb-4"
+            />
+            <h3 class="text-h5 mb-2 text-center">{{ category.name }}</h3>
+            <p class="text-body-2 text-center text-medium-emphasis">
+              {{ category.description }}
+            </p>
+            <VChip
+              :color="category.color"
+              size="small"
+              class="mt-4"
+            >
+              {{ category.count }} snippets
+            </VChip>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
+</template>

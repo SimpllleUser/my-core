@@ -535,7 +535,5 @@ export enum Icons {
   Storefront = 'mdi-storefront',
   Bitcoin = 'mdi-bitcoin',
   BankTransfer = 'mdi-bank-transfer',
-  Headset = 'mdi-headset',
-  Asterisk = 'mdi-asterisk',
-  City = 'mdi-city'
+  Headset = 'mdi-headset'
 }

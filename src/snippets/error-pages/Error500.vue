@@ -4,6 +4,20 @@
   Components: VContainer, VBtn, VIcon, VAlert
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+const refresh = () => {
+  window.location.reload()
+}
+
+const goHome = () => {
+  console.log('Navigate to home')
+}
+
+const contactSupport = () => {
+  console.log('Open support')
+}
+</script>
 <template>
   <VContainer class="fill-height">
     <VRow align="center" justify="center" class="text-center">
@@ -62,18 +76,3 @@ Server: web-server-01
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-const refresh = () => {
-  window.location.reload()
-}
-
-const goHome = () => {
-  console.log('Navigate to home')
-}
-
-const contactSupport = () => {
-  console.log('Open support')
-}
-</script>

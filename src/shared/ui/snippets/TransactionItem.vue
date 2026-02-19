@@ -3,58 +3,6 @@
   Description: Displays a single transaction with icon, title, amount, and status
   Props: type, status, title, description, amount, currency, date, icon, category
 -->
-<template>
-  <VListItem :class="itemClass" v-bind="$attrs">
-    <template #prepend>
-      <slot name="prepend" :type="type" :displayIcon="displayIcon" :iconBgColor="computedIconBgColor">
-        <VAvatar :color="computedIconBgColor" :size="iconContainerSize" :rounded="iconRounded" :class="iconContainerClass">
-          <slot name="icon" :icon="displayIcon" :type="type">
-            <VIcon :color="iconColor" :size="iconSize">{{ displayIcon }}</VIcon>
-          </slot>
-        </VAvatar>
-      </slot>
-    </template>
-
-    <slot name="title-content" :title="title">
-      <VListItemTitle :class="titleClass">
-        <slot name="title">{{ title }}</slot>
-      </VListItemTitle>
-    </slot>
-
-    <VListItemSubtitle :class="subtitleClass">
-      <slot name="subtitle">
-        {{ description || formattedDate }}
-      </slot>
-    </VListItemSubtitle>
-
-    <template #append>
-      <slot name="append" :amount="amount" :formattedAmount="formattedAmount" :status="status">
-        <div :class="appendClass">
-          <!-- Amount -->
-          <slot name="amount" :amount="amount" :formattedAmount="formattedAmount" :amountPrefix="amountPrefix">
-            <div :class="['font-weight-bold', amountClass, amountColorClass]">
-              {{ amountPrefix }}{{ formattedAmount }}
-            </div>
-          </slot>
-
-          <!-- Status -->
-          <slot name="status" :status="status" :statusColor="computedStatusColor">
-            <VChip
-              v-if="showStatus && status"
-              :color="computedStatusColor"
-              :size="statusChipSize"
-              :variant="statusChipVariant"
-              :class="statusClass"
-            >
-              {{ status }}
-            </VChip>
-          </slot>
-        </div>
-      </slot>
-    </template>
-  </VListItem>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Colors, Variants, Sizes, Icons } from '../../model'
@@ -173,3 +121,54 @@ const formattedDate = computed(() => {
   })
 })
 </script>
+<template>
+  <VListItem :class="itemClass" v-bind="$attrs">
+    <template #prepend>
+      <slot name="prepend" :type="type" :displayIcon="displayIcon" :iconBgColor="computedIconBgColor">
+        <VAvatar :color="computedIconBgColor" :size="iconContainerSize" :rounded="iconRounded" :class="iconContainerClass">
+          <slot name="icon" :icon="displayIcon" :type="type">
+            <VIcon :color="iconColor" :size="iconSize">{{ displayIcon }}</VIcon>
+          </slot>
+        </VAvatar>
+      </slot>
+    </template>
+
+    <slot name="title-content" :title="title">
+      <VListItemTitle :class="titleClass">
+        <slot name="title">{{ title }}</slot>
+      </VListItemTitle>
+    </slot>
+
+    <VListItemSubtitle :class="subtitleClass">
+      <slot name="subtitle">
+        {{ description || formattedDate }}
+      </slot>
+    </VListItemSubtitle>
+
+    <template #append>
+      <slot name="append" :amount="amount" :formattedAmount="formattedAmount" :status="status">
+        <div :class="appendClass">
+          <!-- Amount -->
+          <slot name="amount" :amount="amount" :formattedAmount="formattedAmount" :amountPrefix="amountPrefix">
+            <div :class="['font-weight-bold', amountClass, amountColorClass]">
+              {{ amountPrefix }}{{ formattedAmount }}
+            </div>
+          </slot>
+
+          <!-- Status -->
+          <slot name="status" :status="status" :statusColor="computedStatusColor">
+            <VChip
+              v-if="showStatus && status"
+              :color="computedStatusColor"
+              :size="statusChipSize"
+              :variant="statusChipVariant"
+              :class="statusClass"
+            >
+              {{ status }}
+            </VChip>
+          </slot>
+        </div>
+      </slot>
+    </template>
+  </VListItem>
+</template>

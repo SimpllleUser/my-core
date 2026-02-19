@@ -4,109 +4,6 @@
   Components: VCard, VList, VAvatar, VTextField, VBadge, VChip
   Complexity: Medium
 -->
-<template>
-  <VCard height="600" variant="outlined">
-    <!-- Header -->
-    <VCardTitle class="d-flex align-center py-3 border-b">
-      <span class="text-h6 font-weight-bold">Messages</span>
-      <VSpacer />
-      <VBtn icon variant="text" size="small">
-        <VIcon>{{ Icons.Edit }}</VIcon>
-      </VBtn>
-    </VCardTitle>
-
-    <!-- Search -->
-    <div class="px-4 py-3">
-      <VTextField
-        v-model="search"
-        placeholder="Search messages..."
-        variant="solo-filled"
-        density="compact"
-        hide-details
-        :prepend-inner-icon="Icons.Search"
-        rounded="pill"
-      />
-    </div>
-
-    <!-- Filter Tabs -->
-    <div class="px-4 pb-2">
-      <VChipGroup v-model="filter" mandatory>
-        <VChip
-          v-for="tab in filters"
-          :key="tab.value"
-          :value="tab.value"
-          size="small"
-          filter
-        >
-          {{ tab.label }}
-          <template v-if="tab.count" #append>
-            <VBadge :content="tab.count" color="primary" inline />
-          </template>
-        </VChip>
-      </VChipGroup>
-    </div>
-
-    <VDivider />
-
-    <!-- Chat List -->
-    <VList lines="three" class="overflow-y-auto" style="max-height: 420px;">
-      <VListItem
-        v-for="chat in filteredChats"
-        :key="chat.id"
-        :class="{ 'bg-primary-lighten-5': chat.active }"
-        class="py-3"
-      >
-        <template #prepend>
-          <VBadge
-            :model-value="chat.online"
-            color="success"
-            dot
-            location="bottom end"
-            offset-x="3"
-            offset-y="3"
-          >
-            <VAvatar size="48">
-              <VImg :src="chat.avatar" />
-            </VAvatar>
-          </VBadge>
-        </template>
-
-        <VListItemTitle class="font-weight-medium d-flex align-center">
-          {{ chat.name }}
-          <VIcon v-if="chat.verified" size="14" color="primary" class="ml-1">
-            {{ Icons.CheckCircle }}
-          </VIcon>
-        </VListItemTitle>
-
-        <VListItemSubtitle class="d-flex align-center">
-          <VIcon v-if="chat.lastMessage.sent" size="14" class="mr-1">
-            {{ chat.lastMessage.read ? Icons.CheckAll : Icons.Check }}
-          </VIcon>
-          <span :class="{ 'font-weight-medium': chat.unread }">
-            {{ chat.lastMessage.text }}
-          </span>
-        </VListItemSubtitle>
-
-        <template #append>
-          <div class="d-flex flex-column align-end">
-            <span class="text-caption text-medium-emphasis">{{ chat.time }}</span>
-            <VBadge
-              v-if="chat.unread"
-              :content="chat.unread"
-              color="primary"
-              inline
-              class="mt-1"
-            />
-            <VIcon v-else-if="chat.muted" size="16" color="grey" class="mt-1">
-              {{ Icons.BellOff }}
-            </VIcon>
-          </div>
-        </template>
-      </VListItem>
-    </VList>
-  </VCard>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Icons } from '../../shared/model'
@@ -214,3 +111,105 @@ const filteredChats = computed(() => {
   return result
 })
 </script>
+<template>
+  <VCard height="600" variant="outlined">
+    <!-- Header -->
+    <VCardTitle class="d-flex align-center py-3 border-b">
+      <span class="text-h6 font-weight-bold">Messages</span>
+      <VSpacer />
+      <VBtn icon variant="text" size="small">
+        <VIcon>{{ Icons.Edit }}</VIcon>
+      </VBtn>
+    </VCardTitle>
+
+    <!-- Search -->
+    <div class="px-4 py-3">
+      <VTextField
+        v-model="search"
+        placeholder="Search messages..."
+        variant="solo-filled"
+        density="compact"
+        hide-details
+        :prepend-inner-icon="Icons.Search"
+        rounded="pill"
+      />
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="px-4 pb-2">
+      <VChipGroup v-model="filter" mandatory>
+        <VChip
+          v-for="tab in filters"
+          :key="tab.value"
+          :value="tab.value"
+          size="small"
+          filter
+        >
+          {{ tab.label }}
+          <template v-if="tab.count" #append>
+            <VBadge :content="tab.count" color="primary" inline />
+          </template>
+        </VChip>
+      </VChipGroup>
+    </div>
+
+    <VDivider />
+
+    <!-- Chat List -->
+    <VList lines="three" class="overflow-y-auto" style="max-height: 420px;">
+      <VListItem
+        v-for="chat in filteredChats"
+        :key="chat.id"
+        :class="{ 'bg-primary-lighten-5': chat.active }"
+        class="py-3"
+      >
+        <template #prepend>
+          <VBadge
+            :model-value="chat.online"
+            color="success"
+            dot
+            location="bottom end"
+            offset-x="3"
+            offset-y="3"
+          >
+            <VAvatar size="48">
+              <VImg :src="chat.avatar" />
+            </VAvatar>
+          </VBadge>
+        </template>
+
+        <VListItemTitle class="font-weight-medium d-flex align-center">
+          {{ chat.name }}
+          <VIcon v-if="chat.verified" size="14" color="primary" class="ml-1">
+            {{ Icons.CheckCircle }}
+          </VIcon>
+        </VListItemTitle>
+
+        <VListItemSubtitle class="d-flex align-center">
+          <VIcon v-if="chat.lastMessage.sent" size="14" class="mr-1">
+            {{ chat.lastMessage.read ? Icons.CheckAll : Icons.Check }}
+          </VIcon>
+          <span :class="{ 'font-weight-medium': chat.unread }">
+            {{ chat.lastMessage.text }}
+          </span>
+        </VListItemSubtitle>
+
+        <template #append>
+          <div class="d-flex flex-column align-end">
+            <span class="text-caption text-medium-emphasis">{{ chat.time }}</span>
+            <VBadge
+              v-if="chat.unread"
+              :content="chat.unread"
+              color="primary"
+              inline
+              class="mt-1"
+            />
+            <VIcon v-else-if="chat.muted" size="16" color="grey" class="mt-1">
+              {{ Icons.BellOff }}
+            </VIcon>
+          </div>
+        </template>
+      </VListItem>
+    </VList>
+  </VCard>
+</template>

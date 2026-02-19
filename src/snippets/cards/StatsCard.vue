@@ -4,6 +4,58 @@
   Components: VCard, VIcon, VProgressLinear, VProgressCircular, VSparkline
   Variants: Simple, With Trend, With Progress, Colored
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+const simpleStats = [
+  { title: 'Total Users', value: '24,532', icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Revenue', value: '$45,678', icon: Icons.CurrencyUsd, color: 'success' },
+  { title: 'Orders', value: '1,234', icon: Icons.Cart, color: 'warning' },
+  { title: 'Visitors', value: '89.1K', icon: Icons.Eye, color: 'info' },
+]
+
+const trendStats = [
+  { title: 'Total Sales', value: '$12,628', trend: 12.5, icon: Icons.ChartLine, color: 'primary' },
+  { title: 'Expenses', value: '$8,234', trend: -5.2, icon: Icons.CashMinus, color: 'error' },
+  { title: 'Profit', value: '$4,394', trend: 23.1, icon: Icons.TrendingUp, color: 'success' },
+  { title: 'Customers', value: '1,892', trend: 8.4, icon: Icons.AccountMultiple, color: 'info' },
+]
+
+const progressStats = [
+  { title: 'Storage Used', value: '75 GB', progress: 75, color: 'primary', subtitle: '100 GB total' },
+  { title: 'Tasks Done', value: '32/50', progress: 64, color: 'success', subtitle: '18 remaining' },
+  { title: 'Budget Spent', value: '$8.5k', progress: 85, color: 'warning', subtitle: '$10k budget' },
+  { title: 'Goals Met', value: '12/15', progress: 80, color: 'info', subtitle: '3 in progress' },
+]
+
+const coloredStats = [
+  { title: 'Total Revenue', value: '$45,678', subtitle: '+12.5% from last month', icon: Icons.CashMultiple, color: 'primary' },
+  { title: 'Active Users', value: '2,345', subtitle: '321 new this week', icon: Icons.AccountCheck, color: 'success' },
+  { title: 'Pending Orders', value: '45', subtitle: '12 need attention', icon: Icons.ClockOutline, color: 'warning' },
+  { title: 'Support Tickets', value: '23', subtitle: '5 unresolved', icon: Icons.Ticket, color: 'error' },
+]
+
+const sparklineStats = [
+  { title: 'Weekly Sales', value: '$7,234', trend: 12.5, data: [5, 10, 5, 12, 8, 15, 10], color: 'primary' },
+  { title: 'Page Views', value: '24.5k', trend: -3.2, data: [12, 8, 15, 10, 5, 10, 5], color: 'error' },
+  { title: 'Orders', value: '456', trend: 8.1, data: [3, 5, 8, 4, 6, 10, 12], color: 'success' },
+  { title: 'Conversions', value: '3.2%', trend: 15.3, data: [2, 4, 3, 6, 5, 8, 9], color: 'warning' },
+]
+
+const compactStats = [
+  { title: 'Users', value: '2.4k', icon: Icons.Account, color: 'primary' },
+  { title: 'Sales', value: '$12k', icon: Icons.Cash, color: 'success' },
+  { title: 'Orders', value: '456', icon: Icons.Cart, color: 'warning' },
+  { title: 'Views', value: '89k', icon: Icons.Eye, color: 'info' },
+  { title: 'Likes', value: '1.2k', icon: Icons.Heart, color: 'error' },
+  { title: 'Comments', value: '234', icon: Icons.Comment, color: 'secondary' },
+]
+
+const featureStats = [
+  { title: 'Total Downloads', value: '1.2M', icon: Icons.Download, color: 'primary', description: 'Downloads across all platforms in the last 30 days' },
+  { title: 'Active Sessions', value: '8,456', icon: Icons.AccountMultiple, color: 'success', description: 'Users currently active on the platform' },
+  { title: 'Response Time', value: '45ms', icon: Icons.Bolt, color: 'warning', description: 'Average API response time this week' },
+]
+</script>
 <template>
   <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Stats Card Variants</h2>
@@ -174,56 +226,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-const simpleStats = [
-  { title: 'Total Users', value: '24,532', icon: Icons.AccountGroup, color: 'primary' },
-  { title: 'Revenue', value: '$45,678', icon: Icons.CurrencyUsd, color: 'success' },
-  { title: 'Orders', value: '1,234', icon: Icons.Cart, color: 'warning' },
-  { title: 'Visitors', value: '89.1K', icon: Icons.Eye, color: 'info' },
-]
-
-const trendStats = [
-  { title: 'Total Sales', value: '$12,628', trend: 12.5, icon: Icons.ChartLine, color: 'primary' },
-  { title: 'Expenses', value: '$8,234', trend: -5.2, icon: Icons.CashMinus, color: 'error' },
-  { title: 'Profit', value: '$4,394', trend: 23.1, icon: Icons.TrendingUp, color: 'success' },
-  { title: 'Customers', value: '1,892', trend: 8.4, icon: Icons.AccountMultiple, color: 'info' },
-]
-
-const progressStats = [
-  { title: 'Storage Used', value: '75 GB', progress: 75, color: 'primary', subtitle: '100 GB total' },
-  { title: 'Tasks Done', value: '32/50', progress: 64, color: 'success', subtitle: '18 remaining' },
-  { title: 'Budget Spent', value: '$8.5k', progress: 85, color: 'warning', subtitle: '$10k budget' },
-  { title: 'Goals Met', value: '12/15', progress: 80, color: 'info', subtitle: '3 in progress' },
-]
-
-const coloredStats = [
-  { title: 'Total Revenue', value: '$45,678', subtitle: '+12.5% from last month', icon: Icons.CashMultiple, color: 'primary' },
-  { title: 'Active Users', value: '2,345', subtitle: '321 new this week', icon: Icons.AccountCheck, color: 'success' },
-  { title: 'Pending Orders', value: '45', subtitle: '12 need attention', icon: Icons.ClockOutline, color: 'warning' },
-  { title: 'Support Tickets', value: '23', subtitle: '5 unresolved', icon: Icons.Ticket, color: 'error' },
-]
-
-const sparklineStats = [
-  { title: 'Weekly Sales', value: '$7,234', trend: 12.5, data: [5, 10, 5, 12, 8, 15, 10], color: 'primary' },
-  { title: 'Page Views', value: '24.5k', trend: -3.2, data: [12, 8, 15, 10, 5, 10, 5], color: 'error' },
-  { title: 'Orders', value: '456', trend: 8.1, data: [3, 5, 8, 4, 6, 10, 12], color: 'success' },
-  { title: 'Conversions', value: '3.2%', trend: 15.3, data: [2, 4, 3, 6, 5, 8, 9], color: 'warning' },
-]
-
-const compactStats = [
-  { title: 'Users', value: '2.4k', icon: Icons.Account, color: 'primary' },
-  { title: 'Sales', value: '$12k', icon: Icons.Cash, color: 'success' },
-  { title: 'Orders', value: '456', icon: Icons.Cart, color: 'warning' },
-  { title: 'Views', value: '89k', icon: Icons.Eye, color: 'info' },
-  { title: 'Likes', value: '1.2k', icon: Icons.Heart, color: 'error' },
-  { title: 'Comments', value: '234', icon: Icons.Comment, color: 'secondary' },
-]
-
-const featureStats = [
-  { title: 'Total Downloads', value: '1.2M', icon: Icons.Download, color: 'primary', description: 'Downloads across all platforms in the last 30 days' },
-  { title: 'Active Sessions', value: '8,456', icon: Icons.AccountMultiple, color: 'success', description: 'Users currently active on the platform' },
-  { title: 'Response Time', value: '45ms', icon: Icons.Bolt, color: 'warning', description: 'Average API response time this week' },
-]
-</script>

@@ -4,6 +4,21 @@
   Components: VTextField, VBtn, VMenu, VCard
   Complexity: Simple
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+
+const message = ref('')
+
+const attachActions = [
+  { label: 'Photo', icon: Icons.Image, color: 'success' },
+  { label: 'File', icon: Icons.FileDocument, color: 'primary' },
+  { label: 'Camera', icon: Icons.Camera, color: 'info' },
+  { label: 'Location', icon: Icons.MapMarker, color: 'error' },
+]
+
+const emojis = ['😀', '😂', '❤️', '👍', '🎉', '🔥', '😍', '🤔', '👋', '✨', '🙏', '💪']
+</script>
 <template>
   <div class="pa-4">
     <!-- Simple Input -->
@@ -134,19 +149,3 @@
     </VCard>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-
-const message = ref('')
-
-const attachActions = [
-  { label: 'Photo', icon: Icons.Image, color: 'success' },
-  { label: 'File', icon: Icons.FileDocument, color: 'primary' },
-  { label: 'Camera', icon: Icons.Camera, color: 'info' },
-  { label: 'Location', icon: Icons.MapMarker, color: 'error' },
-]
-
-const emojis = ['😀', '😂', '❤️', '👍', '🎉', '🔥', '😍', '🤔', '👋', '✨', '🙏', '💪']
-</script>

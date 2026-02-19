@@ -4,6 +4,20 @@
   Components: VContainer, VBtn, VIcon
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const searchQuery = ref('')
+
+const goHome = () => {
+  console.log('Navigate to home')
+}
+
+const goBack = () => {
+  window.history.back()
+}
+</script>
 <template>
   <VContainer class="fill-height">
     <VRow align="center" justify="center" class="text-center">
@@ -82,18 +96,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const searchQuery = ref('')
-
-const goHome = () => {
-  console.log('Navigate to home')
-}
-
-const goBack = () => {
-  window.history.back()
-}
-</script>

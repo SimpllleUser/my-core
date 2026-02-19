@@ -4,6 +4,83 @@
   Components: TransactionItem
   Variants: List view, grouped by date, with filters
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons, Colors } from '../../shared/model'
+import type { ITransaction, TransactionType, TransactionStatus } from '../../shared/ui/snippets'
+
+const searchQuery = ref('')
+const typeFilter = ref('all')
+const viewMode = ref('list')
+
+const typeFilters = ['all', 'income', 'expense', 'transfer']
+
+interface TransactionItem extends ITransaction {
+  time?: string
+}
+
+const recentTransactions: TransactionItem[] = [
+  { id: 1, type: 'income', status: 'completed', title: 'Salary Deposit', description: 'Monthly salary', amount: 5200, date: 'Dec 25, 2024', icon: Icons.Bank },
+  { id: 2, type: 'expense', status: 'completed', title: 'Netflix', description: 'Subscription', amount: 15.99, date: 'Dec 24, 2024', icon: Icons.Television },
+  { id: 3, type: 'expense', status: 'pending', title: 'Amazon', description: 'Online shopping', amount: 89.50, date: 'Dec 24, 2024', icon: Icons.Cart },
+  { id: 4, type: 'transfer', status: 'completed', title: 'To Savings', description: 'Monthly savings', amount: 500, date: 'Dec 23, 2024', icon: Icons.SwapHorizontal },
+  { id: 5, type: 'expense', status: 'failed', title: 'Utility Bill', description: 'Electricity', amount: 120, date: 'Dec 22, 2024', icon: Icons.Bolt },
+]
+
+const groupedTransactions = [
+  {
+    date: 'Today, Dec 25',
+    total: 5184.01,
+    transactions: [
+      { id: 1, type: 'income' as TransactionType, status: 'completed' as TransactionStatus, title: 'Salary Deposit', category: 'Income', amount: 5200, time: '09:30 AM', icon: Icons.Bank },
+      { id: 2, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Coffee Shop', category: 'Food & Drinks', amount: 15.99, time: '11:45 AM', icon: Icons.Coffee || Icons.Store },
+    ],
+  },
+  {
+    date: 'Yesterday, Dec 24',
+    total: -105.49,
+    transactions: [
+      { id: 3, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Uber Ride', category: 'Transport', amount: 24.50, time: '08:15 PM', icon: Icons.Car },
+      { id: 4, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Grocery Store', category: 'Shopping', amount: 80.99, time: '06:30 PM', icon: Icons.Cart },
+    ],
+  },
+]
+
+const cardTransactions: TransactionItem[] = [
+  { id: 1, type: 'income', status: 'completed', title: 'Freelance Payment', category: 'Work', amount: 1500, date: 'Dec 25', icon: Icons.Briefcase },
+  { id: 2, type: 'expense', status: 'completed', title: 'Rent Payment', category: 'Housing', amount: 1200, date: 'Dec 24', icon: Icons.Home },
+  { id: 3, type: 'transfer', status: 'pending', title: 'Investment', category: 'Finance', amount: 500, date: 'Dec 23', icon: Icons.ChartLine },
+  { id: 4, type: 'expense', status: 'completed', title: 'Insurance', category: 'Bills', amount: 250, date: 'Dec 22', icon: Icons.Shield },
+  { id: 5, type: 'income', status: 'completed', title: 'Refund', category: 'Shopping', amount: 45.99, date: 'Dec 21', icon: Icons.CashRefund },
+  { id: 6, type: 'expense', status: 'failed', title: 'Subscription', category: 'Entertainment', amount: 9.99, date: 'Dec 20', icon: Icons.Play },
+]
+
+const getTypeColor = (type: TransactionType) => {
+  const colors = { income: Colors.Success, expense: Colors.Error, transfer: Colors.Info }
+  return colors[type]
+}
+
+const getStatusColor = (status: TransactionStatus) => {
+  const colors = { completed: Colors.Success, pending: Colors.Warning, failed: Colors.Error }
+  return colors[status]
+}
+
+const getAmountClass = (type: TransactionType) => {
+  if (type === 'income') return 'text-success'
+  if (type === 'expense') return 'text-error'
+  return ''
+}
+
+const getAmountPrefix = (type: TransactionType) => {
+  if (type === 'income') return '+'
+  if (type === 'expense') return '-'
+  return ''
+}
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Simple Transaction List -->
@@ -167,81 +244,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons, Colors } from '../../shared/model'
-import type { ITransaction, TransactionType, TransactionStatus } from '../../shared/ui/snippets'
-
-const searchQuery = ref('')
-const typeFilter = ref('all')
-const viewMode = ref('list')
-
-const typeFilters = ['all', 'income', 'expense', 'transfer']
-
-interface TransactionItem extends ITransaction {
-  time?: string
-}
-
-const recentTransactions: TransactionItem[] = [
-  { id: 1, type: 'income', status: 'completed', title: 'Salary Deposit', description: 'Monthly salary', amount: 5200, date: 'Dec 25, 2024', icon: Icons.Bank },
-  { id: 2, type: 'expense', status: 'completed', title: 'Netflix', description: 'Subscription', amount: 15.99, date: 'Dec 24, 2024', icon: Icons.Television },
-  { id: 3, type: 'expense', status: 'pending', title: 'Amazon', description: 'Online shopping', amount: 89.50, date: 'Dec 24, 2024', icon: Icons.Cart },
-  { id: 4, type: 'transfer', status: 'completed', title: 'To Savings', description: 'Monthly savings', amount: 500, date: 'Dec 23, 2024', icon: Icons.SwapHorizontal },
-  { id: 5, type: 'expense', status: 'failed', title: 'Utility Bill', description: 'Electricity', amount: 120, date: 'Dec 22, 2024', icon: Icons.Bolt },
-]
-
-const groupedTransactions = [
-  {
-    date: 'Today, Dec 25',
-    total: 5184.01,
-    transactions: [
-      { id: 1, type: 'income' as TransactionType, status: 'completed' as TransactionStatus, title: 'Salary Deposit', category: 'Income', amount: 5200, time: '09:30 AM', icon: Icons.Bank },
-      { id: 2, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Coffee Shop', category: 'Food & Drinks', amount: 15.99, time: '11:45 AM', icon: Icons.Coffee || Icons.Store },
-    ],
-  },
-  {
-    date: 'Yesterday, Dec 24',
-    total: -105.49,
-    transactions: [
-      { id: 3, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Uber Ride', category: 'Transport', amount: 24.50, time: '08:15 PM', icon: Icons.Car },
-      { id: 4, type: 'expense' as TransactionType, status: 'completed' as TransactionStatus, title: 'Grocery Store', category: 'Shopping', amount: 80.99, time: '06:30 PM', icon: Icons.Cart },
-    ],
-  },
-]
-
-const cardTransactions: TransactionItem[] = [
-  { id: 1, type: 'income', status: 'completed', title: 'Freelance Payment', category: 'Work', amount: 1500, date: 'Dec 25', icon: Icons.Briefcase },
-  { id: 2, type: 'expense', status: 'completed', title: 'Rent Payment', category: 'Housing', amount: 1200, date: 'Dec 24', icon: Icons.Home },
-  { id: 3, type: 'transfer', status: 'pending', title: 'Investment', category: 'Finance', amount: 500, date: 'Dec 23', icon: Icons.ChartLine },
-  { id: 4, type: 'expense', status: 'completed', title: 'Insurance', category: 'Bills', amount: 250, date: 'Dec 22', icon: Icons.Shield },
-  { id: 5, type: 'income', status: 'completed', title: 'Refund', category: 'Shopping', amount: 45.99, date: 'Dec 21', icon: Icons.CashRefund },
-  { id: 6, type: 'expense', status: 'failed', title: 'Subscription', category: 'Entertainment', amount: 9.99, date: 'Dec 20', icon: Icons.Play },
-]
-
-const getTypeColor = (type: TransactionType) => {
-  const colors = { income: Colors.Success, expense: Colors.Error, transfer: Colors.Info }
-  return colors[type]
-}
-
-const getStatusColor = (status: TransactionStatus) => {
-  const colors = { completed: Colors.Success, pending: Colors.Warning, failed: Colors.Error }
-  return colors[status]
-}
-
-const getAmountClass = (type: TransactionType) => {
-  if (type === 'income') return 'text-success'
-  if (type === 'expense') return 'text-error'
-  return ''
-}
-
-const getAmountPrefix = (type: TransactionType) => {
-  if (type === 'income') return '+'
-  if (type === 'expense') return '-'
-  return ''
-}
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
-}
-</script>

@@ -4,92 +4,6 @@
   Components: SectionHeader, PricingCard, FeatureItem
   Variants: Monthly/Yearly toggle, Featured plan highlight
 -->
-<template>
-  <section class="py-16">
-    <VContainer>
-      <!-- Header -->
-      <SectionHeader
-        title="Simple, Transparent Pricing"
-        subtitle="Choose the perfect plan for your needs. No hidden fees, cancel anytime."
-        chip="Pricing"
-        title-class="text-h3"
-        class="mb-6"
-      >
-        <!-- Billing Toggle -->
-        <div class="d-flex align-center justify-center ga-3 mt-6">
-          <span :class="{ 'text-medium-emphasis': isYearly }">Monthly</span>
-          <VSwitch
-            v-model="isYearly"
-            color="primary"
-            hide-details
-            inset
-          />
-          <span :class="{ 'text-medium-emphasis': !isYearly }">
-            Yearly
-            <VChip color="success" size="x-small" class="ml-1">Save 20%</VChip>
-          </span>
-        </div>
-      </SectionHeader>
-
-      <!-- Pricing Cards -->
-      <VRow justify="center">
-        <VCol v-for="plan in plans" :key="plan.name" cols="12" sm="6" lg="4">
-          <PricingCard
-            :name="plan.name"
-            :description="plan.description"
-            :monthly-price="plan.monthlyPrice"
-            :yearly-price="plan.yearlyPrice"
-            :is-yearly="isYearly"
-            :features="plan.features"
-            :cta="plan.cta"
-            :featured="plan.featured"
-            :billing-note="isYearly ? `Billed annually ($${plan.yearlyPrice * 12}/year)` : undefined"
-            @select="handleSelectPlan(plan)"
-          />
-        </VCol>
-      </VRow>
-
-      <!-- FAQ or Money Back Guarantee -->
-      <div class="text-center mt-12">
-        <VIcon color="success" class="mr-2">{{ Icons.ShieldCheck }}</VIcon>
-        <span class="text-body-1">30-day money-back guarantee • No questions asked</span>
-      </div>
-
-      <!-- Feature Comparison Table -->
-      <VCard class="mt-16" variant="outlined">
-        <VCardTitle class="text-center py-6">
-          <h3 class="text-h5 font-weight-bold">Compare All Features</h3>
-        </VCardTitle>
-        <VTable>
-          <thead>
-            <tr>
-              <th class="text-left">Feature</th>
-              <th v-for="plan in plans" :key="plan.name" class="text-center">
-                {{ plan.name }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="feature in comparisonFeatures" :key="feature.name">
-              <td>{{ feature.name }}</td>
-              <td v-for="plan in plans" :key="plan.name" class="text-center">
-                <template v-if="typeof feature[plan.key] === 'boolean'">
-                  <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
-                    {{ feature[plan.key] ? Icons.Check : Icons.Close }}
-                  </VIcon>
-                </template>
-                <template v-else>
-                  {{ feature[plan.key] }}
-                </template>
-              </td>
-            </tr>
-          </tbody>
-        </VTable>
-      </VCard>
-    </VContainer>
-  </section>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icons } from '../../shared/model'
@@ -183,3 +97,88 @@ const handleSelectPlan = (plan: IPlan) => {
   console.log('Selected plan:', plan.name)
 }
 </script>
+<template>
+  <section class="py-16">
+    <VContainer>
+      <!-- Header -->
+      <SectionHeader
+        title="Simple, Transparent Pricing"
+        subtitle="Choose the perfect plan for your needs. No hidden fees, cancel anytime."
+        chip="Pricing"
+        title-class="text-h3"
+        class="mb-6"
+      >
+        <!-- Billing Toggle -->
+        <div class="d-flex align-center justify-center ga-3 mt-6">
+          <span :class="{ 'text-medium-emphasis': isYearly }">Monthly</span>
+          <VSwitch
+            v-model="isYearly"
+            color="primary"
+            hide-details
+            inset
+          />
+          <span :class="{ 'text-medium-emphasis': !isYearly }">
+            Yearly
+            <VChip color="success" size="x-small" class="ml-1">Save 20%</VChip>
+          </span>
+        </div>
+      </SectionHeader>
+
+      <!-- Pricing Cards -->
+      <VRow justify="center">
+        <VCol v-for="plan in plans" :key="plan.name" cols="12" sm="6" lg="4">
+          <PricingCard
+            :name="plan.name"
+            :description="plan.description"
+            :monthly-price="plan.monthlyPrice"
+            :yearly-price="plan.yearlyPrice"
+            :is-yearly="isYearly"
+            :features="plan.features"
+            :cta="plan.cta"
+            :featured="plan.featured"
+            :billing-note="isYearly ? `Billed annually ($${plan.yearlyPrice * 12}/year)` : undefined"
+            @select="handleSelectPlan(plan)"
+          />
+        </VCol>
+      </VRow>
+
+      <!-- FAQ or Money Back Guarantee -->
+      <div class="text-center mt-12">
+        <VIcon color="success" class="mr-2">{{ Icons.ShieldCheck }}</VIcon>
+        <span class="text-body-1">30-day money-back guarantee • No questions asked</span>
+      </div>
+
+      <!-- Feature Comparison Table -->
+      <VCard class="mt-16" variant="outlined">
+        <VCardTitle class="text-center py-6">
+          <h3 class="text-h5 font-weight-bold">Compare All Features</h3>
+        </VCardTitle>
+        <VTable>
+          <thead>
+            <tr>
+              <th class="text-left">Feature</th>
+              <th v-for="plan in plans" :key="plan.name" class="text-center">
+                {{ plan.name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="feature in comparisonFeatures" :key="feature.name">
+              <td>{{ feature.name }}</td>
+              <td v-for="plan in plans" :key="plan.name" class="text-center">
+                <template v-if="typeof feature[plan.key] === 'boolean'">
+                  <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
+                    {{ feature[plan.key] ? Icons.Check : Icons.Close }}
+                  </VIcon>
+                </template>
+                <template v-else>
+                  {{ feature[plan.key] }}
+                </template>
+              </td>
+            </tr>
+          </tbody>
+        </VTable>
+      </VCard>
+    </VContainer>
+  </section>
+</template>

@@ -4,6 +4,58 @@
   Components: VCard, VRow, VCol, VDataTable, VList, VChip, VProgressLinear
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const selectedPeriod = ref('Last 30 days')
+const periods = ['Today', 'Last 7 days', 'Last 30 days', 'Last 90 days', 'This year']
+const chartView = ref('weekly')
+
+const topProducts = [
+  { id: 1, name: 'Wireless Headphones', sales: 234, revenue: '12,345', trend: 12, image: 'https://picsum.photos/seed/p1/100' },
+  { id: 2, name: 'Smart Watch Pro', sales: 189, revenue: '9,450', trend: 8, image: 'https://picsum.photos/seed/p2/100' },
+  { id: 3, name: 'Laptop Stand', sales: 156, revenue: '4,680', trend: -3, image: 'https://picsum.photos/seed/p3/100' },
+  { id: 4, name: 'USB-C Hub', sales: 134, revenue: '5,360', trend: 15, image: 'https://picsum.photos/seed/p4/100' },
+  { id: 5, name: 'Mechanical Keyboard', sales: 98, revenue: '7,840', trend: 5, image: 'https://picsum.photos/seed/p5/100' },
+]
+
+const orderHeaders = [
+  { title: 'Order ID', key: 'id' },
+  { title: 'Customer', key: 'customer' },
+  { title: 'Products', key: 'products' },
+  { title: 'Total', key: 'total' },
+  { title: 'Status', key: 'status' },
+  { title: 'Date', key: 'date' },
+]
+
+const recentOrders = [
+  { id: '#12345', customer: 'John Doe', avatar: 'https://randomuser.me/api/portraits/men/1.jpg', products: 3, total: '234.00', status: 'Delivered', date: 'Jan 15' },
+  { id: '#12344', customer: 'Jane Smith', avatar: 'https://randomuser.me/api/portraits/women/2.jpg', products: 1, total: '89.00', status: 'Processing', date: 'Jan 15' },
+  { id: '#12343', customer: 'Bob Wilson', avatar: 'https://randomuser.me/api/portraits/men/3.jpg', products: 5, total: '456.00', status: 'Shipped', date: 'Jan 14' },
+  { id: '#12342', customer: 'Alice Brown', avatar: 'https://randomuser.me/api/portraits/women/4.jpg', products: 2, total: '178.00', status: 'Pending', date: 'Jan 14' },
+  { id: '#12341', customer: 'Charlie Davis', avatar: 'https://randomuser.me/api/portraits/men/5.jpg', products: 1, total: '45.00', status: 'Cancelled', date: 'Jan 13' },
+]
+
+const salesByCategory = [
+  { name: 'Electronics', sales: 45600, percentage: 35, color: 'primary' },
+  { name: 'Clothing', sales: 32400, percentage: 25, color: 'secondary' },
+  { name: 'Home & Garden', sales: 25920, percentage: 20, color: 'success' },
+  { name: 'Sports', sales: 15552, percentage: 12, color: 'warning' },
+  { name: 'Other', sales: 10368, percentage: 8, color: 'info' },
+]
+
+const getStatusColor = (status: string) => {
+  const colors: Record<string, string> = {
+    'Delivered': 'success',
+    'Processing': 'info',
+    'Shipped': 'primary',
+    'Pending': 'warning',
+    'Cancelled': 'error',
+  }
+  return colors[status] || 'grey'
+}
+</script>
 <template>
   <VContainer fluid>
     <!-- Header -->
@@ -233,56 +285,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const selectedPeriod = ref('Last 30 days')
-const periods = ['Today', 'Last 7 days', 'Last 30 days', 'Last 90 days', 'This year']
-const chartView = ref('weekly')
-
-const topProducts = [
-  { id: 1, name: 'Wireless Headphones', sales: 234, revenue: '12,345', trend: 12, image: 'https://picsum.photos/seed/p1/100' },
-  { id: 2, name: 'Smart Watch Pro', sales: 189, revenue: '9,450', trend: 8, image: 'https://picsum.photos/seed/p2/100' },
-  { id: 3, name: 'Laptop Stand', sales: 156, revenue: '4,680', trend: -3, image: 'https://picsum.photos/seed/p3/100' },
-  { id: 4, name: 'USB-C Hub', sales: 134, revenue: '5,360', trend: 15, image: 'https://picsum.photos/seed/p4/100' },
-  { id: 5, name: 'Mechanical Keyboard', sales: 98, revenue: '7,840', trend: 5, image: 'https://picsum.photos/seed/p5/100' },
-]
-
-const orderHeaders = [
-  { title: 'Order ID', key: 'id' },
-  { title: 'Customer', key: 'customer' },
-  { title: 'Products', key: 'products' },
-  { title: 'Total', key: 'total' },
-  { title: 'Status', key: 'status' },
-  { title: 'Date', key: 'date' },
-]
-
-const recentOrders = [
-  { id: '#12345', customer: 'John Doe', avatar: 'https://randomuser.me/api/portraits/men/1.jpg', products: 3, total: '234.00', status: 'Delivered', date: 'Jan 15' },
-  { id: '#12344', customer: 'Jane Smith', avatar: 'https://randomuser.me/api/portraits/women/2.jpg', products: 1, total: '89.00', status: 'Processing', date: 'Jan 15' },
-  { id: '#12343', customer: 'Bob Wilson', avatar: 'https://randomuser.me/api/portraits/men/3.jpg', products: 5, total: '456.00', status: 'Shipped', date: 'Jan 14' },
-  { id: '#12342', customer: 'Alice Brown', avatar: 'https://randomuser.me/api/portraits/women/4.jpg', products: 2, total: '178.00', status: 'Pending', date: 'Jan 14' },
-  { id: '#12341', customer: 'Charlie Davis', avatar: 'https://randomuser.me/api/portraits/men/5.jpg', products: 1, total: '45.00', status: 'Cancelled', date: 'Jan 13' },
-]
-
-const salesByCategory = [
-  { name: 'Electronics', sales: 45600, percentage: 35, color: 'primary' },
-  { name: 'Clothing', sales: 32400, percentage: 25, color: 'secondary' },
-  { name: 'Home & Garden', sales: 25920, percentage: 20, color: 'success' },
-  { name: 'Sports', sales: 15552, percentage: 12, color: 'warning' },
-  { name: 'Other', sales: 10368, percentage: 8, color: 'info' },
-]
-
-const getStatusColor = (status: string) => {
-  const colors: Record<string, string> = {
-    'Delivered': 'success',
-    'Processing': 'info',
-    'Shipped': 'primary',
-    'Pending': 'warning',
-    'Cancelled': 'error',
-  }
-  return colors[status] || 'grey'
-}
-</script>

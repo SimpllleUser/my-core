@@ -4,6 +4,55 @@
   Components: VNavigationDrawer, VAppBar, VMain, VCard, VDataTable, VList, VBtn
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const drawer = ref(true)
+const rail = ref(false)
+const activeMenu = ref('Dashboard')
+
+const menuItems = [
+  { title: 'Dashboard', icon: Icons.ViewDashboard },
+  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
+  { title: 'Products', icon: Icons.PackageVariant },
+  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
+  { title: 'Analytics', icon: Icons.ChartBar },
+  { title: 'Reports', icon: Icons.FileDocument },
+  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
+]
+
+const quickStats = [
+  { title: 'Total Users', value: '8,249', trend: '+12%', trendUp: true, icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Revenue', value: '$45,678', trend: '+8%', trendUp: true, icon: Icons.CurrencyUsd, color: 'success' },
+  { title: 'Orders', value: '1,234', trend: '+23%', trendUp: true, icon: Icons.Cart, color: 'warning' },
+  { title: 'Tickets', value: '45', trend: '-5%', trendUp: false, icon: Icons.Ticket, color: 'error' },
+]
+
+const userHeaders = [
+  { title: 'User', key: 'user', sortable: false },
+  { title: 'Role', key: 'role' },
+  { title: 'Status', key: 'status' },
+  { title: 'Joined', key: 'joined' },
+  { title: '', key: 'actions', sortable: false },
+]
+
+const recentUsers = [
+  { name: 'John Doe', email: 'john@example.com', avatar: 'https://randomuser.me/api/portraits/men/1.jpg', role: 'Admin', status: 'Active', joined: 'Jan 15, 2024' },
+  { name: 'Jane Smith', email: 'jane@example.com', avatar: 'https://randomuser.me/api/portraits/women/2.jpg', role: 'Editor', status: 'Active', joined: 'Jan 12, 2024' },
+  { name: 'Bob Wilson', email: 'bob@example.com', avatar: 'https://randomuser.me/api/portraits/men/3.jpg', role: 'User', status: 'Inactive', joined: 'Jan 10, 2024' },
+  { name: 'Alice Brown', email: 'alice@example.com', avatar: 'https://randomuser.me/api/portraits/women/4.jpg', role: 'Editor', status: 'Active', joined: 'Jan 8, 2024' },
+  { name: 'Charlie Davis', email: 'charlie@example.com', avatar: 'https://randomuser.me/api/portraits/men/5.jpg', role: 'User', status: 'Active', joined: 'Jan 5, 2024' },
+]
+
+const systemStatus = [
+  { name: 'Server Status', value: 'Online', color: 'success' },
+  { name: 'Database', value: '98% healthy', color: 'success' },
+  { name: 'API Response', value: '124ms', color: 'success' },
+  { name: 'Memory Usage', value: '67%', color: 'warning' },
+  { name: 'Disk Space', value: '45% used', color: 'success' },
+]
+</script>
 <template>
   <VLayout>
     <!-- Sidebar Navigation -->
@@ -232,53 +281,3 @@
     </VMain>
   </VLayout>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const drawer = ref(true)
-const rail = ref(false)
-const activeMenu = ref('Dashboard')
-
-const menuItems = [
-  { title: 'Dashboard', icon: Icons.ViewDashboard },
-  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
-  { title: 'Products', icon: Icons.PackageVariant },
-  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
-  { title: 'Analytics', icon: Icons.ChartBar },
-  { title: 'Reports', icon: Icons.FileDocument },
-  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
-]
-
-const quickStats = [
-  { title: 'Total Users', value: '8,249', trend: '+12%', trendUp: true, icon: Icons.AccountGroup, color: 'primary' },
-  { title: 'Revenue', value: '$45,678', trend: '+8%', trendUp: true, icon: Icons.CurrencyUsd, color: 'success' },
-  { title: 'Orders', value: '1,234', trend: '+23%', trendUp: true, icon: Icons.Cart, color: 'warning' },
-  { title: 'Tickets', value: '45', trend: '-5%', trendUp: false, icon: Icons.Ticket, color: 'error' },
-]
-
-const userHeaders = [
-  { title: 'User', key: 'user', sortable: false },
-  { title: 'Role', key: 'role' },
-  { title: 'Status', key: 'status' },
-  { title: 'Joined', key: 'joined' },
-  { title: '', key: 'actions', sortable: false },
-]
-
-const recentUsers = [
-  { name: 'John Doe', email: 'john@example.com', avatar: 'https://randomuser.me/api/portraits/men/1.jpg', role: 'Admin', status: 'Active', joined: 'Jan 15, 2024' },
-  { name: 'Jane Smith', email: 'jane@example.com', avatar: 'https://randomuser.me/api/portraits/women/2.jpg', role: 'Editor', status: 'Active', joined: 'Jan 12, 2024' },
-  { name: 'Bob Wilson', email: 'bob@example.com', avatar: 'https://randomuser.me/api/portraits/men/3.jpg', role: 'User', status: 'Inactive', joined: 'Jan 10, 2024' },
-  { name: 'Alice Brown', email: 'alice@example.com', avatar: 'https://randomuser.me/api/portraits/women/4.jpg', role: 'Editor', status: 'Active', joined: 'Jan 8, 2024' },
-  { name: 'Charlie Davis', email: 'charlie@example.com', avatar: 'https://randomuser.me/api/portraits/men/5.jpg', role: 'User', status: 'Active', joined: 'Jan 5, 2024' },
-]
-
-const systemStatus = [
-  { name: 'Server Status', value: 'Online', color: 'success' },
-  { name: 'Database', value: '98% healthy', color: 'success' },
-  { name: 'API Response', value: '124ms', color: 'success' },
-  { name: 'Memory Usage', value: '67%', color: 'warning' },
-  { name: 'Disk Space', value: '45% used', color: 'success' },
-]
-</script>

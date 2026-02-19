@@ -4,6 +4,10 @@
   Components: ChatMessage
   Complexity: Simple
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ChatMessage } from '../../shared/ui/snippets'
+</script>
 <template>
   <div class="pa-4">
     <!-- Sent Message -->
@@ -52,8 +56,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ChatMessage } from '../../shared/ui/snippets'
-</script>

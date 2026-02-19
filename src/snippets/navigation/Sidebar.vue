@@ -4,6 +4,30 @@
   Components: VNavigationDrawer, VList, VListItem, VListGroup, VIcon
   Variants: Permanent, Mini, With Header
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const drawer = ref(true)
+const rail = ref(false)
+const activeItem = ref('Dashboard')
+
+const mainNavItems = [
+  { title: 'Dashboard', icon: Icons.ViewDashboard },
+  { title: 'Analytics', icon: Icons.ChartBar },
+  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
+  { title: 'Products', icon: Icons.PackageVariant },
+  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
+  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
+]
+
+const pagesItems = ['Profile', 'Settings', 'Pricing', 'FAQ', 'Blank Page']
+const componentItems = ['Buttons', 'Cards', 'Tables', 'Forms', 'Charts']
+const settingsItems = [
+  { title: 'Settings', icon: Icons.Settings },
+  { title: 'Help', icon: Icons.HelpCircle },
+]
+</script>
 <template>
   <VLayout style="min-height: 600px;">
     <VNavigationDrawer
@@ -142,28 +166,3 @@
     </VMain>
   </VLayout>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref } from 'vue'
-
-const drawer = ref(true)
-const rail = ref(false)
-const activeItem = ref('Dashboard')
-
-const mainNavItems = [
-  { title: 'Dashboard', icon: Icons.ViewDashboard },
-  { title: 'Analytics', icon: Icons.ChartBar },
-  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
-  { title: 'Products', icon: Icons.PackageVariant },
-  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
-  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
-]
-
-const pagesItems = ['Profile', 'Settings', 'Pricing', 'FAQ', 'Blank Page']
-const componentItems = ['Buttons', 'Cards', 'Tables', 'Forms', 'Charts']
-const settingsItems = [
-  { title: 'Settings', icon: Icons.Settings },
-  { title: 'Help', icon: Icons.HelpCircle },
-]
-</script>

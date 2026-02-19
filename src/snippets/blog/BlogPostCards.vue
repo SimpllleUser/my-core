@@ -4,6 +4,72 @@
   Components: BlogCard, SectionHeader
   Variants: Grid, horizontal, featured, minimal
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+import { SectionHeader, BlogCard } from '../../shared/ui/snippets'
+import type { IBlogPost, IBlogCategory, IBlogAuthor } from '../../shared/ui/snippets'
+
+const viewMode = ref('grid')
+
+const author1: IBlogAuthor = {
+  id: 1,
+  name: 'Sarah Johnson',
+  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+  role: 'Senior Developer',
+}
+
+const author2: IBlogAuthor = {
+  id: 2,
+  name: 'Mike Chen',
+  avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+  role: 'Tech Writer',
+}
+
+const gridPosts: IBlogPost[] = [
+  { id: 1, title: 'Getting Started with Vue 3 Composition API', excerpt: 'Learn the fundamentals of Vue 3 Composition API and how it can improve your development workflow.', image: 'https://picsum.photos/seed/vue/400/250', author: author1, publishedAt: '2024-12-20', readTime: 8, category: 'Vue.js', likes: 245, comments: 32 },
+  { id: 2, title: 'Building Responsive UIs with Vuetify 3', excerpt: 'Discover how to create beautiful, responsive user interfaces using Vuetify 3 components.', image: 'https://picsum.photos/seed/vuetify/400/250', author: author2, publishedAt: '2024-12-18', readTime: 12, category: 'Vuetify', likes: 189, comments: 24 },
+  { id: 3, title: 'TypeScript Best Practices for Vue Apps', excerpt: 'Master TypeScript in your Vue applications with these proven best practices and tips.', image: 'https://picsum.photos/seed/ts/400/250', author: author1, publishedAt: '2024-12-15', readTime: 15, category: 'TypeScript', likes: 312, comments: 45 },
+]
+
+const featuredPost: IBlogPost = {
+  id: 10,
+  title: 'The Complete Guide to Modern Frontend Architecture',
+  excerpt: 'Explore the latest patterns and practices for building scalable frontend applications. From micro-frontends to state management, learn everything you need to know.',
+  image: 'https://picsum.photos/seed/arch/800/400',
+  author: author1,
+  publishedAt: '2024-12-22',
+  readTime: 20,
+  category: 'Architecture',
+  likes: 456,
+  comments: 67,
+}
+
+const sidePosts = [
+  { id: 4, title: 'Understanding Pinia State Management', image: 'https://picsum.photos/seed/pinia/300/200', publishedAt: '2024-12-19', readTime: 10, category: 'Vue.js', categoryColor: 'success' },
+  { id: 5, title: 'CSS Grid vs Flexbox: When to Use Which', image: 'https://picsum.photos/seed/css/300/200', publishedAt: '2024-12-17', readTime: 7, category: 'CSS', categoryColor: 'info' },
+  { id: 6, title: 'API Design Best Practices', image: 'https://picsum.photos/seed/api/300/200', publishedAt: '2024-12-16', readTime: 12, category: 'Backend', categoryColor: 'warning' },
+]
+
+const minimalPosts: IBlogPost[] = [
+  { id: 7, title: 'Introduction to Web Components', excerpt: 'Learn how to create reusable web components that work across any framework.', image: 'https://picsum.photos/seed/wc/400/250', author: author2, publishedAt: '2024-12-14', readTime: 9, category: 'JavaScript', likes: 156, comments: 18 },
+  { id: 8, title: 'Mastering Git Workflows', excerpt: 'Discover efficient Git workflows for teams of any size.', image: 'https://picsum.photos/seed/git/400/250', author: author1, publishedAt: '2024-12-12', readTime: 11, category: 'DevOps', likes: 203, comments: 29 },
+  { id: 9, title: 'Performance Optimization Tips', excerpt: 'Speed up your web applications with these proven optimization techniques.', image: 'https://picsum.photos/seed/perf/400/250', author: author2, publishedAt: '2024-12-10', readTime: 14, category: 'Performance', likes: 278, comments: 41 },
+]
+
+const categories: IBlogCategory[] = [
+  { id: 1, name: 'Vue.js', slug: 'vuejs', count: 45, icon: Icons.CodeTags, color: 'success' },
+  { id: 2, name: 'TypeScript', slug: 'typescript', count: 32, icon: Icons.Code, color: 'primary' },
+  { id: 3, name: 'CSS', slug: 'css', count: 28, icon: Icons.Palette, color: 'info' },
+  { id: 4, name: 'DevOps', slug: 'devops', count: 19, icon: Icons.Server, color: 'warning' },
+  { id: 5, name: 'Design', slug: 'design', count: 24, icon: Icons.FormatPaint, color: 'error' },
+  { id: 6, name: 'Career', slug: 'career', count: 16, icon: Icons.Briefcase, color: 'secondary' },
+]
+
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Standard Grid Cards -->
@@ -189,74 +255,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '../../shared/model'
-import { SectionHeader, BlogCard } from '../../shared/ui/snippets'
-import type { IBlogPost, IBlogCategory, IBlogAuthor } from '../../shared/ui/snippets'
-
-const viewMode = ref('grid')
-
-const author1: IBlogAuthor = {
-  id: 1,
-  name: 'Sarah Johnson',
-  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-  role: 'Senior Developer',
-}
-
-const author2: IBlogAuthor = {
-  id: 2,
-  name: 'Mike Chen',
-  avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-  role: 'Tech Writer',
-}
-
-const gridPosts: IBlogPost[] = [
-  { id: 1, title: 'Getting Started with Vue 3 Composition API', excerpt: 'Learn the fundamentals of Vue 3 Composition API and how it can improve your development workflow.', image: 'https://picsum.photos/seed/vue/400/250', author: author1, publishedAt: '2024-12-20', readTime: 8, category: 'Vue.js', likes: 245, comments: 32 },
-  { id: 2, title: 'Building Responsive UIs with Vuetify 3', excerpt: 'Discover how to create beautiful, responsive user interfaces using Vuetify 3 components.', image: 'https://picsum.photos/seed/vuetify/400/250', author: author2, publishedAt: '2024-12-18', readTime: 12, category: 'Vuetify', likes: 189, comments: 24 },
-  { id: 3, title: 'TypeScript Best Practices for Vue Apps', excerpt: 'Master TypeScript in your Vue applications with these proven best practices and tips.', image: 'https://picsum.photos/seed/ts/400/250', author: author1, publishedAt: '2024-12-15', readTime: 15, category: 'TypeScript', likes: 312, comments: 45 },
-]
-
-const featuredPost: IBlogPost = {
-  id: 10,
-  title: 'The Complete Guide to Modern Frontend Architecture',
-  excerpt: 'Explore the latest patterns and practices for building scalable frontend applications. From micro-frontends to state management, learn everything you need to know.',
-  image: 'https://picsum.photos/seed/arch/800/400',
-  author: author1,
-  publishedAt: '2024-12-22',
-  readTime: 20,
-  category: 'Architecture',
-  likes: 456,
-  comments: 67,
-}
-
-const sidePosts = [
-  { id: 4, title: 'Understanding Pinia State Management', image: 'https://picsum.photos/seed/pinia/300/200', publishedAt: '2024-12-19', readTime: 10, category: 'Vue.js', categoryColor: 'success' },
-  { id: 5, title: 'CSS Grid vs Flexbox: When to Use Which', image: 'https://picsum.photos/seed/css/300/200', publishedAt: '2024-12-17', readTime: 7, category: 'CSS', categoryColor: 'info' },
-  { id: 6, title: 'API Design Best Practices', image: 'https://picsum.photos/seed/api/300/200', publishedAt: '2024-12-16', readTime: 12, category: 'Backend', categoryColor: 'warning' },
-]
-
-const minimalPosts: IBlogPost[] = [
-  { id: 7, title: 'Introduction to Web Components', excerpt: 'Learn how to create reusable web components that work across any framework.', image: 'https://picsum.photos/seed/wc/400/250', author: author2, publishedAt: '2024-12-14', readTime: 9, category: 'JavaScript', likes: 156, comments: 18 },
-  { id: 8, title: 'Mastering Git Workflows', excerpt: 'Discover efficient Git workflows for teams of any size.', image: 'https://picsum.photos/seed/git/400/250', author: author1, publishedAt: '2024-12-12', readTime: 11, category: 'DevOps', likes: 203, comments: 29 },
-  { id: 9, title: 'Performance Optimization Tips', excerpt: 'Speed up your web applications with these proven optimization techniques.', image: 'https://picsum.photos/seed/perf/400/250', author: author2, publishedAt: '2024-12-10', readTime: 14, category: 'Performance', likes: 278, comments: 41 },
-]
-
-const categories: IBlogCategory[] = [
-  { id: 1, name: 'Vue.js', slug: 'vuejs', count: 45, icon: Icons.CodeTags, color: 'success' },
-  { id: 2, name: 'TypeScript', slug: 'typescript', count: 32, icon: Icons.Code, color: 'primary' },
-  { id: 3, name: 'CSS', slug: 'css', count: 28, icon: Icons.Palette, color: 'info' },
-  { id: 4, name: 'DevOps', slug: 'devops', count: 19, icon: Icons.Server, color: 'warning' },
-  { id: 5, name: 'Design', slug: 'design', count: 24, icon: Icons.FormatPaint, color: 'error' },
-  { id: 6, name: 'Career', slug: 'career', count: 16, icon: Icons.Briefcase, color: 'secondary' },
-]
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
-</script>
-
 <style scoped>
 .line-clamp-2 {
   display: -webkit-box;

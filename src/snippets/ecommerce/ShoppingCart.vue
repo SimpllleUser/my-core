@@ -4,6 +4,61 @@
   Components: VCard, VList, VBtn, VTextField, VDivider
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref, computed } from 'vue'
+
+const promoCode = ref('')
+const promoApplied = ref(false)
+
+const cartItems = ref([
+  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, quantity: 1, image: 'https://picsum.photos/seed/cart1/200', color: 'Black', size: null },
+  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, quantity: 1, image: 'https://picsum.photos/seed/cart2/200', color: 'Silver', size: '42mm' },
+  { id: 3, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, quantity: 2, image: 'https://picsum.photos/seed/cart3/200', color: 'Blue', size: 'US 10' },
+])
+
+const recommendedProducts = [
+  { id: 5, name: 'Phone Case', price: 24.99, image: 'https://picsum.photos/seed/rec1/200' },
+  { id: 6, name: 'USB-C Cable', price: 14.99, image: 'https://picsum.photos/seed/rec2/200' },
+  { id: 7, name: 'Screen Protector', price: 9.99, image: 'https://picsum.photos/seed/rec3/200' },
+  { id: 8, name: 'Wireless Charger', price: 29.99, image: 'https://picsum.photos/seed/rec4/200' },
+]
+
+const subtotal = computed(() => {
+  return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+})
+
+const shipping = computed(() => subtotal.value >= 100 ? 0 : 9.99)
+
+const discount = computed(() => promoApplied.value ? 10 : 0)
+
+const tax = computed(() => (subtotal.value - discount.value) * 0.08)
+
+const total = computed(() => subtotal.value + shipping.value + tax.value - discount.value)
+
+const updateQuantity = (id: number, quantity: number) => {
+  const item = cartItems.value.find(i => i.id === id)
+  if (item) item.quantity = quantity
+}
+
+const removeItem = (id: number) => {
+  cartItems.value = cartItems.value.filter(i => i.id !== id)
+}
+
+const clearCart = () => {
+  cartItems.value = []
+}
+
+const applyPromo = () => {
+  if (promoCode.value.toLowerCase() === 'save10') {
+    promoApplied.value = true
+  }
+}
+
+const checkout = () => {
+  console.log('Proceeding to checkout...')
+}
+</script>
 <template>
   <VContainer>
     <h1 class="text-h4 font-weight-bold mb-6">Shopping Cart</h1>
@@ -218,63 +273,6 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-import { ref, computed } from 'vue'
-
-const promoCode = ref('')
-const promoApplied = ref(false)
-
-const cartItems = ref([
-  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, quantity: 1, image: 'https://picsum.photos/seed/cart1/200', color: 'Black', size: null },
-  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, quantity: 1, image: 'https://picsum.photos/seed/cart2/200', color: 'Silver', size: '42mm' },
-  { id: 3, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, quantity: 2, image: 'https://picsum.photos/seed/cart3/200', color: 'Blue', size: 'US 10' },
-])
-
-const recommendedProducts = [
-  { id: 5, name: 'Phone Case', price: 24.99, image: 'https://picsum.photos/seed/rec1/200' },
-  { id: 6, name: 'USB-C Cable', price: 14.99, image: 'https://picsum.photos/seed/rec2/200' },
-  { id: 7, name: 'Screen Protector', price: 9.99, image: 'https://picsum.photos/seed/rec3/200' },
-  { id: 8, name: 'Wireless Charger', price: 29.99, image: 'https://picsum.photos/seed/rec4/200' },
-]
-
-const subtotal = computed(() => {
-  return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
-})
-
-const shipping = computed(() => subtotal.value >= 100 ? 0 : 9.99)
-
-const discount = computed(() => promoApplied.value ? 10 : 0)
-
-const tax = computed(() => (subtotal.value - discount.value) * 0.08)
-
-const total = computed(() => subtotal.value + shipping.value + tax.value - discount.value)
-
-const updateQuantity = (id: number, quantity: number) => {
-  const item = cartItems.value.find(i => i.id === id)
-  if (item) item.quantity = quantity
-}
-
-const removeItem = (id: number) => {
-  cartItems.value = cartItems.value.filter(i => i.id !== id)
-}
-
-const clearCart = () => {
-  cartItems.value = []
-}
-
-const applyPromo = () => {
-  if (promoCode.value.toLowerCase() === 'save10') {
-    promoApplied.value = true
-  }
-}
-
-const checkout = () => {
-  console.log('Proceeding to checkout...')
-}
-</script>
-
 <style scoped>
 .sticky-card {
   position: sticky;

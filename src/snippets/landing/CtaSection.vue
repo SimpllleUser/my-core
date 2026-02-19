@@ -4,6 +4,9 @@
   Components: VContainer, VRow, VCol, VBtn, VCard
   Complexity: Simple
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+</script>
 <template>
   <div>
     <!-- CTA Style 1: Minimal -->
@@ -70,7 +73,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '../../shared/model'
-</script>
