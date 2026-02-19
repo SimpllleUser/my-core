@@ -45,7 +45,7 @@
                 class="mr-2"
               >
                 <VIcon start size="small">
-                  {{ stat.trend > 0 ? 'mdi-arrow-up' : 'mdi-arrow-down' }}
+                  {{ stat.trend > 0 ? Icons.ArrowUp : Icons.ArrowDown }}
                 </VIcon>
                 {{ Math.abs(stat.trend) }}%
               </VChip>
@@ -153,18 +153,19 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 const simpleStats = [
-  { title: 'Total Users', value: '24,532', icon: 'mdi-account-group', color: 'primary' },
-  { title: 'Revenue', value: '$45,678', icon: 'mdi-currency-usd', color: 'success' },
-  { title: 'Orders', value: '1,234', icon: 'mdi-cart', color: 'secondary' },
-  { title: 'Visitors', value: '89,124', icon: 'mdi-eye', color: 'warning' },
+  { title: 'Total Users', value: '24,532', icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Revenue', value: '$45,678', icon: Icons.CurrencyUsd, color: 'success' },
+  { title: 'Orders', value: '1,234', icon: Icons.Cart, color: 'secondary' },
+  { title: 'Visitors', value: '89,124', icon: Icons.Eye, color: 'warning' },
 ]
 
 const trendStats = [
-  { title: 'Sales', value: '$12,628', trend: 12.5, icon: 'mdi-trending-up', color: 'success' },
-  { title: 'Expenses', value: '$8,234', trend: -5.2, icon: 'mdi-trending-down', color: 'error' },
-  { title: 'Profit', value: '$4,394', trend: 23.1, icon: 'mdi-chart-line', color: 'primary' },
-  { title: 'Customers', value: '1,892', trend: 8.4, icon: 'mdi-account-multiple', color: 'info' },
+  { title: 'Sales', value: '$12,628', trend: 12.5, icon: Icons.TrendingUp, color: 'success' },
+  { title: 'Expenses', value: '$8,234', trend: -5.2, icon: Icons.TrendingDown, color: 'error' },
+  { title: 'Profit', value: '$4,394', trend: 23.1, icon: Icons.ChartLine, color: 'primary' },
+  { title: 'Customers', value: '1,892', trend: 8.4, icon: Icons.AccountMultiple, color: 'info' },
 ]
 
 const progressStats = [
@@ -175,10 +176,10 @@ const progressStats = [
 ]
 
 const coloredStats = [
-  { title: 'Total Revenue', value: '$45,678', subtitle: '+12.5% from last month', icon: 'mdi-cash-multiple', color: 'primary' },
-  { title: 'Active Users', value: '2,345', subtitle: '321 new this week', icon: 'mdi-account-check', color: 'success' },
-  { title: 'Pending Orders', value: '45', subtitle: '12 need attention', icon: 'mdi-clock-outline', color: 'warning' },
-  { title: 'Support Tickets', value: '23', subtitle: '5 unresolved', icon: 'mdi-ticket', color: 'secondary' },
+  { title: 'Total Revenue', value: '$45,678', subtitle: '+12.5% from last month', icon: Icons.CashMultiple, color: 'primary' },
+  { title: 'Active Users', value: '2,345', subtitle: '321 new this week', icon: Icons.AccountCheck, color: 'success' },
+  { title: 'Pending Orders', value: '45', subtitle: '12 need attention', icon: Icons.ClockOutline, color: 'warning' },
+  { title: 'Support Tickets', value: '23', subtitle: '5 unresolved', icon: Icons.Ticket, color: 'secondary' },
 ]
 
 const sparklineStats = [
@@ -189,11 +190,11 @@ const sparklineStats = [
 ]
 
 const compactStats = [
-  { title: 'Users', value: '2.4k', icon: 'mdi-account', color: 'primary' },
-  { title: 'Sales', value: '$12k', icon: 'mdi-cash', color: 'success' },
-  { title: 'Orders', value: '456', icon: 'mdi-cart', color: 'warning' },
-  { title: 'Views', value: '89k', icon: 'mdi-eye', color: 'info' },
-  { title: 'Likes', value: '1.2k', icon: 'mdi-heart', color: 'error' },
-  { title: 'Comments', value: '234', icon: 'mdi-comment', color: 'secondary' },
+  { title: 'Users', value: '2.4k', icon: Icons.Account, color: 'primary' },
+  { title: 'Sales', value: '$12k', icon: Icons.Cash, color: 'success' },
+  { title: 'Orders', value: '456', icon: Icons.Cart, color: 'warning' },
+  { title: 'Views', value: '89k', icon: Icons.Eye, color: 'info' },
+  { title: 'Likes', value: '1.2k', icon: Icons.Heart, color: 'error' },
+  { title: 'Comments', value: '234', icon: Icons.Comment, color: 'secondary' },
 ]
 </script>

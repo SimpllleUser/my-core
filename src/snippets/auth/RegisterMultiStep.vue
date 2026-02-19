@@ -165,7 +165,7 @@
                           type="email"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-email' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Email : undefined"
                         />
                       </VCol>
                       <VCol cols="12" md="6">
@@ -176,8 +176,8 @@
                           :label="passwordLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-lock' : undefined"
-                          :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                          :prepend-inner-icon="showInputIcons ? Icons.Lock : undefined"
+                          :append-inner-icon="showPassword ? Icons.EyeOff : Icons.Eye"
                           @click:append-inner="showPassword = !showPassword"
                         />
                       </VCol>
@@ -189,7 +189,7 @@
                           :label="confirmPasswordLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-lock-check' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.LockCheck : undefined"
                         />
                       </VCol>
                     </VRow>
@@ -213,7 +213,7 @@
                           :label="firstNameLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-account' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Account : undefined"
                         />
                       </VCol>
                       <VCol cols="12" md="6">
@@ -223,7 +223,7 @@
                           :label="lastNameLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-account' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Account : undefined"
                         />
                       </VCol>
                       <VCol cols="12">
@@ -232,7 +232,7 @@
                           :label="phoneLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-phone' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Phone : undefined"
                         />
                       </VCol>
                       <VCol cols="12" md="6">
@@ -243,7 +243,7 @@
                           :label="countryLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-earth' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Earth : undefined"
                         />
                       </VCol>
                       <VCol cols="12" md="6">
@@ -279,7 +279,7 @@
                           multiple
                           chips
                           closable-chips
-                          :prepend-inner-icon="showInputIcons ? 'mdi-heart' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Heart : undefined"
                         />
                       </VCol>
                       <VCol cols="12">
@@ -289,7 +289,7 @@
                           :label="notificationsLabel"
                           :variant="inputVariant"
                           :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-bell' : undefined"
+                          :prepend-inner-icon="showInputIcons ? Icons.Bell : undefined"
                         />
                       </VCol>
                       <VCol cols="12">
@@ -402,6 +402,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed, watch } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 

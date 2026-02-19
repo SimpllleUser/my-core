@@ -7,7 +7,7 @@ export class DateField extends BaseField<string | Date | null, DateFieldConfig> 
   constructor(config: DateFieldConfig = {}) {
     super({
       default: null,
-      prependInnerIcon: 'mdi-calendar',
+      prependInnerIcon: Icons.Calendar,
       format: 'YYYY-MM-DD',
       ...config,
     });

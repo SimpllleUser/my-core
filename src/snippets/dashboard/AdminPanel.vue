@@ -15,20 +15,20 @@
     >
       <VListItem
         :prepend-avatar="rail ? undefined : undefined"
-        :prepend-icon="rail ? 'mdi-shield-crown' : undefined"
+        :prepend-icon="rail ? Icons.ShieldCrown : undefined"
         title="Admin Panel"
         subtitle="v1.0.0"
         nav
       >
         <template #prepend>
           <VAvatar v-if="!rail" color="primary" size="40">
-            <VIcon>mdi-shield-crown</VIcon>
+            <VIcon>{{ Icons.ShieldCrown }}</VIcon>
           </VAvatar>
         </template>
         <template #append>
           <VBtn
             variant="text"
-            :icon="rail ? 'mdi-chevron-right' : 'mdi-chevron-left'"
+            :icon="rail ? Icons.ChevronRight : Icons.ChevronLeft"
             @click.stop="rail = !rail"
           />
         </template>
@@ -57,12 +57,12 @@
         <VDivider />
         <VList density="compact" nav>
           <VListItem
-            prepend-icon="mdi-cog"
+            :prepend-icon="Icons.Settings"
             title="Settings"
             rounded="lg"
           />
           <VListItem
-            prepend-icon="mdi-logout"
+            :prepend-icon="Icons.Logout"
             title="Logout"
             rounded="lg"
           />
@@ -81,7 +81,7 @@
           variant="solo-filled"
           flat
           hide-details
-          prepend-inner-icon="mdi-magnify"
+          :prepend-inner-icon="Icons.Search"
           placeholder="Search..."
           class="mx-4"
           style="max-width: 400px;"
@@ -91,13 +91,13 @@
 
         <VBtn icon>
           <VBadge content="3" color="error">
-            <VIcon>mdi-bell</VIcon>
+            <VIcon>{{ Icons.Bell }}</VIcon>
           </VBadge>
         </VBtn>
 
         <VBtn icon class="mx-2">
           <VBadge content="5" color="primary">
-            <VIcon>mdi-email</VIcon>
+            <VIcon>{{ Icons.Email }}</VIcon>
           </VBadge>
         </VBtn>
 
@@ -108,14 +108,14 @@
                 <VImg src="https://randomuser.me/api/portraits/men/1.jpg" />
               </VAvatar>
               <span class="d-none d-sm-inline">Admin User</span>
-              <VIcon end>mdi-chevron-down</VIcon>
+              <VIcon end>{{ Icons.ChevronDown }}</VIcon>
             </VBtn>
           </template>
           <VList>
-            <VListItem prepend-icon="mdi-account" title="Profile" />
-            <VListItem prepend-icon="mdi-cog" title="Settings" />
+            <VListItem :prepend-icon="Icons.Account" title="Profile" />
+            <VListItem :prepend-icon="Icons.Settings" title="Settings" />
             <VDivider />
-            <VListItem prepend-icon="mdi-logout" title="Logout" />
+            <VListItem :prepend-icon="Icons.Logout" title="Logout" />
           </VList>
         </VMenu>
       </VAppBar>
@@ -141,7 +141,7 @@
                     <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
                     <p class="text-caption mt-1">
                       <VIcon size="small" :color="stat.trendUp ? 'success' : 'error'">
-                        {{ stat.trendUp ? 'mdi-arrow-up' : 'mdi-arrow-down' }}
+                        {{ stat.trendUp ? Icons.ArrowUp : Icons.ArrowDown }}
                       </VIcon>
                       {{ stat.trend }} from yesterday
                     </p>
@@ -184,7 +184,7 @@
                   </VChip>
                 </template>
                 <template #item.actions>
-                  <VBtn icon="mdi-dots-vertical" variant="text" size="small" />
+                  <VBtn :icon="Icons.DotsVertical" variant="text" size="small" />
                 </template>
               </VDataTable>
             </VCard>
@@ -195,13 +195,13 @@
             <VCard class="mb-4">
               <VCardTitle>Quick Actions</VCardTitle>
               <VCardText>
-                <VBtn color="primary" block class="mb-2" prepend-icon="mdi-account-plus">
+                <VBtn color="primary" block class="mb-2" :prepend-icon="Icons.AccountPlus">
                   Add New User
                 </VBtn>
-                <VBtn color="secondary" block class="mb-2" prepend-icon="mdi-file-document-plus">
+                <VBtn color="secondary" block class="mb-2" :prepend-icon="Icons.FileDocumentPlus">
                   Create Report
                 </VBtn>
-                <VBtn color="info" block prepend-icon="mdi-email">
+                <VBtn color="info" block :prepend-icon="Icons.Email">
                   Send Newsletter
                 </VBtn>
               </VCardText>
@@ -216,7 +216,7 @@
                     :key="status.name"
                   >
                     <template #prepend>
-                      <VIcon :color="status.color" size="small">mdi-circle</VIcon>
+                      <VIcon :color="status.color" size="small">{{ Icons.Circle }}</VIcon>
                     </template>
                     <VListItemTitle>{{ status.name }}</VListItemTitle>
                     <template #append>
@@ -234,6 +234,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const drawer = ref(true)
@@ -241,20 +242,20 @@ const rail = ref(false)
 const activeMenu = ref('Dashboard')
 
 const menuItems = [
-  { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-  { title: 'Users', icon: 'mdi-account-group', badge: '24', badgeColor: 'primary' },
-  { title: 'Products', icon: 'mdi-package-variant' },
-  { title: 'Orders', icon: 'mdi-cart', badge: '5', badgeColor: 'warning' },
-  { title: 'Analytics', icon: 'mdi-chart-bar' },
-  { title: 'Reports', icon: 'mdi-file-document' },
-  { title: 'Messages', icon: 'mdi-email', badge: '12', badgeColor: 'error' },
+  { title: 'Dashboard', icon: Icons.ViewDashboard },
+  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
+  { title: 'Products', icon: Icons.PackageVariant },
+  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
+  { title: 'Analytics', icon: Icons.ChartBar },
+  { title: 'Reports', icon: Icons.FileDocument },
+  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
 ]
 
 const quickStats = [
-  { title: 'Total Users', value: '8,249', trend: '+12%', trendUp: true, icon: 'mdi-account-group', color: 'primary' },
-  { title: 'Revenue', value: '$45,678', trend: '+8%', trendUp: true, icon: 'mdi-currency-usd', color: 'success' },
-  { title: 'Orders', value: '1,234', trend: '+23%', trendUp: true, icon: 'mdi-cart', color: 'warning' },
-  { title: 'Tickets', value: '45', trend: '-5%', trendUp: false, icon: 'mdi-ticket', color: 'error' },
+  { title: 'Total Users', value: '8,249', trend: '+12%', trendUp: true, icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Revenue', value: '$45,678', trend: '+8%', trendUp: true, icon: Icons.CurrencyUsd, color: 'success' },
+  { title: 'Orders', value: '1,234', trend: '+23%', trendUp: true, icon: Icons.Cart, color: 'warning' },
+  { title: 'Tickets', value: '45', trend: '-5%', trendUp: false, icon: Icons.Ticket, color: 'error' },
 ]
 
 const userHeaders = [

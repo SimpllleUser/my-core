@@ -23,8 +23,8 @@
           style="width: 180px;"
         />
         <VBtnToggle v-model="viewMode" mandatory density="compact" variant="outlined">
-          <VBtn value="grid" icon="mdi-view-grid" />
-          <VBtn value="list" icon="mdi-view-list" />
+          <VBtn value="grid" :icon="Icons.ViewGrid" />
+          <VBtn value="list" :icon="Icons.ViewList" />
         </VBtnToggle>
       </div>
     </div>
@@ -66,11 +66,11 @@
                 @click="toggleWishlist(product.id)"
               >
                 <VIcon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
-                  {{ wishlist.includes(product.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
+                  {{ wishlist.includes(product.id) ? Icons.Heart : Icons.HeartOutline }}
                 </VIcon>
               </VBtn>
               <VBtn icon size="small" variant="flat" color="white" @click="quickView(product)">
-                <VIcon color="grey">mdi-eye</VIcon>
+                <VIcon color="grey">{{ Icons.Eye }}</VIcon>
               </VBtn>
             </div>
           </div>
@@ -99,7 +99,7 @@
                 </span>
               </div>
               <VBtn icon size="small" color="primary" @click="addToCart(product)">
-                <VIcon>mdi-cart-plus</VIcon>
+                <VIcon>{{ Icons.CartPlus }}</VIcon>
               </VBtn>
             </div>
           </VCardText>
@@ -122,7 +122,7 @@
                     </div>
                     <h4 class="text-h6 font-weight-medium">{{ product.name }}</h4>
                   </div>
-                  <VBtn icon="mdi-heart-outline" variant="text" size="small" />
+                  <VBtn :icon="Icons.HeartOutline" variant="text" size="small" />
                 </div>
 
                 <p class="text-body-2 text-medium-emphasis flex-grow-1">
@@ -142,7 +142,7 @@
                       </span>
                     </div>
                     <VBtn color="primary" @click="addToCart(product)">
-                      <VIcon start>mdi-cart-plus</VIcon>
+                      <VIcon start>{{ Icons.CartPlus }}</VIcon>
                       Add to Cart
                     </VBtn>
                   </div>
@@ -167,6 +167,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const sortBy = ref('featured')

@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-view-dashboard" size="large" color="purple" class="mr-2" />
+          <VIcon :icon="Icons.ViewDashboard" size="large" color="purple" class="mr-2" />
           Dashboards
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chart-line" class="mr-2" />
+            <VIcon :icon="Icons.ChartLine" class="mr-2" />
             Analytics Overview
             <VSpacer />
             <VChip color="purple" size="small">VCard, VRow, VCol, VList</VChip>
@@ -44,7 +44,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chart-box" class="mr-2" />
+            <VIcon :icon="Icons.ChartBox" class="mr-2" />
             Stats Cards
             <VSpacer />
             <VChip color="purple" size="small">VCard, VProgressCircular, VSparkline</VChip>
@@ -62,7 +62,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-shield-account" class="mr-2" />
+            <VIcon :icon="Icons.ShieldAccount" class="mr-2" />
             Admin Panel
             <VSpacer />
             <VChip color="purple" size="small">VNavigationDrawer, VAppBar, VDataTable</VChip>
@@ -80,7 +80,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-storefront" class="mr-2" />
+            <VIcon :icon="Icons.Storefront" class="mr-2" />
             E-commerce Dashboard
             <VSpacer />
             <VChip color="purple" size="small">VCard, VDataTable, VProgressLinear</VChip>
@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   AnalyticsOverview,
   StatsCards,

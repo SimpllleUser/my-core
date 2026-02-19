@@ -8,7 +8,7 @@
   <VContainer class="fill-height">
     <VRow align="center" justify="center" class="text-center">
       <VCol cols="12" md="8" lg="6">
-        <VIcon size="120" color="warning" class="mb-6">mdi-wrench</VIcon>
+        <VIcon size="120" color="warning" class="mb-6">{{ Icons.Wrench }}</VIcon>
 
         <h1 class="text-h3 font-weight-bold mb-4">We're Under Maintenance</h1>
 
@@ -52,7 +52,7 @@
             v-model="email"
             variant="outlined"
             placeholder="Enter your email"
-            prepend-inner-icon="mdi-email"
+            :prepend-inner-icon="Icons.Email"
             hide-details
             class="mb-4"
           >
@@ -70,16 +70,16 @@
         </p>
         <div class="d-flex justify-center ga-2">
           <VBtn icon color="primary" variant="tonal">
-            <VIcon>mdi-twitter</VIcon>
+            <VIcon>{{ Icons.Twitter }}</VIcon>
           </VBtn>
           <VBtn icon color="primary" variant="tonal">
-            <VIcon>mdi-facebook</VIcon>
+            <VIcon>{{ Icons.Facebook }}</VIcon>
           </VBtn>
           <VBtn icon color="primary" variant="tonal">
-            <VIcon>mdi-linkedin</VIcon>
+            <VIcon>{{ Icons.LinkedIn }}</VIcon>
           </VBtn>
           <VBtn icon color="primary" variant="tonal">
-            <VIcon>mdi-instagram</VIcon>
+            <VIcon>{{ Icons.Instagram }}</VIcon>
           </VBtn>
         </div>
       </VCol>
@@ -88,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const email = ref('')

@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-bank" size="large" color="teal" class="mr-2" />
+          <VIcon :icon="Icons.Bank" size="large" color="teal" class="mr-2" />
           FinTech
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-wallet" class="mr-2" />
+            <VIcon :icon="Icons.Wallet" class="mr-2" />
             Wallet Overview
             <VSpacer />
             <VChip color="teal" size="small">StatCard, SectionHeader, VCard</VChip>
@@ -44,7 +44,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-history" class="mr-2" />
+            <VIcon :icon="Icons.History" class="mr-2" />
             Transaction History
             <VSpacer />
             <VChip color="teal" size="small">TransactionItem, VCard, VList</VChip>
@@ -62,7 +62,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-bitcoin" class="mr-2" />
+            <VIcon :icon="Icons.Bitcoin" class="mr-2" />
             Crypto Portfolio
             <VSpacer />
             <VChip color="teal" size="small">CryptoCard, StatCard, VTable</VChip>
@@ -80,7 +80,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-credit-card" class="mr-2" />
+            <VIcon :icon="Icons.CreditCard" class="mr-2" />
             Payment Form
             <VSpacer />
             <VChip color="teal" size="small">VCard, VTextField, VForm</VChip>
@@ -98,7 +98,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-bank-transfer" class="mr-2" />
+            <VIcon :icon="Icons.BankTransfer" class="mr-2" />
             Banking Dashboard
             <VSpacer />
             <VChip color="teal" size="small">StatCard, VCard, VList, VTable</VChip>
@@ -114,6 +114,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   WalletOverview,
   TransactionHistory,

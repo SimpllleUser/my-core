@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   FormConfig,
   TextField,
@@ -80,7 +81,7 @@ const handleSubmit = () => {
               {{ label }}
               <VIcon
                 v-if="required"
-                icon="mdi-asterisk"
+                :icon="Icons.Asterisk"
                 size="8"
                 color="error"
               />

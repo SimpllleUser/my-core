@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-card-outline" size="large" color="teal" class="mr-2" />
+          <VIcon :icon="Icons.CardOutline" size="large" color="teal" class="mr-2" />
           Cards
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-package-variant" class="mr-2" />
+            <VIcon :icon="Icons.PackageVariant" class="mr-2" />
             Product Card
             <VSpacer />
             <VChip color="teal" size="small">VCard, VImg, VRating, VChip</VChip>
@@ -44,7 +44,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-circle" class="mr-2" />
+            <VIcon :icon="Icons.AccountCircle" class="mr-2" />
             User Profile Card
             <VSpacer />
             <VChip color="teal" size="small">VCard, VAvatar, VList, VChip</VChip>
@@ -62,7 +62,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-tag" class="mr-2" />
+            <VIcon :icon="Icons.Tag" class="mr-2" />
             Pricing Card
             <VSpacer />
             <VChip color="teal" size="small">VCard, VList, VBtn, VTable</VChip>
@@ -80,7 +80,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chart-areaspline" class="mr-2" />
+            <VIcon :icon="Icons.ChartAreaspline" class="mr-2" />
             Stats Card
             <VSpacer />
             <VChip color="teal" size="small">VCard, VProgressLinear, VSparkline</VChip>
@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   ProductCard,
   UserProfileCard,

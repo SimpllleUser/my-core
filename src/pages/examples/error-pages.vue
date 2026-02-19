@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-alert-circle" size="large" color="red" class="mr-2" />
+          <VIcon :icon="Icons.AlertCircle" size="large" color="red" class="mr-2" />
           Error Pages
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-file-alert" class="mr-2" />
+            <VIcon :icon="Icons.FileAlert" class="mr-2" />
             Error 404
             <VSpacer />
             <VChip color="red" size="small">VContainer, VBtn, VIcon</VChip>
@@ -44,7 +44,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-server-off" class="mr-2" />
+            <VIcon :icon="Icons.ServerOff" class="mr-2" />
             Error 500
             <VSpacer />
             <VChip color="red" size="small">VContainer, VAlert, VExpansionPanels</VChip>
@@ -62,7 +62,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-tools" class="mr-2" />
+            <VIcon :icon="Icons.Tools" class="mr-2" />
             Maintenance
             <VSpacer />
             <VChip color="red" size="small">VCard, VProgressLinear, VTextField</VChip>
@@ -78,6 +78,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   Error404,
   Error500,

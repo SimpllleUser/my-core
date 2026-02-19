@@ -19,7 +19,7 @@
     <VCard class="mb-6 pa-4">
       <VBreadcrumbs :items="iconBreadcrumbs">
         <template #prepend>
-          <VIcon icon="mdi-home" size="small" />
+          <VIcon :icon="Icons.Home" size="small" />
         </template>
       </VBreadcrumbs>
     </VCard>
@@ -29,7 +29,7 @@
     <VCard class="mb-6 pa-4">
       <VBreadcrumbs :items="simpleBreadcrumbs" divider=">">
         <template #divider>
-          <VIcon icon="mdi-chevron-right" />
+          <VIcon :icon="Icons.ChevronRight" />
         </template>
       </VBreadcrumbs>
     </VCard>
@@ -58,7 +58,7 @@
       <VBreadcrumbs>
         <VBreadcrumbsItem href="#">Home</VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem>
           <VMenu>
@@ -77,11 +77,11 @@
           </VMenu>
         </VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem href="#">Products</VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem disabled>iPhone 15 Pro</VBreadcrumbsItem>
       </VBreadcrumbs>
@@ -139,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const tab = ref('overview')

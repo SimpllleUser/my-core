@@ -8,7 +8,7 @@ export class ImageField extends BaseField<File | File[] | null, ImageFieldConfig
     super({
       default: null,
       accept: 'image/*',
-      prependIcon: 'mdi-image',
+      prependIcon: Icons.Image,
       showSize: true,
       showPreview: true,
       previewWidth: 200,

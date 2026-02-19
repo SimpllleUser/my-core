@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 const items = [
   {
     title: 'Vuetify Documentation',
@@ -45,7 +46,7 @@ const items = [
   },
   {
     title: 'Vuetify Support',
-    icon: 'mdi-shield-star-outline',
+    icon: Icons.ShieldStarOutline,
     href: 'https://support.vuetifyjs.com/'
   },
   {

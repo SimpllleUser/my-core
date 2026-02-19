@@ -70,7 +70,7 @@
             <slot name="side-content">
               <div class="d-flex flex-column align-center justify-center fill-height pa-8">
                 <slot name="side-logo">
-                  <VIcon size="80" color="white" class="mb-4">mdi-shield-lock</VIcon>
+                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
                 </slot>
                 <slot name="side-title">
                   <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
@@ -118,7 +118,7 @@
             <slot name="side-content">
               <div class="d-flex flex-column align-center justify-center fill-height pa-8">
                 <slot name="side-logo">
-                  <VIcon size="80" color="white" class="mb-4">mdi-shield-lock</VIcon>
+                  <VIcon size="80" color="white" class="mb-4">{{ Icons.ShieldLock }}</VIcon>
                 </slot>
                 <slot name="side-title">
                   <h1 class="text-h3 font-weight-bold text-white text-center mb-4">
@@ -172,6 +172,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { computed } from 'vue'
 
 export interface AuthPageLayoutProps {

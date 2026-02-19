@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import '../styles.scss';
 import { computed, onMounted, onBeforeUnmount } from 'vue';
 import Palette from './Palette.vue';
@@ -70,7 +71,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
         <div class="d-flex align-center">
           <VBtn
             class="mr-2"
-            prepend-icon="mdi-select"
+            :prepend-icon="Icons.Select"
             variant="tonal"
             :disabled="selectedIds.length === 0"
           >
@@ -79,7 +80,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 
           <VBtn
             class="mr-2"
-            prepend-icon="mdi-folder-multiple-outline"
+            :prepend-icon="Icons.FolderMultipleOutline"
             variant="tonal"
             :disabled="!canGroup()"
             @click="onGroup"
@@ -89,7 +90,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 
           <VBtn
             class="mr-4"
-            prepend-icon="mdi-ungroup"
+            :prepend-icon="Icons.Ungroup"
             variant="tonal"
             :disabled="!canUngroup()"
             @click="onUngroup"
@@ -98,14 +99,14 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
           </VBtn>
 
           <VBtn
-            icon="mdi-undo"
+            :icon="Icons.Undo"
             variant="tonal"
             class="mr-2"
             :disabled="!canUndo"
             @click="undo"
           />
           <VBtn
-            icon="mdi-redo"
+            :icon="Icons.Redo"
             variant="tonal"
             :disabled="!canRedo"
             @click="redo"
@@ -136,7 +137,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
         <VBtn
           size="small"
           variant="text"
-          icon="mdi-close"
+          :icon="Icons.Close"
           @click="closeDrawer"
         />
       </div>

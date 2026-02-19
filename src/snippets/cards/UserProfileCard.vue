@@ -85,7 +85,7 @@
             <h3 class="text-h6 font-weight-bold mt-4 mb-1">Emma Wilson</h3>
             <p class="text-body-2 text-medium-emphasis">Marketing Manager</p>
             <p class="text-caption text-medium-emphasis mb-4">
-              <VIcon size="small">mdi-map-marker</VIcon>
+              <VIcon size="small">{{ Icons.MapMarker }}</VIcon>
               San Francisco, CA
             </p>
           </VCardText>
@@ -96,19 +96,19 @@
             <VList density="compact" class="bg-transparent">
               <VListItem>
                 <template #prepend>
-                  <VIcon color="primary">mdi-email</VIcon>
+                  <VIcon color="primary">{{ Icons.Email }}</VIcon>
                 </template>
                 <VListItemTitle>emma@company.com</VListItemTitle>
               </VListItem>
               <VListItem>
                 <template #prepend>
-                  <VIcon color="primary">mdi-phone</VIcon>
+                  <VIcon color="primary">{{ Icons.Phone }}</VIcon>
                 </template>
                 <VListItemTitle>+1 (555) 123-4567</VListItemTitle>
               </VListItem>
               <VListItem>
                 <template #prepend>
-                  <VIcon color="primary">mdi-calendar</VIcon>
+                  <VIcon color="primary">{{ Icons.Calendar }}</VIcon>
                 </template>
                 <VListItemTitle>Joined March 2022</VListItemTitle>
               </VListItem>
@@ -134,11 +134,11 @@
                     <h3 class="text-h6 font-weight-bold">David Rodriguez</h3>
                     <p class="text-body-2 text-medium-emphasis mb-2">Senior Software Engineer at TechCorp</p>
                     <div class="d-flex align-center ga-2 text-caption text-medium-emphasis mb-3">
-                      <span><VIcon size="small">mdi-map-marker</VIcon> New York</span>
-                      <span><VIcon size="small">mdi-link</VIcon> davidr.dev</span>
+                      <span><VIcon size="small">{{ Icons.MapMarker }}</VIcon> New York</span>
+                      <span><VIcon size="small">{{ Icons.Link }}</VIcon> davidr.dev</span>
                     </div>
                   </div>
-                  <VBtn icon="mdi-dots-vertical" variant="text" size="small" />
+                  <VBtn :icon="Icons.DotsVertical" variant="text" size="small" />
                 </div>
                 <p class="text-body-2 mb-4">
                   Passionate about building scalable applications and mentoring junior developers.
@@ -200,16 +200,16 @@
 
             <div class="d-flex justify-center ga-2">
               <VBtn icon color="primary" variant="tonal">
-                <VIcon>mdi-twitter</VIcon>
+                <VIcon>{{ Icons.Twitter }}</VIcon>
               </VBtn>
               <VBtn icon color="pink" variant="tonal">
-                <VIcon>mdi-instagram</VIcon>
+                <VIcon>{{ Icons.Instagram }}</VIcon>
               </VBtn>
               <VBtn icon color="blue" variant="tonal">
-                <VIcon>mdi-facebook</VIcon>
+                <VIcon>{{ Icons.Facebook }}</VIcon>
               </VBtn>
               <VBtn icon color="red" variant="tonal">
-                <VIcon>mdi-youtube</VIcon>
+                <VIcon>{{ Icons.Youtube }}</VIcon>
               </VBtn>
             </div>
           </VCardText>
@@ -230,13 +230,13 @@
                 <p class="text-caption text-medium-emphasis mb-3">{{ member.role }}</p>
                 <div class="d-flex justify-center ga-1">
                   <VBtn icon size="x-small" variant="text">
-                    <VIcon size="18">mdi-twitter</VIcon>
+                    <VIcon size="18">{{ Icons.Twitter }}</VIcon>
                   </VBtn>
                   <VBtn icon size="x-small" variant="text">
-                    <VIcon size="18">mdi-linkedin</VIcon>
+                    <VIcon size="18">{{ Icons.LinkedIn }}</VIcon>
                   </VBtn>
                   <VBtn icon size="x-small" variant="text">
-                    <VIcon size="18">mdi-github</VIcon>
+                    <VIcon size="18">{{ Icons.Github }}</VIcon>
                   </VBtn>
                 </div>
               </VCardText>
@@ -249,6 +249,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 const teamMembers = [
   { name: 'John Doe', role: 'CEO & Founder', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
   { name: 'Jane Smith', role: 'CTO', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },

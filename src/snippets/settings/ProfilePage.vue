@@ -24,22 +24,22 @@
               <p class="text-white-darken-1 mb-2">@sarahjohnson • Product Designer</p>
               <div class="d-flex ga-2">
                 <VChip color="white" size="small" variant="flat">
-                  <VIcon start size="small">mdi-map-marker</VIcon>
+                  <VIcon start size="small">{{ Icons.MapMarker }}</VIcon>
                   San Francisco, CA
                 </VChip>
                 <VChip color="white" size="small" variant="flat">
-                  <VIcon start size="small">mdi-link</VIcon>
+                  <VIcon start size="small">{{ Icons.Link }}</VIcon>
                   sarahjohnson.design
                 </VChip>
               </div>
             </div>
             <div class="d-flex ga-2">
               <VBtn color="white" variant="flat">
-                <VIcon start>mdi-account-plus</VIcon>
+                <VIcon start>{{ Icons.AccountPlus }}</VIcon>
                 Follow
               </VBtn>
               <VBtn color="white" variant="outlined">
-                <VIcon start>mdi-email</VIcon>
+                <VIcon start>{{ Icons.Email }}</VIcon>
                 Message
               </VBtn>
             </div>
@@ -133,9 +133,9 @@
                         <p class="text-caption text-medium-emphasis mb-2">{{ project.description }}</p>
                         <div class="d-flex justify-space-between align-center">
                           <div class="d-flex align-center">
-                            <VIcon size="small" class="mr-1">mdi-heart</VIcon>
+                            <VIcon size="small" class="mr-1">{{ Icons.Heart }}</VIcon>
                             <span class="text-caption">{{ project.likes }}</span>
-                            <VIcon size="small" class="ml-3 mr-1">mdi-eye</VIcon>
+                            <VIcon size="small" class="ml-3 mr-1">{{ Icons.Eye }}</VIcon>
                             <span class="text-caption">{{ project.views }}</span>
                           </div>
                           <VChip size="x-small" color="primary">{{ project.category }}</VChip>
@@ -157,7 +157,7 @@
                     <div class="text-right">
                       <p class="text-caption text-medium-emphasis mb-1">{{ post.date }}</p>
                       <div class="d-flex align-center">
-                        <VIcon size="small" class="mr-1">mdi-heart</VIcon>
+                        <VIcon size="small" class="mr-1">{{ Icons.Heart }}</VIcon>
                         <span class="text-caption">{{ post.likes }}</span>
                       </div>
                     </div>
@@ -176,9 +176,9 @@
           <VCardTitle>About</VCardTitle>
           <VCardText>
             <VList density="compact" class="bg-transparent">
-              <VListItem prepend-icon="mdi-briefcase" title="Product Designer" subtitle="TechStartup" />
-              <VListItem prepend-icon="mdi-school" title="Stanford University" subtitle="Design & HCI" />
-              <VListItem prepend-icon="mdi-calendar" title="Joined" subtitle="March 2020" />
+              <VListItem :prepend-icon="Icons.Briefcase" title="Product Designer" subtitle="TechStartup" />
+              <VListItem :prepend-icon="Icons.School" title="Stanford University" subtitle="Design & HCI" />
+              <VListItem :prepend-icon="Icons.Calendar" title="Joined" subtitle="March 2020" />
             </VList>
           </VCardText>
         </VCard>
@@ -189,16 +189,16 @@
           <VCardText>
             <div class="d-flex ga-2">
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-twitter</VIcon>
+                <VIcon>{{ Icons.Twitter }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-linkedin</VIcon>
+                <VIcon>{{ Icons.LinkedIn }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-github</VIcon>
+                <VIcon>{{ Icons.Github }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-dribbble</VIcon>
+                <VIcon>{{ Icons.Dribbble }}</VIcon>
               </VBtn>
             </div>
           </VCardText>
@@ -228,6 +228,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const tab = ref('activity')
@@ -235,10 +236,10 @@ const tab = ref('activity')
 const skills = ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems', 'User Testing']
 
 const activities = [
-  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: 'mdi-check-circle', color: 'success' },
-  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: 'mdi-file-document', color: 'primary' },
-  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: 'mdi-medal', color: 'warning' },
-  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: 'mdi-account-group', color: 'info' },
+  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: Icons.CheckCircle, color: 'success' },
+  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: Icons.FileDocument, color: 'primary' },
+  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: Icons.Medal, color: 'warning' },
+  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: Icons.AccountGroup, color: 'info' },
 ]
 
 const projects = [

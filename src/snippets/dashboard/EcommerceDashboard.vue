@@ -21,7 +21,7 @@
           hide-details
           style="width: 150px;"
         />
-        <VBtn color="primary" prepend-icon="mdi-download">
+        <VBtn color="primary" :prepend-icon="Icons.Download">
           Export
         </VBtn>
       </div>
@@ -37,12 +37,12 @@
                 <p class="text-medium-emphasis text-body-2">Total Revenue</p>
                 <h3 class="text-h4 font-weight-bold mt-1">$124,563</h3>
                 <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
+                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
                   <span class="text-success text-body-2 ml-1">+12.5%</span>
                 </div>
               </div>
               <VAvatar color="primary" size="48" rounded="lg">
-                <VIcon>mdi-cash-multiple</VIcon>
+                <VIcon>{{ Icons.CashMultiple }}</VIcon>
               </VAvatar>
             </div>
           </VCardText>
@@ -57,12 +57,12 @@
                 <p class="text-medium-emphasis text-body-2">Total Orders</p>
                 <h3 class="text-h4 font-weight-bold mt-1">3,456</h3>
                 <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
+                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
                   <span class="text-success text-body-2 ml-1">+8.2%</span>
                 </div>
               </div>
               <VAvatar color="success" size="48" rounded="lg">
-                <VIcon>mdi-cart-check</VIcon>
+                <VIcon>{{ Icons.CartCheck }}</VIcon>
               </VAvatar>
             </div>
           </VCardText>
@@ -77,12 +77,12 @@
                 <p class="text-medium-emphasis text-body-2">Avg. Order Value</p>
                 <h3 class="text-h4 font-weight-bold mt-1">$86.40</h3>
                 <div class="d-flex align-center mt-2">
-                  <VIcon color="error" size="small">mdi-arrow-down</VIcon>
+                  <VIcon color="error" size="small">{{ Icons.ArrowDown }}</VIcon>
                   <span class="text-error text-body-2 ml-1">-2.4%</span>
                 </div>
               </div>
               <VAvatar color="warning" size="48" rounded="lg">
-                <VIcon>mdi-receipt</VIcon>
+                <VIcon>{{ Icons.Receipt }}</VIcon>
               </VAvatar>
             </div>
           </VCardText>
@@ -97,12 +97,12 @@
                 <p class="text-medium-emphasis text-body-2">Conversion Rate</p>
                 <h3 class="text-h4 font-weight-bold mt-1">3.24%</h3>
                 <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">mdi-arrow-up</VIcon>
+                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
                   <span class="text-success text-body-2 ml-1">+0.5%</span>
                 </div>
               </div>
               <VAvatar color="secondary" size="48" rounded="lg">
-                <VIcon>mdi-percent</VIcon>
+                <VIcon>{{ Icons.Percent }}</VIcon>
               </VAvatar>
             </div>
           </VCardText>
@@ -129,7 +129,7 @@
               style="height: 300px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);"
             >
               <div class="text-center">
-                <VIcon size="64" color="primary" class="mb-2">mdi-chart-areaspline</VIcon>
+                <VIcon size="64" color="primary" class="mb-2">{{ Icons.ChartAreaspline }}</VIcon>
                 <p class="text-medium-emphasis">Sales chart goes here</p>
               </div>
             </div>
@@ -235,6 +235,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const selectedPeriod = ref('Last 30 days')

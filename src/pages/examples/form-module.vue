@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-form-textbox" size="large" color="teal" class="mr-2" />
+          <VIcon :icon="Icons.FormTextbox" size="large" color="teal" class="mr-2" />
           Form Module
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-plus" class="mr-2" />
+            <VIcon :icon="Icons.AccountPlus" class="mr-2" />
             Registration Form
             <VSpacer />
             <VChip color="teal" size="small">FormConfig, DynamicField, useFormState</VChip>
@@ -71,7 +71,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-login" class="mr-2" />
+            <VIcon :icon="Icons.Login" class="mr-2" />
             Login Form
             <VSpacer />
             <VChip color="teal" size="small">EmailField, PasswordField, validators</VChip>
@@ -110,7 +110,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message-text" class="mr-2" />
+            <VIcon :icon="Icons.MessageText" class="mr-2" />
             Feedback Form
             <VSpacer />
             <VChip color="teal" size="small">TextareaField, SelectField, maxLength</VChip>
@@ -152,7 +152,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-cog" class="mr-2" />
+            <VIcon :icon="Icons.AccountCog" class="mr-2" />
             Profile Settings
             <VSpacer />
             <VChip color="teal" size="small">isDirty, setValues, vuetifyProps</VChip>
@@ -198,6 +198,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 import {
   FormConfig,

@@ -33,7 +33,7 @@
                     :color="stat.trend > 0 ? 'success' : 'error'"
                     size="small"
                   >
-                    {{ stat.trend > 0 ? 'mdi-trending-up' : 'mdi-trending-down' }}
+                    {{ stat.trend > 0 ? Icons.TrendingUp : Icons.TrendingDown }}
                   </VIcon>
                   <span
                     :class="stat.trend > 0 ? 'text-success' : 'text-error'"
@@ -60,7 +60,7 @@
           <VCardTitle class="d-flex justify-space-between align-center">
             <span>Traffic Overview</span>
             <VChip size="small" color="success" variant="tonal">
-              <VIcon start size="small">mdi-arrow-up</VIcon>
+              <VIcon start size="small">{{ Icons.ArrowUp }}</VIcon>
               +12.5%
             </VChip>
           </VCardTitle>
@@ -68,7 +68,7 @@
             <!-- Chart Placeholder -->
             <div class="chart-placeholder d-flex align-center justify-center rounded-lg" style="height: 300px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);">
               <div class="text-center">
-                <VIcon size="64" color="primary" class="mb-2">mdi-chart-line</VIcon>
+                <VIcon size="64" color="primary" class="mb-2">{{ Icons.ChartLine }}</VIcon>
                 <p class="text-medium-emphasis">Chart component goes here</p>
                 <p class="text-caption text-medium-emphasis">Use your preferred chart library (Chart.js, ApexCharts, etc.)</p>
               </div>
@@ -171,7 +171,7 @@
                 <tr v-for="page in topPages" :key="page.path">
                   <td>
                     <div class="d-flex align-center">
-                      <VIcon size="small" class="mr-2">mdi-file-document</VIcon>
+                      <VIcon size="small" class="mr-2">{{ Icons.FileDocument }}</VIcon>
                       {{ page.path }}
                     </div>
                   </td>
@@ -196,30 +196,31 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const period = ref('30d')
 
 const stats = [
-  { title: 'Total Visitors', value: '24,532', trend: 12.5, icon: 'mdi-account-group', color: 'primary' },
-  { title: 'Page Views', value: '89,124', trend: 8.2, icon: 'mdi-eye', color: 'secondary' },
-  { title: 'Bounce Rate', value: '42.3%', trend: -5.1, icon: 'mdi-exit-run', color: 'warning' },
-  { title: 'Avg. Session', value: '4m 32s', trend: 15.8, icon: 'mdi-clock-outline', color: 'success' },
+  { title: 'Total Visitors', value: '24,532', trend: 12.5, icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Page Views', value: '89,124', trend: 8.2, icon: Icons.Eye, color: 'secondary' },
+  { title: 'Bounce Rate', value: '42.3%', trend: -5.1, icon: Icons.ExitRun, color: 'warning' },
+  { title: 'Avg. Session', value: '4m 32s', trend: 15.8, icon: Icons.ClockOutline, color: 'success' },
 ]
 
 const trafficSources = [
-  { name: 'Organic Search', visits: 12453, percentage: 45, icon: 'mdi-google', color: 'primary' },
-  { name: 'Direct', visits: 8234, percentage: 30, icon: 'mdi-cursor-default-click', color: 'success' },
-  { name: 'Social Media', visits: 4123, percentage: 15, icon: 'mdi-share-variant', color: 'secondary' },
-  { name: 'Referral', visits: 2745, percentage: 10, icon: 'mdi-link-variant', color: 'warning' },
+  { name: 'Organic Search', visits: 12453, percentage: 45, icon: Icons.Google, color: 'primary' },
+  { name: 'Direct', visits: 8234, percentage: 30, icon: Icons.CursorClick, color: 'success' },
+  { name: 'Social Media', visits: 4123, percentage: 15, icon: Icons.Share, color: 'secondary' },
+  { name: 'Referral', visits: 2745, percentage: 10, icon: Icons.LinkVariant, color: 'warning' },
 ]
 
 const recentActivity = [
-  { id: 1, title: 'New user registered', description: 'John Doe created an account', time: '2 min ago', icon: 'mdi-account-plus', color: 'success' },
-  { id: 2, title: 'Order completed', description: 'Order #12345 was completed', time: '15 min ago', icon: 'mdi-check-circle', color: 'primary' },
-  { id: 3, title: 'Payment received', description: '$450.00 from customer', time: '1 hour ago', icon: 'mdi-cash', color: 'success' },
-  { id: 4, title: 'New comment', description: 'On "Getting Started" article', time: '2 hours ago', icon: 'mdi-comment', color: 'info' },
-  { id: 5, title: 'Server alert', description: 'High CPU usage detected', time: '3 hours ago', icon: 'mdi-alert', color: 'warning' },
+  { id: 1, title: 'New user registered', description: 'John Doe created an account', time: '2 min ago', icon: Icons.AccountPlus, color: 'success' },
+  { id: 2, title: 'Order completed', description: 'Order #12345 was completed', time: '15 min ago', icon: Icons.CheckCircle, color: 'primary' },
+  { id: 3, title: 'Payment received', description: '$450.00 from customer', time: '1 hour ago', icon: Icons.Cash, color: 'success' },
+  { id: 4, title: 'New comment', description: 'On "Getting Started" article', time: '2 hours ago', icon: Icons.Comment, color: 'info' },
+  { id: 5, title: 'Server alert', description: 'High CPU usage detected', time: '3 hours ago', icon: Icons.Alert, color: 'warning' },
 ]
 
 const topPages = [

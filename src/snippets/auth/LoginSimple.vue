@@ -144,7 +144,7 @@
               v-model="email"
               :rules="emailRules"
               :label="emailLabel"
-              :prepend-icon="showInputIcons ? 'mdi-email' : undefined"
+              :prepend-icon="showInputIcons ? Icons.Email : undefined"
               :prepend-inner-icon="!showInputIcons ? undefined : undefined"
               type="email"
               required
@@ -161,8 +161,8 @@
               :rules="passwordRules"
               :type="showPassword ? 'text' : 'password'"
               :label="passwordLabel"
-              :prepend-icon="showInputIcons ? 'mdi-lock' : undefined"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :prepend-icon="showInputIcons ? Icons.Lock : undefined"
+              :append-icon="showPassword ? Icons.Eye : Icons.EyeOff"
               :variant="inputVariant"
               :density="inputDensity"
               @click:append="showPassword = !showPassword"
@@ -237,6 +237,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 

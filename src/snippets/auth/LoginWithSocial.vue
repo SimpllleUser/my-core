@@ -208,7 +208,7 @@
               :label="passwordLabel"
               :variant="inputVariant"
               :density="inputDensity"
-              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+              :append-inner-icon="showPassword ? Icons.EyeOff : Icons.Eye"
               @click:append-inner="showPassword = !showPassword"
             />
           </slot>
@@ -292,6 +292,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 
@@ -365,9 +366,9 @@ export interface LoginWithSocialProps {
 }
 
 const defaultSocialProviders: SocialProvider[] = [
-  { id: 'google', label: 'Continue with Google', icon: 'mdi-google', iconColor: 'red' },
-  { id: 'github', label: 'Continue with GitHub', icon: 'mdi-github' },
-  { id: 'facebook', label: 'Continue with Facebook', icon: 'mdi-facebook', iconColor: 'blue' },
+  { id: 'google', label: 'Continue with Google', icon: Icons.Google, iconColor: 'red' },
+  { id: 'github', label: 'Continue with GitHub', icon: Icons.Github },
+  { id: 'facebook', label: 'Continue with Facebook', icon: Icons.Facebook, iconColor: 'blue' },
 ]
 
 const props = withDefaults(defineProps<LoginWithSocialProps>(), {
@@ -398,9 +399,9 @@ const props = withDefaults(defineProps<LoginWithSocialProps>(), {
 
   // Social login defaults
   socialProviders: () => [
-    { id: 'google', label: 'Continue with Google', icon: 'mdi-google', iconColor: 'red' },
-    { id: 'github', label: 'Continue with GitHub', icon: 'mdi-github' },
-    { id: 'facebook', label: 'Continue with Facebook', icon: 'mdi-facebook', iconColor: 'blue' },
+    { id: 'google', label: 'Continue with Google', icon: Icons.Google, iconColor: 'red' },
+    { id: 'github', label: 'Continue with GitHub', icon: Icons.Github },
+    { id: 'facebook', label: 'Continue with Facebook', icon: Icons.Facebook, iconColor: 'blue' },
   ],
   socialButtonVariant: 'outlined',
   socialButtonSize: 'large',

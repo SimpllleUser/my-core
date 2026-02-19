@@ -40,7 +40,7 @@
               @click="toggleWishlist(product.id)"
             >
               <VIcon :color="wishlist.includes(product.id) ? 'error' : 'grey'">
-                {{ wishlist.includes(product.id) ? 'mdi-heart' : 'mdi-heart-outline' }}
+                {{ wishlist.includes(product.id) ? Icons.Heart : Icons.HeartOutline }}
               </VIcon>
             </VBtn>
           </div>
@@ -71,7 +71,7 @@
 
           <VCardActions class="px-4 pb-4">
             <VBtn color="primary" block variant="flat" @click="addToCart(product)">
-              <VIcon start>mdi-cart-plus</VIcon>
+              <VIcon start>{{ Icons.CartPlus }}</VIcon>
               Add to Cart
             </VBtn>
           </VCardActions>
@@ -96,7 +96,7 @@
                     <h4 class="text-subtitle-1 font-weight-medium mb-1">{{ product.name }}</h4>
                     <p class="text-caption text-medium-emphasis mb-2">{{ product.category }}</p>
                   </div>
-                  <VBtn icon="mdi-heart-outline" variant="text" size="small" />
+                  <VBtn :icon="Icons.HeartOutline" variant="text" size="small" />
                 </div>
 
                 <p class="text-body-2 text-medium-emphasis mb-3 text-truncate-2">
@@ -164,8 +164,8 @@
             </div>
 
             <div class="d-flex ga-3">
-              <VBtn color="primary" size="large" prepend-icon="mdi-cart-plus">Add to Cart</VBtn>
-              <VBtn variant="outlined" size="large" prepend-icon="mdi-heart-outline">Wishlist</VBtn>
+              <VBtn color="primary" size="large" :prepend-icon="Icons.CartPlus">Add to Cart</VBtn>
+              <VBtn variant="outlined" size="large" :prepend-icon="Icons.HeartOutline">Wishlist</VBtn>
             </div>
           </VCardText>
         </VCol>
@@ -175,6 +175,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const wishlist = ref<number[]>([])

@@ -31,7 +31,7 @@
         variant="solo-filled"
         flat
         hide-details
-        prepend-inner-icon="mdi-magnify"
+        :prepend-inner-icon="Icons.Search"
         placeholder="Search..."
         class="mx-4"
         style="max-width: 400px;"
@@ -41,7 +41,7 @@
 
       <VBtn icon>
         <VBadge content="3" color="error">
-          <VIcon>mdi-bell</VIcon>
+          <VIcon>{{ Icons.Bell }}</VIcon>
         </VBadge>
       </VBtn>
       <VBtn icon class="ml-2">
@@ -56,7 +56,7 @@
     <VAppBar class="mb-8" flat border="b">
       <VContainer class="d-flex align-center">
         <VAvatar color="primary" size="36" class="mr-2">
-          <VIcon>mdi-hexagon</VIcon>
+          <VIcon>{{ Icons.Hexagon }}</VIcon>
         </VAvatar>
         <span class="text-h6 font-weight-bold mr-8">TechCo</span>
 
@@ -64,7 +64,7 @@
           <template #activator="{ props }">
             <VBtn variant="text" v-bind="props">
               Products
-              <VIcon end>mdi-chevron-down</VIcon>
+              <VIcon end>{{ Icons.ChevronDown }}</VIcon>
             </VBtn>
           </template>
           <VCard min-width="600">
@@ -105,18 +105,18 @@
       <VSpacer />
 
       <VBtn icon class="mr-2">
-        <VIcon>mdi-magnify</VIcon>
+        <VIcon>{{ Icons.Search }}</VIcon>
       </VBtn>
 
       <VBtn icon class="mr-2">
         <VBadge content="5" color="error">
-          <VIcon>mdi-bell-outline</VIcon>
+          <VIcon>{{ Icons.BellOutline }}</VIcon>
         </VBadge>
       </VBtn>
 
       <VBtn icon class="mr-2">
         <VBadge content="2" color="primary">
-          <VIcon>mdi-email-outline</VIcon>
+          <VIcon>{{ Icons.EmailOutline }}</VIcon>
         </VBadge>
       </VBtn>
 
@@ -132,15 +132,15 @@
               <div class="text-body-2 font-weight-medium">Sarah Johnson</div>
               <div class="text-caption text-medium-emphasis">Admin</div>
             </div>
-            <VIcon end>mdi-chevron-down</VIcon>
+            <VIcon end>{{ Icons.ChevronDown }}</VIcon>
           </VBtn>
         </template>
         <VList min-width="200">
-          <VListItem prepend-icon="mdi-account" title="My Profile" />
-          <VListItem prepend-icon="mdi-cog" title="Settings" />
-          <VListItem prepend-icon="mdi-help-circle" title="Help" />
+          <VListItem :prepend-icon="Icons.Account" title="My Profile" />
+          <VListItem :prepend-icon="Icons.Settings" title="Settings" />
+          <VListItem :prepend-icon="Icons.HelpCircle" title="Help" />
           <VDivider />
-          <VListItem prepend-icon="mdi-logout" title="Sign Out" />
+          <VListItem :prepend-icon="Icons.Logout" title="Sign Out" />
         </VList>
       </VMenu>
     </VAppBar>
@@ -151,7 +151,7 @@
       <VAppBar color="transparent" flat>
         <VContainer class="d-flex align-center">
           <VAvatar color="white" size="36" class="mr-2">
-            <VIcon color="primary">mdi-rocket</VIcon>
+            <VIcon color="primary">{{ Icons.Rocket }}</VIcon>
           </VAvatar>
           <span class="text-h6 font-weight-bold text-white">Startup</span>
 
@@ -177,21 +177,21 @@
       </div>
       <VBottomNavigation v-model="bottomNav" grow>
         <VBtn value="home">
-          <VIcon>mdi-home</VIcon>
+          <VIcon>{{ Icons.Home }}</VIcon>
           <span>Home</span>
         </VBtn>
         <VBtn value="search">
-          <VIcon>mdi-magnify</VIcon>
+          <VIcon>{{ Icons.Search }}</VIcon>
           <span>Search</span>
         </VBtn>
         <VBtn value="favorites">
           <VBadge content="3" color="error">
-            <VIcon>mdi-heart</VIcon>
+            <VIcon>{{ Icons.Heart }}</VIcon>
           </VBadge>
           <span>Favorites</span>
         </VBtn>
         <VBtn value="profile">
-          <VIcon>mdi-account</VIcon>
+          <VIcon>{{ Icons.Account }}</VIcon>
           <span>Profile</span>
         </VBtn>
       </VBottomNavigation>
@@ -200,6 +200,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const bottomNav = ref('home')

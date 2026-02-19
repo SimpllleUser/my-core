@@ -11,7 +11,7 @@
         <VCard class="pa-4" elevation="8" rounded="lg">
           <VCardText class="text-center pb-0">
             <VAvatar color="primary" size="80" class="mb-4">
-              <VIcon size="48" color="white">mdi-lock-reset</VIcon>
+              <VIcon size="48" color="white">{{ Icons.LockReset }}</VIcon>
             </VAvatar>
             <h2 class="text-h5 font-weight-bold mb-2">Forgot Password?</h2>
             <p class="text-medium-emphasis mb-6">
@@ -52,7 +52,7 @@
                 label="Email Address"
                 type="email"
                 variant="outlined"
-                prepend-inner-icon="mdi-email"
+                :prepend-inner-icon="Icons.Email"
                 placeholder="you@example.com"
               />
 
@@ -82,7 +82,7 @@
           </VCardText>
 
           <VCardText class="text-center pt-2">
-            <VBtn variant="text" color="primary" prepend-icon="mdi-arrow-left">
+            <VBtn variant="text" color="primary" :prepend-icon="Icons.ArrowLeft">
               Back to Login
             </VBtn>
           </VCardText>
@@ -93,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const formRef = ref()

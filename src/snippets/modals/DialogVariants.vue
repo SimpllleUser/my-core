@@ -94,7 +94,7 @@
       <VCard>
         <VCardText class="text-center pa-6">
           <VAvatar color="warning" size="64" class="mb-4">
-            <VIcon size="32" color="white">mdi-alert</VIcon>
+            <VIcon size="32" color="white">{{ Icons.Alert }}</VIcon>
           </VAvatar>
           <h3 class="text-h6 mb-2">Warning!</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -112,7 +112,7 @@
       <VCard>
         <VCardTitle class="d-flex justify-space-between align-center">
           <span>Add New User</span>
-          <VBtn icon="mdi-close" variant="text" @click="formDialog = false" />
+          <VBtn :icon="Icons.Close" variant="text" @click="formDialog = false" />
         </VCardTitle>
         <VDivider />
         <VCardText>
@@ -175,7 +175,7 @@
       <VCard>
         <VCardText class="text-center pa-8">
           <VAvatar color="success" size="80" class="mb-4">
-            <VIcon size="48" color="white">mdi-check</VIcon>
+            <VIcon size="48" color="white">{{ Icons.Check }}</VIcon>
           </VAvatar>
           <h3 class="text-h5 font-weight-bold mb-2">Success!</h3>
           <p class="text-body-1 text-medium-emphasis mb-0">
@@ -201,7 +201,7 @@
       <VCard>
         <VToolbar color="primary">
           <VBtn icon @click="fullscreenDialog = false">
-            <VIcon>mdi-close</VIcon>
+            <VIcon>{{ Icons.Close }}</VIcon>
           </VBtn>
           <VToolbarTitle>Create New Post</VToolbarTitle>
           <VSpacer />
@@ -249,6 +249,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 
 const confirmDialog = ref(false)

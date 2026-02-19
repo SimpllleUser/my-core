@@ -24,7 +24,7 @@
               label="Search"
               variant="outlined"
               density="compact"
-              prepend-inner-icon="mdi-magnify"
+              :prepend-inner-icon="Icons.Search"
               clearable
               class="mb-4"
             />
@@ -216,8 +216,8 @@
                 style="width: 180px;"
               />
               <VBtnToggle v-model="viewMode" mandatory density="compact" variant="outlined">
-                <VBtn value="grid" icon="mdi-view-grid" />
-                <VBtn value="list" icon="mdi-view-list" />
+                <VBtn value="grid" :icon="Icons.ViewGrid" />
+                <VBtn value="list" :icon="Icons.ViewList" />
               </VBtnToggle>
             </div>
           </VCardText>
@@ -257,6 +257,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 
 const filters = ref({

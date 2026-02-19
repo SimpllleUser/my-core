@@ -46,8 +46,8 @@
             </td>
             <td>{{ order.date }}</td>
             <td>
-              <VBtn icon="mdi-eye" variant="text" size="small" />
-              <VBtn icon="mdi-pencil" variant="text" size="small" />
+              <VBtn :icon="Icons.Eye" variant="text" size="small" />
+              <VBtn :icon="Icons.Edit" variant="text" size="small" />
             </td>
           </tr>
         </tbody>
@@ -71,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 
 const currentPage = ref(1)
@@ -129,8 +130,8 @@ const sortBy = (key: string) => {
 }
 
 const getSortIcon = (key: string) => {
-  if (sortKey.value !== key) return 'mdi-unfold-more-horizontal'
-  return sortOrder.value === 'asc' ? 'mdi-chevron-up' : 'mdi-chevron-down'
+  if (sortKey.value !== key) return Icons.UnfoldMore
+  return sortOrder.value === 'asc' ? Icons.ChevronUp : Icons.ChevronDown
 }
 
 const getStatusColor = (status: string) => {

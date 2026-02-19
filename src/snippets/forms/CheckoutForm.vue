@@ -11,7 +11,7 @@
       <VCol cols="12" lg="8">
         <VCard class="mb-4">
           <VCardTitle class="d-flex align-center">
-            <VIcon color="primary" class="mr-2">mdi-map-marker</VIcon>
+            <VIcon color="primary" class="mr-2">{{ Icons.MapMarker }}</VIcon>
             Shipping Information
           </VCardTitle>
           <VCardText>
@@ -49,7 +49,7 @@
         <!-- Shipping Method -->
         <VCard class="mb-4">
           <VCardTitle class="d-flex align-center">
-            <VIcon color="primary" class="mr-2">mdi-truck-delivery</VIcon>
+            <VIcon color="primary" class="mr-2">{{ Icons.TruckDelivery }}</VIcon>
             Shipping Method
           </VCardTitle>
           <VCardText>
@@ -80,7 +80,7 @@
         <!-- Payment Information -->
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon color="primary" class="mr-2">mdi-credit-card</VIcon>
+            <VIcon color="primary" class="mr-2">{{ Icons.CreditCard }}</VIcon>
             Payment Information
           </VCardTitle>
           <VCardText>
@@ -151,7 +151,7 @@
               variant="outlined"
               density="compact"
               class="my-4"
-              append-inner-icon="mdi-arrow-right"
+              :append-inner-icon="Icons.ArrowRight"
               @click:append-inner="applyPromo"
             />
 
@@ -171,11 +171,11 @@
               @click="placeOrder"
             >
               Place Order
-              <VIcon end>mdi-lock</VIcon>
+              <VIcon end>{{ Icons.Lock }}</VIcon>
             </VBtn>
 
             <p class="text-caption text-medium-emphasis text-center mt-4">
-              <VIcon size="small">mdi-shield-check</VIcon>
+              <VIcon size="small">{{ Icons.ShieldCheck }}</VIcon>
               Secure checkout powered by Stripe
             </p>
           </VCardText>
@@ -186,6 +186,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 import {
   FormConfig,
@@ -235,7 +236,7 @@ const paymentForm = new FormConfig({
     required: true,
     placeholder: '1234 5678 9012 3456',
     rules: [pattern(/^\d[\d\s]{14,18}$/, 'Please enter a valid card number')],
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-credit-card' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.CreditCard },
   }),
   expiry: new TextField({
     label: 'Expiry Date',

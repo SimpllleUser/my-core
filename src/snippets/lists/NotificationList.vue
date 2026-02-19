@@ -14,7 +14,7 @@
           <template #activator="{ props }">
             <VBtn v-bind="props" color="primary">
               <VBadge content="5" color="error">
-                <VIcon>mdi-bell</VIcon>
+                <VIcon>{{ Icons.Bell }}</VIcon>
               </VBadge>
               <span class="ml-2">Notifications</span>
             </VBtn>
@@ -145,26 +145,27 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 
 const tab = ref('all')
 
 const notifications = [
-  { id: 1, title: 'New order received', description: 'Order #12345 from John Doe', time: '2 min ago', icon: 'mdi-cart', color: 'success', read: false, type: 'order' },
-  { id: 2, title: 'Payment confirmed', description: '$450.00 payment received', time: '15 min ago', icon: 'mdi-cash-check', color: 'primary', read: false, type: 'payment' },
-  { id: 3, title: 'New user registered', description: 'Sarah Johnson joined', time: '1 hour ago', icon: 'mdi-account-plus', color: 'info', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', read: false, type: 'user' },
-  { id: 4, title: 'Server alert', description: 'High CPU usage detected', time: '2 hours ago', icon: 'mdi-alert', color: 'warning', read: true, type: 'alert' },
-  { id: 5, title: 'Comment on your post', description: '@mike mentioned you in a comment', time: '3 hours ago', icon: 'mdi-comment', color: 'secondary', read: true, type: 'mention' },
-  { id: 6, title: 'Task completed', description: 'Project Alpha deployment finished', time: '5 hours ago', icon: 'mdi-check-circle', color: 'success', read: true, type: 'task' },
-  { id: 7, title: 'New follower', description: 'Emma Wilson started following you', time: '1 day ago', icon: 'mdi-account-plus', color: 'primary', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', read: true, type: 'social' },
+  { id: 1, title: 'New order received', description: 'Order #12345 from John Doe', time: '2 min ago', icon: Icons.Cart, color: 'success', read: false, type: 'order' },
+  { id: 2, title: 'Payment confirmed', description: '$450.00 payment received', time: '15 min ago', icon: Icons.CashCheck, color: 'primary', read: false, type: 'payment' },
+  { id: 3, title: 'New user registered', description: 'Sarah Johnson joined', time: '1 hour ago', icon: Icons.AccountPlus, color: 'info', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', read: false, type: 'user' },
+  { id: 4, title: 'Server alert', description: 'High CPU usage detected', time: '2 hours ago', icon: Icons.Alert, color: 'warning', read: true, type: 'alert' },
+  { id: 5, title: 'Comment on your post', description: '@mike mentioned you in a comment', time: '3 hours ago', icon: Icons.Comment, color: 'secondary', read: true, type: 'mention' },
+  { id: 6, title: 'Task completed', description: 'Project Alpha deployment finished', time: '5 hours ago', icon: Icons.CheckCircle, color: 'success', read: true, type: 'task' },
+  { id: 7, title: 'New follower', description: 'Emma Wilson started following you', time: '1 day ago', icon: Icons.AccountPlus, color: 'primary', avatar: 'https://randomuser.me/api/portraits/women/28.jpg', read: true, type: 'social' },
 ]
 
 const activities = [
-  { id: 1, title: 'John Doe created a new project', description: 'Project "Dashboard Redesign" was created', time: '10 min ago', icon: 'mdi-folder-plus', color: 'primary' },
-  { id: 2, title: 'New team member added', description: 'Sarah Johnson joined the team', time: '1 hour ago', icon: 'mdi-account-plus', color: 'success' },
-  { id: 3, title: 'Task status updated', description: 'Task "Fix login bug" moved to Done', time: '2 hours ago', icon: 'mdi-check', color: 'success' },
-  { id: 4, title: 'Comment added', description: 'Mike commented on "API Integration"', time: '3 hours ago', icon: 'mdi-comment', color: 'info' },
-  { id: 5, title: 'File uploaded', description: 'design-mockup.fig uploaded to Assets', time: '5 hours ago', icon: 'mdi-file-upload', color: 'warning' },
+  { id: 1, title: 'John Doe created a new project', description: 'Project "Dashboard Redesign" was created', time: '10 min ago', icon: Icons.FolderPlus, color: 'primary' },
+  { id: 2, title: 'New team member added', description: 'Sarah Johnson joined the team', time: '1 hour ago', icon: Icons.AccountPlus, color: 'success' },
+  { id: 3, title: 'Task status updated', description: 'Task "Fix login bug" moved to Done', time: '2 hours ago', icon: Icons.Check, color: 'success' },
+  { id: 4, title: 'Comment added', description: 'Mike commented on "API Integration"', time: '3 hours ago', icon: Icons.Comment, color: 'info' },
+  { id: 5, title: 'File uploaded', description: 'design-mockup.fig uploaded to Assets', time: '5 hours ago', icon: Icons.FileUpload, color: 'warning' },
 ]
 
 const filteredNotifications = computed(() => {

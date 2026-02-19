@@ -10,7 +10,7 @@
       <VCardTitle class="d-flex align-center">
         <span class="text-h6">Users Management</span>
         <VSpacer />
-        <VBtn color="primary" prepend-icon="mdi-plus">Add User</VBtn>
+        <VBtn color="primary" :prepend-icon="Icons.Plus">Add User</VBtn>
       </VCardTitle>
 
       <!-- Filters -->
@@ -20,7 +20,7 @@
             <VTextField
               v-model="search"
               label="Search"
-              prepend-inner-icon="mdi-magnify"
+              :prepend-inner-icon="Icons.Search"
               variant="outlined"
               density="compact"
               hide-details
@@ -91,7 +91,7 @@
         <template #item.status="{ item }">
           <VChip :color="item.status === 'Active' ? 'success' : 'error'" size="small">
             <VIcon start size="x-small">
-              {{ item.status === 'Active' ? 'mdi-check-circle' : 'mdi-close-circle' }}
+              {{ item.status === 'Active' ? Icons.CheckCircle : Icons.CloseCircle }}
             </VIcon>
             {{ item.status }}
           </VChip>
@@ -105,21 +105,21 @@
         <!-- Actions Column -->
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
-            <VBtn icon="mdi-eye" variant="text" size="small" @click="viewUser(item)" />
-            <VBtn icon="mdi-pencil" variant="text" size="small" @click="editUser(item)" />
+            <VBtn :icon="Icons.Eye" variant="text" size="small" @click="viewUser(item)" />
+            <VBtn :icon="Icons.Edit" variant="text" size="small" @click="editUser(item)" />
             <VMenu>
               <template #activator="{ props }">
-                <VBtn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" />
+                <VBtn :icon="Icons.DotsVertical" variant="text" size="small" v-bind="props" />
               </template>
               <VList density="compact">
-                <VListItem prepend-icon="mdi-account-key" @click="changeRole(item)">
+                <VListItem :prepend-icon="Icons.AccountKey" @click="changeRole(item)">
                   <VListItemTitle>Change Role</VListItemTitle>
                 </VListItem>
-                <VListItem prepend-icon="mdi-lock-reset" @click="resetPassword(item)">
+                <VListItem :prepend-icon="Icons.LockReset" @click="resetPassword(item)">
                   <VListItemTitle>Reset Password</VListItemTitle>
                 </VListItem>
                 <VDivider />
-                <VListItem prepend-icon="mdi-delete" class="text-error" @click="deleteUser(item)">
+                <VListItem :prepend-icon="Icons.Delete" class="text-error" @click="deleteUser(item)">
                   <VListItemTitle>Delete</VListItemTitle>
                 </VListItem>
               </VList>
@@ -130,7 +130,7 @@
         <!-- No Data -->
         <template #no-data>
           <div class="text-center pa-6">
-            <VIcon size="48" color="grey-lighten-1" class="mb-2">mdi-account-off</VIcon>
+            <VIcon size="48" color="grey-lighten-1" class="mb-2">{{ Icons.AccountOff }}</VIcon>
             <p class="text-medium-emphasis">No users found</p>
             <VBtn color="primary" @click="resetFilters">Reset Filters</VBtn>
           </div>
@@ -146,6 +146,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 
 const search = ref('')

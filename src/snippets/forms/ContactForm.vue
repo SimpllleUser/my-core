@@ -69,7 +69,7 @@
                 :disabled="!isValid"
               >
                 Send Message
-                <VIcon end>mdi-send</VIcon>
+                <VIcon end>{{ Icons.Send }}</VIcon>
               </VBtn>
             </div>
           </VForm>
@@ -80,6 +80,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref } from 'vue'
 import {
   FormConfig,
@@ -101,21 +102,21 @@ const form = new FormConfig({
   firstName: new TextField({
     label: 'First Name',
     required: true,
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-account' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Account },
   }),
   lastName: new TextField({
     label: 'Last Name',
     required: true,
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-account' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Account },
   }),
   email: new EmailField({
     label: 'Email',
     required: true,
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-email' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Email },
   }),
   phone: new TextField({
     label: 'Phone (optional)',
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-phone' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Phone },
   }),
   subject: new SelectField({
     label: 'Subject',
@@ -128,14 +129,14 @@ const form = new FormConfig({
       { title: 'Feedback', value: 'Feedback' },
       { title: 'Other', value: 'Other' },
     ],
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-tag' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Tag },
   }),
   message: new TextareaField({
     label: 'Message',
     required: true,
     rows: 5,
     rules: [minLength(10), maxLength(500)],
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-message-text', counter: 500 },
+    vuetifyProps: { 'prepend-inner-icon': Icons.MessageText, counter: 500 },
   }),
   newsletter: new CheckboxField({
     label: 'Subscribe to our newsletter for updates and tips',

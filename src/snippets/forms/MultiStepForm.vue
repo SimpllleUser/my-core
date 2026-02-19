@@ -97,7 +97,7 @@
                         label="Resume/CV"
                         variant="outlined"
                         accept=".pdf,.doc,.docx"
-                        prepend-icon="mdi-file-document"
+                        :prepend-icon="Icons.FileDocument"
                         show-size
                       />
                     </VCol>
@@ -107,7 +107,7 @@
                         label="Cover Letter (Optional)"
                         variant="outlined"
                         accept=".pdf,.doc,.docx"
-                        prepend-icon="mdi-file-document-outline"
+                        :prepend-icon="Icons.FileDocumentOutline"
                         show-size
                       />
                     </VCol>
@@ -191,7 +191,7 @@
               variant="text"
               @click="currentStep--"
             >
-              <VIcon start>mdi-arrow-left</VIcon>
+              <VIcon start>{{ Icons.ArrowLeft }}</VIcon>
               Previous
             </VBtn>
             <VSpacer />
@@ -202,7 +202,7 @@
               @click="nextStep"
             >
               Next
-              <VIcon end>mdi-arrow-right</VIcon>
+              <VIcon end>{{ Icons.ArrowRight }}</VIcon>
             </VBtn>
             <VBtn
               v-else
@@ -212,7 +212,7 @@
               @click="submit"
             >
               Submit Application
-              <VIcon end>mdi-send</VIcon>
+              <VIcon end>{{ Icons.Send }}</VIcon>
             </VBtn>
           </VCardActions>
         </VCard>
@@ -222,6 +222,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed } from 'vue'
 import {
   FormConfig,
@@ -325,11 +326,11 @@ const {
 const step3Form = new FormConfig({
   linkedin: new TextField({
     label: 'LinkedIn Profile URL',
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-linkedin' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.LinkedIn },
   }),
   portfolio: new TextField({
     label: 'Portfolio/Website URL',
-    vuetifyProps: { 'prepend-inner-icon': 'mdi-web' },
+    vuetifyProps: { 'prepend-inner-icon': Icons.Web },
   }),
   additionalInfo: new TextareaField({
     label: 'Additional Information',

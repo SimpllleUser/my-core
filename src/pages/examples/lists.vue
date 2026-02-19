@@ -6,13 +6,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-format-list-bulleted" size="large" color="amber" class="mr-2" />
+          <VIcon :icon="Icons.FormatListBulleted" size="large" color="amber" class="mr-2" />
           Lists
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +26,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-bell" class="mr-2" />
+            <VIcon :icon="Icons.Bell" class="mr-2" />
             Notification List
             <VSpacer />
             <VChip color="amber" size="small">VList, VAvatar, VChip, VTimeline</VChip>
@@ -44,7 +44,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message-text" class="mr-2" />
+            <VIcon :icon="Icons.MessageText" class="mr-2" />
             Chat List
             <VSpacer />
             <VChip color="amber" size="small">VList, VTextField, VAvatar</VChip>
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import {
   NotificationList,
   ChatList

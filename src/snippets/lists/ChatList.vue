@@ -13,7 +13,7 @@
         <div class="pa-4 border-b">
           <div class="d-flex align-center justify-space-between mb-4">
             <h3 class="text-h6 font-weight-bold">Messages</h3>
-            <VBtn icon="mdi-pencil-plus" variant="text" size="small" />
+            <VBtn :icon="Icons.PencilPlus" variant="text" size="small" />
           </div>
           <VTextField
             v-model="search"
@@ -22,7 +22,7 @@
             flat
             hide-details
             placeholder="Search conversations..."
-            prepend-inner-icon="mdi-magnify"
+            :prepend-inner-icon="Icons.Search"
           />
         </div>
 
@@ -79,9 +79,9 @@
                 {{ activeConversation.online ? 'Online' : 'Offline' }}
               </p>
             </div>
-            <VBtn icon="mdi-phone" variant="text" />
-            <VBtn icon="mdi-video" variant="text" />
-            <VBtn icon="mdi-dots-vertical" variant="text" />
+            <VBtn :icon="Icons.Phone" variant="text" />
+            <VBtn :icon="Icons.Video" variant="text" />
+            <VBtn :icon="Icons.DotsVertical" variant="text" />
           </div>
 
           <!-- Messages -->
@@ -102,7 +102,7 @@
                     {{ message.time }}
                   </span>
                   <VIcon v-if="message.sent" size="16" class="ml-1" :color="message.read ? 'info' : 'white'">
-                    {{ message.read ? 'mdi-check-all' : 'mdi-check' }}
+                    {{ message.read ? Icons.CheckAll : Icons.Check }}
                   </VIcon>
                 </div>
               </div>
@@ -120,12 +120,12 @@
               @keyup.enter="sendMessage"
             >
               <template #prepend-inner>
-                <VBtn icon="mdi-emoticon-outline" variant="text" size="small" />
-                <VBtn icon="mdi-paperclip" variant="text" size="small" />
+                <VBtn :icon="Icons.EmoticonOutline" variant="text" size="small" />
+                <VBtn :icon="Icons.Paperclip" variant="text" size="small" />
               </template>
               <template #append-inner>
                 <VBtn
-                  icon="mdi-send"
+                  :icon="Icons.Send"
                   color="primary"
                   variant="flat"
                   size="small"
@@ -139,7 +139,7 @@
 
         <!-- No Conversation Selected -->
         <div v-else class="d-flex flex-column align-center justify-center h-100">
-          <VIcon size="80" color="grey-lighten-1" class="mb-4">mdi-chat-outline</VIcon>
+          <VIcon size="80" color="grey-lighten-1" class="mb-4">{{ Icons.ChatOutline }}</VIcon>
           <p class="text-h6 text-medium-emphasis mb-2">Select a conversation</p>
           <p class="text-body-2 text-medium-emphasis">Choose a conversation to start messaging</p>
         </div>
@@ -149,6 +149,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 import { ref, computed, nextTick } from 'vue'
 
 const search = ref('')

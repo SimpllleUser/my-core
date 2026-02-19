@@ -49,7 +49,7 @@
                     size="small"
                     class="mr-2"
                   >
-                    {{ feature.included ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                    {{ feature.included ? Icons.CheckCircle : Icons.CloseCircle }}
                   </VIcon>
                 </template>
                 <VListItemTitle
@@ -112,7 +112,7 @@
             <VRow>
               <VCol v-for="feature in enterpriseFeatures" :key="feature" cols="12" sm="6" md="4">
                 <div class="d-flex align-center mb-2">
-                  <VIcon color="success" size="small" class="mr-2">mdi-check-circle</VIcon>
+                  <VIcon color="success" size="small" class="mr-2">{{ Icons.CheckCircle }}</VIcon>
                   <span class="text-body-2">{{ feature }}</span>
                 </div>
               </VCol>
@@ -141,7 +141,7 @@
             <td v-for="plan in pricingPlans" :key="plan.name" class="text-center">
               <template v-if="typeof feature[plan.key] === 'boolean'">
                 <VIcon :color="feature[plan.key] ? 'success' : 'grey-lighten-1'">
-                  {{ feature[plan.key] ? 'mdi-check' : 'mdi-close' }}
+                  {{ feature[plan.key] ? Icons.Check : Icons.Close }}
                 </VIcon>
               </template>
               <template v-else>
@@ -170,6 +170,7 @@
 </template>
 
 <script setup lang="ts">
+import { Icons } from '@/shared/model'
 const pricingPlans = [
   {
     name: 'Starter',
@@ -222,10 +223,10 @@ const pricingPlans = [
 ]
 
 const compactPlans = [
-  { name: 'Free', price: 0, users: 'Up to 3 users', icon: 'mdi-account', color: 'grey' },
-  { name: 'Basic', price: 15, users: 'Up to 10 users', icon: 'mdi-account-group', color: 'primary' },
-  { name: 'Pro', price: 49, users: 'Up to 50 users', icon: 'mdi-rocket', color: 'success' },
-  { name: 'Team', price: 99, users: 'Unlimited users', icon: 'mdi-office-building', color: 'warning' },
+  { name: 'Free', price: 0, users: 'Up to 3 users', icon: Icons.Account, color: 'grey' },
+  { name: 'Basic', price: 15, users: 'Up to 10 users', icon: Icons.AccountGroup, color: 'primary' },
+  { name: 'Pro', price: 49, users: 'Up to 50 users', icon: Icons.Rocket, color: 'success' },
+  { name: 'Team', price: 99, users: 'Unlimited users', icon: Icons.OfficeBuilding, color: 'warning' },
 ]
 
 const enterpriseFeatures = [
