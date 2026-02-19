@@ -29,6 +29,7 @@ declare module 'vue-router/auto-routes' {
     '/examples/ecommerce': RouteRecordInfo<'/examples/ecommerce', '/examples/ecommerce', Record<never, never>, Record<never, never>>,
     '/examples/error-pages': RouteRecordInfo<'/examples/error-pages', '/examples/error-pages', Record<never, never>, Record<never, never>>,
     '/examples/fintech': RouteRecordInfo<'/examples/fintech', '/examples/fintech', Record<never, never>, Record<never, never>>,
+    '/examples/form-module': RouteRecordInfo<'/examples/form-module', '/examples/form-module', Record<never, never>, Record<never, never>>,
     '/examples/forms': RouteRecordInfo<'/examples/forms', '/examples/forms', Record<never, never>, Record<never, never>>,
     '/examples/landing': RouteRecordInfo<'/examples/landing', '/examples/landing', Record<never, never>, Record<never, never>>,
     '/examples/lists': RouteRecordInfo<'/examples/lists', '/examples/lists', Record<never, never>, Record<never, never>>,
@@ -93,6 +94,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/examples/fintech.vue': {
       routes: '/examples/fintech'
+      views: never
+    }
+    'src/pages/examples/form-module.vue': {
+      routes: '/examples/form-module'
       views: never
     }
     'src/pages/examples/forms.vue': {
