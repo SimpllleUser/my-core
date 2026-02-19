@@ -14,7 +14,7 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
   get rules(): ValidationRule[] {
     const fieldRules = this.config.rules ?? []
     return this.config.required
-      ? [v => (v !== null && v !== undefined && v !== '') || "Поле обов'язкове", ...fieldRules]
+      ? [v => (v !== null && v !== undefined && v !== '') || 'Field is required', ...fieldRules]
       : fieldRules
   }
 

@@ -70,6 +70,7 @@ export const useFormState = <TFields extends Record<string, BaseField>>(fields: 
         errors: errors[key],
         'onUpdate:modelValue': (value: unknown) => {
           values[key] = value
+          fields[key].value = value
           validateField(key)
         }
       } satisfies FieldBinding
