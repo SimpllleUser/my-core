@@ -5,12 +5,13 @@ const navigationItems = [
   { title: 'Home', route: '/', icon: Icons.Home },
   { title: 'About', route: '/about', icon: Icons.Info },
   { title: 'UI Builder', route: '/ui-builder', icon: Icons.ViewDashboard },
+  { title: 'Theme', route: '/theme-configuration', icon: Icons.Palette },
   {
     title: 'Examples',
     icon: Icons.FolderOpen,
     children: [
       { title: 'Auth', route: '/examples/auth', icon: Icons.Login },
-      { title: 'Cards', route: '/examples/cards', icon: Icons.Card },
+      { title: 'Cards', route: '/examples/cards', icon: Icons.CardOutline },
       { title: 'Dashboard', route: '/examples/dashboard', icon: Icons.ChartBox },
       { title: 'Ecommerce', route: '/examples/ecommerce', icon: Icons.Cart },
       { title: 'Error Pages', route: '/examples/error-pages', icon: Icons.AlertCircle },

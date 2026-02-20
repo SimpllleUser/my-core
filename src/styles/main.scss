@@ -1,0 +1,20 @@
+:root {
+  --custom-radius: 8px;
+}
+
+.v-application .v-btn,
+.v-application .v-card,
+.v-application .v-text-field .v-field,
+.v-application .v-select .v-field,
+.v-application .v-textarea .v-field,
+.v-application .v-chip,
+.v-application .v-alert,
+.v-application .v-list,
+.v-application .v-menu .v-overlay__content,
+.v-application .v-dialog > .v-overlay__content > .v-card {
+  border-radius: var(--custom-radius) !important;
+}
+
+.v-application .v-btn--icon {
+  border-radius: 50% !important;
+}
