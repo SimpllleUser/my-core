@@ -1,70 +1,6 @@
-<template>
-  <VCard
-    :variant="cardVariant"
-    :color="cardColor"
-    :elevation="elevation"
-    :class="['stat-card', { 'text-center': centered }, cardClass]"
-    :height="height"
-  >
-    <VCardText :class="contentClass">
-      <!-- Icon -->
-      <slot name="icon" :icon="icon" :iconColor="iconColor" :iconBgColor="iconBgColor">
-        <VAvatar
-          v-if="icon"
-          :color="iconBgColor"
-          :size="iconContainerSize"
-          :rounded="iconRounded"
-          :class="iconContainerClass"
-        >
-          <VIcon :color="iconColor" :size="iconSize">{{ icon }}</VIcon>
-        </VAvatar>
-      </slot>
-
-      <!-- Value -->
-      <slot name="value" :value="value" :prefix="prefix" :suffix="suffix">
-        <component
-          :is="valueTag"
-          :class="[valueClass, 'font-weight-bold', valueMargin]"
-        >
-          <slot name="prefix">
-            <span v-if="prefix">{{ prefix }}</span>
-          </slot>
-          {{ value }}
-          <slot name="suffix">
-            <span v-if="suffix">{{ suffix }}</span>
-          </slot>
-        </component>
-      </slot>
-
-      <!-- Label -->
-      <slot name="label" :label="label">
-        <p v-if="label" :class="[labelClass, 'mb-0']">{{ label }}</p>
-      </slot>
-
-      <!-- Trend indicator -->
-      <slot name="trend" :trend="trend" :trendColor="trendColor" :trendIcon="trendIcon">
-        <div v-if="trend !== undefined" :class="['d-flex align-center', { 'justify-center': centered }, trendContainerClass]">
-          <VIcon
-            :color="trendColor"
-            :size="trendIconSize"
-          >
-            {{ trendIcon }}
-          </VIcon>
-          <span :class="[trendClass, `text-${trendColor}`]">
-            {{ trendPrefix }}{{ Math.abs(trend) }}{{ trendSuffix }}
-          </span>
-          <span v-if="trendLabel" :class="trendLabelClass">{{ trendLabel }}</span>
-        </div>
-      </slot>
-
-      <slot />
-    </VCardText>
-  </VCard>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType } from './types'
 
 interface Props {
@@ -157,7 +93,69 @@ const valueMargin = computed(() => {
   return props.label ? 'mb-2' : 'mb-0'
 })
 </script>
+<template>
+  <VCard
+    :variant="cardVariant"
+    :color="cardColor"
+    :elevation="elevation"
+    :class="['stat-card', { 'text-center': centered }, cardClass]"
+    :height="height"
+  >
+    <VCardText :class="contentClass">
+      <!-- Icon -->
+      <slot name="icon" :icon="icon" :iconColor="iconColor" :iconBgColor="iconBgColor">
+        <VAvatar
+          v-if="icon"
+          :color="iconBgColor"
+          :size="iconContainerSize"
+          :rounded="iconRounded"
+          :class="iconContainerClass"
+        >
+          <VIcon :color="iconColor" :size="iconSize">{{ icon }}</VIcon>
+        </VAvatar>
+      </slot>
 
+      <!-- Value -->
+      <slot name="value" :value="value" :prefix="prefix" :suffix="suffix">
+        <component
+          :is="valueTag"
+          :class="[valueClass, 'font-weight-bold', valueMargin]"
+        >
+          <slot name="prefix">
+            <span v-if="prefix">{{ prefix }}</span>
+          </slot>
+          {{ value }}
+          <slot name="suffix">
+            <span v-if="suffix">{{ suffix }}</span>
+          </slot>
+        </component>
+      </slot>
+
+      <!-- Label -->
+      <slot name="label" :label="label">
+        <p v-if="label" :class="[labelClass, 'mb-0']">{{ label }}</p>
+      </slot>
+
+      <!-- Trend indicator -->
+      <slot name="trend" :trend="trend" :trendColor="trendColor" :trendIcon="trendIcon">
+        <div v-if="trend !== undefined" :class="['d-flex align-center', { 'justify-center': centered }, trendContainerClass]">
+          <VIcon
+            :color="trendColor"
+            :size="trendIconSize"
+          >
+            {{ trendIcon }}
+          </VIcon>
+          <span :class="[trendClass, `text-${trendColor}`]">
+            {{ trendPrefix }}{{ Math.abs(trend) }}{{ trendSuffix }}
+          </span>
+          <span v-if="trendLabel" :class="trendLabelClass">{{ trendLabel }}</span>
+        </div>
+      </slot>
+
+      <slot />
+    </VCardText>
+  </VCard>
+</template>
 <style scoped>
 .stat-card {
   height: 100%;

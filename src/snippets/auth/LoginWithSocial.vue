@@ -65,6 +65,222 @@
     - forgot-password: Emitted when forgot password is clicked
     - sign-up: Emitted when sign up is clicked
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+import AuthPageLayout from './AuthPageLayout.vue'
+
+ interface SocialProvider {
+  id: string
+  label: string
+  icon: string
+  iconColor?: string
+}
+
+export interface LoginWithSocialProps {
+  // Layout props
+  formPosition?: 'left' | 'center' | 'right'
+  backgroundType?: 'color' | 'image' | 'gradient' | 'split'
+  backgroundColor?: string
+  backgroundImage?: string
+  backgroundGradient?: string
+  overlayColor?: string
+  overlayOpacity?: number
+  splitRatio?: number
+  sideContentBackground?: string
+  sideContentImage?: string
+  showPattern?: boolean
+  minHeight?: string
+
+  // Card props
+  cardElevation?: number
+  cardRounded?: string
+  cardColor?: string
+  cardVariant?: 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'
+  cardPadding?: string | number
+
+  // Title props
+  title?: string
+  subtitle?: string
+
+  // Social login props
+  socialProviders?: SocialProvider[]
+  socialButtonVariant?: 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain'
+  socialButtonSize?: 'x-small' | 'small' | 'default' | 'large' | 'x-large'
+
+  // Divider props
+  showDivider?: boolean
+  dividerText?: string
+
+  // Form field props
+  emailLabel?: string
+  passwordLabel?: string
+  inputVariant?: 'outlined' | 'filled' | 'underlined' | 'solo' | 'solo-inverted' | 'solo-filled' | 'plain'
+  inputDensity?: 'default' | 'comfortable' | 'compact'
+
+  // Feature toggles
+  showRememberMe?: boolean
+  showForgotPassword?: boolean
+  showSignUpLink?: boolean
+
+  // Text customization
+  rememberMeLabel?: string
+  forgotPasswordText?: string
+  submitButtonText?: string
+  signUpPromptText?: string
+  signUpButtonText?: string
+
+  // Button styling
+  submitButtonColor?: string
+  submitButtonVariant?: 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain'
+
+  // Initial values
+  initialEmail?: string
+  initialRememberMe?: boolean
+}
+
+const defaultSocialProviders: SocialProvider[] = [
+  { id: 'google', label: 'Continue with Google', icon: Icons.Google, iconColor: 'red' },
+  { id: 'github', label: 'Continue with GitHub', icon: Icons.Github },
+  { id: 'facebook', label: 'Continue with Facebook', icon: Icons.Facebook, iconColor: 'blue' },
+]
+
+const props = withDefaults(defineProps<LoginWithSocialProps>(), {
+  // Layout defaults
+  formPosition: 'center',
+  backgroundType: 'color',
+  backgroundColor: undefined,
+  backgroundImage: undefined,
+  backgroundGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  overlayOpacity: 0.5,
+  splitRatio: 6,
+  sideContentBackground: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  sideContentImage: undefined,
+  showPattern: false,
+  minHeight: '100vh',
+
+  // Card defaults
+  cardElevation: 8,
+  cardRounded: 'lg',
+  cardColor: undefined,
+  cardVariant: 'elevated',
+  cardPadding: '4',
+
+  // Title defaults
+  title: 'Welcome Back',
+  subtitle: 'Sign in to continue to your account',
+
+  // Social login defaults
+  socialProviders: () => [
+    { id: 'google', label: 'Continue with Google', icon: Icons.Google, iconColor: 'red' },
+    { id: 'github', label: 'Continue with GitHub', icon: Icons.Github },
+    { id: 'facebook', label: 'Continue with Facebook', icon: Icons.Facebook, iconColor: 'blue' },
+  ],
+  socialButtonVariant: 'outlined',
+  socialButtonSize: 'large',
+
+  // Divider defaults
+  showDivider: true,
+  dividerText: 'OR',
+
+  // Form field defaults
+  emailLabel: 'Email address',
+  passwordLabel: 'Password',
+  inputVariant: 'outlined',
+  inputDensity: 'comfortable',
+
+  // Feature defaults
+  showRememberMe: true,
+  showForgotPassword: true,
+  showSignUpLink: true,
+
+  // Text defaults
+  rememberMeLabel: 'Remember me',
+  forgotPasswordText: 'Forgot Password?',
+  submitButtonText: 'Sign In',
+  signUpPromptText: 'New to our platform?',
+  signUpButtonText: 'Create an account',
+
+  // Button defaults
+  submitButtonColor: 'primary',
+  submitButtonVariant: 'flat',
+
+  // Initial values
+  initialEmail: '',
+  initialRememberMe: false,
+})
+
+// Emits
+const emit = defineEmits<{
+  submit: [payload: { email: string; password: string; rememberMe: boolean }]
+  'social-login': [provider: string]
+  'forgot-password': []
+  'sign-up': []
+}>()
+
+// Form state
+const formRef = ref()
+const valid = ref(true)
+const loading = ref(false)
+const showPassword = ref(false)
+
+const email = ref(props.initialEmail)
+const password = ref('')
+const rememberMe = ref(props.initialRememberMe)
+
+// Validation rules
+const emailRules = [
+  (v: string) => !!v || 'Email is required',
+  (v: string) => /.+@.+\..+/.test(v) || 'Email must be valid',
+]
+
+const passwordRules = [
+  (v: string) => !!v || 'Password is required',
+  (v: string) => v.length >= 8 || 'Password must be at least 8 characters',
+]
+
+// Methods
+const handleSocialLogin = (provider: string) => {
+  emit('social-login', provider)
+}
+
+const submit = async () => {
+  const { valid: isValid } = await formRef.value.validate()
+  if (!isValid) return
+
+  loading.value = true
+
+  emit('submit', {
+    email: email.value,
+    password: password.value,
+    rememberMe: rememberMe.value,
+  })
+
+  setTimeout(() => {
+    loading.value = false
+  }, 1500)
+}
+
+const handleForgotPassword = () => {
+  emit('forgot-password')
+}
+
+const handleSignUp = () => {
+  emit('sign-up')
+}
+
+// Expose for parent component access
+defineExpose({
+  formRef,
+  email,
+  password,
+  rememberMe,
+  valid,
+  loading,
+  submit,
+})
+</script>
 <template>
   <AuthPageLayout
     :form-position="formPosition"
@@ -208,7 +424,7 @@
               :label="passwordLabel"
               :variant="inputVariant"
               :density="inputDensity"
-              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+              :append-inner-icon="showPassword ? Icons.EyeOff : Icons.Eye"
               @click:append-inner="showPassword = !showPassword"
             />
           </slot>
@@ -290,223 +506,6 @@
     </VCard>
   </AuthPageLayout>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import AuthPageLayout from './AuthPageLayout.vue'
-
- interface SocialProvider {
-  id: string
-  label: string
-  icon: string
-  iconColor?: string
-}
-
-export interface LoginWithSocialProps {
-  // Layout props
-  formPosition?: 'left' | 'center' | 'right'
-  backgroundType?: 'color' | 'image' | 'gradient' | 'split'
-  backgroundColor?: string
-  backgroundImage?: string
-  backgroundGradient?: string
-  overlayColor?: string
-  overlayOpacity?: number
-  splitRatio?: number
-  sideContentBackground?: string
-  sideContentImage?: string
-  showPattern?: boolean
-  minHeight?: string
-
-  // Card props
-  cardElevation?: number
-  cardRounded?: string
-  cardColor?: string
-  cardVariant?: 'elevated' | 'flat' | 'tonal' | 'outlined' | 'text' | 'plain'
-  cardPadding?: string | number
-
-  // Title props
-  title?: string
-  subtitle?: string
-
-  // Social login props
-  socialProviders?: SocialProvider[]
-  socialButtonVariant?: 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain'
-  socialButtonSize?: 'x-small' | 'small' | 'default' | 'large' | 'x-large'
-
-  // Divider props
-  showDivider?: boolean
-  dividerText?: string
-
-  // Form field props
-  emailLabel?: string
-  passwordLabel?: string
-  inputVariant?: 'outlined' | 'filled' | 'underlined' | 'solo' | 'solo-inverted' | 'solo-filled' | 'plain'
-  inputDensity?: 'default' | 'comfortable' | 'compact'
-
-  // Feature toggles
-  showRememberMe?: boolean
-  showForgotPassword?: boolean
-  showSignUpLink?: boolean
-
-  // Text customization
-  rememberMeLabel?: string
-  forgotPasswordText?: string
-  submitButtonText?: string
-  signUpPromptText?: string
-  signUpButtonText?: string
-
-  // Button styling
-  submitButtonColor?: string
-  submitButtonVariant?: 'flat' | 'text' | 'elevated' | 'tonal' | 'outlined' | 'plain'
-
-  // Initial values
-  initialEmail?: string
-  initialRememberMe?: boolean
-}
-
-const defaultSocialProviders: SocialProvider[] = [
-  { id: 'google', label: 'Continue with Google', icon: 'mdi-google', iconColor: 'red' },
-  { id: 'github', label: 'Continue with GitHub', icon: 'mdi-github' },
-  { id: 'facebook', label: 'Continue with Facebook', icon: 'mdi-facebook', iconColor: 'blue' },
-]
-
-const props = withDefaults(defineProps<LoginWithSocialProps>(), {
-  // Layout defaults
-  formPosition: 'center',
-  backgroundType: 'color',
-  backgroundColor: undefined,
-  backgroundImage: undefined,
-  backgroundGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  overlayColor: 'rgba(0, 0, 0, 0.5)',
-  overlayOpacity: 0.5,
-  splitRatio: 6,
-  sideContentBackground: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  sideContentImage: undefined,
-  showPattern: false,
-  minHeight: '100vh',
-
-  // Card defaults
-  cardElevation: 8,
-  cardRounded: 'lg',
-  cardColor: undefined,
-  cardVariant: 'elevated',
-  cardPadding: '4',
-
-  // Title defaults
-  title: 'Welcome Back',
-  subtitle: 'Sign in to continue to your account',
-
-  // Social login defaults
-  socialProviders: () => [
-    { id: 'google', label: 'Continue with Google', icon: 'mdi-google', iconColor: 'red' },
-    { id: 'github', label: 'Continue with GitHub', icon: 'mdi-github' },
-    { id: 'facebook', label: 'Continue with Facebook', icon: 'mdi-facebook', iconColor: 'blue' },
-  ],
-  socialButtonVariant: 'outlined',
-  socialButtonSize: 'large',
-
-  // Divider defaults
-  showDivider: true,
-  dividerText: 'OR',
-
-  // Form field defaults
-  emailLabel: 'Email address',
-  passwordLabel: 'Password',
-  inputVariant: 'outlined',
-  inputDensity: 'comfortable',
-
-  // Feature defaults
-  showRememberMe: true,
-  showForgotPassword: true,
-  showSignUpLink: true,
-
-  // Text defaults
-  rememberMeLabel: 'Remember me',
-  forgotPasswordText: 'Forgot Password?',
-  submitButtonText: 'Sign In',
-  signUpPromptText: 'New to our platform?',
-  signUpButtonText: 'Create an account',
-
-  // Button defaults
-  submitButtonColor: 'primary',
-  submitButtonVariant: 'flat',
-
-  // Initial values
-  initialEmail: '',
-  initialRememberMe: false,
-})
-
-// Emits
-const emit = defineEmits<{
-  submit: [payload: { email: string; password: string; rememberMe: boolean }]
-  'social-login': [provider: string]
-  'forgot-password': []
-  'sign-up': []
-}>()
-
-// Form state
-const formRef = ref()
-const valid = ref(true)
-const loading = ref(false)
-const showPassword = ref(false)
-
-const email = ref(props.initialEmail)
-const password = ref('')
-const rememberMe = ref(props.initialRememberMe)
-
-// Validation rules
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Email must be valid',
-]
-
-const passwordRules = [
-  (v: string) => !!v || 'Password is required',
-  (v: string) => v.length >= 8 || 'Password must be at least 8 characters',
-]
-
-// Methods
-const handleSocialLogin = (provider: string) => {
-  emit('social-login', provider)
-}
-
-const submit = async () => {
-  const { valid: isValid } = await formRef.value.validate()
-  if (!isValid) return
-
-  loading.value = true
-
-  emit('submit', {
-    email: email.value,
-    password: password.value,
-    rememberMe: rememberMe.value,
-  })
-
-  setTimeout(() => {
-    loading.value = false
-  }, 1500)
-}
-
-const handleForgotPassword = () => {
-  emit('forgot-password')
-}
-
-const handleSignUp = () => {
-  emit('sign-up')
-}
-
-// Expose for parent component access
-defineExpose({
-  formRef,
-  email,
-  password,
-  rememberMe,
-  valid,
-  loading,
-  submit,
-})
-</script>
-
 <style scoped>
 .login-social-card {
   width: 100%;

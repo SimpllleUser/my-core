@@ -1,203 +1,5 @@
-<template>
-  <VContainer fluid class="pa-6">
-    <!-- Header -->
-    <VRow class="mb-6">
-      <VCol cols="12">
-        <VBtn
-          to="/examples"
-          variant="text"
-          prepend-icon="mdi-arrow-left"
-          class="mb-4"
-        >
-          Back to Examples
-        </VBtn>
-        <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-form-textbox" size="large" color="teal" class="mr-2" />
-          Form Module
-        </h1>
-        <p class="text-h6 text-medium-emphasis">
-          Dynamic form system with validation, field types, and reactive state management
-        </p>
-      </VCol>
-    </VRow>
-
-    <!-- Registration Form -->
-    <VRow class="mb-8">
-      <VCol cols="12">
-        <VCard>
-          <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-plus" class="mr-2" />
-            Registration Form
-            <VSpacer />
-            <VChip color="teal" size="small">FormConfig, DynamicField, useFormState</VChip>
-          </VCardTitle>
-          <VCardText>
-            <p class="text-body-1 mb-4">User registration with email validation, password, role select, and checkbox</p>
-            <VForm @submit.prevent="handleRegister">
-              <VRow>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.name" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.email" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.role" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.password" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="registerBind.agree" />
-                </VCol>
-              </VRow>
-              <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!registerValid">
-                  Register
-                </VBtn>
-                <VBtn variant="outlined" @click="registerReset">Reset</VBtn>
-              </div>
-            </VForm>
-            <VAlert v-if="registerSubmitted" type="success" class="mt-4" closable @click:close="registerSubmitted = false">
-              Registration submitted successfully!
-            </VAlert>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-
-    <!-- Login Form -->
-    <VRow class="mb-8">
-      <VCol cols="12">
-        <VCard>
-          <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-login" class="mr-2" />
-            Login Form
-            <VSpacer />
-            <VChip color="teal" size="small">EmailField, PasswordField, validators</VChip>
-          </VCardTitle>
-          <VCardText>
-            <p class="text-body-1 mb-4">Simple login form with email and password validation</p>
-            <VForm @submit.prevent="handleLogin">
-              <VRow>
-                <VCol cols="12">
-                  <DynamicField v-bind="loginBind.email" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="loginBind.password" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="loginBind.remember" />
-                </VCol>
-              </VRow>
-              <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!loginValid">
-                  Login
-                </VBtn>
-                <VBtn variant="outlined" @click="loginReset">Reset</VBtn>
-              </div>
-            </VForm>
-            <VAlert v-if="loginSubmitted" type="success" class="mt-4" closable @click:close="loginSubmitted = false">
-              Login successful!
-            </VAlert>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-
-    <!-- Feedback Form -->
-    <VRow class="mb-8">
-      <VCol cols="12">
-        <VCard>
-          <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message-text" class="mr-2" />
-            Feedback Form
-            <VSpacer />
-            <VChip color="teal" size="small">TextareaField, SelectField, maxLength</VChip>
-          </VCardTitle>
-          <VCardText>
-            <p class="text-body-1 mb-4">Feedback form with textarea, category select, and validation rules</p>
-            <VForm @submit.prevent="handleFeedback">
-              <VRow>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="feedbackBind.name" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="feedbackBind.email" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="feedbackBind.category" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="feedbackBind.message" />
-                </VCol>
-              </VRow>
-              <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!feedbackValid">
-                  Send Feedback
-                </VBtn>
-                <VBtn variant="outlined" @click="feedbackReset">Reset</VBtn>
-              </div>
-            </VForm>
-            <VAlert v-if="feedbackSubmitted" type="success" class="mt-4" closable @click:close="feedbackSubmitted = false">
-              Feedback sent successfully!
-            </VAlert>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-
-    <!-- Profile Settings Form -->
-    <VRow class="mb-8">
-      <VCol cols="12">
-        <VCard>
-          <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-cog" class="mr-2" />
-            Profile Settings
-            <VSpacer />
-            <VChip color="teal" size="small">isDirty, setValues, vuetifyProps</VChip>
-          </VCardTitle>
-          <VCardText>
-            <p class="text-body-1 mb-4">Profile form with pre-filled values, dirty state tracking, and custom vuetify props</p>
-            <VForm @submit.prevent="handleProfile">
-              <VRow>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.firstName" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.lastName" />
-                </VCol>
-                <VCol cols="12">
-                  <DynamicField v-bind="profileBind.bio" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.language" />
-                </VCol>
-                <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.notifications" />
-                </VCol>
-              </VRow>
-              <div class="d-flex ga-2 align-center mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!profileDirty">
-                  Save Changes
-                </VBtn>
-                <VBtn variant="outlined" @click="profileReset">Reset</VBtn>
-                <VChip v-if="profileDirty" color="warning" size="small" class="ml-2">
-                  Unsaved changes
-                </VChip>
-              </div>
-            </VForm>
-            <VAlert v-if="profileSubmitted" type="success" class="mt-4" closable @click:close="profileSubmitted = false">
-              Profile updated!
-            </VAlert>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
-  </VContainer>
-</template>
-
 <script setup lang="ts">
+import { Icons } from '../../shared/model'
 import { ref } from 'vue'
 import {
   FormConfig,
@@ -212,7 +14,7 @@ import {
   minLength,
   maxLength,
   required,
-} from '@/shared/form'
+} from '../../shared/form'
 
 // --- Registration Form ---
 const registerForm = new FormConfig({
@@ -387,3 +189,201 @@ const handleProfile = () => {
   profileSubmitted.value = true
 }
 </script>
+<template>
+  <VContainer fluid class="pa-6">
+    <!-- Header -->
+    <VRow class="mb-6">
+      <VCol cols="12">
+        <VBtn
+          to="/examples"
+          variant="text"
+          :prepend-icon="Icons.ArrowLeft"
+          class="mb-4"
+        >
+          Back to Examples
+        </VBtn>
+        <h1 class="text-h3 font-weight-bold mb-2">
+          <VIcon :icon="Icons.FormTextbox" size="large" color="teal" class="mr-2" />
+          Form Module
+        </h1>
+        <p class="text-h6 text-medium-emphasis">
+          Dynamic form system with validation, field types, and reactive state management
+        </p>
+      </VCol>
+    </VRow>
+
+    <!-- Registration Form -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.AccountPlus" class="mr-2" />
+            Registration Form
+            <VSpacer />
+            <VChip color="teal" size="small">FormConfig, DynamicField, useFormState</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">User registration with email validation, password, role select, and checkbox</p>
+            <VForm @submit.prevent="handleRegister">
+              <VRow>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="registerBind.name" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="registerBind.email" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="registerBind.role" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="registerBind.password" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="registerBind.agree" />
+                </VCol>
+              </VRow>
+              <div class="d-flex ga-2 mt-2">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="!registerValid">
+                  Register
+                </VBtn>
+                <VBtn variant="outlined" @click="registerReset">Reset</VBtn>
+              </div>
+            </VForm>
+            <VAlert v-if="registerSubmitted" type="success" class="mt-4" closable @click:close="registerSubmitted = false">
+              Registration submitted successfully!
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Login Form -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.Login" class="mr-2" />
+            Login Form
+            <VSpacer />
+            <VChip color="teal" size="small">EmailField, PasswordField, validators</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">Simple login form with email and password validation</p>
+            <VForm @submit.prevent="handleLogin">
+              <VRow>
+                <VCol cols="12">
+                  <DynamicField v-bind="loginBind.email" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="loginBind.password" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="loginBind.remember" />
+                </VCol>
+              </VRow>
+              <div class="d-flex ga-2 mt-2">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="!loginValid">
+                  Login
+                </VBtn>
+                <VBtn variant="outlined" @click="loginReset">Reset</VBtn>
+              </div>
+            </VForm>
+            <VAlert v-if="loginSubmitted" type="success" class="mt-4" closable @click:close="loginSubmitted = false">
+              Login successful!
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Feedback Form -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.MessageText" class="mr-2" />
+            Feedback Form
+            <VSpacer />
+            <VChip color="teal" size="small">TextareaField, SelectField, maxLength</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">Feedback form with textarea, category select, and validation rules</p>
+            <VForm @submit.prevent="handleFeedback">
+              <VRow>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="feedbackBind.name" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="feedbackBind.email" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="feedbackBind.category" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="feedbackBind.message" />
+                </VCol>
+              </VRow>
+              <div class="d-flex ga-2 mt-2">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="!feedbackValid">
+                  Send Feedback
+                </VBtn>
+                <VBtn variant="outlined" @click="feedbackReset">Reset</VBtn>
+              </div>
+            </VForm>
+            <VAlert v-if="feedbackSubmitted" type="success" class="mt-4" closable @click:close="feedbackSubmitted = false">
+              Feedback sent successfully!
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Profile Settings Form -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.AccountCog" class="mr-2" />
+            Profile Settings
+            <VSpacer />
+            <VChip color="teal" size="small">isDirty, setValues, vuetifyProps</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">Profile form with pre-filled values, dirty state tracking, and custom vuetify props</p>
+            <VForm @submit.prevent="handleProfile">
+              <VRow>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="profileBind.firstName" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="profileBind.lastName" />
+                </VCol>
+                <VCol cols="12">
+                  <DynamicField v-bind="profileBind.bio" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="profileBind.language" />
+                </VCol>
+                <VCol cols="12" md="6">
+                  <DynamicField v-bind="profileBind.notifications" />
+                </VCol>
+              </VRow>
+              <div class="d-flex ga-2 align-center mt-2">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="!profileDirty">
+                  Save Changes
+                </VBtn>
+                <VBtn variant="outlined" @click="profileReset">Reset</VBtn>
+                <VChip v-if="profileDirty" color="warning" size="small" class="ml-2">
+                  Unsaved changes
+                </VChip>
+              </div>
+            </VForm>
+            <VAlert v-if="profileSubmitted" type="success" class="mt-4" closable @click:close="profileSubmitted = false">
+              Profile updated!
+            </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+  </VContainer>
+</template>

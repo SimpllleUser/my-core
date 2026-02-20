@@ -7,7 +7,7 @@ export class PhoneField extends BaseField<string, PhoneFieldConfig> {
   constructor(config: PhoneFieldConfig = {}) {
     super({
       default: '',
-      prependInnerIcon: 'mdi-phone-outline',
+      prependInnerIcon: Icons.PhoneOutline,
       ...config,
     });
   }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '../../model'
 import {
   FormConfig,
   TextField,
@@ -10,7 +11,7 @@ import {
   DynamicField,
   required,
   minLength
-} from '@/shared/form';
+} from '..';
 
 const form = new FormConfig({
   name: new TextField({
@@ -80,7 +81,7 @@ const handleSubmit = () => {
               {{ label }}
               <VIcon
                 v-if="required"
-                icon="mdi-asterisk"
+                :icon="Icons.Asterisk"
                 size="8"
                 color="error"
               />

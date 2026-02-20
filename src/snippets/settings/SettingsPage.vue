@@ -4,6 +4,73 @@
   Components: VTabs, VCard, VSwitch, VSelect, VTextField, VBtn
   Variants: Tabbed layout, Account settings, Notifications, Security
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const activeSection = ref('profile')
+
+const sections = [
+  { title: 'Profile', value: 'profile', icon: Icons.Account },
+  { title: 'Account', value: 'account', icon: Icons.Settings },
+  { title: 'Notifications', value: 'notifications', icon: Icons.Bell },
+  { title: 'Security', value: 'security', icon: Icons.ShieldLock },
+  { title: 'Appearance', value: 'appearance', icon: Icons.Palette },
+  { title: 'Danger Zone', value: 'danger', icon: Icons.Alert },
+]
+
+const profile = ref({
+  firstName: 'Sarah',
+  lastName: 'Johnson',
+  email: 'sarah@example.com',
+  phone: '+1 (555) 123-4567',
+  bio: 'Product designer with 5+ years of experience.',
+})
+
+const account = ref({
+  username: 'sarahjohnson',
+  language: 'English',
+  timezone: 'UTC-5 (Eastern Time)',
+  currency: 'USD ($)',
+})
+
+const languages = ['English', 'Spanish', 'French', 'German', 'Japanese']
+const timezones = ['UTC-8 (Pacific)', 'UTC-5 (Eastern)', 'UTC+0 (London)', 'UTC+1 (Paris)', 'UTC+9 (Tokyo)']
+const currencies = ['USD ($)', 'EUR (€)', 'GBP (£)', 'JPY (¥)']
+
+const emailNotifications = ref([
+  { title: 'Marketing emails', description: 'Receive emails about new products and features', enabled: true },
+  { title: 'Security alerts', description: 'Get notified about suspicious activity', enabled: true },
+  { title: 'Weekly digest', description: 'Summary of your account activity', enabled: false },
+])
+
+const pushNotifications = ref([
+  { title: 'New messages', description: 'Notify when you receive new messages', enabled: true },
+  { title: 'Mentions', description: 'Notify when someone mentions you', enabled: true },
+  { title: 'Reminders', description: 'Task and event reminders', enabled: true },
+])
+
+const security = ref({
+  currentPassword: '',
+  newPassword: '',
+  confirmPassword: '',
+})
+
+const sessions = [
+  { id: 1, device: 'Chrome on MacOS', location: 'San Francisco, CA', time: 'Now', icon: Icons.Laptop, current: true },
+  { id: 2, device: 'Safari on iPhone', location: 'San Francisco, CA', time: '2 hours ago', icon: Icons.Cellphone, current: false },
+  { id: 3, device: 'Firefox on Windows', location: 'New York, NY', time: '2 days ago', icon: Icons.Laptop, current: false },
+]
+
+const appearance = ref({
+  theme: 'system',
+  accentColor: '#6366F1',
+  fontSize: 14,
+  reducedMotion: false,
+})
+
+const accentColors = ['#6366F1', '#EC4899', '#22C55E', '#F59E0B', '#EF4444', '#3B82F6']
+</script>
 <template>
   <VContainer>
     <h1 class="text-h4 font-weight-bold mb-6">Settings</h1>
@@ -102,7 +169,7 @@
                   v-model="account.username"
                   label="Username"
                   variant="outlined"
-                  prepend-inner-icon="mdi-at"
+                  :prepend-inner-icon="Icons.At"
                 />
               </VCol>
               <VCol cols="12" sm="6">
@@ -233,15 +300,15 @@
             <h4 class="text-subtitle-1 font-weight-medium mb-4">Theme</h4>
             <VBtnToggle v-model="appearance.theme" mandatory class="mb-6">
               <VBtn value="light">
-                <VIcon start>mdi-white-balance-sunny</VIcon>
+                <VIcon start>{{ Icons.WhiteBalanceSunny }}</VIcon>
                 Light
               </VBtn>
               <VBtn value="dark">
-                <VIcon start>mdi-moon-waning-crescent</VIcon>
+                <VIcon start>{{ Icons.MoonWaning }}</VIcon>
                 Dark
               </VBtn>
               <VBtn value="system">
-                <VIcon start>mdi-laptop</VIcon>
+                <VIcon start>{{ Icons.Laptop }}</VIcon>
                 System
               </VBtn>
             </VBtnToggle>
@@ -257,7 +324,7 @@
                 :class="{ 'border-2 border-black': appearance.accentColor === color }"
                 @click="appearance.accentColor = color"
               >
-                <VIcon v-if="appearance.accentColor === color" color="white" size="small">mdi-check</VIcon>
+                <VIcon v-if="appearance.accentColor === color" color="white" size="small">{{ Icons.Check }}</VIcon>
               </VAvatar>
             </div>
 
@@ -313,70 +380,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const activeSection = ref('profile')
-
-const sections = [
-  { title: 'Profile', value: 'profile', icon: 'mdi-account' },
-  { title: 'Account', value: 'account', icon: 'mdi-cog' },
-  { title: 'Notifications', value: 'notifications', icon: 'mdi-bell' },
-  { title: 'Security', value: 'security', icon: 'mdi-shield-lock' },
-  { title: 'Appearance', value: 'appearance', icon: 'mdi-palette' },
-  { title: 'Danger Zone', value: 'danger', icon: 'mdi-alert' },
-]
-
-const profile = ref({
-  firstName: 'Sarah',
-  lastName: 'Johnson',
-  email: 'sarah@example.com',
-  phone: '+1 (555) 123-4567',
-  bio: 'Product designer with 5+ years of experience.',
-})
-
-const account = ref({
-  username: 'sarahjohnson',
-  language: 'English',
-  timezone: 'UTC-5 (Eastern Time)',
-  currency: 'USD ($)',
-})
-
-const languages = ['English', 'Spanish', 'French', 'German', 'Japanese']
-const timezones = ['UTC-8 (Pacific)', 'UTC-5 (Eastern)', 'UTC+0 (London)', 'UTC+1 (Paris)', 'UTC+9 (Tokyo)']
-const currencies = ['USD ($)', 'EUR (€)', 'GBP (£)', 'JPY (¥)']
-
-const emailNotifications = ref([
-  { title: 'Marketing emails', description: 'Receive emails about new products and features', enabled: true },
-  { title: 'Security alerts', description: 'Get notified about suspicious activity', enabled: true },
-  { title: 'Weekly digest', description: 'Summary of your account activity', enabled: false },
-])
-
-const pushNotifications = ref([
-  { title: 'New messages', description: 'Notify when you receive new messages', enabled: true },
-  { title: 'Mentions', description: 'Notify when someone mentions you', enabled: true },
-  { title: 'Reminders', description: 'Task and event reminders', enabled: true },
-])
-
-const security = ref({
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: '',
-})
-
-const sessions = [
-  { id: 1, device: 'Chrome on MacOS', location: 'San Francisco, CA', time: 'Now', icon: 'mdi-laptop', current: true },
-  { id: 2, device: 'Safari on iPhone', location: 'San Francisco, CA', time: '2 hours ago', icon: 'mdi-cellphone', current: false },
-  { id: 3, device: 'Firefox on Windows', location: 'New York, NY', time: '2 days ago', icon: 'mdi-laptop', current: false },
-]
-
-const appearance = ref({
-  theme: 'system',
-  accentColor: '#6366F1',
-  fontSize: 14,
-  reducedMotion: false,
-})
-
-const accentColors = ['#6366F1', '#EC4899', '#22C55E', '#F59E0B', '#EF4444', '#3B82F6']
-</script>

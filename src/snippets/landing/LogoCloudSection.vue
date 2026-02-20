@@ -4,6 +4,25 @@
   Components: VContainer, VRow, VCol, VIcon, VChip
   Complexity: Simple
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+
+const companies = [
+  { name: 'Google', icon: Icons.Google },
+  { name: 'Microsoft', icon: Icons.Microsoft },
+  { name: 'Apple', icon: Icons.Apple },
+  { name: 'Slack', icon: Icons.Slack },
+  { name: 'Spotify', icon: Icons.Spotify },
+  { name: 'Github', icon: Icons.Github },
+]
+
+const stats = [
+  { value: '10K+', label: 'Companies' },
+  { value: '1M+', label: 'Users' },
+  { value: '99.9%', label: 'Uptime' },
+  { value: '150+', label: 'Countries' },
+]
+</script>
 <template>
   <div>
     <!-- Logo Cloud Style 1: Simple Row -->
@@ -84,23 +103,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-
-const companies = [
-  { name: 'Google', icon: Icons.Google },
-  { name: 'Microsoft', icon: Icons.Microsoft },
-  { name: 'Apple', icon: Icons.Apple },
-  { name: 'Slack', icon: Icons.Slack },
-  { name: 'Spotify', icon: Icons.Spotify },
-  { name: 'Github', icon: Icons.Github },
-]
-
-const stats = [
-  { value: '10K+', label: 'Companies' },
-  { value: '1M+', label: 'Users' },
-  { value: '99.9%', label: 'Uptime' },
-  { value: '150+', label: 'Countries' },
-]
-</script>

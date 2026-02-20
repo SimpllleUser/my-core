@@ -1,4 +1,5 @@
 <script lang="ts">
+import { Icons } from '../../../shared/model'
 import { defineComponent, h } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
 import { VRow, VCol, VBtn } from 'vuetify/components';
@@ -26,7 +27,7 @@ export default defineComponent({
       h('div', { class: 'node-actions' }, [
         n.name === 'Div'
           ? h(VBtn as any, {
-              icon: 'mdi-ungroup',
+              icon: Icons.Ungroup,
               size: 'x-small',
               variant: 'text',
               density: 'comfortable',
@@ -34,7 +35,7 @@ export default defineComponent({
             })
           : null,
         h(VBtn as any, {
-          icon: 'mdi-delete',
+          icon: Icons.Delete,
           size: 'x-small',
           variant: 'text',
           density: 'comfortable',

@@ -10,7 +10,7 @@ export class DateRangeField extends BaseField<
   constructor(config: DateRangeFieldConfig = {}) {
     super({
       default: [null, null],
-      prependInnerIcon: 'mdi-calendar-range',
+      prependInnerIcon: Icons.CalendarRange,
       format: 'YYYY-MM-DD',
       startLabel: 'Start Date',
       endLabel: 'End Date',

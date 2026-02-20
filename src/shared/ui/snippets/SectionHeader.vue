@@ -1,3 +1,54 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Colors, Variants, Sizes } from '../../model'
+import type { ColorType, VariantType, SizeType, IconType } from './types'
+
+interface Props {
+  title: string
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  titleClass?: string
+  titleHighlight?: string
+  titleHighlightClass?: string
+  subtitle?: string
+  subtitleClass?: string
+  subtitleMaxWidth?: string | number
+  chip?: string
+  chipColor?: ColorType
+  chipVariant?: VariantType
+  chipSize?: SizeType
+  chipIcon?: IconType
+  chipIconSize?: SizeType | number
+  chipClass?: string
+  centered?: boolean
+  maxWidth?: string | number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  titleTag: 'h2',
+  titleClass: 'text-h4',
+  titleHighlightClass: 'text-primary',
+  subtitleClass: 'text-body-1',
+  subtitleMaxWidth: 600,
+  chipColor: Colors.Primary,
+  chipVariant: Variants.Tonal,
+  chipSize: Sizes.Default,
+  chipIconSize: Sizes.Small,
+  chipClass: 'mb-4',
+  centered: true,
+})
+
+const containerStyle = computed(() => {
+  if (!props.maxWidth) return {}
+  const width = typeof props.maxWidth === 'number' ? `${props.maxWidth}px` : props.maxWidth
+  return { maxWidth: width }
+})
+
+const subtitleStyle = computed(() => {
+  if (!props.subtitleMaxWidth) return {}
+  const width = typeof props.subtitleMaxWidth === 'number' ? `${props.subtitleMaxWidth}px` : props.subtitleMaxWidth
+  return { maxWidth: width }
+})
+</script>
 <template>
   <div :class="['section-header', { 'text-center': centered }]" :style="containerStyle">
     <!-- Chip/Badge -->
@@ -48,59 +99,6 @@
     <slot />
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Colors, Variants, Sizes } from '@/shared/model'
-import type { ColorType, VariantType, SizeType, IconType } from './types'
-
-interface Props {
-  title: string
-  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  titleClass?: string
-  titleHighlight?: string
-  titleHighlightClass?: string
-  subtitle?: string
-  subtitleClass?: string
-  subtitleMaxWidth?: string | number
-  chip?: string
-  chipColor?: ColorType
-  chipVariant?: VariantType
-  chipSize?: SizeType
-  chipIcon?: IconType
-  chipIconSize?: SizeType | number
-  chipClass?: string
-  centered?: boolean
-  maxWidth?: string | number
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  titleTag: 'h2',
-  titleClass: 'text-h4',
-  titleHighlightClass: 'text-primary',
-  subtitleClass: 'text-body-1',
-  subtitleMaxWidth: 600,
-  chipColor: Colors.Primary,
-  chipVariant: Variants.Tonal,
-  chipSize: Sizes.Default,
-  chipIconSize: Sizes.Small,
-  chipClass: 'mb-4',
-  centered: true,
-})
-
-const containerStyle = computed(() => {
-  if (!props.maxWidth) return {}
-  const width = typeof props.maxWidth === 'number' ? `${props.maxWidth}px` : props.maxWidth
-  return { maxWidth: width }
-})
-
-const subtitleStyle = computed(() => {
-  if (!props.subtitleMaxWidth) return {}
-  const width = typeof props.subtitleMaxWidth === 'number' ? `${props.subtitleMaxWidth}px` : props.subtitleMaxWidth
-  return { maxWidth: width }
-})
-</script>
-
 <style scoped>
 .section-header {
   margin-bottom: 2rem;

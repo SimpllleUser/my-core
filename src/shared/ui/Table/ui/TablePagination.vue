@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PaginationProps } from '../types';
 import type { EmitEvent } from '../../../model/base';
-import { Sizes } from '@/shared';
+import { Sizes } from '../../..';
 
 const props = withDefaults(defineProps<PaginationProps>(), {
   showInfo: false,

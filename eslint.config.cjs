@@ -27,7 +27,16 @@ module.exports = [
       'vue/max-attributes-per-line': 'off', // головне!
       'vue/html-closing-bracket-newline': 'off', // друге головне
       'vue/multiline-html-element-content-newline': 'off',
-      'vue/singleline-html-element-content-newline': 'off'
+      'vue/singleline-html-element-content-newline': 'off',
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          group: ['@/*'],
+          message: 'Використовуйте відносні імпорти замість alias @/. Наприклад: "../shared/model" замість "@/shared/model".'
+        }]
+      }],
+      'vue/block-order': ['error', {
+        order: ['script', 'template', 'style']
+      }]
     }
   },
 

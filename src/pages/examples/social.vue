@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  SocialFeed,
+  StoryCarousel,
+  SocialProfile,
+  FollowersList,
+  SocialStats
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +16,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-share-variant" size="large" color="pink" class="mr-2" />
+          <VIcon :icon="Icons.Share" size="large" color="pink" class="mr-2" />
           Social Media
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +36,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-newspaper-variant" class="mr-2" />
+            <VIcon :icon="Icons.NewspaperVariant" class="mr-2" />
             Social Feed
             <VSpacer />
             <VChip color="pink" size="small">SocialPostCard, VCard, VList</VChip>
@@ -44,7 +54,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-play-circle" class="mr-2" />
+            <VIcon :icon="Icons.PlayCircle" class="mr-2" />
             Story Carousel
             <VSpacer />
             <VChip color="pink" size="small">VCard, VAvatar, VImg</VChip>
@@ -62,7 +72,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-circle" class="mr-2" />
+            <VIcon :icon="Icons.AccountCircle" class="mr-2" />
             Social Profile
             <VSpacer />
             <VChip color="pink" size="small">SocialPostCard, VCard, VTabs</VChip>
@@ -80,7 +90,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-group" class="mr-2" />
+            <VIcon :icon="Icons.AccountGroup" class="mr-2" />
             Followers List
             <VSpacer />
             <VChip color="pink" size="small">VCard, VList, VAvatar</VChip>
@@ -98,7 +108,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chart-bar" class="mr-2" />
+            <VIcon :icon="Icons.ChartBar" class="mr-2" />
             Social Stats
             <VSpacer />
             <VChip color="pink" size="small">StatCard, SectionHeader, VCard</VChip>
@@ -112,13 +122,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  SocialFeed,
-  StoryCarousel,
-  SocialProfile,
-  FollowersList,
-  SocialStats
-} from '@/snippets'
-</script>

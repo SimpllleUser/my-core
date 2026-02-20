@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '../../../shared/model'
 import { computed, ref, watch } from 'vue';
 import type { FieldDefinition, SelectOption, RadioOption } from '../types';
 import { getRegisteredComponent } from '../registry';
@@ -86,7 +87,7 @@ const passwordFieldProps = computed(() => {
     counter: config.counter as boolean | number,
     type: showPassword.value ? 'text' : 'password',
     appendInnerIcon: toggleVisibility
-      ? (showPassword.value ? 'mdi-eye-off' : 'mdi-eye')
+      ? (showPassword.value ? Icons.EyeOff : Icons.Eye)
       : config.appendInnerIcon as string,
   };
 });

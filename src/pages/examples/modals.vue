@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  DialogVariants
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +12,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-window-open" size="large" color="pink" class="mr-2" />
+          <VIcon :icon="Icons.WindowOpen" size="large" color="pink" class="mr-2" />
           Modals & Dialogs
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +32,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-comment-alert" class="mr-2" />
+            <VIcon :icon="Icons.CommentAlert" class="mr-2" />
             Dialog Variants
             <VSpacer />
             <VChip color="pink" size="small">VDialog, VCard, VBtn, VForm</VChip>
@@ -40,9 +46,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  DialogVariants
-} from '@/snippets'
-</script>

@@ -4,6 +4,97 @@
   Components: VCard, VTextField, VSelect, VRangeSlider, VChip, VBtn, VExpansionPanels
   Variants: Horizontal, Sidebar, Modal
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref, computed } from 'vue'
+
+const filters = ref({
+  search: '',
+  category: '',
+  priceRange: [0, 1000],
+  rating: 0,
+  inStock: false,
+  brands: [] as string[],
+  colors: [] as string[],
+  sizes: [] as string[],
+})
+
+const sortBy = ref('relevance')
+const viewMode = ref<'grid' | 'list'>('grid')
+const filteredCount = ref(248)
+
+const categories = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books', 'Toys']
+const brands = ['Apple', 'Samsung', 'Sony', 'Nike', 'Adidas', 'LG']
+const colors = [
+  { name: 'Black', value: '#000000' },
+  { name: 'White', value: '#FFFFFF' },
+  { name: 'Red', value: '#EF4444' },
+  { name: 'Blue', value: '#3B82F6' },
+  { name: 'Green', value: '#22C55E' },
+  { name: 'Yellow', value: '#EAB308' },
+]
+const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+const sortOptions = [
+  { title: 'Relevance', value: 'relevance' },
+  { title: 'Price: Low to High', value: 'price_asc' },
+  { title: 'Price: High to Low', value: 'price_desc' },
+  { title: 'Rating', value: 'rating' },
+  { title: 'Newest', value: 'newest' },
+]
+
+const hasActiveFilters = computed(() => {
+  return (
+    filters.value.search ||
+    filters.value.category ||
+    filters.value.priceRange[0] > 0 ||
+    filters.value.priceRange[1] < 1000 ||
+    filters.value.rating > 0 ||
+    filters.value.inStock ||
+    filters.value.brands.length > 0 ||
+    filters.value.colors.length > 0 ||
+    filters.value.sizes.length > 0
+  )
+})
+
+const activeFiltersCount = computed(() => {
+  let count = 0
+  if (filters.value.search) count++
+  if (filters.value.category) count++
+  if (filters.value.priceRange[0] > 0 || filters.value.priceRange[1] < 1000) count++
+  if (filters.value.rating > 0) count++
+  if (filters.value.inStock) count++
+  count += filters.value.brands.length
+  count += filters.value.colors.length
+  count += filters.value.sizes.length
+  return count
+})
+
+const toggleColor = (color: string) => {
+  const index = filters.value.colors.indexOf(color)
+  if (index > -1) {
+    filters.value.colors.splice(index, 1)
+  } else {
+    filters.value.colors.push(color)
+  }
+}
+
+const resetFilters = () => {
+  filters.value = {
+    search: '',
+    category: '',
+    priceRange: [0, 1000],
+    rating: 0,
+    inStock: false,
+    brands: [],
+    colors: [],
+    sizes: [],
+  }
+}
+
+const applyFilters = () => {
+  console.log('Applying filters:', filters.value)
+}
+</script>
 <template>
   <VContainer fluid>
     <VRow>
@@ -24,7 +115,7 @@
               label="Search"
               variant="outlined"
               density="compact"
-              prepend-inner-icon="mdi-magnify"
+              :prepend-inner-icon="Icons.Search"
               clearable
               class="mb-4"
             />
@@ -216,8 +307,8 @@
                 style="width: 180px;"
               />
               <VBtnToggle v-model="viewMode" mandatory density="compact" variant="outlined">
-                <VBtn value="grid" icon="mdi-view-grid" />
-                <VBtn value="list" icon="mdi-view-list" />
+                <VBtn value="grid" :icon="Icons.ViewGrid" />
+                <VBtn value="list" :icon="Icons.ViewList" />
               </VBtnToggle>
             </div>
           </VCardText>
@@ -255,94 +346,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-
-const filters = ref({
-  search: '',
-  category: '',
-  priceRange: [0, 1000],
-  rating: 0,
-  inStock: false,
-  brands: [] as string[],
-  colors: [] as string[],
-  sizes: [] as string[],
-})
-
-const sortBy = ref('relevance')
-const viewMode = ref<'grid' | 'list'>('grid')
-const filteredCount = ref(248)
-
-const categories = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books', 'Toys']
-const brands = ['Apple', 'Samsung', 'Sony', 'Nike', 'Adidas', 'LG']
-const colors = [
-  { name: 'Black', value: '#000000' },
-  { name: 'White', value: '#FFFFFF' },
-  { name: 'Red', value: '#EF4444' },
-  { name: 'Blue', value: '#3B82F6' },
-  { name: 'Green', value: '#22C55E' },
-  { name: 'Yellow', value: '#EAB308' },
-]
-const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-const sortOptions = [
-  { title: 'Relevance', value: 'relevance' },
-  { title: 'Price: Low to High', value: 'price_asc' },
-  { title: 'Price: High to Low', value: 'price_desc' },
-  { title: 'Rating', value: 'rating' },
-  { title: 'Newest', value: 'newest' },
-]
-
-const hasActiveFilters = computed(() => {
-  return (
-    filters.value.search ||
-    filters.value.category ||
-    filters.value.priceRange[0] > 0 ||
-    filters.value.priceRange[1] < 1000 ||
-    filters.value.rating > 0 ||
-    filters.value.inStock ||
-    filters.value.brands.length > 0 ||
-    filters.value.colors.length > 0 ||
-    filters.value.sizes.length > 0
-  )
-})
-
-const activeFiltersCount = computed(() => {
-  let count = 0
-  if (filters.value.search) count++
-  if (filters.value.category) count++
-  if (filters.value.priceRange[0] > 0 || filters.value.priceRange[1] < 1000) count++
-  if (filters.value.rating > 0) count++
-  if (filters.value.inStock) count++
-  count += filters.value.brands.length
-  count += filters.value.colors.length
-  count += filters.value.sizes.length
-  return count
-})
-
-const toggleColor = (color: string) => {
-  const index = filters.value.colors.indexOf(color)
-  if (index > -1) {
-    filters.value.colors.splice(index, 1)
-  } else {
-    filters.value.colors.push(color)
-  }
-}
-
-const resetFilters = () => {
-  filters.value = {
-    search: '',
-    category: '',
-    priceRange: [0, 1000],
-    rating: 0,
-    inStock: false,
-    brands: [],
-    colors: [],
-    sizes: [],
-  }
-}
-
-const applyFilters = () => {
-  console.log('Applying filters:', filters.value)
-}
-</script>

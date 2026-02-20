@@ -1,45 +1,6 @@
-<template>
-  <div :class="['price-display', { 'd-flex align-center': inline }, containerClass]">
-    <slot :price="price" :formattedPrice="formattedPrice" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
-      <!-- Current Price -->
-      <slot name="price" :price="price" :formattedPrice="formattedPrice">
-        <span :class="[priceClass, 'font-weight-bold']">
-          <slot name="currency">{{ currencySymbol }}</slot>{{ formattedPrice }}
-        </span>
-      </slot>
-
-      <!-- Original Price -->
-      <slot name="original-price" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
-        <span
-          v-if="originalPrice && originalPrice > price"
-          :class="originalPriceClass"
-        >
-          {{ currencySymbol }}{{ formattedOriginalPrice }}
-        </span>
-      </slot>
-    </slot>
-
-    <!-- Discount Badge -->
-    <slot name="discount" :discountPercentage="discountPercentage">
-      <VChip
-        v-if="showDiscount && discountPercentage > 0"
-        :color="discountColor"
-        :variant="discountVariant"
-        :size="discountSize"
-        :class="discountClass"
-      >
-        {{ discountPrefix }}{{ discountPercentage }}%
-      </VChip>
-    </slot>
-
-    <!-- Additional content -->
-    <slot name="append" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes } from '@/shared/model'
+import { Colors, Variants, Sizes } from '../../model'
 import type { ColorType, VariantType, SizeType } from './types'
 
 interface Props {
@@ -86,3 +47,41 @@ const discountPercentage = computed(() => {
   return Math.round(((props.originalPrice - props.price) / props.originalPrice) * 100)
 })
 </script>
+<template>
+  <div :class="['price-display', { 'd-flex align-center': inline }, containerClass]">
+    <slot :price="price" :formattedPrice="formattedPrice" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
+      <!-- Current Price -->
+      <slot name="price" :price="price" :formattedPrice="formattedPrice">
+        <span :class="[priceClass, 'font-weight-bold']">
+          <slot name="currency">{{ currencySymbol }}</slot>{{ formattedPrice }}
+        </span>
+      </slot>
+
+      <!-- Original Price -->
+      <slot name="original-price" :originalPrice="originalPrice" :formattedOriginalPrice="formattedOriginalPrice">
+        <span
+          v-if="originalPrice && originalPrice > price"
+          :class="originalPriceClass"
+        >
+          {{ currencySymbol }}{{ formattedOriginalPrice }}
+        </span>
+      </slot>
+    </slot>
+
+    <!-- Discount Badge -->
+    <slot name="discount" :discountPercentage="discountPercentage">
+      <VChip
+        v-if="showDiscount && discountPercentage > 0"
+        :color="discountColor"
+        :variant="discountVariant"
+        :size="discountSize"
+        :class="discountClass"
+      >
+        {{ discountPrefix }}{{ discountPercentage }}%
+      </VChip>
+    </slot>
+
+    <!-- Additional content -->
+    <slot name="append" />
+  </div>
+</template>

@@ -3,88 +3,9 @@
   Description: Displays cryptocurrency asset with price, change, and balance
   Props: name, symbol, icon, price, change24h, balance, value, color
 -->
-<template>
-  <VCard :variant="cardVariant" :color="cardColor" :elevation="elevation" :class="['crypto-card', cardClass]" :hover="hover">
-    <VCardText :class="contentClass">
-      <!-- Header row: avatar+info and change badge -->
-      <slot name="header" :name="name" :symbol="symbol" :change24h="change24h">
-        <div :class="['d-flex align-center justify-space-between', headerClass]">
-          <div class="d-flex align-center">
-            <!-- Avatar -->
-            <slot name="avatar" :icon="icon" :name="name" :symbol="symbol">
-              <VAvatar :color="avatarColor" :size="avatarSize" :rounded="avatarRounded" :class="avatarClass">
-                <VImg v-if="icon" :src="icon" :alt="name" />
-                <span v-else :class="avatarFallbackClass">{{ symbol.slice(0, 2) }}</span>
-              </VAvatar>
-            </slot>
-
-            <!-- Name & Symbol -->
-            <slot name="info" :name="name" :symbol="symbol">
-              <div>
-                <div :class="nameClass">{{ name }}</div>
-                <div :class="symbolClass">{{ symbol }}</div>
-              </div>
-            </slot>
-          </div>
-
-          <!-- Change Badge -->
-          <slot name="change" :change24h="change24h" :changeColor="changeColor" :changeIcon="changeIcon">
-            <VChip
-              v-if="showChange"
-              :color="changeColor"
-              :size="changeChipSize"
-              :variant="changeChipVariant"
-            >
-              <VIcon start :size="changeIconSize">{{ changeIcon }}</VIcon>
-              {{ Math.abs(change24h).toFixed(changeDecimalPlaces) }}%
-            </VChip>
-          </slot>
-        </div>
-      </slot>
-
-      <!-- Balance & Price row -->
-      <slot name="details" :balance="balance" :price="price" :formattedBalance="formattedBalance" :formattedPrice="formattedPrice">
-        <div :class="['d-flex justify-space-between align-end', detailsClass]">
-          <!-- Balance -->
-          <slot name="balance" :balance="balance" :formattedBalance="formattedBalance" :symbol="symbol">
-            <div v-if="showBalance">
-              <div :class="balanceLabelClass">{{ balanceLabel }}</div>
-              <div :class="balanceValueClass">{{ formattedBalance }} {{ symbol }}</div>
-            </div>
-          </slot>
-
-          <!-- Price -->
-          <slot name="price" :price="price" :formattedPrice="formattedPrice">
-            <div v-if="showPrice" class="text-right">
-              <div :class="priceLabelClass">{{ priceLabel }}</div>
-              <div :class="priceValueClass">{{ formattedPrice }}</div>
-            </div>
-          </slot>
-        </div>
-      </slot>
-
-      <!-- Divider -->
-      <slot v-if="showValue" name="divider">
-        <VDivider :class="dividerClass" />
-      </slot>
-
-      <!-- Total Value -->
-      <slot name="value" :value="computedValue" :formattedValue="formattedValue">
-        <div v-if="showValue" :class="['d-flex justify-space-between', valueContainerClass]">
-          <span :class="valueLabelClass">{{ valueLabel }}</span>
-          <span :class="valueClass">{{ formattedValue }}</span>
-        </div>
-      </slot>
-
-      <!-- Additional content -->
-      <slot />
-    </VCardText>
-  </VCard>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType } from './types'
 
 interface Props {
@@ -221,7 +142,84 @@ const formattedValue = computed(() => {
   }).format(computedValue.value)
 })
 </script>
+<template>
+  <VCard :variant="cardVariant" :color="cardColor" :elevation="elevation" :class="['crypto-card', cardClass]" :hover="hover">
+    <VCardText :class="contentClass">
+      <!-- Header row: avatar+info and change badge -->
+      <slot name="header" :name="name" :symbol="symbol" :change24h="change24h">
+        <div :class="['d-flex align-center justify-space-between', headerClass]">
+          <div class="d-flex align-center">
+            <!-- Avatar -->
+            <slot name="avatar" :icon="icon" :name="name" :symbol="symbol">
+              <VAvatar :color="avatarColor" :size="avatarSize" :rounded="avatarRounded" :class="avatarClass">
+                <VImg v-if="icon" :src="icon" :alt="name" />
+                <span v-else :class="avatarFallbackClass">{{ symbol.slice(0, 2) }}</span>
+              </VAvatar>
+            </slot>
 
+            <!-- Name & Symbol -->
+            <slot name="info" :name="name" :symbol="symbol">
+              <div>
+                <div :class="nameClass">{{ name }}</div>
+                <div :class="symbolClass">{{ symbol }}</div>
+              </div>
+            </slot>
+          </div>
+
+          <!-- Change Badge -->
+          <slot name="change" :change24h="change24h" :changeColor="changeColor" :changeIcon="changeIcon">
+            <VChip
+              v-if="showChange"
+              :color="changeColor"
+              :size="changeChipSize"
+              :variant="changeChipVariant"
+            >
+              <VIcon start :size="changeIconSize">{{ changeIcon }}</VIcon>
+              {{ Math.abs(change24h).toFixed(changeDecimalPlaces) }}%
+            </VChip>
+          </slot>
+        </div>
+      </slot>
+
+      <!-- Balance & Price row -->
+      <slot name="details" :balance="balance" :price="price" :formattedBalance="formattedBalance" :formattedPrice="formattedPrice">
+        <div :class="['d-flex justify-space-between align-end', detailsClass]">
+          <!-- Balance -->
+          <slot name="balance" :balance="balance" :formattedBalance="formattedBalance" :symbol="symbol">
+            <div v-if="showBalance">
+              <div :class="balanceLabelClass">{{ balanceLabel }}</div>
+              <div :class="balanceValueClass">{{ formattedBalance }} {{ symbol }}</div>
+            </div>
+          </slot>
+
+          <!-- Price -->
+          <slot name="price" :price="price" :formattedPrice="formattedPrice">
+            <div v-if="showPrice" class="text-right">
+              <div :class="priceLabelClass">{{ priceLabel }}</div>
+              <div :class="priceValueClass">{{ formattedPrice }}</div>
+            </div>
+          </slot>
+        </div>
+      </slot>
+
+      <!-- Divider -->
+      <slot v-if="showValue" name="divider">
+        <VDivider :class="dividerClass" />
+      </slot>
+
+      <!-- Total Value -->
+      <slot name="value" :value="computedValue" :formattedValue="formattedValue">
+        <div v-if="showValue" :class="['d-flex justify-space-between', valueContainerClass]">
+          <span :class="valueLabelClass">{{ valueLabel }}</span>
+          <span :class="valueClass">{{ formattedValue }}</span>
+        </div>
+      </slot>
+
+      <!-- Additional content -->
+      <slot />
+    </VCardText>
+  </VCard>
+</template>
 <style scoped>
 .crypto-card {
   height: 100%;

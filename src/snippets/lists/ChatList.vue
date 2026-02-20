@@ -4,151 +4,8 @@
   Components: VList, VListItem, VAvatar, VTextField, VBtn
   Variants: Chat sidebar, Message bubbles
 -->
-<template>
-  <VCard style="height: 600px;">
-    <VRow no-gutters style="height: 100%;">
-      <!-- Conversations Sidebar -->
-      <VCol cols="4" class="border-e d-flex flex-column">
-        <!-- Header -->
-        <div class="pa-4 border-b">
-          <div class="d-flex align-center justify-space-between mb-4">
-            <h3 class="text-h6 font-weight-bold">Messages</h3>
-            <VBtn icon="mdi-pencil-plus" variant="text" size="small" />
-          </div>
-          <VTextField
-            v-model="search"
-            density="compact"
-            variant="solo-filled"
-            flat
-            hide-details
-            placeholder="Search conversations..."
-            prepend-inner-icon="mdi-magnify"
-          />
-        </div>
-
-        <!-- Conversations List -->
-        <VList class="overflow-y-auto flex-grow-1">
-          <VListItem
-            v-for="conversation in filteredConversations"
-            :key="conversation.id"
-            :class="{ 'bg-primary-lighten-5': activeConversation?.id === conversation.id }"
-            @click="selectConversation(conversation)"
-          >
-            <template #prepend>
-              <VBadge
-                :color="conversation.online ? 'success' : 'grey'"
-                dot
-                location="bottom right"
-                offset-x="3"
-                offset-y="3"
-              >
-                <VAvatar size="48">
-                  <VImg :src="conversation.avatar" />
-                </VAvatar>
-              </VBadge>
-            </template>
-
-            <VListItemTitle class="font-weight-medium">
-              {{ conversation.name }}
-            </VListItemTitle>
-            <VListItemSubtitle class="text-truncate">
-              {{ conversation.lastMessage }}
-            </VListItemSubtitle>
-
-            <template #append>
-              <div class="text-right">
-                <p class="text-caption text-medium-emphasis mb-1">{{ conversation.time }}</p>
-                <VBadge v-if="conversation.unread" :content="conversation.unread" color="primary" inline />
-              </div>
-            </template>
-          </VListItem>
-        </VList>
-      </VCol>
-
-      <!-- Chat Area -->
-      <VCol cols="8" class="d-flex flex-column">
-        <template v-if="activeConversation">
-          <!-- Chat Header -->
-          <div class="pa-4 border-b d-flex align-center">
-            <VAvatar size="40" class="mr-3">
-              <VImg :src="activeConversation.avatar" />
-            </VAvatar>
-            <div class="flex-grow-1">
-              <p class="font-weight-medium mb-0">{{ activeConversation.name }}</p>
-              <p class="text-caption text-medium-emphasis mb-0">
-                {{ activeConversation.online ? 'Online' : 'Offline' }}
-              </p>
-            </div>
-            <VBtn icon="mdi-phone" variant="text" />
-            <VBtn icon="mdi-video" variant="text" />
-            <VBtn icon="mdi-dots-vertical" variant="text" />
-          </div>
-
-          <!-- Messages -->
-          <div class="flex-grow-1 overflow-y-auto pa-4" ref="messagesContainer">
-            <div
-              v-for="message in messages"
-              :key="message.id"
-              :class="['d-flex mb-4', message.sent ? 'justify-end' : 'justify-start']"
-            >
-              <VAvatar v-if="!message.sent" size="32" class="mr-2 align-self-end">
-                <VImg :src="activeConversation.avatar" />
-              </VAvatar>
-
-              <div :class="['message-bubble', message.sent ? 'sent' : 'received']">
-                <p class="mb-1">{{ message.text }}</p>
-                <div class="d-flex align-center justify-end">
-                  <span class="text-caption" :class="message.sent ? 'text-white-darken-1' : 'text-medium-emphasis'">
-                    {{ message.time }}
-                  </span>
-                  <VIcon v-if="message.sent" size="16" class="ml-1" :color="message.read ? 'info' : 'white'">
-                    {{ message.read ? 'mdi-check-all' : 'mdi-check' }}
-                  </VIcon>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Message Input -->
-          <div class="pa-4 border-t">
-            <VTextField
-              v-model="newMessage"
-              variant="solo-filled"
-              flat
-              hide-details
-              placeholder="Type a message..."
-              @keyup.enter="sendMessage"
-            >
-              <template #prepend-inner>
-                <VBtn icon="mdi-emoticon-outline" variant="text" size="small" />
-                <VBtn icon="mdi-paperclip" variant="text" size="small" />
-              </template>
-              <template #append-inner>
-                <VBtn
-                  icon="mdi-send"
-                  color="primary"
-                  variant="flat"
-                  size="small"
-                  :disabled="!newMessage.trim()"
-                  @click="sendMessage"
-                />
-              </template>
-            </VTextField>
-          </div>
-        </template>
-
-        <!-- No Conversation Selected -->
-        <div v-else class="d-flex flex-column align-center justify-center h-100">
-          <VIcon size="80" color="grey-lighten-1" class="mb-4">mdi-chat-outline</VIcon>
-          <p class="text-h6 text-medium-emphasis mb-2">Select a conversation</p>
-          <p class="text-body-2 text-medium-emphasis">Choose a conversation to start messaging</p>
-        </div>
-      </VCol>
-    </VRow>
-  </VCard>
-</template>
-
 <script setup lang="ts">
+import { Icons } from '../../shared/model'
 import { ref, computed, nextTick } from 'vue'
 
 const search = ref('')
@@ -215,7 +72,149 @@ const sendMessage = () => {
   })
 }
 </script>
+<template>
+  <VCard style="height: 600px;">
+    <VRow no-gutters style="height: 100%;">
+      <!-- Conversations Sidebar -->
+      <VCol cols="4" class="border-e d-flex flex-column">
+        <!-- Header -->
+        <div class="pa-4 border-b">
+          <div class="d-flex align-center justify-space-between mb-4">
+            <h3 class="text-h6 font-weight-bold">Messages</h3>
+            <VBtn :icon="Icons.PencilPlus" variant="text" size="small" />
+          </div>
+          <VTextField
+            v-model="search"
+            density="compact"
+            variant="solo-filled"
+            flat
+            hide-details
+            placeholder="Search conversations..."
+            :prepend-inner-icon="Icons.Search"
+          />
+        </div>
 
+        <!-- Conversations List -->
+        <VList class="overflow-y-auto flex-grow-1">
+          <VListItem
+            v-for="conversation in filteredConversations"
+            :key="conversation.id"
+            :class="{ 'bg-primary-lighten-5': activeConversation?.id === conversation.id }"
+            @click="selectConversation(conversation)"
+          >
+            <template #prepend>
+              <VBadge
+                :color="conversation.online ? 'success' : 'grey'"
+                dot
+                location="bottom right"
+                offset-x="3"
+                offset-y="3"
+              >
+                <VAvatar size="48">
+                  <VImg :src="conversation.avatar" />
+                </VAvatar>
+              </VBadge>
+            </template>
+
+            <VListItemTitle class="font-weight-medium">
+              {{ conversation.name }}
+            </VListItemTitle>
+            <VListItemSubtitle class="text-truncate">
+              {{ conversation.lastMessage }}
+            </VListItemSubtitle>
+
+            <template #append>
+              <div class="text-right">
+                <p class="text-caption text-medium-emphasis mb-1">{{ conversation.time }}</p>
+                <VBadge v-if="conversation.unread" :content="conversation.unread" color="primary" inline />
+              </div>
+            </template>
+          </VListItem>
+        </VList>
+      </VCol>
+
+      <!-- Chat Area -->
+      <VCol cols="8" class="d-flex flex-column">
+        <template v-if="activeConversation">
+          <!-- Chat Header -->
+          <div class="pa-4 border-b d-flex align-center">
+            <VAvatar size="40" class="mr-3">
+              <VImg :src="activeConversation.avatar" />
+            </VAvatar>
+            <div class="flex-grow-1">
+              <p class="font-weight-medium mb-0">{{ activeConversation.name }}</p>
+              <p class="text-caption text-medium-emphasis mb-0">
+                {{ activeConversation.online ? 'Online' : 'Offline' }}
+              </p>
+            </div>
+            <VBtn :icon="Icons.Phone" variant="text" />
+            <VBtn :icon="Icons.Video" variant="text" />
+            <VBtn :icon="Icons.DotsVertical" variant="text" />
+          </div>
+
+          <!-- Messages -->
+          <div class="flex-grow-1 overflow-y-auto pa-4" ref="messagesContainer">
+            <div
+              v-for="message in messages"
+              :key="message.id"
+              :class="['d-flex mb-4', message.sent ? 'justify-end' : 'justify-start']"
+            >
+              <VAvatar v-if="!message.sent" size="32" class="mr-2 align-self-end">
+                <VImg :src="activeConversation.avatar" />
+              </VAvatar>
+
+              <div :class="['message-bubble', message.sent ? 'sent' : 'received']">
+                <p class="mb-1">{{ message.text }}</p>
+                <div class="d-flex align-center justify-end">
+                  <span class="text-caption" :class="message.sent ? 'text-white-darken-1' : 'text-medium-emphasis'">
+                    {{ message.time }}
+                  </span>
+                  <VIcon v-if="message.sent" size="16" class="ml-1" :color="message.read ? 'info' : 'white'">
+                    {{ message.read ? Icons.CheckAll : Icons.Check }}
+                  </VIcon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Input -->
+          <div class="pa-4 border-t">
+            <VTextField
+              v-model="newMessage"
+              variant="solo-filled"
+              flat
+              hide-details
+              placeholder="Type a message..."
+              @keyup.enter="sendMessage"
+            >
+              <template #prepend-inner>
+                <VBtn :icon="Icons.EmoticonOutline" variant="text" size="small" />
+                <VBtn :icon="Icons.Paperclip" variant="text" size="small" />
+              </template>
+              <template #append-inner>
+                <VBtn
+                  :icon="Icons.Send"
+                  color="primary"
+                  variant="flat"
+                  size="small"
+                  :disabled="!newMessage.trim()"
+                  @click="sendMessage"
+                />
+              </template>
+            </VTextField>
+          </div>
+        </template>
+
+        <!-- No Conversation Selected -->
+        <div v-else class="d-flex flex-column align-center justify-center h-100">
+          <VIcon size="80" color="grey-lighten-1" class="mb-4">{{ Icons.ChatOutline }}</VIcon>
+          <p class="text-h6 text-medium-emphasis mb-2">Select a conversation</p>
+          <p class="text-body-2 text-medium-emphasis">Choose a conversation to start messaging</p>
+        </div>
+      </VCol>
+    </VRow>
+  </VCard>
+</template>
 <style scoped>
 .message-bubble {
   max-width: 70%;

@@ -1,55 +1,6 @@
-<template>
-  <div :class="['avatar-with-info d-flex', alignClass, containerClass]">
-    <!-- Avatar -->
-    <slot name="avatar" :avatar="avatar" :name="name" :initials="initials">
-      <VAvatar :size="avatarSize" :class="avatarClass">
-        <VImg v-if="avatar" :src="avatar" :alt="name" />
-        <span v-else-if="initials" :class="initialsClass">{{ initials }}</span>
-        <VIcon v-else :size="placeholderIconSize">{{ placeholderIcon }}</VIcon>
-      </VAvatar>
-    </slot>
-
-    <!-- Info -->
-    <div :class="infoClass">
-      <slot name="name" :name="name">
-        <component :is="nameTag" :class="[nameClass, 'mb-0']">
-          {{ name }}
-        </component>
-      </slot>
-
-      <slot name="subtitle" :subtitle="subtitle" :company="company">
-        <p v-if="subtitle" :class="[subtitleClass, 'mb-0']">
-          {{ subtitle }}
-          <template v-if="company">
-            <slot name="company-separator">{{ companySeparator }}</slot>
-            {{ company }}
-          </template>
-        </p>
-      </slot>
-
-      <slot name="badge" :badge="badge">
-        <VChip
-          v-if="badge"
-          :size="badgeSize"
-          :variant="badgeVariant"
-          :color="badgeColor"
-          :class="badgeClass"
-        >
-          {{ badge }}
-        </VChip>
-      </slot>
-
-      <slot />
-    </div>
-
-    <!-- Append -->
-    <slot name="append" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType } from './types'
 
 interface Props {
@@ -111,7 +62,54 @@ const alignClass = computed(() => {
   return `align-${props.align}`
 })
 </script>
+<template>
+  <div :class="['avatar-with-info d-flex', alignClass, containerClass]">
+    <!-- Avatar -->
+    <slot name="avatar" :avatar="avatar" :name="name" :initials="initials">
+      <VAvatar :size="avatarSize" :class="avatarClass">
+        <VImg v-if="avatar" :src="avatar" :alt="name" />
+        <span v-else-if="initials" :class="initialsClass">{{ initials }}</span>
+        <VIcon v-else :size="placeholderIconSize">{{ placeholderIcon }}</VIcon>
+      </VAvatar>
+    </slot>
 
+    <!-- Info -->
+    <div :class="infoClass">
+      <slot name="name" :name="name">
+        <component :is="nameTag" :class="[nameClass, 'mb-0']">
+          {{ name }}
+        </component>
+      </slot>
+
+      <slot name="subtitle" :subtitle="subtitle" :company="company">
+        <p v-if="subtitle" :class="[subtitleClass, 'mb-0']">
+          {{ subtitle }}
+          <template v-if="company">
+            <slot name="company-separator">{{ companySeparator }}</slot>
+            {{ company }}
+          </template>
+        </p>
+      </slot>
+
+      <slot name="badge" :badge="badge">
+        <VChip
+          v-if="badge"
+          :size="badgeSize"
+          :variant="badgeVariant"
+          :color="badgeColor"
+          :class="badgeClass"
+        >
+          {{ badge }}
+        </VChip>
+      </slot>
+
+      <slot />
+    </div>
+
+    <!-- Append -->
+    <slot name="append" />
+  </div>
+</template>
 <style scoped>
 .avatar-with-info {
   gap: 0;

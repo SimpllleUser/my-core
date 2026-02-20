@@ -1,96 +1,6 @@
-<template>
-  <VCard
-    :class="[
-      'pricing-card d-flex flex-column',
-      { 'border-primary border-2': featured },
-      cardClass
-    ]"
-    :elevation="featured ? featuredElevation : elevation"
-    height="100%"
-  >
-    <VCardText class="flex-grow-1">
-      <!-- Featured Badge -->
-      <slot name="badge" :featured="featured" :badgeText="badgeText">
-        <VChip
-          v-if="featured && badgeText"
-          :color="badgeColor"
-          :size="badgeSize"
-          class="position-absolute"
-          style="top: 12px; right: 12px;"
-        >
-          {{ badgeText }}
-        </VChip>
-      </slot>
-
-      <!-- Plan Header -->
-      <div :class="['text-center', headerPadding]">
-        <slot name="header" :name="name" :description="description">
-          <slot name="icon" :icon="icon">
-            <VIcon v-if="icon" :color="iconColor" :size="iconSize" class="mb-4">
-              {{ icon }}
-            </VIcon>
-          </slot>
-
-          <h3 :class="[nameClass, 'font-weight-bold mb-2']">{{ name }}</h3>
-          <p v-if="description" :class="[descriptionClass, 'mb-4']">{{ description }}</p>
-        </slot>
-
-        <!-- Price Display -->
-        <slot name="price" :displayPrice="displayPrice" :currencySymbol="currencySymbol" :priceSuffix="priceSuffix">
-          <div class="d-flex align-baseline justify-center">
-            <span v-if="currencySymbol" class="text-h5 font-weight-bold">{{ currencySymbol }}</span>
-            <span :class="[priceClass, 'font-weight-bold']">
-              {{ displayPrice }}
-            </span>
-            <span v-if="priceSuffix" class="text-medium-emphasis ml-1">{{ priceSuffix }}</span>
-          </div>
-          <p v-if="billingNote" :class="[billingNoteClass, 'mt-1']">
-            {{ billingNote }}
-          </p>
-        </slot>
-      </div>
-
-      <VDivider class="mb-4" />
-
-      <!-- Features List -->
-      <slot name="features" :features="features">
-        <VList v-if="features?.length" :density="featuresDensity" :class="featuresListClass">
-          <FeatureItem
-            v-for="(feature, index) in features"
-            :key="index"
-            :text="feature.text"
-            :included="feature.included"
-            :icon-included="featureIconIncluded"
-            :icon-excluded="featureIconExcluded"
-            :icon-color-included="featureIconColorIncluded"
-            :icon-color-excluded="featureIconColorExcluded"
-          />
-        </VList>
-      </slot>
-
-      <slot />
-    </VCardText>
-
-    <!-- CTA Button -->
-    <VCardActions :class="actionsClass">
-      <slot name="action" :featured="featured" :cta="cta">
-        <VBtn
-          :color="featured ? ctaColor : undefined"
-          :variant="featured ? ctaVariant : ctaVariantDefault"
-          block
-          :size="ctaSize"
-          @click="$emit('select')"
-        >
-          {{ cta }}
-        </VBtn>
-      </slot>
-    </VCardActions>
-  </VCard>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
+import { Colors, Variants, Sizes, Icons } from '../../model'
 import type { ColorType, VariantType, SizeType, IconType, IPricingFeature } from './types'
 import FeatureItem from './FeatureItem.vue'
 
@@ -188,7 +98,95 @@ const displayPrice = computed(() => {
     : props.monthlyPrice
 })
 </script>
+<template>
+  <VCard
+    :class="[
+      'pricing-card d-flex flex-column',
+      { 'border-primary border-2': featured },
+      cardClass
+    ]"
+    :elevation="featured ? featuredElevation : elevation"
+    height="100%"
+  >
+    <VCardText class="flex-grow-1">
+      <!-- Featured Badge -->
+      <slot name="badge" :featured="featured" :badgeText="badgeText">
+        <VChip
+          v-if="featured && badgeText"
+          :color="badgeColor"
+          :size="badgeSize"
+          class="position-absolute"
+          style="top: 12px; right: 12px;"
+        >
+          {{ badgeText }}
+        </VChip>
+      </slot>
 
+      <!-- Plan Header -->
+      <div :class="['text-center', headerPadding]">
+        <slot name="header" :name="name" :description="description">
+          <slot name="icon" :icon="icon">
+            <VIcon v-if="icon" :color="iconColor" :size="iconSize" class="mb-4">
+              {{ icon }}
+            </VIcon>
+          </slot>
+
+          <h3 :class="[nameClass, 'font-weight-bold mb-2']">{{ name }}</h3>
+          <p v-if="description" :class="[descriptionClass, 'mb-4']">{{ description }}</p>
+        </slot>
+
+        <!-- Price Display -->
+        <slot name="price" :displayPrice="displayPrice" :currencySymbol="currencySymbol" :priceSuffix="priceSuffix">
+          <div class="d-flex align-baseline justify-center">
+            <span v-if="currencySymbol" class="text-h5 font-weight-bold">{{ currencySymbol }}</span>
+            <span :class="[priceClass, 'font-weight-bold']">
+              {{ displayPrice }}
+            </span>
+            <span v-if="priceSuffix" class="text-medium-emphasis ml-1">{{ priceSuffix }}</span>
+          </div>
+          <p v-if="billingNote" :class="[billingNoteClass, 'mt-1']">
+            {{ billingNote }}
+          </p>
+        </slot>
+      </div>
+
+      <VDivider class="mb-4" />
+
+      <!-- Features List -->
+      <slot name="features" :features="features">
+        <VList v-if="features?.length" :density="featuresDensity" :class="featuresListClass">
+          <FeatureItem
+            v-for="(feature, index) in features"
+            :key="index"
+            :text="feature.text"
+            :included="feature.included"
+            :icon-included="featureIconIncluded"
+            :icon-excluded="featureIconExcluded"
+            :icon-color-included="featureIconColorIncluded"
+            :icon-color-excluded="featureIconColorExcluded"
+          />
+        </VList>
+      </slot>
+
+      <slot />
+    </VCardText>
+
+    <!-- CTA Button -->
+    <VCardActions :class="actionsClass">
+      <slot name="action" :featured="featured" :cta="cta">
+        <VBtn
+          :color="featured ? ctaColor : undefined"
+          :variant="featured ? ctaVariant : ctaVariantDefault"
+          block
+          :size="ctaSize"
+          @click="$emit('select')"
+        >
+          {{ cta }}
+        </VBtn>
+      </slot>
+    </VCardActions>
+  </VCard>
+</template>
 <style scoped>
 .pricing-card {
   position: relative;

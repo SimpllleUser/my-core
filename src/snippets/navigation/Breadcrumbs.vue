@@ -4,6 +4,27 @@
   Components: VBreadcrumbs, VBreadcrumbsItem, VIcon
   Variants: Simple, With Icons, Custom Dividers
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const tab = ref('overview')
+
+const simpleBreadcrumbs = [
+  { title: 'Home', disabled: false, href: '#' },
+  { title: 'Category', disabled: false, href: '#' },
+  { title: 'Products', disabled: false, href: '#' },
+  { title: 'Current Page', disabled: true },
+]
+
+const iconBreadcrumbs = [
+  { title: 'Dashboard', disabled: false, href: '#' },
+  { title: 'E-commerce', disabled: false, href: '#' },
+  { title: 'Products', disabled: true },
+]
+
+const collapsedItems = ['Category', 'Subcategory', 'Electronics']
+</script>
 <template>
   <VContainer>
     <h2 class="text-h5 font-weight-bold mb-6">Breadcrumbs Variants</h2>
@@ -19,7 +40,7 @@
     <VCard class="mb-6 pa-4">
       <VBreadcrumbs :items="iconBreadcrumbs">
         <template #prepend>
-          <VIcon icon="mdi-home" size="small" />
+          <VIcon :icon="Icons.Home" size="small" />
         </template>
       </VBreadcrumbs>
     </VCard>
@@ -29,7 +50,7 @@
     <VCard class="mb-6 pa-4">
       <VBreadcrumbs :items="simpleBreadcrumbs" divider=">">
         <template #divider>
-          <VIcon icon="mdi-chevron-right" />
+          <VIcon :icon="Icons.ChevronRight" />
         </template>
       </VBreadcrumbs>
     </VCard>
@@ -58,7 +79,7 @@
       <VBreadcrumbs>
         <VBreadcrumbsItem href="#">Home</VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem>
           <VMenu>
@@ -77,11 +98,11 @@
           </VMenu>
         </VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem href="#">Products</VBreadcrumbsItem>
         <VBreadcrumbsDivider>
-          <VIcon>mdi-chevron-right</VIcon>
+          <VIcon>{{ Icons.ChevronRight }}</VIcon>
         </VBreadcrumbsDivider>
         <VBreadcrumbsItem disabled>iPhone 15 Pro</VBreadcrumbsItem>
       </VBreadcrumbs>
@@ -137,24 +158,3 @@
     </VCard>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const tab = ref('overview')
-
-const simpleBreadcrumbs = [
-  { title: 'Home', disabled: false, href: '#' },
-  { title: 'Category', disabled: false, href: '#' },
-  { title: 'Products', disabled: false, href: '#' },
-  { title: 'Current Page', disabled: true },
-]
-
-const iconBreadcrumbs = [
-  { title: 'Dashboard', disabled: false, href: '#' },
-  { title: 'E-commerce', disabled: false, href: '#' },
-  { title: 'Products', disabled: true },
-]
-
-const collapsedItems = ['Category', 'Subcategory', 'Electronics']
-</script>

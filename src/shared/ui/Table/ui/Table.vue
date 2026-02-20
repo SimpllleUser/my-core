@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '../../../model'
 import type { TableProps, FilterState, Header } from '../types';
 import TableHeader from './TableHeader.vue';
 import TableFilters from './TableFilters.vue';
@@ -11,14 +12,14 @@ const props = withDefaults(defineProps<TableProps>(), {
   itemValue: 'id',
   showAddButton: false,
   addButtonText: 'Add',
-  addButtonIcon: 'mdi-plus',
+  addButtonIcon: Icons.Plus,
   showFilters: true,
   loading: false,
   showSelect: false,
   sortable: true,
   showPagination: true,
   perPage: 10,
-  emptyIcon: 'mdi-database-off',
+  emptyIcon: Icons.DatabaseOff,
   emptyTitle: 'No data available',
   density: 'default',
   elevation: 1,

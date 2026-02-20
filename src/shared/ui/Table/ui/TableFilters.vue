@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '../../../model'
 import type { TableFiltersProps, FilterState } from '../types';
 
 const props = withDefaults(defineProps<TableFiltersProps>(), {
@@ -53,7 +54,7 @@ const hasActiveFilters = computed(() => {
           :model-value="modelValue[filter.key] as string || ''"
           :label="filter.label"
           :placeholder="filter.placeholder"
-          prepend-inner-icon="mdi-magnify"
+          :prepend-inner-icon="Icons.Search"
           variant="outlined"
           density="compact"
           hide-details

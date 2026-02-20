@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  HeroSection,
+  FeaturesSection,
+  PricingSection,
+  TestimonialsSection
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +15,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-web" size="large" color="green" class="mr-2" />
+          <VIcon :icon="Icons.Web" size="large" color="green" class="mr-2" />
           Landing Pages
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +35,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-view-carousel" class="mr-2" />
+            <VIcon :icon="Icons.ViewCarousel" class="mr-2" />
             Hero Section
             <VSpacer />
             <VChip color="green" size="small">VContainer, VRow, VCol, VBtn</VChip>
@@ -44,7 +53,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-feature-search" class="mr-2" />
+            <VIcon :icon="Icons.FeatureSearch" class="mr-2" />
             Features Section
             <VSpacer />
             <VChip color="green" size="small">VCard, VIcon, VRow, VCol</VChip>
@@ -62,7 +71,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-currency-usd" class="mr-2" />
+            <VIcon :icon="Icons.CurrencyUsd" class="mr-2" />
             Pricing Section
             <VSpacer />
             <VChip color="green" size="small">VCard, VSwitch, VList, VTable</VChip>
@@ -80,7 +89,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-comment-quote" class="mr-2" />
+            <VIcon :icon="Icons.CommentQuote" class="mr-2" />
             Testimonials Section
             <VSpacer />
             <VChip color="green" size="small">VCard, VAvatar, VRating</VChip>
@@ -94,12 +103,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  HeroSection,
-  FeaturesSection,
-  PricingSection,
-  TestimonialsSection
-} from '@/snippets'
-</script>

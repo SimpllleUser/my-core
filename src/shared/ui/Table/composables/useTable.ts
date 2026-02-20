@@ -108,8 +108,8 @@ export function useTableSort<T extends Record<string, unknown>>(
   };
 
   const getSortIcon = (key: string) => {
-    if (sortKey.value !== key) return 'mdi-unfold-more-horizontal';
-    return sortOrder.value === 'asc' ? 'mdi-chevron-up' : 'mdi-chevron-down';
+    if (sortKey.value !== key) return Icons.UnfoldMore;
+    return sortOrder.value === 'asc' ? Icons.ChevronUp : Icons.ChevronDown;
   };
 
   return {

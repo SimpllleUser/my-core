@@ -4,6 +4,95 @@
   Components: SectionHeader, TeamMemberCard, SocialLinks
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { SectionHeader, TeamMemberCard } from '../../shared/ui/snippets'
+import type { ISocialLink } from '../../shared/ui/snippets'
+
+interface ITeamMemberData {
+  name: string
+  role: string
+  avatar: string
+  department?: string
+  bio?: string
+  socials: ISocialLink[]
+}
+
+const teamMembers: ITeamMemberData[] = [
+  {
+    name: 'Sarah Johnson',
+    role: 'CEO & Co-founder',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    socials: [
+      { platform: 'Twitter', icon: Icons.Twitter },
+      { platform: 'LinkedIn', icon: Icons.LinkedIn },
+    ],
+  },
+  {
+    name: 'Michael Chen',
+    role: 'CTO & Co-founder',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    socials: [
+      { platform: 'Twitter', icon: Icons.Twitter },
+      { platform: 'Github', icon: Icons.Github },
+    ],
+  },
+  {
+    name: 'Emily Davis',
+    role: 'Head of Design',
+    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+    socials: [
+      { platform: 'Dribbble', icon: Icons.Dribbble },
+      { platform: 'Twitter', icon: Icons.Twitter },
+    ],
+  },
+  {
+    name: 'James Wilson',
+    role: 'Lead Engineer',
+    avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
+    socials: [
+      { platform: 'Github', icon: Icons.Github },
+      { platform: 'LinkedIn', icon: Icons.LinkedIn },
+    ],
+  },
+]
+
+const leadershipTeam: ITeamMemberData[] = [
+  {
+    name: 'Sarah Johnson',
+    role: 'CEO & Co-founder',
+    department: 'Executive',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    bio: 'Sarah has 15+ years of experience in tech leadership. Previously led product at Fortune 500 companies.',
+    socials: [
+      { platform: 'Twitter', icon: Icons.Twitter },
+      { platform: 'LinkedIn', icon: Icons.LinkedIn },
+    ],
+  },
+  {
+    name: 'Michael Chen',
+    role: 'CTO & Co-founder',
+    department: 'Engineering',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    bio: 'Michael is a serial entrepreneur with a passion for building scalable systems and leading engineering teams.',
+    socials: [
+      { platform: 'Github', icon: Icons.Github },
+      { platform: 'Twitter', icon: Icons.Twitter },
+    ],
+  },
+  {
+    name: 'Emily Davis',
+    role: 'VP of Product',
+    department: 'Product',
+    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
+    bio: 'Emily drives product strategy and user experience. She previously led design at several successful startups.',
+    socials: [
+      { platform: 'LinkedIn', icon: Icons.LinkedIn },
+      { platform: 'Dribbble', icon: Icons.Dribbble },
+    ],
+  },
+]
+</script>
 <template>
   <div>
     <!-- Team Style 1: Simple Grid -->
@@ -95,93 +184,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, TeamMemberCard } from '@/shared/ui/snippets'
-import type { ISocialLink } from '@/shared/ui/snippets'
-
-interface ITeamMemberData {
-  name: string
-  role: string
-  avatar: string
-  department?: string
-  bio?: string
-  socials: ISocialLink[]
-}
-
-const teamMembers: ITeamMemberData[] = [
-  {
-    name: 'Sarah Johnson',
-    role: 'CEO & Co-founder',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    socials: [
-      { platform: 'Twitter', icon: Icons.Twitter },
-      { platform: 'LinkedIn', icon: Icons.LinkedIn },
-    ],
-  },
-  {
-    name: 'Michael Chen',
-    role: 'CTO & Co-founder',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    socials: [
-      { platform: 'Twitter', icon: Icons.Twitter },
-      { platform: 'Github', icon: Icons.Github },
-    ],
-  },
-  {
-    name: 'Emily Davis',
-    role: 'Head of Design',
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-    socials: [
-      { platform: 'Dribbble', icon: Icons.Dribbble },
-      { platform: 'Twitter', icon: Icons.Twitter },
-    ],
-  },
-  {
-    name: 'James Wilson',
-    role: 'Lead Engineer',
-    avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
-    socials: [
-      { platform: 'Github', icon: Icons.Github },
-      { platform: 'LinkedIn', icon: Icons.LinkedIn },
-    ],
-  },
-]
-
-const leadershipTeam: ITeamMemberData[] = [
-  {
-    name: 'Sarah Johnson',
-    role: 'CEO & Co-founder',
-    department: 'Executive',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    bio: 'Sarah has 15+ years of experience in tech leadership. Previously led product at Fortune 500 companies.',
-    socials: [
-      { platform: 'Twitter', icon: Icons.Twitter },
-      { platform: 'LinkedIn', icon: Icons.LinkedIn },
-    ],
-  },
-  {
-    name: 'Michael Chen',
-    role: 'CTO & Co-founder',
-    department: 'Engineering',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    bio: 'Michael is a serial entrepreneur with a passion for building scalable systems and leading engineering teams.',
-    socials: [
-      { platform: 'Github', icon: Icons.Github },
-      { platform: 'Twitter', icon: Icons.Twitter },
-    ],
-  },
-  {
-    name: 'Emily Davis',
-    role: 'VP of Product',
-    department: 'Product',
-    avatar: 'https://randomuser.me/api/portraits/women/68.jpg',
-    bio: 'Emily drives product strategy and user experience. She previously led design at several successful startups.',
-    socials: [
-      { platform: 'LinkedIn', icon: Icons.LinkedIn },
-      { platform: 'Dribbble', icon: Icons.Dribbble },
-    ],
-  },
-]
-</script>

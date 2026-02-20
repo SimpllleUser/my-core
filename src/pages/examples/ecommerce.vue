@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  ProductGrid,
+  ShoppingCart
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +13,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-cart" size="large" color="deep-purple" class="mr-2" />
+          <VIcon :icon="Icons.Cart" size="large" color="deep-purple" class="mr-2" />
           E-commerce
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +33,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-view-grid" class="mr-2" />
+            <VIcon :icon="Icons.ViewGrid" class="mr-2" />
             Product Grid
             <VSpacer />
             <VChip color="deep-purple" size="small">VCard, VRating, VPagination</VChip>
@@ -44,7 +51,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-cart-outline" class="mr-2" />
+            <VIcon :icon="Icons.CartOutline" class="mr-2" />
             Shopping Cart
             <VSpacer />
             <VChip color="deep-purple" size="small">VCard, VList, VTextField, VBtn</VChip>
@@ -58,10 +65,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  ProductGrid,
-  ShoppingCart
-} from '@/snippets'
-</script>

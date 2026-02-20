@@ -4,6 +4,65 @@
   Components: StatCard, SectionHeader, TransactionItem
   Variants: Overview, accounts, analytics
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons, Colors } from '../../shared/model'
+import type { TransactionType } from '../../shared/ui/snippets'
+
+const selectedPeriod = ref('This Month')
+const periods = ['This Week', 'This Month', 'This Year']
+
+const headerStats = [
+  { label: 'Total Balance', value: '$48,562.00', icon: Icons.Wallet, color: 'primary', change: 12.5 },
+  { label: 'Total Income', value: '$12,450.00', icon: Icons.TrendingUp, color: 'success', change: 8.2 },
+  { label: 'Total Expenses', value: '$4,280.00', icon: Icons.TrendingDown, color: 'error', change: -3.1 },
+  { label: 'Savings Goal', value: '68%', icon: Icons.Target, color: 'warning' },
+]
+
+const accounts = [
+  { id: 1, name: 'Checking Account', number: '****4521', balance: 24562.80, icon: Icons.Bank, color: 'primary' },
+  { id: 2, name: 'Savings Account', number: '****7832', balance: 18450.00, icon: Icons.Wallet, color: 'success' },
+  { id: 3, name: 'Investment', number: '****1290', balance: 45780.25, icon: Icons.ChartLine, color: 'warning' },
+  { id: 4, name: 'Credit Card', number: '****4242', balance: -2550.00, icon: Icons.CreditCard, color: 'error' },
+]
+
+const recentTransactions = [
+  { id: 1, type: 'expense' as TransactionType, title: 'Netflix', category: 'Entertainment', amount: 15.99, date: 'Today', icon: Icons.Television },
+  { id: 2, type: 'income' as TransactionType, title: 'Salary', category: 'Income', amount: 5200, date: 'Yesterday', icon: Icons.Bank },
+  { id: 3, type: 'expense' as TransactionType, title: 'Grocery', category: 'Shopping', amount: 89.50, date: 'Dec 24', icon: Icons.Cart },
+  { id: 4, type: 'expense' as TransactionType, title: 'Uber', category: 'Transport', amount: 24.50, date: 'Dec 23', icon: Icons.Car },
+]
+
+const spendingCategories = [
+  { name: 'Housing', amount: 1200, percentage: 35, icon: Icons.Home, color: 'primary' },
+  { name: 'Food', amount: 650, percentage: 19, icon: Icons.Store, color: 'success' },
+  { name: 'Transport', amount: 420, percentage: 12, icon: Icons.Car, color: 'warning' },
+  { name: 'Shopping', amount: 380, percentage: 11, icon: Icons.Cart, color: 'info' },
+  { name: 'Entertainment', amount: 250, percentage: 7, icon: Icons.Gamepad, color: 'error' },
+  { name: 'Other', amount: 540, percentage: 16, icon: Icons.DotsHorizontal, color: 'secondary' },
+]
+
+const quickActions = [
+  { label: 'Transfer Money', description: 'Send to friends or accounts', icon: Icons.Send, color: 'primary' },
+  { label: 'Pay Bills', description: 'Manage your payments', icon: Icons.Receipt, color: 'success' },
+  { label: 'Request Money', description: 'Get paid by others', icon: Icons.Download, color: 'info' },
+  { label: 'Investments', description: 'Grow your wealth', icon: Icons.ChartLine, color: 'warning' },
+]
+
+const upcomingBills = [
+  { name: 'Electricity', dueDate: 'Dec 28', amount: 120, icon: Icons.Bolt },
+  { name: 'Internet', dueDate: 'Dec 30', amount: 65, icon: Icons.Wifi },
+  { name: 'Insurance', dueDate: 'Jan 1', amount: 250, icon: Icons.Shield },
+]
+
+const getTypeColor = (type: TransactionType) => {
+  return type === 'income' ? Colors.Success : Colors.Error
+}
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Math.abs(amount))
+}
+</script>
 <template>
   <div>
     <!-- Header with Welcome & Quick Stats -->
@@ -267,67 +326,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons, Colors } from '@/shared/model'
-import type { TransactionType } from '@/shared/ui/snippets'
-
-const selectedPeriod = ref('This Month')
-const periods = ['This Week', 'This Month', 'This Year']
-
-const headerStats = [
-  { label: 'Total Balance', value: '$48,562.00', icon: Icons.Wallet, color: 'primary', change: 12.5 },
-  { label: 'Total Income', value: '$12,450.00', icon: Icons.TrendingUp, color: 'success', change: 8.2 },
-  { label: 'Total Expenses', value: '$4,280.00', icon: Icons.TrendingDown, color: 'error', change: -3.1 },
-  { label: 'Savings Goal', value: '68%', icon: Icons.Target, color: 'warning' },
-]
-
-const accounts = [
-  { id: 1, name: 'Checking Account', number: '****4521', balance: 24562.80, icon: Icons.Bank, color: 'primary' },
-  { id: 2, name: 'Savings Account', number: '****7832', balance: 18450.00, icon: Icons.Wallet, color: 'success' },
-  { id: 3, name: 'Investment', number: '****1290', balance: 45780.25, icon: Icons.ChartLine, color: 'warning' },
-  { id: 4, name: 'Credit Card', number: '****4242', balance: -2550.00, icon: Icons.CreditCard, color: 'error' },
-]
-
-const recentTransactions = [
-  { id: 1, type: 'expense' as TransactionType, title: 'Netflix', category: 'Entertainment', amount: 15.99, date: 'Today', icon: Icons.Television },
-  { id: 2, type: 'income' as TransactionType, title: 'Salary', category: 'Income', amount: 5200, date: 'Yesterday', icon: Icons.Bank },
-  { id: 3, type: 'expense' as TransactionType, title: 'Grocery', category: 'Shopping', amount: 89.50, date: 'Dec 24', icon: Icons.Cart },
-  { id: 4, type: 'expense' as TransactionType, title: 'Uber', category: 'Transport', amount: 24.50, date: 'Dec 23', icon: Icons.Car },
-]
-
-const spendingCategories = [
-  { name: 'Housing', amount: 1200, percentage: 35, icon: Icons.Home, color: 'primary' },
-  { name: 'Food', amount: 650, percentage: 19, icon: Icons.Store, color: 'success' },
-  { name: 'Transport', amount: 420, percentage: 12, icon: Icons.Car, color: 'warning' },
-  { name: 'Shopping', amount: 380, percentage: 11, icon: Icons.Cart, color: 'info' },
-  { name: 'Entertainment', amount: 250, percentage: 7, icon: Icons.Gamepad, color: 'error' },
-  { name: 'Other', amount: 540, percentage: 16, icon: Icons.DotsHorizontal, color: 'secondary' },
-]
-
-const quickActions = [
-  { label: 'Transfer Money', description: 'Send to friends or accounts', icon: Icons.Send, color: 'primary' },
-  { label: 'Pay Bills', description: 'Manage your payments', icon: Icons.Receipt, color: 'success' },
-  { label: 'Request Money', description: 'Get paid by others', icon: Icons.Download, color: 'info' },
-  { label: 'Investments', description: 'Grow your wealth', icon: Icons.ChartLine, color: 'warning' },
-]
-
-const upcomingBills = [
-  { name: 'Electricity', dueDate: 'Dec 28', amount: 120, icon: Icons.Bolt },
-  { name: 'Internet', dueDate: 'Dec 30', amount: 65, icon: Icons.Wifi },
-  { name: 'Insurance', dueDate: 'Jan 1', amount: 250, icon: Icons.Shield },
-]
-
-const getTypeColor = (type: TransactionType) => {
-  return type === 'income' ? Colors.Success : Colors.Error
-}
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Math.abs(amount))
-}
-</script>
-
 <style scoped>
 .credit-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;

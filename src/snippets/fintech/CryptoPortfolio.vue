@@ -4,6 +4,55 @@
   Components: CryptoCard, StatCard, SectionHeader
   Variants: Portfolio view, market cards, detailed list
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard, CryptoCard } from '../../shared/ui/snippets'
+import type { IStat, ICryptoAsset } from '../../shared/ui/snippets'
+
+const search = ref('')
+
+const portfolioStats: (IStat & { trend?: number })[] = [
+  { value: '8', label: 'Assets', icon: Icons.Wallet, color: 'primary' },
+  { value: '+$2.4K', label: 'Today P/L', icon: Icons.TrendingUp, color: 'success', trend: 5.4 },
+  { value: '34%', label: 'BTC Dominance', icon: Icons.ChartPie, color: 'warning' },
+  { value: '$12K', label: 'Available', icon: Icons.CashMultiple, color: 'info' },
+]
+
+const cryptoAssets: ICryptoAsset[] = [
+  { id: 1, name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change24h: 2.45, balance: 0.5, value: 21625.25 },
+  { id: 2, name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change24h: -1.23, balance: 5.2, value: 11857.56 },
+  { id: 3, name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change24h: 8.67, balance: 85, value: 8368.25 },
+  { id: 4, name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change24h: -0.45, balance: 10250, value: 5945.00 },
+]
+
+const marketCoins = [
+  { name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change: 2.45 },
+  { name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change: -1.23 },
+  { name: 'BNB', symbol: 'BNB', icon: 'https://cryptologos.cc/logos/bnb-bnb-logo.png', price: 312.80, change: 0.85 },
+  { name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change: 8.67 },
+  { name: 'XRP', symbol: 'XRP', icon: 'https://cryptologos.cc/logos/xrp-xrp-logo.png', price: 0.62, change: -2.15 },
+  { name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change: -0.45 },
+]
+
+const detailedAssets = [
+  { name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change24h: 2.45, balance: 0.5, value: 21625.25 },
+  { name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change24h: -1.23, balance: 5.2, value: 11857.56 },
+  { name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change24h: 8.67, balance: 85, value: 8368.25 },
+  { name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change24h: -0.45, balance: 10250, value: 5945.00 },
+]
+
+const formatPrice = (price: number) => {
+  if (price >= 1) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
+  }
+  return `$${price.toFixed(4)}`
+}
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Portfolio Overview -->
@@ -176,53 +225,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard, CryptoCard } from '@/shared/ui/snippets'
-import type { IStat, ICryptoAsset } from '@/shared/ui/snippets'
-
-const search = ref('')
-
-const portfolioStats: (IStat & { trend?: number })[] = [
-  { value: '8', label: 'Assets', icon: Icons.Wallet, color: 'primary' },
-  { value: '+$2.4K', label: 'Today P/L', icon: Icons.TrendingUp, color: 'success', trend: 5.4 },
-  { value: '34%', label: 'BTC Dominance', icon: Icons.ChartPie, color: 'warning' },
-  { value: '$12K', label: 'Available', icon: Icons.CashMultiple, color: 'info' },
-]
-
-const cryptoAssets: ICryptoAsset[] = [
-  { id: 1, name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change24h: 2.45, balance: 0.5, value: 21625.25 },
-  { id: 2, name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change24h: -1.23, balance: 5.2, value: 11857.56 },
-  { id: 3, name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change24h: 8.67, balance: 85, value: 8368.25 },
-  { id: 4, name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change24h: -0.45, balance: 10250, value: 5945.00 },
-]
-
-const marketCoins = [
-  { name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change: 2.45 },
-  { name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change: -1.23 },
-  { name: 'BNB', symbol: 'BNB', icon: 'https://cryptologos.cc/logos/bnb-bnb-logo.png', price: 312.80, change: 0.85 },
-  { name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change: 8.67 },
-  { name: 'XRP', symbol: 'XRP', icon: 'https://cryptologos.cc/logos/xrp-xrp-logo.png', price: 0.62, change: -2.15 },
-  { name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change: -0.45 },
-]
-
-const detailedAssets = [
-  { name: 'Bitcoin', symbol: 'BTC', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png', price: 43250.50, change24h: 2.45, balance: 0.5, value: 21625.25 },
-  { name: 'Ethereum', symbol: 'ETH', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png', price: 2280.30, change24h: -1.23, balance: 5.2, value: 11857.56 },
-  { name: 'Solana', symbol: 'SOL', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png', price: 98.45, change24h: 8.67, balance: 85, value: 8368.25 },
-  { name: 'Cardano', symbol: 'ADA', icon: 'https://cryptologos.cc/logos/cardano-ada-logo.png', price: 0.58, change24h: -0.45, balance: 10250, value: 5945.00 },
-]
-
-const formatPrice = (price: number) => {
-  if (price >= 1) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
-  }
-  return `$${price.toFixed(4)}`
-}
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
-}
-</script>

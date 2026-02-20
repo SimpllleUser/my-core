@@ -4,6 +4,51 @@
   Components: SectionHeader, BlogCard
   Variants: Standard article, with TOC, magazine style
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import type { IBlogPost, IBlogAuthor } from '../../shared/ui/snippets'
+
+const author: IBlogAuthor = {
+  id: 1,
+  name: 'Sarah Johnson',
+  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+  role: 'Senior Developer',
+  bio: 'Passionate developer with 10+ years of experience building web applications. Writing about Vue.js, TypeScript, and modern web development practices.',
+}
+
+const article: IBlogPost = {
+  id: 1,
+  title: 'Building Modern Web Applications with Vue 3 and TypeScript',
+  excerpt: 'A comprehensive guide to creating scalable, maintainable web applications using the latest Vue 3 features and TypeScript best practices.',
+  content: 'In this article, we will explore the best practices for building modern web applications...',
+  image: 'https://picsum.photos/seed/article/1200/600',
+  author,
+  publishedAt: '2024-12-22',
+  readTime: 15,
+  category: 'Vue.js',
+  tags: ['Vue 3', 'TypeScript', 'Composition API', 'Web Development', 'Frontend'],
+  likes: 456,
+  comments: 67,
+}
+
+const relatedPosts: IBlogPost[] = [
+  { id: 2, title: 'Understanding Vue 3 Reactivity System', excerpt: '', image: 'https://picsum.photos/seed/rel1/400/250', author, publishedAt: '2024-12-20', readTime: 10, category: 'Vue.js', likes: 234, comments: 28 },
+  { id: 3, title: 'TypeScript Generics Explained', excerpt: '', image: 'https://picsum.photos/seed/rel2/400/250', author, publishedAt: '2024-12-18', readTime: 12, category: 'TypeScript', likes: 189, comments: 21 },
+  { id: 4, title: 'State Management with Pinia', excerpt: '', image: 'https://picsum.photos/seed/rel3/400/250', author, publishedAt: '2024-12-15', readTime: 8, category: 'Vue.js', likes: 156, comments: 15 },
+]
+
+const toc = [
+  { id: 'getting-started', title: 'Getting Started', level: 1 },
+  { id: 'project-setup', title: 'Project Setup', level: 1 },
+  { id: 'dependencies', title: 'Installing Dependencies', level: 2 },
+  { id: 'implementation', title: 'Implementation', level: 1 },
+  { id: 'conclusion', title: 'Conclusion', level: 1 },
+]
+
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Standard Article -->
@@ -239,53 +284,6 @@ console.log(greeting);</code></pre>
     </article>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-import type { IBlogPost, IBlogAuthor } from '@/shared/ui/snippets'
-
-const author: IBlogAuthor = {
-  id: 1,
-  name: 'Sarah Johnson',
-  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-  role: 'Senior Developer',
-  bio: 'Passionate developer with 10+ years of experience building web applications. Writing about Vue.js, TypeScript, and modern web development practices.',
-}
-
-const article: IBlogPost = {
-  id: 1,
-  title: 'Building Modern Web Applications with Vue 3 and TypeScript',
-  excerpt: 'A comprehensive guide to creating scalable, maintainable web applications using the latest Vue 3 features and TypeScript best practices.',
-  content: 'In this article, we will explore the best practices for building modern web applications...',
-  image: 'https://picsum.photos/seed/article/1200/600',
-  author,
-  publishedAt: '2024-12-22',
-  readTime: 15,
-  category: 'Vue.js',
-  tags: ['Vue 3', 'TypeScript', 'Composition API', 'Web Development', 'Frontend'],
-  likes: 456,
-  comments: 67,
-}
-
-const relatedPosts: IBlogPost[] = [
-  { id: 2, title: 'Understanding Vue 3 Reactivity System', excerpt: '', image: 'https://picsum.photos/seed/rel1/400/250', author, publishedAt: '2024-12-20', readTime: 10, category: 'Vue.js', likes: 234, comments: 28 },
-  { id: 3, title: 'TypeScript Generics Explained', excerpt: '', image: 'https://picsum.photos/seed/rel2/400/250', author, publishedAt: '2024-12-18', readTime: 12, category: 'TypeScript', likes: 189, comments: 21 },
-  { id: 4, title: 'State Management with Pinia', excerpt: '', image: 'https://picsum.photos/seed/rel3/400/250', author, publishedAt: '2024-12-15', readTime: 8, category: 'Vue.js', likes: 156, comments: 15 },
-]
-
-const toc = [
-  { id: 'getting-started', title: 'Getting Started', level: 1 },
-  { id: 'project-setup', title: 'Project Setup', level: 1 },
-  { id: 'dependencies', title: 'Installing Dependencies', level: 2 },
-  { id: 'implementation', title: 'Implementation', level: 1 },
-  { id: 'conclusion', title: 'Conclusion', level: 1 },
-]
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-}
-</script>
-
 <style scoped>
 .article-content p {
   line-height: 1.8;

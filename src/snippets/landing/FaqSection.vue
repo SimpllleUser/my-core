@@ -4,6 +4,56 @@
   Components: VContainer, VRow, VCol, VExpansionPanels, VCard
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { Icons } from '../../shared/model'
+
+const activeCategory = ref('General')
+
+const categories = [
+  { name: 'General', icon: Icons.HelpCircle },
+  { name: 'Billing', icon: Icons.CreditCard },
+  { name: 'Technical', icon: Icons.Cog },
+  { name: 'Security', icon: Icons.ShieldCheck },
+]
+
+const faqs = [
+  {
+    question: 'How do I get started?',
+    answer: 'Getting started is easy! Simply sign up for a free account, complete the onboarding process, and you can start using all features immediately. No credit card required.',
+    category: 'General',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for enterprise customers.',
+    category: 'Billing',
+  },
+  {
+    question: 'Can I cancel my subscription anytime?',
+    answer: 'Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period.',
+    category: 'Billing',
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Absolutely! We use industry-standard encryption and security practices. Your data is stored in secure, SOC 2 compliant data centers.',
+    category: 'Security',
+  },
+  {
+    question: 'Do you offer API access?',
+    answer: 'Yes, we provide a comprehensive REST API with all paid plans. Documentation and SDKs are available for popular programming languages.',
+    category: 'Technical',
+  },
+  {
+    question: 'How do I contact support?',
+    answer: 'You can reach our support team via email, live chat, or phone. Enterprise customers have access to dedicated support managers.',
+    category: 'General',
+  },
+]
+
+const filteredFaqs = computed(() =>
+  faqs.filter((faq) => faq.category === activeCategory.value)
+)
+</script>
 <template>
   <div>
     <!-- FAQ Style 1: Simple Accordion -->
@@ -147,54 +197,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Icons } from '@/shared/model'
-
-const activeCategory = ref('General')
-
-const categories = [
-  { name: 'General', icon: Icons.HelpCircle },
-  { name: 'Billing', icon: Icons.CreditCard },
-  { name: 'Technical', icon: Icons.Cog },
-  { name: 'Security', icon: Icons.ShieldCheck },
-]
-
-const faqs = [
-  {
-    question: 'How do I get started?',
-    answer: 'Getting started is easy! Simply sign up for a free account, complete the onboarding process, and you can start using all features immediately. No credit card required.',
-    category: 'General',
-  },
-  {
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for enterprise customers.',
-    category: 'Billing',
-  },
-  {
-    question: 'Can I cancel my subscription anytime?',
-    answer: 'Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period.',
-    category: 'Billing',
-  },
-  {
-    question: 'Is my data secure?',
-    answer: 'Absolutely! We use industry-standard encryption and security practices. Your data is stored in secure, SOC 2 compliant data centers.',
-    category: 'Security',
-  },
-  {
-    question: 'Do you offer API access?',
-    answer: 'Yes, we provide a comprehensive REST API with all paid plans. Documentation and SDKs are available for popular programming languages.',
-    category: 'Technical',
-  },
-  {
-    question: 'How do I contact support?',
-    answer: 'You can reach our support team via email, live chat, or phone. Enterprise customers have access to dedicated support managers.',
-    category: 'General',
-  },
-]
-
-const filteredFaqs = computed(() =>
-  faqs.filter((faq) => faq.category === activeCategory.value)
-)
-</script>

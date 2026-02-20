@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import {UiBuilder} from '@/features/ui-builder';
+  import {UiBuilder} from '../features/ui-builder';
 </script>
 
 <template>

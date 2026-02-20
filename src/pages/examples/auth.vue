@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  LoginSimple,
+  LoginWithSocial,
+  RegisterMultiStep,
+  ForgotPassword,
+  OtpVerification
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +16,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-lock" size="large" color="blue" class="mr-2" />
+          <VIcon :icon="Icons.Lock" size="large" color="blue" class="mr-2" />
           Authentication
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +36,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-login" class="mr-2" />
+            <VIcon :icon="Icons.Login" class="mr-2" />
             Login Simple
             <VSpacer />
             <VChip color="blue" size="small">VCard, VTextField, VBtn</VChip>
@@ -44,7 +54,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-multiple" class="mr-2" />
+            <VIcon :icon="Icons.AccountMultiple" class="mr-2" />
             Login With Social
             <VSpacer />
             <VChip color="blue" size="small">VCard, VTextField, VBtn, VDivider</VChip>
@@ -62,7 +72,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-account-plus" class="mr-2" />
+            <VIcon :icon="Icons.AccountPlus" class="mr-2" />
             Register Multi-Step
             <VSpacer />
             <VChip color="blue" size="small">VStepper, VTextField, VSelect</VChip>
@@ -80,7 +90,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-lock-reset" class="mr-2" />
+            <VIcon :icon="Icons.LockReset" class="mr-2" />
             Forgot Password
             <VSpacer />
             <VChip color="blue" size="small">VCard, VTextField, VAlert</VChip>
@@ -98,7 +108,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-shield-key" class="mr-2" />
+            <VIcon :icon="Icons.ShieldKey" class="mr-2" />
             OTP Verification
             <VSpacer />
             <VChip color="blue" size="small">VCard, VTextField, VBtn</VChip>
@@ -112,13 +122,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  LoginSimple,
-  LoginWithSocial,
-  RegisterMultiStep,
-  ForgotPassword,
-  OtpVerification
-} from '@/snippets'
-</script>

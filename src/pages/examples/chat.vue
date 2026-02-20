@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  ChatBubble,
+  ChatInput,
+  ChatConversation,
+  ChatListView,
+  MessageTypes,
+  ChatFullApp
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +17,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-message-text" size="large" color="light-blue" class="mr-2" />
+          <VIcon :icon="Icons.MessageText" size="large" color="light-blue" class="mr-2" />
           Chat & Messaging
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +37,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message" class="mr-2" />
+            <VIcon :icon="Icons.Message" class="mr-2" />
             Chat Bubble
             <VSpacer />
             <VChip color="light-blue" size="small">VCard, VAvatar, VChip</VChip>
@@ -44,7 +55,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-keyboard" class="mr-2" />
+            <VIcon :icon="Icons.Keyboard" class="mr-2" />
             Chat Input
             <VSpacer />
             <VChip color="light-blue" size="small">VTextField, VBtn, VMenu</VChip>
@@ -62,7 +73,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-forum" class="mr-2" />
+            <VIcon :icon="Icons.Forum" class="mr-2" />
             Chat Conversation
             <VSpacer />
             <VChip color="light-blue" size="small">VCard, VAvatar, VTextField</VChip>
@@ -80,7 +91,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message-text-outline" class="mr-2" />
+            <VIcon :icon="Icons.MessageTextOutline" class="mr-2" />
             Chat List View
             <VSpacer />
             <VChip color="light-blue" size="small">VCard, VList, VBadge</VChip>
@@ -98,7 +109,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-message-image" class="mr-2" />
+            <VIcon :icon="Icons.MessageImage" class="mr-2" />
             Message Types
             <VSpacer />
             <VChip color="light-blue" size="small">VCard, VAvatar, VImg</VChip>
@@ -116,7 +127,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-chat" class="mr-2" />
+            <VIcon :icon="Icons.Chat" class="mr-2" />
             Chat Full App
             <VSpacer />
             <VChip color="light-blue" size="small">All major components</VChip>
@@ -130,14 +141,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  ChatBubble,
-  ChatInput,
-  ChatConversation,
-  ChatListView,
-  MessageTypes,
-  ChatFullApp
-} from '@/snippets'
-</script>

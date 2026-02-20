@@ -4,6 +4,30 @@
   Components: VNavigationDrawer, VList, VListItem, VListGroup, VIcon
   Variants: Permanent, Mini, With Header
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const drawer = ref(true)
+const rail = ref(false)
+const activeItem = ref('Dashboard')
+
+const mainNavItems = [
+  { title: 'Dashboard', icon: Icons.ViewDashboard },
+  { title: 'Analytics', icon: Icons.ChartBar },
+  { title: 'Users', icon: Icons.AccountGroup, badge: '24', badgeColor: 'primary' },
+  { title: 'Products', icon: Icons.PackageVariant },
+  { title: 'Orders', icon: Icons.Cart, badge: '5', badgeColor: 'warning' },
+  { title: 'Messages', icon: Icons.Email, badge: '12', badgeColor: 'error' },
+]
+
+const pagesItems = ['Profile', 'Settings', 'Pricing', 'FAQ', 'Blank Page']
+const componentItems = ['Buttons', 'Cards', 'Tables', 'Forms', 'Charts']
+const settingsItems = [
+  { title: 'Settings', icon: Icons.Settings },
+  { title: 'Help', icon: Icons.HelpCircle },
+]
+</script>
 <template>
   <VLayout style="min-height: 600px;">
     <VNavigationDrawer
@@ -19,7 +43,7 @@
       >
         <template #prepend>
           <VAvatar color="primary" size="40" rounded="lg">
-            <VIcon>mdi-hexagon</VIcon>
+            <VIcon>{{ Icons.Hexagon }}</VIcon>
           </VAvatar>
         </template>
         <VListItemTitle class="text-h6 font-weight-bold">
@@ -29,7 +53,7 @@
         <template #append>
           <VBtn
             variant="text"
-            :icon="rail ? 'mdi-chevron-right' : 'mdi-chevron-left'"
+            :icon="rail ? Icons.ChevronRight : Icons.ChevronLeft"
             @click.stop="rail = !rail"
           />
         </template>
@@ -58,7 +82,7 @@
           <template #activator="{ props }">
             <VListItem
               v-bind="props"
-              prepend-icon="mdi-file-document"
+              :prepend-icon="Icons.FileDocument"
               title="Pages"
               rounded="lg"
             />
@@ -77,7 +101,7 @@
           <template #activator="{ props }">
             <VListItem
               v-bind="props"
-              prepend-icon="mdi-puzzle"
+              :prepend-icon="Icons.Puzzle"
               title="Components"
               rounded="lg"
             />
@@ -121,7 +145,7 @@
           <VListItemTitle>Sarah Johnson</VListItemTitle>
           <VListItemSubtitle>Admin</VListItemSubtitle>
           <template #append>
-            <VBtn icon="mdi-logout" variant="text" size="small" />
+            <VBtn :icon="Icons.Logout" variant="text" size="small" />
           </template>
         </VListItem>
       </template>
@@ -142,27 +166,3 @@
     </VMain>
   </VLayout>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const drawer = ref(true)
-const rail = ref(false)
-const activeItem = ref('Dashboard')
-
-const mainNavItems = [
-  { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-  { title: 'Analytics', icon: 'mdi-chart-bar' },
-  { title: 'Users', icon: 'mdi-account-group', badge: '24', badgeColor: 'primary' },
-  { title: 'Products', icon: 'mdi-package-variant' },
-  { title: 'Orders', icon: 'mdi-cart', badge: '5', badgeColor: 'warning' },
-  { title: 'Messages', icon: 'mdi-email', badge: '12', badgeColor: 'error' },
-]
-
-const pagesItems = ['Profile', 'Settings', 'Pricing', 'FAQ', 'Blank Page']
-const componentItems = ['Buttons', 'Cards', 'Tables', 'Forms', 'Charts']
-const settingsItems = [
-  { title: 'Settings', icon: 'mdi-cog' },
-  { title: 'Help', icon: 'mdi-help-circle' },
-]
-</script>

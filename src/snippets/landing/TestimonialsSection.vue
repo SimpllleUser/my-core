@@ -4,6 +4,103 @@
   Components: SectionHeader, TestimonialCard, StatCard, AvatarWithInfo
   Variants: Grid layout, Carousel, Featured testimonial
 -->
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Icons } from '../../shared/model'
+import { SectionHeader, TestimonialCard, StatCard, AvatarWithInfo } from '../../shared/ui/snippets'
+import type { ITestimonial } from '../../shared/ui/snippets'
+
+const testimonials: ITestimonial[] = [
+  {
+    name: 'John Smith',
+    role: 'Product Manager',
+    company: 'Acme Inc',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    rating: 5,
+    text: "This tool has revolutionized our workflow. We've cut our project delivery time in half and our team loves using it every day.",
+  },
+  {
+    name: 'Emily Chen',
+    role: 'Tech Lead',
+    company: 'StartupXYZ',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    rating: 5,
+    text: 'The best investment we made this year. The integrations are seamless and the support team is incredibly responsive.',
+  },
+  {
+    name: 'Michael Brown',
+    role: 'Founder',
+    company: 'DesignCo',
+    avatar: 'https://randomuser.me/api/portraits/men/22.jpg',
+    rating: 5,
+    text: "Finally, a tool that just works. No complex setup, no learning curve. My team was productive from day one.",
+  },
+  {
+    name: 'Lisa Anderson',
+    role: 'Marketing Director',
+    company: 'GrowthHub',
+    avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
+    rating: 4,
+    text: "We've tried many tools, but this one stands out. The analytics alone have helped us make better decisions.",
+  },
+  {
+    name: 'David Wilson',
+    role: 'CTO',
+    company: 'TechVentures',
+    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
+    rating: 5,
+    text: 'Security and reliability are top priorities for us. This platform exceeds our expectations on both fronts.',
+  },
+  {
+    name: 'Anna Martinez',
+    role: 'Operations Manager',
+    company: 'GlobalCorp',
+    avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
+    rating: 5,
+    text: 'The automation features have saved us countless hours. Our team can now focus on what really matters.',
+  },
+]
+
+interface ICarouselTestimonial {
+  name: string
+  role: string
+  avatar: string
+  text: string
+}
+
+const carouselTestimonials: ICarouselTestimonial[] = [
+  { name: 'Alex Turner', role: '@alexturner', avatar: 'https://randomuser.me/api/portraits/men/51.jpg', text: 'Just switched to this platform and wow, what a difference! The UI is so intuitive.' },
+  { name: 'Sophie Williams', role: '@sophiew', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', text: 'Our team productivity has gone through the roof since we started using this. Highly recommend!' },
+  { name: 'James Lee', role: '@jameslee', avatar: 'https://randomuser.me/api/portraits/men/53.jpg', text: 'The customer support is amazing. Got a response within minutes.' },
+  { name: 'Emma Davis', role: '@emmad', avatar: 'https://randomuser.me/api/portraits/women/54.jpg', text: "Best tool I've used in years. Simple, powerful, and affordable. What more could you ask for?" },
+  { name: 'Chris Martin', role: '@chrism', avatar: 'https://randomuser.me/api/portraits/men/55.jpg', text: 'Finally found a solution that scales with our needs. Enterprise features without the enterprise price.' },
+  { name: 'Olivia Brown', role: '@oliviab', avatar: 'https://randomuser.me/api/portraits/women/56.jpg', text: "The integrations are seamless. Connected all our tools in under an hour. That's impressive!" },
+]
+
+const carouselGroups = computed(() => {
+  const groups: ICarouselTestimonial[][] = []
+  for (let i = 0; i < carouselTestimonials.length; i += 3) {
+    groups.push(carouselTestimonials.slice(i, i + 3))
+  }
+  return groups
+})
+
+const companies = ['Google', 'Microsoft', 'Airbnb', 'Spotify', 'Slack']
+
+interface IShortReview {
+  name: string
+  avatar: string
+  rating: number
+  text: string
+}
+
+const shortReviews: IShortReview[] = [
+  { name: 'Robert Kim', avatar: 'https://randomuser.me/api/portraits/men/61.jpg', rating: 5, text: 'Absolutely love it! Game changer for our team.' },
+  { name: 'Jennifer Lopez', avatar: 'https://randomuser.me/api/portraits/women/62.jpg', rating: 5, text: 'Simple, powerful, and reliable. Perfect combo.' },
+  { name: 'Tom Harris', avatar: 'https://randomuser.me/api/portraits/men/63.jpg', rating: 5, text: 'Best investment for our startup. Period.' },
+  { name: 'Rachel Green', avatar: 'https://randomuser.me/api/portraits/women/64.jpg', rating: 4, text: 'Great features and amazing customer support.' },
+]
+</script>
 <template>
   <div>
     <!-- Testimonials Style 1: Grid Layout -->
@@ -177,101 +274,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, TestimonialCard, StatCard, AvatarWithInfo } from '@/shared/ui/snippets'
-import type { ITestimonial } from '@/shared/ui/snippets'
-
-const testimonials: ITestimonial[] = [
-  {
-    name: 'John Smith',
-    role: 'Product Manager',
-    company: 'Acme Inc',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    rating: 5,
-    text: "This tool has revolutionized our workflow. We've cut our project delivery time in half and our team loves using it every day.",
-  },
-  {
-    name: 'Emily Chen',
-    role: 'Tech Lead',
-    company: 'StartupXYZ',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    rating: 5,
-    text: 'The best investment we made this year. The integrations are seamless and the support team is incredibly responsive.',
-  },
-  {
-    name: 'Michael Brown',
-    role: 'Founder',
-    company: 'DesignCo',
-    avatar: 'https://randomuser.me/api/portraits/men/22.jpg',
-    rating: 5,
-    text: "Finally, a tool that just works. No complex setup, no learning curve. My team was productive from day one.",
-  },
-  {
-    name: 'Lisa Anderson',
-    role: 'Marketing Director',
-    company: 'GrowthHub',
-    avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
-    rating: 4,
-    text: "We've tried many tools, but this one stands out. The analytics alone have helped us make better decisions.",
-  },
-  {
-    name: 'David Wilson',
-    role: 'CTO',
-    company: 'TechVentures',
-    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
-    rating: 5,
-    text: 'Security and reliability are top priorities for us. This platform exceeds our expectations on both fronts.',
-  },
-  {
-    name: 'Anna Martinez',
-    role: 'Operations Manager',
-    company: 'GlobalCorp',
-    avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    rating: 5,
-    text: 'The automation features have saved us countless hours. Our team can now focus on what really matters.',
-  },
-]
-
-interface ICarouselTestimonial {
-  name: string
-  role: string
-  avatar: string
-  text: string
-}
-
-const carouselTestimonials: ICarouselTestimonial[] = [
-  { name: 'Alex Turner', role: '@alexturner', avatar: 'https://randomuser.me/api/portraits/men/51.jpg', text: 'Just switched to this platform and wow, what a difference! The UI is so intuitive.' },
-  { name: 'Sophie Williams', role: '@sophiew', avatar: 'https://randomuser.me/api/portraits/women/52.jpg', text: 'Our team productivity has gone through the roof since we started using this. Highly recommend!' },
-  { name: 'James Lee', role: '@jameslee', avatar: 'https://randomuser.me/api/portraits/men/53.jpg', text: 'The customer support is amazing. Got a response within minutes.' },
-  { name: 'Emma Davis', role: '@emmad', avatar: 'https://randomuser.me/api/portraits/women/54.jpg', text: "Best tool I've used in years. Simple, powerful, and affordable. What more could you ask for?" },
-  { name: 'Chris Martin', role: '@chrism', avatar: 'https://randomuser.me/api/portraits/men/55.jpg', text: 'Finally found a solution that scales with our needs. Enterprise features without the enterprise price.' },
-  { name: 'Olivia Brown', role: '@oliviab', avatar: 'https://randomuser.me/api/portraits/women/56.jpg', text: "The integrations are seamless. Connected all our tools in under an hour. That's impressive!" },
-]
-
-const carouselGroups = computed(() => {
-  const groups: ICarouselTestimonial[][] = []
-  for (let i = 0; i < carouselTestimonials.length; i += 3) {
-    groups.push(carouselTestimonials.slice(i, i + 3))
-  }
-  return groups
-})
-
-const companies = ['Google', 'Microsoft', 'Airbnb', 'Spotify', 'Slack']
-
-interface IShortReview {
-  name: string
-  avatar: string
-  rating: number
-  text: string
-}
-
-const shortReviews: IShortReview[] = [
-  { name: 'Robert Kim', avatar: 'https://randomuser.me/api/portraits/men/61.jpg', rating: 5, text: 'Absolutely love it! Game changer for our team.' },
-  { name: 'Jennifer Lopez', avatar: 'https://randomuser.me/api/portraits/women/62.jpg', rating: 5, text: 'Simple, powerful, and reliable. Perfect combo.' },
-  { name: 'Tom Harris', avatar: 'https://randomuser.me/api/portraits/men/63.jpg', rating: 5, text: 'Best investment for our startup. Period.' },
-  { name: 'Rachel Green', avatar: 'https://randomuser.me/api/portraits/women/64.jpg', rating: 4, text: 'Great features and amazing customer support.' },
-]
-</script>

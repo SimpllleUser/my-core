@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import {
+  BlogPostCards,
+  BlogList,
+  ArticleView,
+  CommentSection
+} from '../../snippets'
+</script>
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -6,13 +15,13 @@
         <VBtn
           to="/examples"
           variant="text"
-          prepend-icon="mdi-arrow-left"
+          :prepend-icon="Icons.ArrowLeft"
           class="mb-4"
         >
           Back to Examples
         </VBtn>
         <h1 class="text-h3 font-weight-bold mb-2">
-          <VIcon icon="mdi-post" size="large" color="indigo" class="mr-2" />
+          <VIcon :icon="Icons.Post" size="large" color="indigo" class="mr-2" />
           Blog
         </h1>
         <p class="text-h6 text-medium-emphasis">
@@ -26,7 +35,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-card-text" class="mr-2" />
+            <VIcon :icon="Icons.CardText" class="mr-2" />
             Blog Post Cards
             <VSpacer />
             <VChip color="indigo" size="small">BlogCard, SectionHeader, VCard</VChip>
@@ -44,7 +53,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-format-list-bulleted" class="mr-2" />
+            <VIcon :icon="Icons.FormatListBulleted" class="mr-2" />
             Blog List
             <VSpacer />
             <VChip color="indigo" size="small">BlogCard, VCard, VPagination</VChip>
@@ -62,7 +71,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-file-document" class="mr-2" />
+            <VIcon :icon="Icons.FileDocument" class="mr-2" />
             Article View
             <VSpacer />
             <VChip color="indigo" size="small">SectionHeader, VCard, VImg</VChip>
@@ -80,7 +89,7 @@
       <VCol cols="12">
         <VCard>
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-comment-multiple" class="mr-2" />
+            <VIcon :icon="Icons.CommentMultiple" class="mr-2" />
             Comment Section
             <VSpacer />
             <VChip color="indigo" size="small">VCard, VList, VTextarea</VChip>
@@ -94,12 +103,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import {
-  BlogPostCards,
-  BlogList,
-  ArticleView,
-  CommentSection
-} from '@/snippets'
-</script>

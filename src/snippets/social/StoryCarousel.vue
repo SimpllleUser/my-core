@@ -4,6 +4,63 @@
   Components: None (standalone)
   Variants: Horizontal scroll, fullscreen viewer, grid view
 -->
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { Icons } from '../../shared/model'
+import type { ISocialStory } from '../../shared/ui/snippets'
+
+const currentIndex = ref(0)
+
+const horizontalStories: ISocialStory[] = [
+  { id: 1, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/story1/400/700', viewed: false },
+  { id: 2, user: { name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, image: 'https://picsum.photos/seed/story2/400/700', viewed: false },
+  { id: 3, user: { name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, image: 'https://picsum.photos/seed/story3/400/700', viewed: true },
+  { id: 4, user: { name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, image: 'https://picsum.photos/seed/story4/400/700', viewed: true },
+  { id: 5, user: { name: 'Lisa Park', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' }, image: 'https://picsum.photos/seed/story5/400/700', viewed: false },
+  { id: 6, user: { name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, image: 'https://picsum.photos/seed/story6/400/700', viewed: false },
+  { id: 7, user: { name: 'Olivia Brown', avatar: 'https://randomuser.me/api/portraits/women/55.jpg' }, image: 'https://picsum.photos/seed/story7/400/700', viewed: true },
+]
+
+const cardStories: (ISocialStory & { image: string })[] = [
+  { id: 1, user: { name: 'Sarah J.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/card1/300/400', viewed: false },
+  { id: 2, user: { name: 'Mike C.', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, image: 'https://picsum.photos/seed/card2/300/400', viewed: false },
+  { id: 3, user: { name: 'Emily D.', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, image: 'https://picsum.photos/seed/card3/300/400', viewed: true },
+  { id: 4, user: { name: 'Alex T.', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, image: 'https://picsum.photos/seed/card4/300/400', viewed: false },
+  { id: 5, user: { name: 'Lisa P.', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' }, image: 'https://picsum.photos/seed/card5/300/400', viewed: true },
+]
+
+interface ViewerStory extends ISocialStory {
+  createdAt: string
+}
+
+const viewerStories: ViewerStory[] = [
+  { id: 1, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view1/400/700', createdAt: '2h ago' },
+  { id: 2, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view2/400/700', createdAt: '3h ago' },
+  { id: 3, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view3/400/700', createdAt: '5h ago' },
+]
+
+const highlights = [
+  { id: 1, name: 'Travel', cover: 'https://picsum.photos/seed/hl1/100/100' },
+  { id: 2, name: 'Food', cover: 'https://picsum.photos/seed/hl2/100/100' },
+  { id: 3, name: 'Work', cover: 'https://picsum.photos/seed/hl3/100/100' },
+  { id: 4, name: 'Friends', cover: 'https://picsum.photos/seed/hl4/100/100' },
+  { id: 5, name: 'Events', cover: 'https://picsum.photos/seed/hl5/100/100' },
+]
+
+const activeStory = computed(() => viewerStories[currentIndex.value])
+
+const openStory = (story: ISocialStory) => {
+  console.log('Opening story:', story.id)
+}
+
+const prevStory = () => {
+  if (currentIndex.value > 0) currentIndex.value--
+}
+
+const nextStory = () => {
+  if (currentIndex.value < viewerStories.length - 1) currentIndex.value++
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Horizontal Story Bar -->
@@ -205,65 +262,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Icons } from '@/shared/model'
-import type { ISocialStory } from '@/shared/ui/snippets'
-
-const currentIndex = ref(0)
-
-const horizontalStories: ISocialStory[] = [
-  { id: 1, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/story1/400/700', viewed: false },
-  { id: 2, user: { name: 'Mike Chen', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, image: 'https://picsum.photos/seed/story2/400/700', viewed: false },
-  { id: 3, user: { name: 'Emily Davis', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, image: 'https://picsum.photos/seed/story3/400/700', viewed: true },
-  { id: 4, user: { name: 'Alex Thompson', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, image: 'https://picsum.photos/seed/story4/400/700', viewed: true },
-  { id: 5, user: { name: 'Lisa Park', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' }, image: 'https://picsum.photos/seed/story5/400/700', viewed: false },
-  { id: 6, user: { name: 'James Wilson', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, image: 'https://picsum.photos/seed/story6/400/700', viewed: false },
-  { id: 7, user: { name: 'Olivia Brown', avatar: 'https://randomuser.me/api/portraits/women/55.jpg' }, image: 'https://picsum.photos/seed/story7/400/700', viewed: true },
-]
-
-const cardStories: (ISocialStory & { image: string })[] = [
-  { id: 1, user: { name: 'Sarah J.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/card1/300/400', viewed: false },
-  { id: 2, user: { name: 'Mike C.', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' }, image: 'https://picsum.photos/seed/card2/300/400', viewed: false },
-  { id: 3, user: { name: 'Emily D.', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' }, image: 'https://picsum.photos/seed/card3/300/400', viewed: true },
-  { id: 4, user: { name: 'Alex T.', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, image: 'https://picsum.photos/seed/card4/300/400', viewed: false },
-  { id: 5, user: { name: 'Lisa P.', avatar: 'https://randomuser.me/api/portraits/women/35.jpg' }, image: 'https://picsum.photos/seed/card5/300/400', viewed: true },
-]
-
-interface ViewerStory extends ISocialStory {
-  createdAt: string
-}
-
-const viewerStories: ViewerStory[] = [
-  { id: 1, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view1/400/700', createdAt: '2h ago' },
-  { id: 2, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view2/400/700', createdAt: '3h ago' },
-  { id: 3, user: { name: 'Sarah Johnson', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, image: 'https://picsum.photos/seed/view3/400/700', createdAt: '5h ago' },
-]
-
-const highlights = [
-  { id: 1, name: 'Travel', cover: 'https://picsum.photos/seed/hl1/100/100' },
-  { id: 2, name: 'Food', cover: 'https://picsum.photos/seed/hl2/100/100' },
-  { id: 3, name: 'Work', cover: 'https://picsum.photos/seed/hl3/100/100' },
-  { id: 4, name: 'Friends', cover: 'https://picsum.photos/seed/hl4/100/100' },
-  { id: 5, name: 'Events', cover: 'https://picsum.photos/seed/hl5/100/100' },
-]
-
-const activeStory = computed(() => viewerStories[currentIndex.value])
-
-const openStory = (story: ISocialStory) => {
-  console.log('Opening story:', story.id)
-}
-
-const prevStory = () => {
-  if (currentIndex.value > 0) currentIndex.value--
-}
-
-const nextStory = () => {
-  if (currentIndex.value < viewerStories.length - 1) currentIndex.value++
-}
-</script>
-
 <style scoped>
 .stories-container {
   display: flex;

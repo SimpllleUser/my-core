@@ -60,183 +60,8 @@
     - forgot-password: Emitted when forgot password is clicked
     - sign-up: Emitted when sign up is clicked
 -->
-<template>
-  <AuthPageLayout
-    :form-position="formPosition"
-    :background-type="backgroundType"
-    :background-color="backgroundColor"
-    :background-image="backgroundImage"
-    :background-gradient="backgroundGradient"
-    :overlay-color="overlayColor"
-    :overlay-opacity="overlayOpacity"
-    :split-ratio="splitRatio"
-    :side-content-background="sideContentBackground"
-    :side-content-image="sideContentImage"
-    :show-pattern="showPattern"
-    :min-height="minHeight"
-  >
-    <template #logo>
-      <slot name="logo" />
-    </template>
-
-    <template #header>
-      <slot name="header" />
-    </template>
-
-    <template #side-content>
-      <slot name="side-content" />
-    </template>
-
-    <template #side-logo>
-      <slot name="side-logo" />
-    </template>
-
-    <template #side-title>
-      <slot name="side-title" />
-    </template>
-
-    <template #side-subtitle>
-      <slot name="side-subtitle" />
-    </template>
-
-    <VCard
-      :elevation="cardElevation"
-      :rounded="cardRounded"
-      :color="cardColor"
-      :variant="cardVariant"
-      class="login-simple-card"
-    >
-      <!-- Toolbar / Title -->
-      <slot name="title">
-        <VToolbar
-          v-if="showToolbar"
-          :color="toolbarColor"
-          dark
-          flat
-        >
-          <VToolbarTitle>{{ toolbarTitle }}</VToolbarTitle>
-        </VToolbar>
-
-        <VCardTitle
-          v-else-if="!showToolbar && toolbarTitle"
-          class="text-h5 font-weight-bold pa-6 pb-2"
-        >
-          {{ toolbarTitle }}
-        </VCardTitle>
-      </slot>
-
-      <slot name="subtitle">
-        <VCardSubtitle
-          v-if="subtitle && !showToolbar"
-          class="px-6 pb-4"
-        >
-          {{ subtitle }}
-        </VCardSubtitle>
-      </slot>
-
-      <VCardText>
-        <slot name="prepend-form" />
-
-        <VForm ref="formRef" v-model="valid" lazy-validation>
-          <!-- Email Field -->
-          <slot name="email-field" :email="email" :rules="emailRules" :update-email="(v: string) => email = v">
-            <VTextField
-              v-model="email"
-              :rules="emailRules"
-              :label="emailLabel"
-              :prepend-icon="showInputIcons ? 'mdi-email' : undefined"
-              :prepend-inner-icon="!showInputIcons ? undefined : undefined"
-              type="email"
-              required
-              :variant="inputVariant"
-              :density="inputDensity"
-              class="mb-4"
-            />
-          </slot>
-
-          <!-- Password Field -->
-          <slot name="password-field" :password="password" :rules="passwordRules" :show-password="showPassword" :toggle-password="() => showPassword = !showPassword" :update-password="(v: string) => password = v">
-            <VTextField
-              v-model="password"
-              :rules="passwordRules"
-              :type="showPassword ? 'text' : 'password'"
-              :label="passwordLabel"
-              :prepend-icon="showInputIcons ? 'mdi-lock' : undefined"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :variant="inputVariant"
-              :density="inputDensity"
-              @click:append="showPassword = !showPassword"
-            />
-          </slot>
-
-          <slot name="after-password" />
-
-          <!-- Remember Me -->
-          <slot name="remember-me" :remember-me="rememberMe" :update-remember-me="(v: boolean) => rememberMe = v">
-            <VCheckbox
-              v-if="showRememberMe"
-              v-model="rememberMe"
-              :label="rememberMeLabel"
-              :color="submitButtonColor"
-            />
-          </slot>
-        </VForm>
-
-        <slot name="append-form" />
-      </VCardText>
-
-      <!-- Form Actions -->
-      <slot name="form-actions" :submit="submit" :loading="loading" :valid="valid">
-        <VCardActions class="px-4 pb-4">
-          <slot name="forgot-password" :on-click="handleForgotPassword">
-            <VBtn
-              v-if="showForgotPassword"
-              variant="text"
-              :color="submitButtonColor"
-              @click="handleForgotPassword"
-            >
-              {{ forgotPasswordText }}
-            </VBtn>
-          </slot>
-
-          <VSpacer />
-
-          <slot name="submit-button" :submit="submit" :loading="loading" :valid="valid">
-            <VBtn
-              :color="submitButtonColor"
-              size="large"
-              :loading="loading"
-              :disabled="!valid"
-              @click="submit"
-            >
-              {{ submitButtonText }}
-            </VBtn>
-          </slot>
-        </VCardActions>
-      </slot>
-
-      <template v-if="showSignUpLink">
-        <VDivider />
-
-        <!-- Footer -->
-        <slot name="footer" :on-sign-up="handleSignUp">
-          <VCardText class="text-center">
-            <span class="text-medium-emphasis">{{ signUpPromptText }}</span>
-            <VBtn
-              variant="text"
-              :color="submitButtonColor"
-              @click="handleSignUp"
-            >
-              {{ signUpButtonText }}
-            </VBtn>
-          </VCardText>
-        </slot>
-      </template>
-    </VCard>
-  </AuthPageLayout>
-</template>
-
 <script setup lang="ts">
+import { Icons } from '../../shared/model'
 import { ref } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 
@@ -415,7 +240,181 @@ defineExpose({
   submit,
 })
 </script>
+<template>
+  <AuthPageLayout
+    :form-position="formPosition"
+    :background-type="backgroundType"
+    :background-color="backgroundColor"
+    :background-image="backgroundImage"
+    :background-gradient="backgroundGradient"
+    :overlay-color="overlayColor"
+    :overlay-opacity="overlayOpacity"
+    :split-ratio="splitRatio"
+    :side-content-background="sideContentBackground"
+    :side-content-image="sideContentImage"
+    :show-pattern="showPattern"
+    :min-height="minHeight"
+  >
+    <template #logo>
+      <slot name="logo" />
+    </template>
 
+    <template #header>
+      <slot name="header" />
+    </template>
+
+    <template #side-content>
+      <slot name="side-content" />
+    </template>
+
+    <template #side-logo>
+      <slot name="side-logo" />
+    </template>
+
+    <template #side-title>
+      <slot name="side-title" />
+    </template>
+
+    <template #side-subtitle>
+      <slot name="side-subtitle" />
+    </template>
+
+    <VCard
+      :elevation="cardElevation"
+      :rounded="cardRounded"
+      :color="cardColor"
+      :variant="cardVariant"
+      class="login-simple-card"
+    >
+      <!-- Toolbar / Title -->
+      <slot name="title">
+        <VToolbar
+          v-if="showToolbar"
+          :color="toolbarColor"
+          dark
+          flat
+        >
+          <VToolbarTitle>{{ toolbarTitle }}</VToolbarTitle>
+        </VToolbar>
+
+        <VCardTitle
+          v-else-if="!showToolbar && toolbarTitle"
+          class="text-h5 font-weight-bold pa-6 pb-2"
+        >
+          {{ toolbarTitle }}
+        </VCardTitle>
+      </slot>
+
+      <slot name="subtitle">
+        <VCardSubtitle
+          v-if="subtitle && !showToolbar"
+          class="px-6 pb-4"
+        >
+          {{ subtitle }}
+        </VCardSubtitle>
+      </slot>
+
+      <VCardText>
+        <slot name="prepend-form" />
+
+        <VForm ref="formRef" v-model="valid" lazy-validation>
+          <!-- Email Field -->
+          <slot name="email-field" :email="email" :rules="emailRules" :update-email="(v: string) => email = v">
+            <VTextField
+              v-model="email"
+              :rules="emailRules"
+              :label="emailLabel"
+              :prepend-icon="showInputIcons ? Icons.Email : undefined"
+              :prepend-inner-icon="!showInputIcons ? undefined : undefined"
+              type="email"
+              required
+              :variant="inputVariant"
+              :density="inputDensity"
+              class="mb-4"
+            />
+          </slot>
+
+          <!-- Password Field -->
+          <slot name="password-field" :password="password" :rules="passwordRules" :show-password="showPassword" :toggle-password="() => showPassword = !showPassword" :update-password="(v: string) => password = v">
+            <VTextField
+              v-model="password"
+              :rules="passwordRules"
+              :type="showPassword ? 'text' : 'password'"
+              :label="passwordLabel"
+              :prepend-icon="showInputIcons ? Icons.Lock : undefined"
+              :append-icon="showPassword ? Icons.Eye : Icons.EyeOff"
+              :variant="inputVariant"
+              :density="inputDensity"
+              @click:append="showPassword = !showPassword"
+            />
+          </slot>
+
+          <slot name="after-password" />
+
+          <!-- Remember Me -->
+          <slot name="remember-me" :remember-me="rememberMe" :update-remember-me="(v: boolean) => rememberMe = v">
+            <VCheckbox
+              v-if="showRememberMe"
+              v-model="rememberMe"
+              :label="rememberMeLabel"
+              :color="submitButtonColor"
+            />
+          </slot>
+        </VForm>
+
+        <slot name="append-form" />
+      </VCardText>
+
+      <!-- Form Actions -->
+      <slot name="form-actions" :submit="submit" :loading="loading" :valid="valid">
+        <VCardActions class="px-4 pb-4">
+          <slot name="forgot-password" :on-click="handleForgotPassword">
+            <VBtn
+              v-if="showForgotPassword"
+              variant="text"
+              :color="submitButtonColor"
+              @click="handleForgotPassword"
+            >
+              {{ forgotPasswordText }}
+            </VBtn>
+          </slot>
+
+          <VSpacer />
+
+          <slot name="submit-button" :submit="submit" :loading="loading" :valid="valid">
+            <VBtn
+              :color="submitButtonColor"
+              size="large"
+              :loading="loading"
+              :disabled="!valid"
+              @click="submit"
+            >
+              {{ submitButtonText }}
+            </VBtn>
+          </slot>
+        </VCardActions>
+      </slot>
+
+      <template v-if="showSignUpLink">
+        <VDivider />
+
+        <!-- Footer -->
+        <slot name="footer" :on-sign-up="handleSignUp">
+          <VCardText class="text-center">
+            <span class="text-medium-emphasis">{{ signUpPromptText }}</span>
+            <VBtn
+              variant="text"
+              :color="submitButtonColor"
+              @click="handleSignUp"
+            >
+              {{ signUpButtonText }}
+            </VBtn>
+          </VCardText>
+        </slot>
+      </template>
+    </VCard>
+  </AuthPageLayout>
+</template>
 <style scoped>
 .login-simple-card {
   width: 100%;

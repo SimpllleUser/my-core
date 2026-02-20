@@ -72,336 +72,8 @@
     - step-change: Emitted when step changes
     - sign-in: Emitted when sign in is clicked
 -->
-<template>
-  <AuthPageLayout
-    :form-position="formPosition"
-    :background-type="backgroundType"
-    :background-color="backgroundColor"
-    :background-image="backgroundImage"
-    :background-gradient="backgroundGradient"
-    :overlay-color="overlayColor"
-    :overlay-opacity="overlayOpacity"
-    :split-ratio="splitRatio"
-    :side-content-background="sideContentBackground"
-    :side-content-image="sideContentImage"
-    :show-pattern="showPattern"
-    :min-height="minHeight"
-  >
-    <template #logo>
-      <slot name="logo" />
-    </template>
-
-    <template #header>
-      <slot name="header" />
-    </template>
-
-    <template #side-content>
-      <slot name="side-content" />
-    </template>
-
-    <template #side-logo>
-      <slot name="side-logo" />
-    </template>
-
-    <template #side-title>
-      <slot name="side-title" />
-    </template>
-
-    <template #side-subtitle>
-      <slot name="side-subtitle" />
-    </template>
-
-    <VCard
-      :elevation="cardElevation"
-      :rounded="cardRounded"
-      :color="cardColor"
-      :variant="cardVariant"
-      class="register-multistep-card"
-    >
-      <!-- Title -->
-      <slot name="title">
-        <VCardTitle
-          v-if="title"
-          class="text-h5 font-weight-bold pa-6 pb-0"
-        >
-          {{ title }}
-        </VCardTitle>
-      </slot>
-
-      <VStepper
-        v-model="currentStep"
-        :alt-labels="stepperAltLabels"
-        :flat="stepperFlat"
-      >
-        <!-- Stepper Header -->
-        <slot name="stepper-header" :steps="steps" :current-step="currentStep">
-          <VStepperHeader>
-            <template v-for="(step, index) in steps" :key="step.value">
-              <VStepperItem
-                :complete="currentStep > step.value"
-                :value="step.value"
-                :title="step.title"
-                :subtitle="step.subtitle"
-                :color="stepperColor"
-              />
-              <VDivider v-if="index < steps.length - 1" />
-            </template>
-          </VStepperHeader>
-        </slot>
-
-        <VStepperWindow>
-          <!-- Step 1: Account Information -->
-          <VStepperWindowItem :value="1">
-            <slot name="step-1" :form="form" :rules="{ emailRules, passwordRules, confirmPasswordRules }">
-              <VCard flat>
-                <VCardText>
-                  <VForm ref="step1FormRef" v-model="step1Valid">
-                    <VRow>
-                      <VCol cols="12">
-                        <VTextField
-                          v-model="form.email"
-                          :rules="emailRules"
-                          :label="emailLabel"
-                          type="email"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-email' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12" md="6">
-                        <VTextField
-                          v-model="form.password"
-                          :rules="passwordRules"
-                          :type="showPassword ? 'text' : 'password'"
-                          :label="passwordLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-lock' : undefined"
-                          :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                          @click:append-inner="showPassword = !showPassword"
-                        />
-                      </VCol>
-                      <VCol cols="12" md="6">
-                        <VTextField
-                          v-model="form.confirmPassword"
-                          :rules="confirmPasswordRules"
-                          :type="showPassword ? 'text' : 'password'"
-                          :label="confirmPasswordLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-lock-check' : undefined"
-                        />
-                      </VCol>
-                    </VRow>
-                  </VForm>
-                </VCardText>
-              </VCard>
-            </slot>
-          </VStepperWindowItem>
-
-          <!-- Step 2: Personal Information -->
-          <VStepperWindowItem :value="2">
-            <slot name="step-2" :form="form" :countries="countries">
-              <VCard flat>
-                <VCardText>
-                  <VForm ref="step2FormRef" v-model="step2Valid">
-                    <VRow>
-                      <VCol cols="12" md="6">
-                        <VTextField
-                          v-model="form.firstName"
-                          :rules="requiredRules"
-                          :label="firstNameLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-account' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12" md="6">
-                        <VTextField
-                          v-model="form.lastName"
-                          :rules="requiredRules"
-                          :label="lastNameLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-account' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VTextField
-                          v-model="form.phone"
-                          :label="phoneLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-phone' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12" md="6">
-                        <VSelect
-                          v-model="form.country"
-                          :items="countries"
-                          :rules="requiredRules"
-                          :label="countryLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-earth' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12" md="6">
-                        <VTextField
-                          v-model="form.city"
-                          :label="cityLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-city' : undefined"
-                        />
-                      </VCol>
-                    </VRow>
-                  </VForm>
-                </VCardText>
-              </VCard>
-            </slot>
-          </VStepperWindowItem>
-
-          <!-- Step 3: Preferences -->
-          <VStepperWindowItem :value="3">
-            <slot name="step-3" :form="form" :interest-options="interestOptions" :notification-options="notificationOptions">
-              <VCard flat>
-                <VCardText>
-                  <VForm ref="step3FormRef" v-model="step3Valid">
-                    <VRow>
-                      <VCol cols="12">
-                        <VSelect
-                          v-model="form.interests"
-                          :items="interestOptions"
-                          :label="interestsLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          multiple
-                          chips
-                          closable-chips
-                          :prepend-inner-icon="showInputIcons ? 'mdi-heart' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VSelect
-                          v-model="form.notifications"
-                          :items="notificationOptions"
-                          :label="notificationsLabel"
-                          :variant="inputVariant"
-                          :density="inputDensity"
-                          :prepend-inner-icon="showInputIcons ? 'mdi-bell' : undefined"
-                        />
-                      </VCol>
-                      <VCol cols="12">
-                        <VCheckbox
-                          v-model="form.newsletter"
-                          :label="newsletterLabel"
-                          :color="primaryColor"
-                        />
-                        <VCheckbox
-                          v-model="form.terms"
-                          :rules="[(v: boolean) => v || termsRequiredText]"
-                          :color="primaryColor"
-                        >
-                          <template #label>
-                            <slot name="terms-label">
-                              {{ termsLabelPrefix }}
-                              <a href="#" class="text-primary ms-1" @click.prevent="$emit('terms-click')">{{ termsLinkText }}</a>
-                              {{ termsLabelMiddle }}
-                              <a href="#" class="text-primary ms-1" @click.prevent="$emit('privacy-click')">{{ privacyLinkText }}</a>
-                            </slot>
-                          </template>
-                        </VCheckbox>
-                      </VCol>
-                    </VRow>
-                  </VForm>
-                </VCardText>
-              </VCard>
-            </slot>
-          </VStepperWindowItem>
-        </VStepperWindow>
-
-        <!-- Form Actions -->
-        <slot
-          name="form-actions"
-          :current-step="currentStep"
-          :go-back="goBack"
-          :next-step="nextStep"
-          :submit="submit"
-          :loading="loading"
-          :is-valid="isCurrentStepValid"
-        >
-          <VCardActions class="pa-6 pt-0">
-            <slot name="back-button" :go-back="goBack" :current-step="currentStep">
-              <VBtn
-                v-if="currentStep > 1"
-                variant="text"
-                @click="goBack"
-              >
-                {{ backButtonText }}
-              </VBtn>
-            </slot>
-
-            <VSpacer />
-
-            <slot
-              name="continue-button"
-              :next-step="nextStep"
-              :is-valid="isCurrentStepValid"
-              :current-step="currentStep"
-            >
-              <VBtn
-                v-if="currentStep < steps.length"
-                :color="primaryColor"
-                :disabled="!isCurrentStepValid"
-                @click="nextStep"
-              >
-                {{ continueButtonText }}
-              </VBtn>
-            </slot>
-
-            <slot
-              name="submit-button"
-              :submit="submit"
-              :loading="loading"
-              :is-valid="step3Valid"
-              :current-step="currentStep"
-            >
-              <VBtn
-                v-if="currentStep === steps.length"
-                :color="primaryColor"
-                :loading="loading"
-                :disabled="!step3Valid"
-                @click="submit"
-              >
-                {{ submitButtonText }}
-              </VBtn>
-            </slot>
-          </VCardActions>
-        </slot>
-      </VStepper>
-    </VCard>
-
-    <!-- Footer -->
-    <slot name="footer" :on-sign-in="handleSignIn">
-      <div
-        v-if="showSignInLink"
-        class="text-center mt-4"
-      >
-        <span class="text-medium-emphasis">{{ signInPromptText }}</span>
-        <VBtn
-          variant="text"
-          :color="primaryColor"
-          @click="handleSignIn"
-        >
-          {{ signInButtonText }}
-        </VBtn>
-      </div>
-    </slot>
-  </AuthPageLayout>
-</template>
-
 <script setup lang="ts">
+import { Icons } from '../../shared/model'
 import { ref, computed, watch } from 'vue'
 import AuthPageLayout from './AuthPageLayout.vue'
 
@@ -761,7 +433,334 @@ defineExpose({
   submit,
 })
 </script>
+<template>
+  <AuthPageLayout
+    :form-position="formPosition"
+    :background-type="backgroundType"
+    :background-color="backgroundColor"
+    :background-image="backgroundImage"
+    :background-gradient="backgroundGradient"
+    :overlay-color="overlayColor"
+    :overlay-opacity="overlayOpacity"
+    :split-ratio="splitRatio"
+    :side-content-background="sideContentBackground"
+    :side-content-image="sideContentImage"
+    :show-pattern="showPattern"
+    :min-height="minHeight"
+  >
+    <template #logo>
+      <slot name="logo" />
+    </template>
 
+    <template #header>
+      <slot name="header" />
+    </template>
+
+    <template #side-content>
+      <slot name="side-content" />
+    </template>
+
+    <template #side-logo>
+      <slot name="side-logo" />
+    </template>
+
+    <template #side-title>
+      <slot name="side-title" />
+    </template>
+
+    <template #side-subtitle>
+      <slot name="side-subtitle" />
+    </template>
+
+    <VCard
+      :elevation="cardElevation"
+      :rounded="cardRounded"
+      :color="cardColor"
+      :variant="cardVariant"
+      class="register-multistep-card"
+    >
+      <!-- Title -->
+      <slot name="title">
+        <VCardTitle
+          v-if="title"
+          class="text-h5 font-weight-bold pa-6 pb-0"
+        >
+          {{ title }}
+        </VCardTitle>
+      </slot>
+
+      <VStepper
+        v-model="currentStep"
+        :alt-labels="stepperAltLabels"
+        :flat="stepperFlat"
+      >
+        <!-- Stepper Header -->
+        <slot name="stepper-header" :steps="steps" :current-step="currentStep">
+          <VStepperHeader>
+            <template v-for="(step, index) in steps" :key="step.value">
+              <VStepperItem
+                :complete="currentStep > step.value"
+                :value="step.value"
+                :title="step.title"
+                :subtitle="step.subtitle"
+                :color="stepperColor"
+              />
+              <VDivider v-if="index < steps.length - 1" />
+            </template>
+          </VStepperHeader>
+        </slot>
+
+        <VStepperWindow>
+          <!-- Step 1: Account Information -->
+          <VStepperWindowItem :value="1">
+            <slot name="step-1" :form="form" :rules="{ emailRules, passwordRules, confirmPasswordRules }">
+              <VCard flat>
+                <VCardText>
+                  <VForm ref="step1FormRef" v-model="step1Valid">
+                    <VRow>
+                      <VCol cols="12">
+                        <VTextField
+                          v-model="form.email"
+                          :rules="emailRules"
+                          :label="emailLabel"
+                          type="email"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Email : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12" md="6">
+                        <VTextField
+                          v-model="form.password"
+                          :rules="passwordRules"
+                          :type="showPassword ? 'text' : 'password'"
+                          :label="passwordLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Lock : undefined"
+                          :append-inner-icon="showPassword ? Icons.EyeOff : Icons.Eye"
+                          @click:append-inner="showPassword = !showPassword"
+                        />
+                      </VCol>
+                      <VCol cols="12" md="6">
+                        <VTextField
+                          v-model="form.confirmPassword"
+                          :rules="confirmPasswordRules"
+                          :type="showPassword ? 'text' : 'password'"
+                          :label="confirmPasswordLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.LockCheck : undefined"
+                        />
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
+            </slot>
+          </VStepperWindowItem>
+
+          <!-- Step 2: Personal Information -->
+          <VStepperWindowItem :value="2">
+            <slot name="step-2" :form="form" :countries="countries">
+              <VCard flat>
+                <VCardText>
+                  <VForm ref="step2FormRef" v-model="step2Valid">
+                    <VRow>
+                      <VCol cols="12" md="6">
+                        <VTextField
+                          v-model="form.firstName"
+                          :rules="requiredRules"
+                          :label="firstNameLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Account : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12" md="6">
+                        <VTextField
+                          v-model="form.lastName"
+                          :rules="requiredRules"
+                          :label="lastNameLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Account : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12">
+                        <VTextField
+                          v-model="form.phone"
+                          :label="phoneLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Phone : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12" md="6">
+                        <VSelect
+                          v-model="form.country"
+                          :items="countries"
+                          :rules="requiredRules"
+                          :label="countryLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Earth : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12" md="6">
+                        <VTextField
+                          v-model="form.city"
+                          :label="cityLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? 'mdi-city' : undefined"
+                        />
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
+            </slot>
+          </VStepperWindowItem>
+
+          <!-- Step 3: Preferences -->
+          <VStepperWindowItem :value="3">
+            <slot name="step-3" :form="form" :interest-options="interestOptions" :notification-options="notificationOptions">
+              <VCard flat>
+                <VCardText>
+                  <VForm ref="step3FormRef" v-model="step3Valid">
+                    <VRow>
+                      <VCol cols="12">
+                        <VSelect
+                          v-model="form.interests"
+                          :items="interestOptions"
+                          :label="interestsLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          multiple
+                          chips
+                          closable-chips
+                          :prepend-inner-icon="showInputIcons ? Icons.Heart : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12">
+                        <VSelect
+                          v-model="form.notifications"
+                          :items="notificationOptions"
+                          :label="notificationsLabel"
+                          :variant="inputVariant"
+                          :density="inputDensity"
+                          :prepend-inner-icon="showInputIcons ? Icons.Bell : undefined"
+                        />
+                      </VCol>
+                      <VCol cols="12">
+                        <VCheckbox
+                          v-model="form.newsletter"
+                          :label="newsletterLabel"
+                          :color="primaryColor"
+                        />
+                        <VCheckbox
+                          v-model="form.terms"
+                          :rules="[(v: boolean) => v || termsRequiredText]"
+                          :color="primaryColor"
+                        >
+                          <template #label>
+                            <slot name="terms-label">
+                              {{ termsLabelPrefix }}
+                              <a href="#" class="text-primary ms-1" @click.prevent="$emit('terms-click')">{{ termsLinkText }}</a>
+                              {{ termsLabelMiddle }}
+                              <a href="#" class="text-primary ms-1" @click.prevent="$emit('privacy-click')">{{ privacyLinkText }}</a>
+                            </slot>
+                          </template>
+                        </VCheckbox>
+                      </VCol>
+                    </VRow>
+                  </VForm>
+                </VCardText>
+              </VCard>
+            </slot>
+          </VStepperWindowItem>
+        </VStepperWindow>
+
+        <!-- Form Actions -->
+        <slot
+          name="form-actions"
+          :current-step="currentStep"
+          :go-back="goBack"
+          :next-step="nextStep"
+          :submit="submit"
+          :loading="loading"
+          :is-valid="isCurrentStepValid"
+        >
+          <VCardActions class="pa-6 pt-0">
+            <slot name="back-button" :go-back="goBack" :current-step="currentStep">
+              <VBtn
+                v-if="currentStep > 1"
+                variant="text"
+                @click="goBack"
+              >
+                {{ backButtonText }}
+              </VBtn>
+            </slot>
+
+            <VSpacer />
+
+            <slot
+              name="continue-button"
+              :next-step="nextStep"
+              :is-valid="isCurrentStepValid"
+              :current-step="currentStep"
+            >
+              <VBtn
+                v-if="currentStep < steps.length"
+                :color="primaryColor"
+                :disabled="!isCurrentStepValid"
+                @click="nextStep"
+              >
+                {{ continueButtonText }}
+              </VBtn>
+            </slot>
+
+            <slot
+              name="submit-button"
+              :submit="submit"
+              :loading="loading"
+              :is-valid="step3Valid"
+              :current-step="currentStep"
+            >
+              <VBtn
+                v-if="currentStep === steps.length"
+                :color="primaryColor"
+                :loading="loading"
+                :disabled="!step3Valid"
+                @click="submit"
+              >
+                {{ submitButtonText }}
+              </VBtn>
+            </slot>
+          </VCardActions>
+        </slot>
+      </VStepper>
+    </VCard>
+
+    <!-- Footer -->
+    <slot name="footer" :on-sign-in="handleSignIn">
+      <div
+        v-if="showSignInLink"
+        class="text-center mt-4"
+      >
+        <span class="text-medium-emphasis">{{ signInPromptText }}</span>
+        <VBtn
+          variant="text"
+          :color="primaryColor"
+          @click="handleSignIn"
+        >
+          {{ signInButtonText }}
+        </VBtn>
+      </div>
+    </slot>
+  </AuthPageLayout>
+</template>
 <style scoped>
 .register-multistep-card {
   width: 100%;

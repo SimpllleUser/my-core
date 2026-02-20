@@ -4,6 +4,36 @@
   Components: VDialog, VCard, VBtn, VTextField, VForm
   Variants: Confirm, Alert, Form Modal, Fullscreen
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const confirmDialog = ref(false)
+const alertDialog = ref(false)
+const formDialog = ref(false)
+const infoDialog = ref(false)
+const successDialog = ref(false)
+const loadingDialog = ref(false)
+const fullscreenDialog = ref(false)
+const scrollableDialog = ref(false)
+
+const formRef = ref()
+const formValid = ref(false)
+const newUser = ref({ name: '', email: '', role: '' })
+
+const showLoading = () => {
+  loadingDialog.value = true
+  setTimeout(() => {
+    loadingDialog.value = false
+  }, 3000)
+}
+
+const saveUser = () => {
+  console.log('Saving user:', newUser.value)
+  formDialog.value = false
+  newUser.value = { name: '', email: '', role: '' }
+}
+</script>
 <template>
   <VContainer>
     <h2 class="text-h5 font-weight-bold mb-6">Dialog Variants</h2>
@@ -94,7 +124,7 @@
       <VCard>
         <VCardText class="text-center pa-6">
           <VAvatar color="warning" size="64" class="mb-4">
-            <VIcon size="32" color="white">mdi-alert</VIcon>
+            <VIcon size="32" color="white">{{ Icons.Alert }}</VIcon>
           </VAvatar>
           <h3 class="text-h6 mb-2">Warning!</h3>
           <p class="text-body-2 text-medium-emphasis mb-0">
@@ -112,7 +142,7 @@
       <VCard>
         <VCardTitle class="d-flex justify-space-between align-center">
           <span>Add New User</span>
-          <VBtn icon="mdi-close" variant="text" @click="formDialog = false" />
+          <VBtn :icon="Icons.Close" variant="text" @click="formDialog = false" />
         </VCardTitle>
         <VDivider />
         <VCardText>
@@ -175,7 +205,7 @@
       <VCard>
         <VCardText class="text-center pa-8">
           <VAvatar color="success" size="80" class="mb-4">
-            <VIcon size="48" color="white">mdi-check</VIcon>
+            <VIcon size="48" color="white">{{ Icons.Check }}</VIcon>
           </VAvatar>
           <h3 class="text-h5 font-weight-bold mb-2">Success!</h3>
           <p class="text-body-1 text-medium-emphasis mb-0">
@@ -201,7 +231,7 @@
       <VCard>
         <VToolbar color="primary">
           <VBtn icon @click="fullscreenDialog = false">
-            <VIcon>mdi-close</VIcon>
+            <VIcon>{{ Icons.Close }}</VIcon>
           </VBtn>
           <VToolbarTitle>Create New Post</VToolbarTitle>
           <VSpacer />
@@ -247,33 +277,3 @@
     </VDialog>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const confirmDialog = ref(false)
-const alertDialog = ref(false)
-const formDialog = ref(false)
-const infoDialog = ref(false)
-const successDialog = ref(false)
-const loadingDialog = ref(false)
-const fullscreenDialog = ref(false)
-const scrollableDialog = ref(false)
-
-const formRef = ref()
-const formValid = ref(false)
-const newUser = ref({ name: '', email: '', role: '' })
-
-const showLoading = () => {
-  loadingDialog.value = true
-  setTimeout(() => {
-    loadingDialog.value = false
-  }, 3000)
-}
-
-const saveUser = () => {
-  console.log('Saving user:', newUser.value)
-  formDialog.value = false
-  newUser.value = { name: '', email: '', role: '' }
-}
-</script>

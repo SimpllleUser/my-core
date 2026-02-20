@@ -4,6 +4,61 @@
   Components: VCard, VList, VBtn, VTextField, VDivider
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref, computed } from 'vue'
+
+const promoCode = ref('')
+const promoApplied = ref(false)
+
+const cartItems = ref([
+  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, quantity: 1, image: 'https://picsum.photos/seed/cart1/200', color: 'Black', size: null },
+  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, quantity: 1, image: 'https://picsum.photos/seed/cart2/200', color: 'Silver', size: '42mm' },
+  { id: 3, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, quantity: 2, image: 'https://picsum.photos/seed/cart3/200', color: 'Blue', size: 'US 10' },
+])
+
+const recommendedProducts = [
+  { id: 5, name: 'Phone Case', price: 24.99, image: 'https://picsum.photos/seed/rec1/200' },
+  { id: 6, name: 'USB-C Cable', price: 14.99, image: 'https://picsum.photos/seed/rec2/200' },
+  { id: 7, name: 'Screen Protector', price: 9.99, image: 'https://picsum.photos/seed/rec3/200' },
+  { id: 8, name: 'Wireless Charger', price: 29.99, image: 'https://picsum.photos/seed/rec4/200' },
+]
+
+const subtotal = computed(() => {
+  return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+})
+
+const shipping = computed(() => subtotal.value >= 100 ? 0 : 9.99)
+
+const discount = computed(() => promoApplied.value ? 10 : 0)
+
+const tax = computed(() => (subtotal.value - discount.value) * 0.08)
+
+const total = computed(() => subtotal.value + shipping.value + tax.value - discount.value)
+
+const updateQuantity = (id: number, quantity: number) => {
+  const item = cartItems.value.find(i => i.id === id)
+  if (item) item.quantity = quantity
+}
+
+const removeItem = (id: number) => {
+  cartItems.value = cartItems.value.filter(i => i.id !== id)
+}
+
+const clearCart = () => {
+  cartItems.value = []
+}
+
+const applyPromo = () => {
+  if (promoCode.value.toLowerCase() === 'save10') {
+    promoApplied.value = true
+  }
+}
+
+const checkout = () => {
+  console.log('Proceeding to checkout...')
+}
+</script>
 <template>
   <VContainer>
     <h1 class="text-h4 font-weight-bold mb-6">Shopping Cart</h1>
@@ -44,7 +99,7 @@
                     <!-- Quantity -->
                     <div class="d-flex align-center">
                       <VBtn
-                        icon="mdi-minus"
+                        :icon="Icons.Minus"
                         size="small"
                         variant="outlined"
                         density="compact"
@@ -55,7 +110,7 @@
                         {{ item.quantity }}
                       </span>
                       <VBtn
-                        icon="mdi-plus"
+                        :icon="Icons.Plus"
                         size="small"
                         variant="outlined"
                         density="compact"
@@ -71,7 +126,7 @@
 
                     <!-- Remove -->
                     <VBtn
-                      icon="mdi-delete-outline"
+                      :icon="Icons.DeleteOutline"
                       variant="text"
                       color="error"
                       size="small"
@@ -87,7 +142,7 @@
 
           <!-- Empty Cart -->
           <VCardText v-else class="text-center pa-12">
-            <VIcon size="80" color="grey-lighten-1" class="mb-4">mdi-cart-outline</VIcon>
+            <VIcon size="80" color="grey-lighten-1" class="mb-4">{{ Icons.CartOutline }}</VIcon>
             <h3 class="text-h6 mb-2">Your cart is empty</h3>
             <p class="text-body-2 text-medium-emphasis mb-6">
               Looks like you haven't added anything to your cart yet.
@@ -108,7 +163,7 @@
                     <p class="text-body-2 font-weight-medium text-truncate mb-1">{{ product.name }}</p>
                     <div class="d-flex justify-space-between align-center">
                       <span class="font-weight-bold text-primary">${{ product.price.toFixed(2) }}</span>
-                      <VBtn icon="mdi-plus" size="x-small" color="primary" variant="tonal" />
+                      <VBtn :icon="Icons.Plus" size="x-small" color="primary" variant="tonal" />
                     </div>
                   </VCardText>
                 </VCard>
@@ -131,7 +186,7 @@
               variant="outlined"
               density="compact"
               class="mb-4"
-              :append-inner-icon="promoApplied ? 'mdi-check-circle' : undefined"
+              :append-inner-icon="promoApplied ? Icons.CheckCircle : undefined"
               :color="promoApplied ? 'success' : undefined"
             >
               <template #append>
@@ -190,15 +245,15 @@
             <!-- Trust Badges -->
             <div class="d-flex justify-center ga-4 mt-6">
               <div class="text-center">
-                <VIcon color="success">mdi-shield-check</VIcon>
+                <VIcon color="success">{{ Icons.ShieldCheck }}</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Secure</p>
               </div>
               <div class="text-center">
-                <VIcon color="primary">mdi-truck-fast</VIcon>
+                <VIcon color="primary">{{ Icons.TruckFast }}</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Fast Delivery</p>
               </div>
               <div class="text-center">
-                <VIcon color="warning">mdi-cash-refund</VIcon>
+                <VIcon color="warning">{{ Icons.CashRefund }}</VIcon>
                 <p class="text-caption text-medium-emphasis mb-0">Easy Returns</p>
               </div>
             </div>
@@ -207,9 +262,9 @@
             <div class="text-center mt-6">
               <p class="text-caption text-medium-emphasis mb-2">We Accept</p>
               <div class="d-flex justify-center ga-2">
-                <VIcon>mdi-credit-card</VIcon>
-                <VIcon>mdi-apple</VIcon>
-                <VIcon>mdi-google</VIcon>
+                <VIcon>{{ Icons.CreditCard }}</VIcon>
+                <VIcon>{{ Icons.Apple }}</VIcon>
+                <VIcon>{{ Icons.Google }}</VIcon>
               </div>
             </div>
           </VCardText>
@@ -218,62 +273,6 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-
-const promoCode = ref('')
-const promoApplied = ref(false)
-
-const cartItems = ref([
-  { id: 1, name: 'Wireless Bluetooth Headphones', category: 'Electronics', price: 79.99, quantity: 1, image: 'https://picsum.photos/seed/cart1/200', color: 'Black', size: null },
-  { id: 2, name: 'Smart Watch Pro', category: 'Electronics', price: 249.99, quantity: 1, image: 'https://picsum.photos/seed/cart2/200', color: 'Silver', size: '42mm' },
-  { id: 3, name: 'Running Shoes Elite', category: 'Sports', price: 129.99, quantity: 2, image: 'https://picsum.photos/seed/cart3/200', color: 'Blue', size: 'US 10' },
-])
-
-const recommendedProducts = [
-  { id: 5, name: 'Phone Case', price: 24.99, image: 'https://picsum.photos/seed/rec1/200' },
-  { id: 6, name: 'USB-C Cable', price: 14.99, image: 'https://picsum.photos/seed/rec2/200' },
-  { id: 7, name: 'Screen Protector', price: 9.99, image: 'https://picsum.photos/seed/rec3/200' },
-  { id: 8, name: 'Wireless Charger', price: 29.99, image: 'https://picsum.photos/seed/rec4/200' },
-]
-
-const subtotal = computed(() => {
-  return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
-})
-
-const shipping = computed(() => subtotal.value >= 100 ? 0 : 9.99)
-
-const discount = computed(() => promoApplied.value ? 10 : 0)
-
-const tax = computed(() => (subtotal.value - discount.value) * 0.08)
-
-const total = computed(() => subtotal.value + shipping.value + tax.value - discount.value)
-
-const updateQuantity = (id: number, quantity: number) => {
-  const item = cartItems.value.find(i => i.id === id)
-  if (item) item.quantity = quantity
-}
-
-const removeItem = (id: number) => {
-  cartItems.value = cartItems.value.filter(i => i.id !== id)
-}
-
-const clearCart = () => {
-  cartItems.value = []
-}
-
-const applyPromo = () => {
-  if (promoCode.value.toLowerCase() === 'save10') {
-    promoApplied.value = true
-  }
-}
-
-const checkout = () => {
-  console.log('Proceeding to checkout...')
-}
-</script>
-
 <style scoped>
 .sticky-card {
   position: sticky;

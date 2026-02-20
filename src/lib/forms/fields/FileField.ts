@@ -7,7 +7,7 @@ export class FileField extends BaseField<File | File[] | null, FileFieldConfig> 
   constructor(config: FileFieldConfig = {}) {
     super({
       default: null,
-      prependIcon: 'mdi-paperclip',
+      prependIcon: Icons.Paperclip,
       showSize: true,
       ...config,
     });

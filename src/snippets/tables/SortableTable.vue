@@ -4,73 +4,8 @@
   Components: VTable, VBtn, VChip, VIcon
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
-<template>
-  <VContainer fluid>
-    <VCard>
-      <VCardTitle>Orders List</VCardTitle>
-      <VTable hover>
-        <thead>
-          <tr>
-            <th
-              v-for="header in headers"
-              :key="header.key"
-              :class="{ 'cursor-pointer': header.sortable }"
-              @click="header.sortable && sortBy(header.key)"
-            >
-              <div class="d-flex align-center">
-                {{ header.title }}
-                <VIcon v-if="header.sortable" size="small" class="ml-1">
-                  {{ getSortIcon(header.key) }}
-                </VIcon>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in sortedOrders" :key="order.id">
-            <td class="font-weight-medium">{{ order.id }}</td>
-            <td>
-              <div class="d-flex align-center">
-                <VAvatar size="32" class="mr-2">
-                  <VImg :src="order.customer.avatar" />
-                </VAvatar>
-                {{ order.customer.name }}
-              </div>
-            </td>
-            <td>{{ order.product }}</td>
-            <td class="font-weight-medium">${{ order.amount.toFixed(2) }}</td>
-            <td>
-              <VChip :color="getStatusColor(order.status)" size="small">
-                {{ order.status }}
-              </VChip>
-            </td>
-            <td>{{ order.date }}</td>
-            <td>
-              <VBtn icon="mdi-eye" variant="text" size="small" />
-              <VBtn icon="mdi-pencil" variant="text" size="small" />
-            </td>
-          </tr>
-        </tbody>
-      </VTable>
-
-      <!-- Simple Pagination -->
-      <VDivider />
-      <VCardText class="d-flex justify-space-between align-center">
-        <span class="text-body-2 text-medium-emphasis">
-          Showing 1-{{ orders.length }} of {{ orders.length }} orders
-        </span>
-        <VPagination
-          v-model="currentPage"
-          :length="3"
-          :total-visible="5"
-          density="compact"
-        />
-      </VCardText>
-    </VCard>
-  </VContainer>
-</template>
-
 <script setup lang="ts">
+import { Icons } from '../../shared/model'
 import { ref, computed } from 'vue'
 
 const currentPage = ref(1)
@@ -129,8 +64,8 @@ const sortBy = (key: string) => {
 }
 
 const getSortIcon = (key: string) => {
-  if (sortKey.value !== key) return 'mdi-unfold-more-horizontal'
-  return sortOrder.value === 'asc' ? 'mdi-chevron-up' : 'mdi-chevron-down'
+  if (sortKey.value !== key) return Icons.UnfoldMore
+  return sortOrder.value === 'asc' ? Icons.ChevronUp : Icons.ChevronDown
 }
 
 const getStatusColor = (status: string) => {
@@ -144,7 +79,71 @@ const getStatusColor = (status: string) => {
   return colors[status] || 'grey'
 }
 </script>
+<template>
+  <VContainer fluid>
+    <VCard>
+      <VCardTitle>Orders List</VCardTitle>
+      <VTable hover>
+        <thead>
+          <tr>
+            <th
+              v-for="header in headers"
+              :key="header.key"
+              :class="{ 'cursor-pointer': header.sortable }"
+              @click="header.sortable && sortBy(header.key)"
+            >
+              <div class="d-flex align-center">
+                {{ header.title }}
+                <VIcon v-if="header.sortable" size="small" class="ml-1">
+                  {{ getSortIcon(header.key) }}
+                </VIcon>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in sortedOrders" :key="order.id">
+            <td class="font-weight-medium">{{ order.id }}</td>
+            <td>
+              <div class="d-flex align-center">
+                <VAvatar size="32" class="mr-2">
+                  <VImg :src="order.customer.avatar" />
+                </VAvatar>
+                {{ order.customer.name }}
+              </div>
+            </td>
+            <td>{{ order.product }}</td>
+            <td class="font-weight-medium">${{ order.amount.toFixed(2) }}</td>
+            <td>
+              <VChip :color="getStatusColor(order.status)" size="small">
+                {{ order.status }}
+              </VChip>
+            </td>
+            <td>{{ order.date }}</td>
+            <td>
+              <VBtn :icon="Icons.Eye" variant="text" size="small" />
+              <VBtn :icon="Icons.Edit" variant="text" size="small" />
+            </td>
+          </tr>
+        </tbody>
+      </VTable>
 
+      <!-- Simple Pagination -->
+      <VDivider />
+      <VCardText class="d-flex justify-space-between align-center">
+        <span class="text-body-2 text-medium-emphasis">
+          Showing 1-{{ orders.length }} of {{ orders.length }} orders
+        </span>
+        <VPagination
+          v-model="currentPage"
+          :length="3"
+          :total-visible="5"
+          density="compact"
+        />
+      </VCardText>
+    </VCard>
+  </VContainer>
+</template>
 <style scoped>
 .cursor-pointer {
   cursor: pointer;

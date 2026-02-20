@@ -1,3 +1,113 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Colors, Variants, Sizes, Icons } from '../../model'
+import type { ColorType, VariantType, SizeType, IconType, IHeroFeature, IHeroCta } from './types'
+
+type LayoutType = 'centered' | 'split'
+
+interface Props {
+  // Content
+  title: string
+  titleHighlight?: string
+  subtitle?: string
+  badge?: string
+  badgeIcon?: IconType
+  features?: IHeroFeature[]
+  ctas?: IHeroCta[]
+  image?: string
+
+  // Layout
+  layout?: LayoutType
+  imagePosition?: 'left' | 'right'
+  sectionClass?: string
+  sectionPadding?: string
+  backgroundGradient?: string
+
+  // Content columns
+  contentColsMd?: number
+  contentColsLg?: number
+
+  // Badge styling
+  badgeColor?: ColorType
+  badgeVariant?: VariantType
+  badgeIconSize?: SizeType | number
+
+  // Title styling
+  titleClass?: string
+  splitTitleClass?: string
+  titleHighlightClass?: string
+
+  // Subtitle styling
+  subtitleClass?: string
+  subtitleMaxWidth?: string
+
+  // CTA styling
+  ctaSize?: SizeType
+  splitCtaSize?: SizeType
+  ctaRounded?: string | boolean
+
+  // Features styling
+  featuresClass?: string
+  featureIconSize?: SizeType | number
+  featureIconColor?: ColorType
+  featureDefaultIcon?: IconType
+  featureSeparator?: string
+
+  // Split layout
+  splitContentCols?: number
+  splitImageCols?: number
+  splitFeaturesListClass?: string
+
+  // Image styling
+  imageColsLg?: number
+  imageCardClass?: string
+  imageElevation?: number | string
+  imageAspectRatio?: number | string
+  imageBgClass?: string
+  splitImageClass?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  layout: 'centered',
+  imagePosition: 'right',
+  sectionPadding: 'py-16',
+  contentColsMd: 10,
+  contentColsLg: 8,
+  badgeColor: Colors.Primary,
+  badgeVariant: Variants.Tonal,
+  badgeIconSize: Sizes.Small,
+  titleClass: 'text-h2 text-md-h1',
+  splitTitleClass: 'text-h3 text-md-h2',
+  titleHighlightClass: 'text-primary',
+  subtitleClass: 'text-h6 text-medium-emphasis',
+  subtitleMaxWidth: '600px',
+  ctaSize: Sizes.XLarge,
+  splitCtaSize: Sizes.Large,
+  ctaRounded: 'pill',
+  featuresClass: 'text-body-2 text-medium-emphasis',
+  featureIconSize: Sizes.Small,
+  featureIconColor: Colors.Success,
+  featureDefaultIcon: Icons.CheckCircle,
+  featureSeparator: '•',
+  splitContentCols: 6,
+  splitImageCols: 6,
+  splitFeaturesListClass: 'bg-transparent mb-6',
+  imageColsLg: 10,
+  imageCardClass: 'elevation-12 rounded-xl overflow-hidden',
+  imageElevation: 12,
+  imageAspectRatio: 2,
+  imageBgClass: 'bg-grey-lighten-3',
+  splitImageClass: 'rounded-xl elevation-8',
+})
+
+const sectionStyle = computed(() => {
+  const styles: Record<string, string> = {}
+  if (props.backgroundGradient) {
+    styles.background = props.backgroundGradient
+  }
+  return styles
+})
+</script>
 <template>
   <section :class="['hero-section', sectionClass]" :style="sectionStyle">
     <VContainer>
@@ -176,118 +286,6 @@
     </VContainer>
   </section>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
-import type { ColorType, VariantType, SizeType, IconType, IHeroFeature, IHeroCta } from './types'
-
-type LayoutType = 'centered' | 'split'
-
-interface Props {
-  // Content
-  title: string
-  titleHighlight?: string
-  subtitle?: string
-  badge?: string
-  badgeIcon?: IconType
-  features?: IHeroFeature[]
-  ctas?: IHeroCta[]
-  image?: string
-
-  // Layout
-  layout?: LayoutType
-  imagePosition?: 'left' | 'right'
-  sectionClass?: string
-  sectionPadding?: string
-  backgroundGradient?: string
-
-  // Content columns
-  contentColsMd?: number
-  contentColsLg?: number
-
-  // Badge styling
-  badgeColor?: ColorType
-  badgeVariant?: VariantType
-  badgeIconSize?: SizeType | number
-
-  // Title styling
-  titleClass?: string
-  splitTitleClass?: string
-  titleHighlightClass?: string
-
-  // Subtitle styling
-  subtitleClass?: string
-  subtitleMaxWidth?: string
-
-  // CTA styling
-  ctaSize?: SizeType
-  splitCtaSize?: SizeType
-  ctaRounded?: string | boolean
-
-  // Features styling
-  featuresClass?: string
-  featureIconSize?: SizeType | number
-  featureIconColor?: ColorType
-  featureDefaultIcon?: IconType
-  featureSeparator?: string
-
-  // Split layout
-  splitContentCols?: number
-  splitImageCols?: number
-  splitFeaturesListClass?: string
-
-  // Image styling
-  imageColsLg?: number
-  imageCardClass?: string
-  imageElevation?: number | string
-  imageAspectRatio?: number | string
-  imageBgClass?: string
-  splitImageClass?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  layout: 'centered',
-  imagePosition: 'right',
-  sectionPadding: 'py-16',
-  contentColsMd: 10,
-  contentColsLg: 8,
-  badgeColor: Colors.Primary,
-  badgeVariant: Variants.Tonal,
-  badgeIconSize: Sizes.Small,
-  titleClass: 'text-h2 text-md-h1',
-  splitTitleClass: 'text-h3 text-md-h2',
-  titleHighlightClass: 'text-primary',
-  subtitleClass: 'text-h6 text-medium-emphasis',
-  subtitleMaxWidth: '600px',
-  ctaSize: Sizes.XLarge,
-  splitCtaSize: Sizes.Large,
-  ctaRounded: 'pill',
-  featuresClass: 'text-body-2 text-medium-emphasis',
-  featureIconSize: Sizes.Small,
-  featureIconColor: Colors.Success,
-  featureDefaultIcon: Icons.CheckCircle,
-  featureSeparator: '•',
-  splitContentCols: 6,
-  splitImageCols: 6,
-  splitFeaturesListClass: 'bg-transparent mb-6',
-  imageColsLg: 10,
-  imageCardClass: 'elevation-12 rounded-xl overflow-hidden',
-  imageElevation: 12,
-  imageAspectRatio: 2,
-  imageBgClass: 'bg-grey-lighten-3',
-  splitImageClass: 'rounded-xl elevation-8',
-})
-
-const sectionStyle = computed(() => {
-  const styles: Record<string, string> = {}
-  if (props.backgroundGradient) {
-    styles.background = props.backgroundGradient
-  }
-  return styles
-})
-</script>
-
 <style scoped>
 .hero-section {
   padding-top: 4rem;

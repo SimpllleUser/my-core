@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Icons } from '../../../shared/model'
 import { ref, computed } from 'vue';
 import FormField from './FormField.vue';
 import type { FieldDefinition, FormValues } from '../types';
@@ -114,7 +115,7 @@ function setNestedValue(
         <h3 v-if="title" class="form-section-title">{{ title }}</h3>
         <p v-if="subtitle" class="form-section-subtitle">{{ subtitle }}</p>
       </div>
-      <VIcon v-if="collapsible" :icon="isCollapsed ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
+      <VIcon v-if="collapsible" :icon="isCollapsed ? Icons.ChevronDown : Icons.ChevronUp" />
     </div>
 
     <VExpandTransition>

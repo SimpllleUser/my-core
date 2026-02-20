@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import type { BaseField } from '../fields/BaseField';
+
+interface Props {
+  field: BaseField;
+  errors?: string[];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  errors: () => []
+});
+
+const hasErrors = computed(() => props.errors.length > 0);
+</script>
 <template>
   <div :class="['field-wrapper', { 'field-wrapper--error': hasErrors, 'field-wrapper--disabled': field.isDisabled }]">
     <slot
@@ -50,23 +65,6 @@
     </slot>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue';
-import type { BaseField } from '../fields/BaseField';
-
-interface Props {
-  field: BaseField;
-  errors?: string[];
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  errors: () => []
-});
-
-const hasErrors = computed(() => props.errors.length > 0);
-</script>
-
 <style scoped>
 .field-wrapper {
   display: flex;

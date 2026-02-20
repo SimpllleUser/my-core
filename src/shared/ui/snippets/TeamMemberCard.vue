@@ -1,3 +1,68 @@
+<script setup lang="ts">
+import { Variants, Sizes } from '../../model'
+import type { ColorType, VariantType, SizeType, ISocialLink } from './types'
+import SocialLinks from './SocialLinks.vue'
+
+type LayoutType = 'centered' | 'horizontal' | 'default'
+
+interface Props {
+  // Member data
+  name: string
+  role: string
+  avatar: string
+  department?: string
+  bio?: string
+  socials?: ISocialLink[]
+
+  // Layout
+  layout?: LayoutType
+
+  // Card props
+  cardVariant?: VariantType
+  elevation?: number | string
+  hover?: boolean
+  height?: string | number
+  cardClass?: string
+  contentClass?: string
+
+  // Avatar
+  avatarSize?: SizeType | number
+
+  // Text classes
+  nameClass?: string
+  roleClass?: string
+  bioClass?: string
+
+  // Department chip
+  departmentChipSize?: SizeType
+  departmentChipVariant?: VariantType
+  departmentChipColor?: ColorType | string
+
+  // Social links
+  socialButtonVariant?: VariantType
+  socialButtonSize?: SizeType
+  socialButtonColor?: string
+  showSocialLabels?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  layout: 'default',
+  cardVariant: Variants.Flat,
+  elevation: 0,
+  hover: true,
+  contentClass: 'pa-6',
+  avatarSize: 80,
+  nameClass: 'text-h6',
+  roleClass: 'text-body-2 text-primary',
+  bioClass: 'text-body-2 text-medium-emphasis',
+  departmentChipSize: Sizes.XSmall,
+  departmentChipVariant: Variants.Outlined,
+  socialButtonVariant: Variants.Tonal,
+  socialButtonSize: Sizes.Small,
+  socialButtonColor: 'grey-darken-1',
+  showSocialLabels: false,
+})
+</script>
 <template>
   <VCard
     :variant="cardVariant"
@@ -108,73 +173,6 @@
     </template>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { Variants, Sizes } from '@/shared/model'
-import type { ColorType, VariantType, SizeType, ISocialLink } from './types'
-import SocialLinks from './SocialLinks.vue'
-
-type LayoutType = 'centered' | 'horizontal' | 'default'
-
-interface Props {
-  // Member data
-  name: string
-  role: string
-  avatar: string
-  department?: string
-  bio?: string
-  socials?: ISocialLink[]
-
-  // Layout
-  layout?: LayoutType
-
-  // Card props
-  cardVariant?: VariantType
-  elevation?: number | string
-  hover?: boolean
-  height?: string | number
-  cardClass?: string
-  contentClass?: string
-
-  // Avatar
-  avatarSize?: SizeType | number
-
-  // Text classes
-  nameClass?: string
-  roleClass?: string
-  bioClass?: string
-
-  // Department chip
-  departmentChipSize?: SizeType
-  departmentChipVariant?: VariantType
-  departmentChipColor?: ColorType | string
-
-  // Social links
-  socialButtonVariant?: VariantType
-  socialButtonSize?: SizeType
-  socialButtonColor?: string
-  showSocialLabels?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  layout: 'default',
-  cardVariant: Variants.Flat,
-  elevation: 0,
-  hover: true,
-  contentClass: 'pa-6',
-  avatarSize: 80,
-  nameClass: 'text-h6',
-  roleClass: 'text-body-2 text-primary',
-  bioClass: 'text-body-2 text-medium-emphasis',
-  departmentChipSize: Sizes.XSmall,
-  departmentChipVariant: Variants.Outlined,
-  socialButtonVariant: Variants.Tonal,
-  socialButtonSize: Sizes.Small,
-  socialButtonColor: 'grey-darken-1',
-  showSocialLabels: false,
-})
-</script>
-
 <style scoped>
 .team-member-card {
   height: 100%;

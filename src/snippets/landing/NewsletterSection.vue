@@ -4,6 +4,19 @@
   Components: VContainer, VRow, VCol, VTextField, VBtn, VCard
   Complexity: Simple-Medium
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+
+const email = ref('')
+
+const benefits = [
+  'Weekly product updates',
+  'Exclusive tips and tutorials',
+  'Early access to new features',
+  'No spam, ever',
+]
+</script>
 <template>
   <div>
     <!-- Newsletter Style 1: Simple Inline -->
@@ -117,17 +130,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-
-const email = ref('')
-
-const benefits = [
-  'Weekly product updates',
-  'Exclusive tips and tutorials',
-  'Early access to new features',
-  'No spam, ever',
-]
-</script>

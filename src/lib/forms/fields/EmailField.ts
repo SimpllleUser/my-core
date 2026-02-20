@@ -7,7 +7,7 @@ export class EmailField extends BaseField<string, EmailFieldConfig> {
   constructor(config: EmailFieldConfig = {}) {
     super({
       default: '',
-      prependInnerIcon: 'mdi-email-outline',
+      prependInnerIcon: Icons.EmailOutline,
       ...config,
     });
   }

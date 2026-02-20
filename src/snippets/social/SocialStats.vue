@@ -4,6 +4,58 @@
   Components: StatCard, SectionHeader
   Variants: Overview cards, detailed analytics, engagement metrics
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard } from '../../shared/ui/snippets'
+import type { IStat } from '../../shared/ui/snippets'
+
+const timePeriod = ref('7d')
+const contentType = ref('All')
+const contentTypes = ['All', 'Photos', 'Videos', 'Stories', 'Reels']
+
+const overviewStats: (IStat & { trend?: number })[] = [
+  { value: '125.4K', label: 'Followers', icon: Icons.AccountGroup, color: 'primary', trend: 12.5 },
+  { value: '2.8M', label: 'Impressions', icon: Icons.Eye, color: 'info', trend: 8.3 },
+  { value: '156K', label: 'Engagement', icon: Icons.Heart, color: 'error', trend: 15.2 },
+  { value: '4.2%', label: 'Engagement Rate', icon: Icons.ChartLine, color: 'success', trend: 2.1 },
+]
+
+const engagementMetrics = [
+  { label: 'Likes', value: '45.2K', color: 'error', trend: 12 },
+  { label: 'Comments', value: '8.9K', color: 'primary', trend: -3 },
+  { label: 'Shares', value: '2.4K', color: 'success', trend: 25 },
+]
+
+const audienceInsights = [
+  { label: '18-24 years', value: '35%', percentage: 35, color: 'primary' },
+  { label: '25-34 years', value: '42%', percentage: 42, color: 'success' },
+  { label: '35-44 years', value: '15%', percentage: 15, color: 'info' },
+  { label: '45+ years', value: '8%', percentage: 8, color: 'warning' },
+]
+
+const contentPerformance = [
+  { id: 1, type: 'Photo', typeColor: 'primary', thumbnail: 'https://picsum.photos/seed/c1/300/200', caption: 'Beautiful sunset at the beach! 🌅 #photography', date: 'Dec 25', likes: 12500, comments: 456, shares: 234, views: 45600 },
+  { id: 2, type: 'Video', typeColor: 'error', thumbnail: 'https://picsum.photos/seed/c2/300/200', caption: 'Behind the scenes of our latest project 🎬', date: 'Dec 24', likes: 8900, comments: 312, shares: 567, views: 89200 },
+  { id: 3, type: 'Reel', typeColor: 'warning', thumbnail: 'https://picsum.photos/seed/c3/300/200', caption: 'Quick tutorial on productivity tips! ⚡', date: 'Dec 23', likes: 25600, comments: 890, shares: 1200, views: 156000 },
+  { id: 4, type: 'Story', typeColor: 'success', thumbnail: 'https://picsum.photos/seed/c4/300/200', caption: 'Day in my life working from home 🏠', date: 'Dec 22', likes: 5600, comments: 123, shares: 89, views: 23400 },
+  { id: 5, type: 'Photo', typeColor: 'primary', thumbnail: 'https://picsum.photos/seed/c5/300/200', caption: 'New office setup! What do you think? 💻', date: 'Dec 21', likes: 15800, comments: 567, shares: 345, views: 67800 },
+  { id: 6, type: 'Video', typeColor: 'error', thumbnail: 'https://picsum.photos/seed/c6/300/200', caption: 'Answering your questions about tech 🎤', date: 'Dec 20', likes: 7800, comments: 456, shares: 234, views: 45600 },
+]
+
+const growthMetrics = [
+  { metric: 'Followers', current: '125.4K', previous: '112K', change: 12, progress: 75, icon: Icons.AccountGroup, color: 'primary' },
+  { metric: 'Reach', current: '2.8M', previous: '2.4M', change: 16, progress: 82, icon: Icons.Earth, color: 'info' },
+  { metric: 'Profile Views', current: '45.6K', previous: '42K', change: 8, progress: 68, icon: Icons.Eye, color: 'success' },
+  { metric: 'Link Clicks', current: '8.9K', previous: '9.2K', change: -3, progress: 45, icon: Icons.Link, color: 'warning' },
+]
+
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
+  return num.toString()
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Overview Stats Cards -->
@@ -220,60 +272,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard } from '@/shared/ui/snippets'
-import type { IStat } from '@/shared/ui/snippets'
-
-const timePeriod = ref('7d')
-const contentType = ref('All')
-const contentTypes = ['All', 'Photos', 'Videos', 'Stories', 'Reels']
-
-const overviewStats: (IStat & { trend?: number })[] = [
-  { value: '125.4K', label: 'Followers', icon: Icons.AccountGroup, color: 'primary', trend: 12.5 },
-  { value: '2.8M', label: 'Impressions', icon: Icons.Eye, color: 'info', trend: 8.3 },
-  { value: '156K', label: 'Engagement', icon: Icons.Heart, color: 'error', trend: 15.2 },
-  { value: '4.2%', label: 'Engagement Rate', icon: Icons.ChartLine, color: 'success', trend: 2.1 },
-]
-
-const engagementMetrics = [
-  { label: 'Likes', value: '45.2K', color: 'error', trend: 12 },
-  { label: 'Comments', value: '8.9K', color: 'primary', trend: -3 },
-  { label: 'Shares', value: '2.4K', color: 'success', trend: 25 },
-]
-
-const audienceInsights = [
-  { label: '18-24 years', value: '35%', percentage: 35, color: 'primary' },
-  { label: '25-34 years', value: '42%', percentage: 42, color: 'success' },
-  { label: '35-44 years', value: '15%', percentage: 15, color: 'info' },
-  { label: '45+ years', value: '8%', percentage: 8, color: 'warning' },
-]
-
-const contentPerformance = [
-  { id: 1, type: 'Photo', typeColor: 'primary', thumbnail: 'https://picsum.photos/seed/c1/300/200', caption: 'Beautiful sunset at the beach! 🌅 #photography', date: 'Dec 25', likes: 12500, comments: 456, shares: 234, views: 45600 },
-  { id: 2, type: 'Video', typeColor: 'error', thumbnail: 'https://picsum.photos/seed/c2/300/200', caption: 'Behind the scenes of our latest project 🎬', date: 'Dec 24', likes: 8900, comments: 312, shares: 567, views: 89200 },
-  { id: 3, type: 'Reel', typeColor: 'warning', thumbnail: 'https://picsum.photos/seed/c3/300/200', caption: 'Quick tutorial on productivity tips! ⚡', date: 'Dec 23', likes: 25600, comments: 890, shares: 1200, views: 156000 },
-  { id: 4, type: 'Story', typeColor: 'success', thumbnail: 'https://picsum.photos/seed/c4/300/200', caption: 'Day in my life working from home 🏠', date: 'Dec 22', likes: 5600, comments: 123, shares: 89, views: 23400 },
-  { id: 5, type: 'Photo', typeColor: 'primary', thumbnail: 'https://picsum.photos/seed/c5/300/200', caption: 'New office setup! What do you think? 💻', date: 'Dec 21', likes: 15800, comments: 567, shares: 345, views: 67800 },
-  { id: 6, type: 'Video', typeColor: 'error', thumbnail: 'https://picsum.photos/seed/c6/300/200', caption: 'Answering your questions about tech 🎤', date: 'Dec 20', likes: 7800, comments: 456, shares: 234, views: 45600 },
-]
-
-const growthMetrics = [
-  { metric: 'Followers', current: '125.4K', previous: '112K', change: 12, progress: 75, icon: Icons.AccountGroup, color: 'primary' },
-  { metric: 'Reach', current: '2.8M', previous: '2.4M', change: 16, progress: 82, icon: Icons.Earth, color: 'info' },
-  { metric: 'Profile Views', current: '45.6K', previous: '42K', change: 8, progress: 68, icon: Icons.Eye, color: 'success' },
-  { metric: 'Link Clicks', current: '8.9K', previous: '9.2K', change: -3, progress: 45, icon: Icons.Link, color: 'warning' },
-]
-
-const formatNumber = (num: number): string => {
-  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
-  return num.toString()
-}
-</script>
-
 <style scoped>
 .line-clamp-2 {
   display: -webkit-box;

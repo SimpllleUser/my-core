@@ -4,6 +4,38 @@
   Components: StatCard, TransactionItem, SectionHeader
   Variants: Multiple wallet card styles included
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { SectionHeader, StatCard } from '../../shared/ui/snippets'
+import type { IStat, IBankAccount } from '../../shared/ui/snippets'
+
+const quickStats: (IStat & { trend?: number })[] = [
+  { value: '$8,420', label: 'Income', icon: Icons.ArrowDown, color: 'success', trend: 12.5 },
+  { value: '$3,250', label: 'Expenses', icon: Icons.ArrowUp, color: 'error', trend: -5.2 },
+  { value: '$2,150', label: 'Savings', icon: Icons.Wallet, color: 'info', trend: 8.3 },
+  { value: '12', label: 'Transactions', icon: Icons.SwapHorizontal, color: 'warning' },
+]
+
+const accounts: IBankAccount[] = [
+  { id: 1, name: 'US Dollar', type: 'checking', balance: 15420.50, currency: 'USD', lastFour: '4521', icon: Icons.CurrencyUsd, color: 'success' },
+  { id: 2, name: 'Euro', type: 'savings', balance: 8250.00, currency: 'EUR', lastFour: '7832', icon: Icons.CurrencyEur, color: 'primary' },
+  { id: 3, name: 'Savings', type: 'savings', balance: 25000.00, currency: 'USD', lastFour: '1290', icon: Icons.Bank, color: 'info' },
+  { id: 4, name: 'Investment', type: 'investment', balance: 45780.25, currency: 'USD', lastFour: '5567', icon: Icons.ChartLine, color: 'warning' },
+]
+
+const quickActions = [
+  { icon: Icons.Send, label: 'Send' },
+  { icon: Icons.Download, label: 'Receive' },
+  { icon: Icons.SwapHorizontal, label: 'Exchange' },
+  { icon: Icons.CreditCard, label: 'Card' },
+  { icon: Icons.Receipt, label: 'Bills' },
+  { icon: Icons.ChartLine, label: 'Invest' },
+]
+
+const formatCurrency = (amount: number, currency = 'USD') => {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Simple Wallet Card -->
@@ -129,40 +161,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, StatCard } from '@/shared/ui/snippets'
-import type { IStat, IBankAccount } from '@/shared/ui/snippets'
-
-const quickStats: (IStat & { trend?: number })[] = [
-  { value: '$8,420', label: 'Income', icon: Icons.ArrowDown, color: 'success', trend: 12.5 },
-  { value: '$3,250', label: 'Expenses', icon: Icons.ArrowUp, color: 'error', trend: -5.2 },
-  { value: '$2,150', label: 'Savings', icon: Icons.Wallet, color: 'info', trend: 8.3 },
-  { value: '12', label: 'Transactions', icon: Icons.SwapHorizontal, color: 'warning' },
-]
-
-const accounts: IBankAccount[] = [
-  { id: 1, name: 'US Dollar', type: 'checking', balance: 15420.50, currency: 'USD', lastFour: '4521', icon: Icons.CurrencyUsd, color: 'success' },
-  { id: 2, name: 'Euro', type: 'savings', balance: 8250.00, currency: 'EUR', lastFour: '7832', icon: Icons.CurrencyEur, color: 'primary' },
-  { id: 3, name: 'Savings', type: 'savings', balance: 25000.00, currency: 'USD', lastFour: '1290', icon: Icons.Bank, color: 'info' },
-  { id: 4, name: 'Investment', type: 'investment', balance: 45780.25, currency: 'USD', lastFour: '5567', icon: Icons.ChartLine, color: 'warning' },
-]
-
-const quickActions = [
-  { icon: Icons.Send, label: 'Send' },
-  { icon: Icons.Download, label: 'Receive' },
-  { icon: Icons.SwapHorizontal, label: 'Exchange' },
-  { icon: Icons.CreditCard, label: 'Card' },
-  { icon: Icons.Receipt, label: 'Bills' },
-  { icon: Icons.ChartLine, label: 'Invest' },
-]
-
-const formatCurrency = (amount: number, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
-}
-</script>
-
 <style scoped>
 .wallet-card {
   background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%) !important;

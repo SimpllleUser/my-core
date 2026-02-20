@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { Icons } from '../../../model'
 import type { TableEmptyProps } from '../types';
 
 withDefaults(defineProps<TableEmptyProps>(), {
-  icon: 'mdi-database-off',
+  icon: Icons.DatabaseOff,
   title: 'No data available',
   subtitle: '',
   showResetButton: false,

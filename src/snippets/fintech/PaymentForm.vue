@@ -4,6 +4,53 @@
   Components: PriceDisplay
   Variants: Simple payment, checkout with summary, card management
 -->
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import { Icons } from '../../shared/model'
+import type { IPaymentCard } from '../../shared/ui/snippets'
+
+// Form data
+const cardNumber = ref('')
+const expiry = ref('')
+const cvc = ref('')
+const cardName = ref('')
+const saveCard = ref(false)
+const selectedCard = ref(1)
+const promoCode = ref('')
+
+const address = reactive({
+  street: '',
+  city: '',
+  zip: '',
+})
+
+const savedCards: IPaymentCard[] = [
+  { id: 1, type: 'visa', lastFour: '4242', expiryDate: '12/25', holderName: 'John Doe', isDefault: true },
+  { id: 2, type: 'mastercard', lastFour: '8888', expiryDate: '06/24', holderName: 'John Doe', isDefault: false },
+]
+
+const managementCards: IPaymentCard[] = [
+  { id: 1, type: 'visa', lastFour: '4242', expiryDate: '12/25', holderName: 'John Doe', isDefault: true },
+  { id: 2, type: 'mastercard', lastFour: '8888', expiryDate: '06/24', holderName: 'John Doe', isDefault: false },
+  { id: 3, type: 'amex', lastFour: '0005', expiryDate: '09/26', holderName: 'John Doe', isDefault: false },
+]
+
+const orderItems = [
+  { name: 'Premium Subscription', price: 99, qty: 1, image: 'https://picsum.photos/seed/sub/100' },
+  { name: 'Add-on Package', price: 49, qty: 2, image: 'https://picsum.photos/seed/addon/100' },
+  { name: 'Support Plan', price: 100, qty: 1, image: 'https://picsum.photos/seed/support/100' },
+]
+
+const getCardBrandColor = (type: string) => {
+  const colors: Record<string, string> = {
+    visa: 'blue',
+    mastercard: 'orange',
+    amex: 'indigo',
+    other: 'grey',
+  }
+  return colors[type] || colors.other
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Simple Payment Form -->
@@ -307,51 +354,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { Icons } from '@/shared/model'
-import type { IPaymentCard } from '@/shared/ui/snippets'
-
-// Form data
-const cardNumber = ref('')
-const expiry = ref('')
-const cvc = ref('')
-const cardName = ref('')
-const saveCard = ref(false)
-const selectedCard = ref(1)
-const promoCode = ref('')
-
-const address = reactive({
-  street: '',
-  city: '',
-  zip: '',
-})
-
-const savedCards: IPaymentCard[] = [
-  { id: 1, type: 'visa', lastFour: '4242', expiryDate: '12/25', holderName: 'John Doe', isDefault: true },
-  { id: 2, type: 'mastercard', lastFour: '8888', expiryDate: '06/24', holderName: 'John Doe', isDefault: false },
-]
-
-const managementCards: IPaymentCard[] = [
-  { id: 1, type: 'visa', lastFour: '4242', expiryDate: '12/25', holderName: 'John Doe', isDefault: true },
-  { id: 2, type: 'mastercard', lastFour: '8888', expiryDate: '06/24', holderName: 'John Doe', isDefault: false },
-  { id: 3, type: 'amex', lastFour: '0005', expiryDate: '09/26', holderName: 'John Doe', isDefault: false },
-]
-
-const orderItems = [
-  { name: 'Premium Subscription', price: 99, qty: 1, image: 'https://picsum.photos/seed/sub/100' },
-  { name: 'Add-on Package', price: 49, qty: 2, image: 'https://picsum.photos/seed/addon/100' },
-  { name: 'Support Plan', price: 100, qty: 1, image: 'https://picsum.photos/seed/support/100' },
-]
-
-const getCardBrandColor = (type: string) => {
-  const colors: Record<string, string> = {
-    visa: 'blue',
-    mastercard: 'orange',
-    amex: 'indigo',
-    other: 'grey',
-  }
-  return colors[type] || colors.other
-}
-</script>

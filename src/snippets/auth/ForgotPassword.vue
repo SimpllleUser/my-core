@@ -4,6 +4,43 @@
   Components: VCard, VTextField, VBtn, VAlert
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const formRef = ref()
+const valid = ref(false)
+const loading = ref(false)
+const emailSent = ref(false)
+const error = ref('')
+const email = ref('')
+
+const emailRules = [
+  (v: string) => !!v || 'Email is required',
+  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
+]
+
+const submit = async () => {
+  const { valid } = await formRef.value.validate()
+  if (!valid) return
+
+  loading.value = true
+  error.value = ''
+
+  // Simulate API call
+  setTimeout(() => {
+    loading.value = false
+    // Simulate success (or set error.value for failure)
+    emailSent.value = true
+    console.log('Reset email sent to:', email.value)
+  }, 1500)
+}
+
+const resetForm = () => {
+  emailSent.value = false
+  email.value = ''
+}
+</script>
 <template>
   <VContainer class="fill-height" fluid>
     <VRow align="center" justify="center">
@@ -11,7 +48,7 @@
         <VCard class="pa-4" elevation="8" rounded="lg">
           <VCardText class="text-center pb-0">
             <VAvatar color="primary" size="80" class="mb-4">
-              <VIcon size="48" color="white">mdi-lock-reset</VIcon>
+              <VIcon size="48" color="white">{{ Icons.LockReset }}</VIcon>
             </VAvatar>
             <h2 class="text-h5 font-weight-bold mb-2">Forgot Password?</h2>
             <p class="text-medium-emphasis mb-6">
@@ -52,7 +89,7 @@
                 label="Email Address"
                 type="email"
                 variant="outlined"
-                prepend-inner-icon="mdi-email"
+                :prepend-inner-icon="Icons.Email"
                 placeholder="you@example.com"
               />
 
@@ -82,7 +119,7 @@
           </VCardText>
 
           <VCardText class="text-center pt-2">
-            <VBtn variant="text" color="primary" prepend-icon="mdi-arrow-left">
+            <VBtn variant="text" color="primary" :prepend-icon="Icons.ArrowLeft">
               Back to Login
             </VBtn>
           </VCardText>
@@ -91,40 +128,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const formRef = ref()
-const valid = ref(false)
-const loading = ref(false)
-const emailSent = ref(false)
-const error = ref('')
-const email = ref('')
-
-const emailRules = [
-  (v: string) => !!v || 'Email is required',
-  (v: string) => /.+@.+\..+/.test(v) || 'Please enter a valid email',
-]
-
-const submit = async () => {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
-
-  loading.value = true
-  error.value = ''
-
-  // Simulate API call
-  setTimeout(() => {
-    loading.value = false
-    // Simulate success (or set error.value for failure)
-    emailSent.value = true
-    console.log('Reset email sent to:', email.value)
-  }, 1500)
-}
-
-const resetForm = () => {
-  emailSent.value = false
-  email.value = ''
-}
-</script>

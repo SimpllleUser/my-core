@@ -4,6 +4,71 @@
   Components: SectionHeader, FeatureCard, StatCard
   Variants: Multiple layout styles included
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { SectionHeader, FeatureCard, StatCard } from '../../shared/ui/snippets'
+import type { IFeature, IStat } from '../../shared/ui/snippets'
+
+interface IGridFeature {
+  title: string
+  description: string
+  icon: string
+  color: string
+}
+
+const gridFeatures: IGridFeature[] = [
+  { title: 'Lightning Fast', description: 'Optimized for speed with sub-second response times and instant updates.', icon: Icons.Bolt, color: 'warning' },
+  { title: 'Secure by Default', description: 'Enterprise-grade security with end-to-end encryption and compliance.', icon: Icons.ShieldCheck, color: 'success' },
+  { title: 'Easy Integration', description: 'Connect with 100+ tools and services you already use every day.', icon: Icons.Puzzle, color: 'primary' },
+  { title: 'Real-time Sync', description: 'Stay in sync across all devices with instant updates and notifications.', icon: Icons.Sync, color: 'info' },
+  { title: 'Smart Analytics', description: 'Get actionable insights with powerful analytics and custom reports.', icon: Icons.ChartLine, color: 'secondary' },
+  { title: '24/7 Support', description: 'Our team is here to help you succeed, any time of day or night.', icon: Icons.Headphones, color: 'error' },
+]
+
+interface IAlternatingFeature extends IFeature {
+  badge: string
+}
+
+const alternatingFeatures: IAlternatingFeature[] = [
+  {
+    title: 'Powerful Automation',
+    description: 'Automate repetitive tasks and focus on what matters most. Set up workflows in minutes.',
+    badge: 'Automation',
+    icon: Icons.Robot,
+    color: 'primary',
+    points: ['Custom workflow builder', 'Trigger-based actions', 'Third-party integrations'],
+  },
+  {
+    title: 'Team Collaboration',
+    description: 'Work together seamlessly with real-time collaboration tools and smart notifications.',
+    badge: 'Collaboration',
+    icon: Icons.AccountGroup,
+    color: 'success',
+    points: ['Real-time editing', 'Comments and mentions', 'Role-based permissions'],
+  },
+]
+
+const compactFeatures: IGridFeature[] = [
+  { title: 'Cloud Storage', description: 'Unlimited storage for all your files', icon: Icons.Cloud, color: 'primary' },
+  { title: 'Version Control', description: 'Track changes and restore anytime', icon: Icons.History, color: 'primary' },
+  { title: 'Mobile Ready', description: 'Full functionality on any device', icon: Icons.Cellphone, color: 'primary' },
+  { title: 'API Access', description: 'Build custom integrations easily', icon: Icons.Api, color: 'primary' },
+]
+
+const stats: IStat[] = [
+  { value: '10K+', label: 'Active Users' },
+  { value: '99.9%', label: 'Uptime' },
+  { value: '150+', label: 'Integrations' },
+  { value: '24/7', label: 'Support' },
+]
+
+const darkFeatures: IGridFeature[] = [
+  { title: 'Fast Deployment', description: 'Deploy in seconds with one click', icon: Icons.RocketLaunch, color: 'primary' },
+  { title: 'Auto Scaling', description: 'Handle any traffic automatically', icon: Icons.ChartAreaspline, color: 'primary' },
+  { title: 'Global CDN', description: 'Fast loading worldwide', icon: Icons.Earth, color: 'primary' },
+  { title: 'Zero Downtime', description: 'Updates without interruption', icon: Icons.ClockCheck, color: 'primary' },
+]
+</script>
 <template>
   <div>
     <!-- Features Style 1: Grid Layout -->
@@ -145,69 +210,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-import { SectionHeader, FeatureCard, StatCard } from '@/shared/ui/snippets'
-import type { IFeature, IStat } from '@/shared/ui/snippets'
-
-interface IGridFeature {
-  title: string
-  description: string
-  icon: string
-  color: string
-}
-
-const gridFeatures: IGridFeature[] = [
-  { title: 'Lightning Fast', description: 'Optimized for speed with sub-second response times and instant updates.', icon: Icons.Bolt, color: 'warning' },
-  { title: 'Secure by Default', description: 'Enterprise-grade security with end-to-end encryption and compliance.', icon: Icons.ShieldCheck, color: 'success' },
-  { title: 'Easy Integration', description: 'Connect with 100+ tools and services you already use every day.', icon: Icons.Puzzle, color: 'primary' },
-  { title: 'Real-time Sync', description: 'Stay in sync across all devices with instant updates and notifications.', icon: Icons.Sync, color: 'info' },
-  { title: 'Smart Analytics', description: 'Get actionable insights with powerful analytics and custom reports.', icon: Icons.ChartLine, color: 'secondary' },
-  { title: '24/7 Support', description: 'Our team is here to help you succeed, any time of day or night.', icon: Icons.Headphones, color: 'error' },
-]
-
-interface IAlternatingFeature extends IFeature {
-  badge: string
-}
-
-const alternatingFeatures: IAlternatingFeature[] = [
-  {
-    title: 'Powerful Automation',
-    description: 'Automate repetitive tasks and focus on what matters most. Set up workflows in minutes.',
-    badge: 'Automation',
-    icon: Icons.Robot,
-    color: 'primary',
-    points: ['Custom workflow builder', 'Trigger-based actions', 'Third-party integrations'],
-  },
-  {
-    title: 'Team Collaboration',
-    description: 'Work together seamlessly with real-time collaboration tools and smart notifications.',
-    badge: 'Collaboration',
-    icon: Icons.AccountGroup,
-    color: 'success',
-    points: ['Real-time editing', 'Comments and mentions', 'Role-based permissions'],
-  },
-]
-
-const compactFeatures: IGridFeature[] = [
-  { title: 'Cloud Storage', description: 'Unlimited storage for all your files', icon: Icons.Cloud, color: 'primary' },
-  { title: 'Version Control', description: 'Track changes and restore anytime', icon: Icons.History, color: 'primary' },
-  { title: 'Mobile Ready', description: 'Full functionality on any device', icon: Icons.Cellphone, color: 'primary' },
-  { title: 'API Access', description: 'Build custom integrations easily', icon: Icons.Api, color: 'primary' },
-]
-
-const stats: IStat[] = [
-  { value: '10K+', label: 'Active Users' },
-  { value: '99.9%', label: 'Uptime' },
-  { value: '150+', label: 'Integrations' },
-  { value: '24/7', label: 'Support' },
-]
-
-const darkFeatures: IGridFeature[] = [
-  { title: 'Fast Deployment', description: 'Deploy in seconds with one click', icon: Icons.RocketLaunch, color: 'primary' },
-  { title: 'Auto Scaling', description: 'Handle any traffic automatically', icon: Icons.ChartAreaspline, color: 'primary' },
-  { title: 'Global CDN', description: 'Fast loading worldwide', icon: Icons.Earth, color: 'primary' },
-  { title: 'Zero Downtime', description: 'Updates without interruption', icon: Icons.ClockCheck, color: 'primary' },
-]
-</script>

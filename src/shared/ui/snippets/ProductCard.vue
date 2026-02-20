@@ -1,3 +1,134 @@
+<script setup lang="ts">
+import { Colors, Variants, Sizes, Icons } from '../../model'
+import type { ColorType, VariantType, SizeType, IconType } from './types'
+import PriceDisplay from './PriceDisplay.vue'
+
+type LayoutType = 'standard' | 'horizontal' | 'compact' | 'featured'
+
+interface Props {
+  // Product data
+  id: number | string
+  name: string
+  category?: string
+  price: number
+  originalPrice?: number | null
+  rating?: number
+  reviews?: number
+  image: string
+  description?: string
+  isNew?: boolean
+  discount?: number | null
+  isInWishlist?: boolean
+
+  // Layout
+  layout?: LayoutType
+
+  // Card
+  cardClass?: string
+  cardVariant?: VariantType
+  height?: string | number
+  hover?: boolean
+  elevation?: number | string
+
+  // Image
+  imageHeight?: string | number
+  imageColsHorizontal?: number
+  compactImageHeight?: string | number
+  featuredImageCols?: number
+  featuredImageHeight?: string | number
+
+  // Badges
+  newBadgeColor?: ColorType
+  newBadgeText?: string
+  discountBadgeColor?: ColorType
+  badgeSize?: SizeType
+  featuredBadgeText?: string
+
+  // Wishlist
+  showWishlist?: boolean
+  wishlistButtonSize?: SizeType
+  wishlistIconActive?: IconType
+  wishlistIconInactive?: IconType
+  wishlistActiveColor?: ColorType
+  wishlistInactiveColor?: string
+  wishlistText?: string
+
+  // Rating
+  showRating?: boolean
+  ratingColor?: ColorType
+  ratingSize?: SizeType
+
+  // Price
+  currencySymbol?: string
+  priceClass?: string
+  originalPriceClass?: string
+  featuredPriceClass?: string
+  featuredOriginalPriceClass?: string
+
+  // Add to cart
+  showActions?: boolean
+  addToCartColor?: ColorType
+  addToCartVariant?: VariantType
+  addToCartIcon?: IconType
+  addToCartText?: string
+  addToCartTextShort?: string
+  addToCartSizeHorizontal?: SizeType
+
+  // Text classes
+  categoryClass?: string
+  nameClass?: string
+  descriptionClass?: string
+  featuredNameClass?: string
+  featuredContentClass?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  layout: 'standard',
+  cardVariant: Variants.Flat,
+  imageHeight: 200,
+  imageColsHorizontal: 4,
+  compactImageHeight: 120,
+  featuredImageCols: 6,
+  featuredImageHeight: 400,
+  newBadgeColor: Colors.Primary,
+  newBadgeText: 'NEW',
+  discountBadgeColor: Colors.Error,
+  badgeSize: Sizes.Small,
+  featuredBadgeText: 'FEATURED PRODUCT',
+  showWishlist: true,
+  wishlistButtonSize: Sizes.Small,
+  wishlistIconActive: Icons.Heart,
+  wishlistIconInactive: Icons.HeartOutline,
+  wishlistActiveColor: Colors.Error,
+  wishlistInactiveColor: 'grey',
+  wishlistText: 'Wishlist',
+  showRating: true,
+  ratingColor: 'warning',
+  ratingSize: Sizes.Small,
+  currencySymbol: '$',
+  priceClass: 'text-h6 text-primary',
+  originalPriceClass: 'text-body-2 text-medium-emphasis text-decoration-line-through ml-2',
+  featuredPriceClass: 'text-h4 text-primary',
+  featuredOriginalPriceClass: 'text-h6 text-medium-emphasis text-decoration-line-through ml-2',
+  showActions: true,
+  addToCartColor: Colors.Primary,
+  addToCartVariant: Variants.Flat,
+  addToCartIcon: Icons.CartPlus,
+  addToCartText: 'Add to Cart',
+  addToCartTextShort: 'Add to Cart',
+  addToCartSizeHorizontal: Sizes.Small,
+  categoryClass: 'text-caption text-medium-emphasis',
+  nameClass: 'text-subtitle-1 font-weight-medium mb-2',
+  descriptionClass: 'text-body-2 text-medium-emphasis text-truncate-2',
+  featuredNameClass: 'text-h4',
+  featuredContentClass: 'pa-8',
+})
+
+defineEmits<{
+  'add-to-cart': [id: number | string]
+  'toggle-wishlist': [id: number | string]
+}>()
+</script>
 <template>
   <VCard :class="['product-card', cardClass]" :height="height" :variant="cardVariant" :hover="hover" :elevation="elevation">
     <!-- Standard Layout -->
@@ -235,139 +366,6 @@
     </template>
   </VCard>
 </template>
-
-<script setup lang="ts">
-import { Colors, Variants, Sizes, Icons } from '@/shared/model'
-import type { ColorType, VariantType, SizeType, IconType } from './types'
-import PriceDisplay from './PriceDisplay.vue'
-
-type LayoutType = 'standard' | 'horizontal' | 'compact' | 'featured'
-
-interface Props {
-  // Product data
-  id: number | string
-  name: string
-  category?: string
-  price: number
-  originalPrice?: number | null
-  rating?: number
-  reviews?: number
-  image: string
-  description?: string
-  isNew?: boolean
-  discount?: number | null
-  isInWishlist?: boolean
-
-  // Layout
-  layout?: LayoutType
-
-  // Card
-  cardClass?: string
-  cardVariant?: VariantType
-  height?: string | number
-  hover?: boolean
-  elevation?: number | string
-
-  // Image
-  imageHeight?: string | number
-  imageColsHorizontal?: number
-  compactImageHeight?: string | number
-  featuredImageCols?: number
-  featuredImageHeight?: string | number
-
-  // Badges
-  newBadgeColor?: ColorType
-  newBadgeText?: string
-  discountBadgeColor?: ColorType
-  badgeSize?: SizeType
-  featuredBadgeText?: string
-
-  // Wishlist
-  showWishlist?: boolean
-  wishlistButtonSize?: SizeType
-  wishlistIconActive?: IconType
-  wishlistIconInactive?: IconType
-  wishlistActiveColor?: ColorType
-  wishlistInactiveColor?: string
-  wishlistText?: string
-
-  // Rating
-  showRating?: boolean
-  ratingColor?: ColorType
-  ratingSize?: SizeType
-
-  // Price
-  currencySymbol?: string
-  priceClass?: string
-  originalPriceClass?: string
-  featuredPriceClass?: string
-  featuredOriginalPriceClass?: string
-
-  // Add to cart
-  showActions?: boolean
-  addToCartColor?: ColorType
-  addToCartVariant?: VariantType
-  addToCartIcon?: IconType
-  addToCartText?: string
-  addToCartTextShort?: string
-  addToCartSizeHorizontal?: SizeType
-
-  // Text classes
-  categoryClass?: string
-  nameClass?: string
-  descriptionClass?: string
-  featuredNameClass?: string
-  featuredContentClass?: string
-}
-
-withDefaults(defineProps<Props>(), {
-  layout: 'standard',
-  cardVariant: Variants.Flat,
-  imageHeight: 200,
-  imageColsHorizontal: 4,
-  compactImageHeight: 120,
-  featuredImageCols: 6,
-  featuredImageHeight: 400,
-  newBadgeColor: Colors.Primary,
-  newBadgeText: 'NEW',
-  discountBadgeColor: Colors.Error,
-  badgeSize: Sizes.Small,
-  featuredBadgeText: 'FEATURED PRODUCT',
-  showWishlist: true,
-  wishlistButtonSize: Sizes.Small,
-  wishlistIconActive: 'mdi-heart',
-  wishlistIconInactive: 'mdi-heart-outline',
-  wishlistActiveColor: Colors.Error,
-  wishlistInactiveColor: 'grey',
-  wishlistText: 'Wishlist',
-  showRating: true,
-  ratingColor: 'warning',
-  ratingSize: Sizes.Small,
-  currencySymbol: '$',
-  priceClass: 'text-h6 text-primary',
-  originalPriceClass: 'text-body-2 text-medium-emphasis text-decoration-line-through ml-2',
-  featuredPriceClass: 'text-h4 text-primary',
-  featuredOriginalPriceClass: 'text-h6 text-medium-emphasis text-decoration-line-through ml-2',
-  showActions: true,
-  addToCartColor: Colors.Primary,
-  addToCartVariant: Variants.Flat,
-  addToCartIcon: 'mdi-cart-plus',
-  addToCartText: 'Add to Cart',
-  addToCartTextShort: 'Add to Cart',
-  addToCartSizeHorizontal: Sizes.Small,
-  categoryClass: 'text-caption text-medium-emphasis',
-  nameClass: 'text-subtitle-1 font-weight-medium mb-2',
-  descriptionClass: 'text-body-2 text-medium-emphasis text-truncate-2',
-  featuredNameClass: 'text-h4',
-  featuredContentClass: 'pa-8',
-})
-
-defineEmits<{
-  'add-to-cart': [id: number | string]
-  'toggle-wishlist': [id: number | string]
-}>()
-</script>
-
 <style scoped>
 .product-card {
   height: 100%;

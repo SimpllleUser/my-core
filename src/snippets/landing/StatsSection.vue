@@ -4,6 +4,37 @@
   Components: VContainer, VRow, VCol, VCard, VIcon
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+
+const simpleStats = [
+  { value: '10K+', label: 'Active Users' },
+  { value: '99.9%', label: 'Uptime' },
+  { value: '150+', label: 'Countries' },
+  { value: '24/7', label: 'Support' },
+]
+
+const cardStats = [
+  { value: '2.5M+', label: 'Tasks Completed', icon: Icons.CheckCircle, color: 'success' },
+  { value: '500K+', label: 'Happy Customers', icon: Icons.AccountMultiple, color: 'primary' },
+  { value: '50+', label: 'Team Members', icon: Icons.AccountGroup, color: 'secondary' },
+  { value: '4.9/5', label: 'Average Rating', icon: Icons.Star, color: 'warning' },
+]
+
+const progressStats = [
+  { label: 'Customer Satisfaction', value: '98%', progress: 98, color: 'success' },
+  { label: 'Productivity Increase', value: '45%', progress: 45, color: 'primary' },
+  { label: 'Time Saved', value: '60%', progress: 60, color: 'info' },
+  { label: 'Cost Reduction', value: '35%', progress: 35, color: 'warning' },
+]
+
+const trendStats = [
+  { value: '$2.4M', label: 'Revenue', trend: 12.5 },
+  { value: '45K', label: 'New Users', trend: 8.3 },
+  { value: '92%', label: 'Retention', trend: 2.1 },
+  { value: '1.2M', label: 'API Calls', trend: -3.2 },
+]
+</script>
 <template>
   <div>
     <!-- Stats Style 1: Simple Grid -->
@@ -97,35 +128,3 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-
-const simpleStats = [
-  { value: '10K+', label: 'Active Users' },
-  { value: '99.9%', label: 'Uptime' },
-  { value: '150+', label: 'Countries' },
-  { value: '24/7', label: 'Support' },
-]
-
-const cardStats = [
-  { value: '2.5M+', label: 'Tasks Completed', icon: Icons.CheckCircle, color: 'success' },
-  { value: '500K+', label: 'Happy Customers', icon: Icons.AccountMultiple, color: 'primary' },
-  { value: '50+', label: 'Team Members', icon: Icons.AccountGroup, color: 'secondary' },
-  { value: '4.9/5', label: 'Average Rating', icon: Icons.Star, color: 'warning' },
-]
-
-const progressStats = [
-  { label: 'Customer Satisfaction', value: '98%', progress: 98, color: 'success' },
-  { label: 'Productivity Increase', value: '45%', progress: 45, color: 'primary' },
-  { label: 'Time Saved', value: '60%', progress: 60, color: 'info' },
-  { label: 'Cost Reduction', value: '35%', progress: 35, color: 'warning' },
-]
-
-const trendStats = [
-  { value: '$2.4M', label: 'Revenue', trend: 12.5 },
-  { value: '45K', label: 'New Users', trend: 8.3 },
-  { value: '92%', label: 'Retention', trend: 2.1 },
-  { value: '1.2M', label: 'API Calls', trend: -3.2 },
-]
-</script>

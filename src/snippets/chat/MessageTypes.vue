@@ -4,6 +4,9 @@
   Components: VCard, VAvatar, VImg, VProgressLinear, VChip
   Complexity: Medium
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+</script>
 <template>
   <div class="pa-4">
     <!-- Text Message -->
@@ -210,7 +213,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Icons } from '@/shared/model'
-</script>

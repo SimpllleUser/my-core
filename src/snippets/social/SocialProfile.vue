@@ -4,6 +4,72 @@
   Components: SocialPostCard, StatCard
   Variants: Standard profile, influencer, minimal
 -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Icons } from '../../shared/model'
+import { SocialPostCard } from '../../shared/ui/snippets'
+import type { ISocialUser, ISocialPost } from '../../shared/ui/snippets'
+
+const activeTab = ref('posts')
+const gridView = ref('grid')
+
+const profile: ISocialUser = {
+  id: 1,
+  name: 'Sarah Johnson',
+  username: 'sarahjohnson',
+  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+  bio: 'Product Designer at @TechCorp | Building beautiful digital experiences | Coffee enthusiast ☕',
+  verified: true,
+  followers: 125400,
+  following: 892,
+  posts: 342,
+  isFollowing: false,
+}
+
+const influencer: ISocialUser = {
+  id: 2,
+  name: 'Alex Creative',
+  username: 'alexcreative',
+  avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
+  bio: 'Content Creator | Photography | Travel | Inspiring millions to chase their dreams ✨',
+  verified: true,
+  followers: 2500000,
+  following: 245,
+  posts: 1234,
+}
+
+const minimalProfile: ISocialUser = {
+  id: 3,
+  name: 'Emily Davis',
+  username: 'emilydavis',
+  avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
+  verified: true,
+  followers: 45600,
+  following: 512,
+  posts: 189,
+}
+
+const profilePosts: Omit<ISocialPost, 'author'>[] = [
+  { id: 1, content: 'Just wrapped up an amazing project! So proud of what our team achieved. 🎉', images: ['https://picsum.photos/seed/proj/600/400'], createdAt: '2024-12-27T10:00:00Z', likes: 1234, comments: 89, shares: 45 },
+  { id: 2, content: 'Morning coffee and coding sessions are my favorite way to start the day! ☕💻', createdAt: '2024-12-26T08:30:00Z', likes: 856, comments: 42, shares: 12 },
+  { id: 3, content: 'Excited to announce that I\'ll be speaking at the Design Conference next month! See you there! 🎤', images: ['https://picsum.photos/seed/conf/600/400'], createdAt: '2024-12-25T14:00:00Z', likes: 2341, comments: 156, shares: 234 },
+]
+
+const mediaGrid = [
+  { id: 1, image: 'https://picsum.photos/seed/m1/400/400', likes: 5234, comments: 123 },
+  { id: 2, image: 'https://picsum.photos/seed/m2/400/400', likes: 3421, comments: 89 },
+  { id: 3, image: 'https://picsum.photos/seed/m3/400/400', likes: 7865, comments: 234 },
+  { id: 4, image: 'https://picsum.photos/seed/m4/400/400', likes: 2156, comments: 67 },
+  { id: 5, image: 'https://picsum.photos/seed/m5/400/400', likes: 4532, comments: 145 },
+  { id: 6, image: 'https://picsum.photos/seed/m6/400/400', likes: 6789, comments: 189 },
+]
+
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
+  return num.toString()
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Standard Profile -->
@@ -229,74 +295,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icons } from '@/shared/model'
-import { SocialPostCard } from '@/shared/ui/snippets'
-import type { ISocialUser, ISocialPost } from '@/shared/ui/snippets'
-
-const activeTab = ref('posts')
-const gridView = ref('grid')
-
-const profile: ISocialUser = {
-  id: 1,
-  name: 'Sarah Johnson',
-  username: 'sarahjohnson',
-  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-  bio: 'Product Designer at @TechCorp | Building beautiful digital experiences | Coffee enthusiast ☕',
-  verified: true,
-  followers: 125400,
-  following: 892,
-  posts: 342,
-  isFollowing: false,
-}
-
-const influencer: ISocialUser = {
-  id: 2,
-  name: 'Alex Creative',
-  username: 'alexcreative',
-  avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
-  bio: 'Content Creator | Photography | Travel | Inspiring millions to chase their dreams ✨',
-  verified: true,
-  followers: 2500000,
-  following: 245,
-  posts: 1234,
-}
-
-const minimalProfile: ISocialUser = {
-  id: 3,
-  name: 'Emily Davis',
-  username: 'emilydavis',
-  avatar: 'https://randomuser.me/api/portraits/women/28.jpg',
-  verified: true,
-  followers: 45600,
-  following: 512,
-  posts: 189,
-}
-
-const profilePosts: Omit<ISocialPost, 'author'>[] = [
-  { id: 1, content: 'Just wrapped up an amazing project! So proud of what our team achieved. 🎉', images: ['https://picsum.photos/seed/proj/600/400'], createdAt: '2024-12-27T10:00:00Z', likes: 1234, comments: 89, shares: 45 },
-  { id: 2, content: 'Morning coffee and coding sessions are my favorite way to start the day! ☕💻', createdAt: '2024-12-26T08:30:00Z', likes: 856, comments: 42, shares: 12 },
-  { id: 3, content: 'Excited to announce that I\'ll be speaking at the Design Conference next month! See you there! 🎤', images: ['https://picsum.photos/seed/conf/600/400'], createdAt: '2024-12-25T14:00:00Z', likes: 2341, comments: 156, shares: 234 },
-]
-
-const mediaGrid = [
-  { id: 1, image: 'https://picsum.photos/seed/m1/400/400', likes: 5234, comments: 123 },
-  { id: 2, image: 'https://picsum.photos/seed/m2/400/400', likes: 3421, comments: 89 },
-  { id: 3, image: 'https://picsum.photos/seed/m3/400/400', likes: 7865, comments: 234 },
-  { id: 4, image: 'https://picsum.photos/seed/m4/400/400', likes: 2156, comments: 67 },
-  { id: 5, image: 'https://picsum.photos/seed/m5/400/400', likes: 4532, comments: 145 },
-  { id: 6, image: 'https://picsum.photos/seed/m6/400/400', likes: 6789, comments: 189 },
-]
-
-const formatNumber = (num: number): string => {
-  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
-  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
-  return num.toString()
-}
-</script>
-
 <style scoped>
 .profile-header {
   display: flex;

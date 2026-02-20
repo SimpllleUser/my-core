@@ -4,6 +4,40 @@
   Components: VCard, VAvatar, VTabs, VList, VChip, VBtn
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
+<script setup lang="ts">
+import { Icons } from '../../shared/model'
+import { ref } from 'vue'
+
+const tab = ref('activity')
+
+const skills = ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems', 'User Testing']
+
+const activities = [
+  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: Icons.CheckCircle, color: 'success' },
+  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: Icons.FileDocument, color: 'primary' },
+  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: Icons.Medal, color: 'warning' },
+  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: Icons.AccountGroup, color: 'info' },
+]
+
+const projects = [
+  { id: 1, title: 'Dashboard Redesign', description: 'Modern admin dashboard with dark mode', image: 'https://picsum.photos/seed/proj1/400/200', likes: 234, views: 1205, category: 'UI Design' },
+  { id: 2, title: 'Mobile Banking App', description: 'iOS app for personal finance', image: 'https://picsum.photos/seed/proj2/400/200', likes: 189, views: 892, category: 'Mobile' },
+  { id: 3, title: 'E-commerce Platform', description: 'Full e-commerce design system', image: 'https://picsum.photos/seed/proj3/400/200', likes: 312, views: 1567, category: 'Web Design' },
+  { id: 4, title: 'Brand Identity', description: 'Complete brand guidelines', image: 'https://picsum.photos/seed/proj4/400/200', likes: 156, views: 743, category: 'Branding' },
+]
+
+const posts = [
+  { id: 1, title: 'The Future of Design Systems', excerpt: 'How modern design systems are evolving to meet the demands of complex applications...', date: 'Jan 15, 2024', likes: 234 },
+  { id: 2, title: '10 Tips for Better UX Research', excerpt: 'Essential tips for conducting effective user research that drives design decisions...', date: 'Jan 10, 2024', likes: 189 },
+  { id: 3, title: 'Designing for Accessibility', excerpt: 'A comprehensive guide to creating inclusive designs that work for everyone...', date: 'Jan 5, 2024', likes: 156 },
+]
+
+const similarProfiles = [
+  { name: 'Mike Chen', role: 'UX Designer', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+  { name: 'Emily Davis', role: 'UI Designer', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
+  { name: 'John Smith', role: 'Product Designer', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
+]
+</script>
 <template>
   <VContainer>
     <!-- Profile Header -->
@@ -24,22 +58,22 @@
               <p class="text-white-darken-1 mb-2">@sarahjohnson • Product Designer</p>
               <div class="d-flex ga-2">
                 <VChip color="white" size="small" variant="flat">
-                  <VIcon start size="small">mdi-map-marker</VIcon>
+                  <VIcon start size="small">{{ Icons.MapMarker }}</VIcon>
                   San Francisco, CA
                 </VChip>
                 <VChip color="white" size="small" variant="flat">
-                  <VIcon start size="small">mdi-link</VIcon>
+                  <VIcon start size="small">{{ Icons.Link }}</VIcon>
                   sarahjohnson.design
                 </VChip>
               </div>
             </div>
             <div class="d-flex ga-2">
               <VBtn color="white" variant="flat">
-                <VIcon start>mdi-account-plus</VIcon>
+                <VIcon start>{{ Icons.AccountPlus }}</VIcon>
                 Follow
               </VBtn>
               <VBtn color="white" variant="outlined">
-                <VIcon start>mdi-email</VIcon>
+                <VIcon start>{{ Icons.Email }}</VIcon>
                 Message
               </VBtn>
             </div>
@@ -133,9 +167,9 @@
                         <p class="text-caption text-medium-emphasis mb-2">{{ project.description }}</p>
                         <div class="d-flex justify-space-between align-center">
                           <div class="d-flex align-center">
-                            <VIcon size="small" class="mr-1">mdi-heart</VIcon>
+                            <VIcon size="small" class="mr-1">{{ Icons.Heart }}</VIcon>
                             <span class="text-caption">{{ project.likes }}</span>
-                            <VIcon size="small" class="ml-3 mr-1">mdi-eye</VIcon>
+                            <VIcon size="small" class="ml-3 mr-1">{{ Icons.Eye }}</VIcon>
                             <span class="text-caption">{{ project.views }}</span>
                           </div>
                           <VChip size="x-small" color="primary">{{ project.category }}</VChip>
@@ -157,7 +191,7 @@
                     <div class="text-right">
                       <p class="text-caption text-medium-emphasis mb-1">{{ post.date }}</p>
                       <div class="d-flex align-center">
-                        <VIcon size="small" class="mr-1">mdi-heart</VIcon>
+                        <VIcon size="small" class="mr-1">{{ Icons.Heart }}</VIcon>
                         <span class="text-caption">{{ post.likes }}</span>
                       </div>
                     </div>
@@ -176,9 +210,9 @@
           <VCardTitle>About</VCardTitle>
           <VCardText>
             <VList density="compact" class="bg-transparent">
-              <VListItem prepend-icon="mdi-briefcase" title="Product Designer" subtitle="TechStartup" />
-              <VListItem prepend-icon="mdi-school" title="Stanford University" subtitle="Design & HCI" />
-              <VListItem prepend-icon="mdi-calendar" title="Joined" subtitle="March 2020" />
+              <VListItem :prepend-icon="Icons.Briefcase" title="Product Designer" subtitle="TechStartup" />
+              <VListItem :prepend-icon="Icons.School" title="Stanford University" subtitle="Design & HCI" />
+              <VListItem :prepend-icon="Icons.Calendar" title="Joined" subtitle="March 2020" />
             </VList>
           </VCardText>
         </VCard>
@@ -189,16 +223,16 @@
           <VCardText>
             <div class="d-flex ga-2">
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-twitter</VIcon>
+                <VIcon>{{ Icons.Twitter }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-linkedin</VIcon>
+                <VIcon>{{ Icons.LinkedIn }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-github</VIcon>
+                <VIcon>{{ Icons.Github }}</VIcon>
               </VBtn>
               <VBtn icon variant="tonal" color="primary">
-                <VIcon>mdi-dribbble</VIcon>
+                <VIcon>{{ Icons.Dribbble }}</VIcon>
               </VBtn>
             </div>
           </VCardText>
@@ -226,37 +260,3 @@
     </VRow>
   </VContainer>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const tab = ref('activity')
-
-const skills = ['UI Design', 'UX Research', 'Figma', 'Prototyping', 'Design Systems', 'User Testing']
-
-const activities = [
-  { id: 1, title: 'Completed Project: Dashboard Redesign', description: 'Finished the new admin dashboard design with improved UX', time: '2 hours ago', icon: 'mdi-check-circle', color: 'success' },
-  { id: 2, title: 'Published Article', description: 'How to create effective design systems', time: '1 day ago', icon: 'mdi-file-document', color: 'primary' },
-  { id: 3, title: 'Received Badge', description: 'Top Designer of the Month', time: '3 days ago', icon: 'mdi-medal', color: 'warning' },
-  { id: 4, title: 'Joined Team', description: 'Started as Lead Designer at TechStartup', time: '1 week ago', icon: 'mdi-account-group', color: 'info' },
-]
-
-const projects = [
-  { id: 1, title: 'Dashboard Redesign', description: 'Modern admin dashboard with dark mode', image: 'https://picsum.photos/seed/proj1/400/200', likes: 234, views: 1205, category: 'UI Design' },
-  { id: 2, title: 'Mobile Banking App', description: 'iOS app for personal finance', image: 'https://picsum.photos/seed/proj2/400/200', likes: 189, views: 892, category: 'Mobile' },
-  { id: 3, title: 'E-commerce Platform', description: 'Full e-commerce design system', image: 'https://picsum.photos/seed/proj3/400/200', likes: 312, views: 1567, category: 'Web Design' },
-  { id: 4, title: 'Brand Identity', description: 'Complete brand guidelines', image: 'https://picsum.photos/seed/proj4/400/200', likes: 156, views: 743, category: 'Branding' },
-]
-
-const posts = [
-  { id: 1, title: 'The Future of Design Systems', excerpt: 'How modern design systems are evolving to meet the demands of complex applications...', date: 'Jan 15, 2024', likes: 234 },
-  { id: 2, title: '10 Tips for Better UX Research', excerpt: 'Essential tips for conducting effective user research that drives design decisions...', date: 'Jan 10, 2024', likes: 189 },
-  { id: 3, title: 'Designing for Accessibility', excerpt: 'A comprehensive guide to creating inclusive designs that work for everyone...', date: 'Jan 5, 2024', likes: 156 },
-]
-
-const similarProfiles = [
-  { name: 'Mike Chen', role: 'UX Designer', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Emily Davis', role: 'UI Designer', avatar: 'https://randomuser.me/api/portraits/women/28.jpg' },
-  { name: 'John Smith', role: 'Product Designer', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' },
-]
-</script>

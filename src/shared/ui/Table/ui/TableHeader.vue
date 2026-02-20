@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { Icons } from '../../../model'
 import type { TableHeaderProps } from '../types';
 
 withDefaults(defineProps<TableHeaderProps>(), {
   title: '',
   showAddButton: false,
   addButtonText: 'Add',
-  addButtonIcon: 'mdi-plus',
+  addButtonIcon: Icons.Plus,
 });
 
 const emit = defineEmits<{

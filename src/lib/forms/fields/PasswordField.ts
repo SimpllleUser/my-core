@@ -8,7 +8,7 @@ export class PasswordField extends BaseField<string, PasswordFieldConfig> {
     super({
       default: '',
       toggleVisibility: true,
-      prependInnerIcon: 'mdi-lock-outline',
+      prependInnerIcon: Icons.LockOutline,
       ...config,
     });
   }

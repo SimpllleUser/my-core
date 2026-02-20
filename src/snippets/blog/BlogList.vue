@@ -4,6 +4,72 @@
   Components: BlogCard, SectionHeader
   Variants: Full list, sidebar layout, infinite scroll
 -->
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useDisplay } from 'vuetify'
+import { Icons } from '../../shared/model'
+import type { IBlogPost, IBlogAuthor, IBlogCategory } from '../../shared/ui/snippets'
+
+const { mobile } = useDisplay()
+const isMobile = computed(() => mobile.value)
+
+const search = ref('')
+const sortBy = ref('newest')
+const page = ref(1)
+const sidebarSearch = ref('')
+
+const sortOptions = ['Newest', 'Oldest', 'Most Popular', 'Most Commented']
+
+const author1: IBlogAuthor = {
+  id: 1,
+  name: 'Sarah Johnson',
+  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+}
+
+const author2: IBlogAuthor = {
+  id: 2,
+  name: 'Mike Chen',
+  avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+}
+
+const listPosts: IBlogPost[] = [
+  { id: 1, title: 'Building Scalable Applications with Vue 3 and TypeScript', excerpt: 'Learn how to structure your Vue 3 applications for scale using TypeScript, composition API, and best practices from real-world projects.', image: 'https://picsum.photos/seed/vue3/400/250', author: author1, publishedAt: '2024-12-22', readTime: 15, category: 'Vue.js', likes: 342, comments: 45 },
+  { id: 2, title: 'The Future of Frontend Development in 2025', excerpt: 'Explore upcoming trends, tools, and technologies that will shape frontend development in the coming year.', image: 'https://picsum.photos/seed/future/400/250', author: author2, publishedAt: '2024-12-20', readTime: 12, category: 'Industry', likes: 256, comments: 38 },
+  { id: 3, title: 'Mastering CSS Grid: A Complete Guide', excerpt: 'Everything you need to know about CSS Grid layout, from basics to advanced techniques with practical examples.', image: 'https://picsum.photos/seed/grid/400/250', author: author1, publishedAt: '2024-12-18', readTime: 20, category: 'CSS', likes: 198, comments: 27 },
+]
+
+interface SidebarPost extends IBlogPost {
+  categoryColor: string
+}
+
+const sidebarPosts: SidebarPost[] = [
+  { id: 1, title: 'Introduction to Pinia Store', excerpt: 'Learn how to manage state in Vue 3 applications using Pinia, the recommended state management solution.', image: 'https://picsum.photos/seed/pinia2/300/200', author: author1, publishedAt: '2024-12-21', readTime: 10, category: 'Vue.js', categoryColor: 'success', likes: 180, comments: 22 },
+  { id: 2, title: 'Responsive Design Patterns', excerpt: 'Modern approaches to building responsive web applications that work seamlessly across all devices.', image: 'https://picsum.photos/seed/resp/300/200', author: author2, publishedAt: '2024-12-19', readTime: 8, category: 'Design', categoryColor: 'info', likes: 145, comments: 18 },
+  { id: 3, title: 'API Security Best Practices', excerpt: 'Essential security measures every developer should implement when building and consuming APIs.', image: 'https://picsum.photos/seed/sec/300/200', author: author1, publishedAt: '2024-12-17', readTime: 14, category: 'Security', categoryColor: 'error', likes: 210, comments: 31 },
+]
+
+const sidebarCategories: IBlogCategory[] = [
+  { id: 1, name: 'Vue.js', slug: 'vuejs', count: 45, icon: Icons.CodeTags, color: 'success' },
+  { id: 2, name: 'TypeScript', slug: 'typescript', count: 32, icon: Icons.Code, color: 'primary' },
+  { id: 3, name: 'CSS', slug: 'css', count: 28, icon: Icons.Palette, color: 'info' },
+  { id: 4, name: 'Security', slug: 'security', count: 15, icon: Icons.Shield, color: 'error' },
+  { id: 5, name: 'DevOps', slug: 'devops', count: 19, icon: Icons.Server, color: 'warning' },
+]
+
+const popularPosts = [
+  { id: 1, title: 'Getting Started with Vue 3', views: 12500 },
+  { id: 2, title: 'TypeScript for Beginners', views: 9800 },
+  { id: 3, title: 'CSS Flexbox Complete Guide', views: 8400 },
+  { id: 4, title: 'Building REST APIs', views: 7200 },
+  { id: 5, title: 'Web Performance Tips', views: 6100 },
+]
+
+const tags = ['Vue', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML', 'Node.js', 'API', 'Design', 'UX', 'Performance', 'Testing']
+
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+</script>
 <template>
   <div>
     <!-- Style 1: Full Width List -->
@@ -213,74 +279,6 @@
     </section>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useDisplay } from 'vuetify'
-import { Icons } from '@/shared/model'
-import type { IBlogPost, IBlogAuthor, IBlogCategory } from '@/shared/ui/snippets'
-
-const { mobile } = useDisplay()
-const isMobile = computed(() => mobile.value)
-
-const search = ref('')
-const sortBy = ref('newest')
-const page = ref(1)
-const sidebarSearch = ref('')
-
-const sortOptions = ['Newest', 'Oldest', 'Most Popular', 'Most Commented']
-
-const author1: IBlogAuthor = {
-  id: 1,
-  name: 'Sarah Johnson',
-  avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-}
-
-const author2: IBlogAuthor = {
-  id: 2,
-  name: 'Mike Chen',
-  avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-}
-
-const listPosts: IBlogPost[] = [
-  { id: 1, title: 'Building Scalable Applications with Vue 3 and TypeScript', excerpt: 'Learn how to structure your Vue 3 applications for scale using TypeScript, composition API, and best practices from real-world projects.', image: 'https://picsum.photos/seed/vue3/400/250', author: author1, publishedAt: '2024-12-22', readTime: 15, category: 'Vue.js', likes: 342, comments: 45 },
-  { id: 2, title: 'The Future of Frontend Development in 2025', excerpt: 'Explore upcoming trends, tools, and technologies that will shape frontend development in the coming year.', image: 'https://picsum.photos/seed/future/400/250', author: author2, publishedAt: '2024-12-20', readTime: 12, category: 'Industry', likes: 256, comments: 38 },
-  { id: 3, title: 'Mastering CSS Grid: A Complete Guide', excerpt: 'Everything you need to know about CSS Grid layout, from basics to advanced techniques with practical examples.', image: 'https://picsum.photos/seed/grid/400/250', author: author1, publishedAt: '2024-12-18', readTime: 20, category: 'CSS', likes: 198, comments: 27 },
-]
-
-interface SidebarPost extends IBlogPost {
-  categoryColor: string
-}
-
-const sidebarPosts: SidebarPost[] = [
-  { id: 1, title: 'Introduction to Pinia Store', excerpt: 'Learn how to manage state in Vue 3 applications using Pinia, the recommended state management solution.', image: 'https://picsum.photos/seed/pinia2/300/200', author: author1, publishedAt: '2024-12-21', readTime: 10, category: 'Vue.js', categoryColor: 'success', likes: 180, comments: 22 },
-  { id: 2, title: 'Responsive Design Patterns', excerpt: 'Modern approaches to building responsive web applications that work seamlessly across all devices.', image: 'https://picsum.photos/seed/resp/300/200', author: author2, publishedAt: '2024-12-19', readTime: 8, category: 'Design', categoryColor: 'info', likes: 145, comments: 18 },
-  { id: 3, title: 'API Security Best Practices', excerpt: 'Essential security measures every developer should implement when building and consuming APIs.', image: 'https://picsum.photos/seed/sec/300/200', author: author1, publishedAt: '2024-12-17', readTime: 14, category: 'Security', categoryColor: 'error', likes: 210, comments: 31 },
-]
-
-const sidebarCategories: IBlogCategory[] = [
-  { id: 1, name: 'Vue.js', slug: 'vuejs', count: 45, icon: Icons.CodeTags, color: 'success' },
-  { id: 2, name: 'TypeScript', slug: 'typescript', count: 32, icon: Icons.Code, color: 'primary' },
-  { id: 3, name: 'CSS', slug: 'css', count: 28, icon: Icons.Palette, color: 'info' },
-  { id: 4, name: 'Security', slug: 'security', count: 15, icon: Icons.Shield, color: 'error' },
-  { id: 5, name: 'DevOps', slug: 'devops', count: 19, icon: Icons.Server, color: 'warning' },
-]
-
-const popularPosts = [
-  { id: 1, title: 'Getting Started with Vue 3', views: 12500 },
-  { id: 2, title: 'TypeScript for Beginners', views: 9800 },
-  { id: 3, title: 'CSS Flexbox Complete Guide', views: 8400 },
-  { id: 4, title: 'Building REST APIs', views: 7200 },
-  { id: 5, title: 'Web Performance Tips', views: 6100 },
-]
-
-const tags = ['Vue', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML', 'Node.js', 'API', 'Design', 'UX', 'Performance', 'Testing']
-
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
-</script>
-
 <style scoped>
 .line-clamp-2 {
   display: -webkit-box;
