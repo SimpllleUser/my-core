@@ -4,7 +4,6 @@ import { useLocalStorage } from '@vueuse/core'
 import type { SurfacePreset, SemanticPreset } from '../model.ts'
 import { THEME_PRESETS, SEMANTIC_PALETTES } from '../constants.ts'
 
-// Поверхні краще теж винести в constants.ts згодом, але для простоти поки залишимо тут
 const surfacePalettes = {
   Default: { light: { background: '#FFFFFF', surface: '#FFFFFF' }, dark: { background: '#121212', surface: '#212121' } },
   Zinc:    { light: { background: '#FAFAFA', surface: '#FFFFFF' }, dark: { background: '#09090B', surface: '#18181B' } },
