@@ -15,6 +15,7 @@ const {
   themePresets,
   radiusOptions,
   semanticPalettes,
+  activeInteractiveStyle,
 } = useThemeBuilder()
 
 const activeColorTarget = ref<'primary' | 'secondary'>('primary')
@@ -70,6 +71,18 @@ const presetButtonColor = (presetName: string) => {
           <VIcon start>mdi-border-all</VIcon> Плоскі
         </VBtn>
       </VBtnToggle>
+      <VDivider class="my-4" />
+
+      <div class="text-subtitle-2 font-weight-bold mb-3">Інтерактивність (Ripple & Кнопки)</div>
+      <VBtnToggle v-model="activeInteractiveStyle" color="primary" variant="outlined" divided mandatory class="w-100 mb-6 d-flex">
+        <VBtn value="material" class="flex-grow-1 text-none">
+          <VIcon start>mdi-animation-play</VIcon> Material (Хвилі)
+        </VBtn>
+        <VBtn value="modern" class="flex-grow-1 text-none">
+          <VIcon start>mdi-cursor-default-click</VIcon> Modern (Плоский)
+        </VBtn>
+      </VBtnToggle>
+
       <VDivider class="my-4" />
 
       <div class="text-subtitle-2 font-weight-bold mb-3">Статусні кольори</div>

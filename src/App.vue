@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import { useThemeBuilder } from './lib/theme-configuration/composables/useThemeBuilder.ts'
 
-const { initTheme } = useThemeBuilder()
+const { initTheme, dynamicDefaults } = useThemeBuilder()
 
 onMounted(() => {
   initTheme()
@@ -10,7 +10,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-app>
-    <router-view />
-  </v-app>
+  <VApp>
+    <VDefaultsProvider :defaults="dynamicDefaults">
+      <RouterView />
+    </VDefaultsProvider>
+  </VApp>
 </template>

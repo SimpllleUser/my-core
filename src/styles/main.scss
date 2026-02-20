@@ -18,16 +18,3 @@
 .v-application .v-btn--icon {
   border-radius: 50% !important;
 }
-
-/* Глобальне перевизначення карток для режиму "Outlined" (Плоский)
-  Знімаємо тіні і додаємо тонку рамку кольору поточного бордера теми
-*/
-html[data-card-style="outlined"] .v-card {
-  box-shadow: none !important;
-  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
-}
-
-/* Якщо потрібно, щоб кнопки також ставали плоскими у цьому режимі */
-html[data-card-style="outlined"] .v-btn:not(.v-btn--variant-text):not(.v-btn--variant-outlined) {
-  box-shadow: none !important;
-}

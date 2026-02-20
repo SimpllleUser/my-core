@@ -1,7 +1,8 @@
-import { watch } from 'vue'
+// composables/useThemeBuilder.ts
+import { watch, computed } from 'vue'
 import { useTheme } from 'vuetify'
 import { useLocalStorage, usePreferredDark } from '@vueuse/core'
-import type { CardStyle, SurfacePreset, ThemeMode, SemanticPreset } from '../model.ts';
+import type { CardStyle, SurfacePreset, ThemeMode, SemanticPreset, InteractiveStyle } from '../model.ts';
 import { RADIUS_OPTION, THEME_PRESETS, SEMANTIC_PALETTES } from '../constants.ts';
 
 const themePresets = THEME_PRESETS
@@ -28,11 +29,12 @@ const activeRadius         = useLocalStorage<number>('theme-radius', 8)
 const activeMode           = useLocalStorage<ThemeMode>('theme-mode', 'system')
 const customPrimaryColor   = useLocalStorage<string>('theme-custom-primary',   '#2196F3')
 const customSecondaryColor = useLocalStorage<string>('theme-custom-secondary', '#03A9F4')
-
 const activeSurface        = useLocalStorage<SurfacePreset>('theme-surface', 'Default')
-const activeCardStyle      = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
-
 const activeSemantic       = useLocalStorage<SemanticPreset>('theme-semantic', 'Modern')
+
+// Налаштування структури та інтерактивності
+const activeCardStyle        = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
+const activeInteractiveStyle = useLocalStorage<InteractiveStyle>('theme-interactive', 'modern')
 
 export function useThemeBuilder() {
   const theme = useTheme()
@@ -58,12 +60,9 @@ export function useThemeBuilder() {
     theme.themes.value.dark.colors.secondary  = secondary
   }
 
-  // НОВЕ: Функція застосування статусних кольорів
   const applySemantic = (preset: SemanticPreset) => {
     const palette = semanticPalettes[preset]
     if (!palette) return
-
-      // Оновлюємо відразу і світлу, і темну тему
       ;['light', 'dark'].forEach(mode => {
       theme.themes.value[mode].colors.success = palette.success
       theme.themes.value[mode].colors.info    = palette.info
@@ -75,7 +74,6 @@ export function useThemeBuilder() {
   const applySurface = (preset: SurfacePreset) => {
     const palette = surfacePalettes[preset]
     if (!palette) return
-
     theme.themes.value.light.colors.background = palette.light.background
     theme.themes.value.light.colors.surface    = palette.light.surface
     theme.themes.value.dark.colors.background  = palette.dark.background
@@ -94,24 +92,41 @@ export function useThemeBuilder() {
     }
   }
 
-  const applyCardStyle = (style: CardStyle) => {
-    document.documentElement.setAttribute('data-card-style', style)
-  }
+  // Vuetify
+  const dynamicDefaults = computed(() => {
+    const isModern = activeInteractiveStyle.value === 'modern'
+    const isOutlined = activeCardStyle.value === 'outlined'
+
+    return {
+      global: {
+        ripple: !isModern,
+      },
+      VCard: {
+        variant: isOutlined ? 'outlined' : 'elevated',
+        elevation: isOutlined ? 0 : undefined,
+      },
+      VBtn: {
+        // Якщо стиль Modern, робимо кнопки плоскими. Інакше - класичні з тінями
+        variant: isModern ? 'flat' : 'elevated',
+      },
+      VList: {
+        bg: 'transparent'
+      }
+    }
+  })
 
   const initTheme = () => {
     applyColors(activePresetName.value)
-    applySemantic(activeSemantic.value) // Застосовуємо під час завантаження
+    applySemantic(activeSemantic.value)
     applySurface(activeSurface.value)
     applyRadius(activeRadius.value)
     applyThemeMode(activeMode.value)
-    applyCardStyle(activeCardStyle.value)
 
     watch(activePresetName, applyColors)
-    watch(activeSemantic, applySemantic) // Слухаємо зміни
+    watch(activeSemantic, applySemantic)
     watch(activeSurface, applySurface)
     watch(activeRadius, applyRadius)
     watch(activeMode, applyThemeMode)
-    watch(activeCardStyle, applyCardStyle)
 
     watch(customPrimaryColor, () => {
       if (activePresetName.value === 'Custom') applyColors('Custom')
@@ -130,12 +145,14 @@ export function useThemeBuilder() {
     activeMode,
     activeSurface,
     activeCardStyle,
+    activeInteractiveStyle,
     activeSemantic,
     customPrimaryColor,
     customSecondaryColor,
     themePresets,
     radiusOptions,
     semanticPalettes,
+    dynamicDefaults,
     initTheme,
   }
 }
