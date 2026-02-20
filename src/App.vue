@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useThemeBuilder } from './lib/theme-configuration/composables/useThemeBuilder.ts'
+import { useThemeFacade } from './lib/theme-configuration/composables/useThemeFacade.ts'
 
-const { initTheme, dynamicDefaults } = useThemeBuilder()
+const { initTheme, dynamicDefaults } = useThemeFacade()
 
 onMounted(() => {
   initTheme()
@@ -12,7 +12,9 @@ onMounted(() => {
 <template>
   <VApp>
     <VDefaultsProvider :defaults="dynamicDefaults">
+
       <RouterView />
+
     </VDefaultsProvider>
   </VApp>
 </template>

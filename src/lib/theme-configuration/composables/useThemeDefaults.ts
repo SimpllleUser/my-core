@@ -1,10 +1,12 @@
 import { watch, computed } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
-import type { CardStyle, InteractiveStyle } from '../model.ts'
+import type { CardStyle, InteractiveStyle, ThemeDensity } from '../model.ts'
 
-const activeRadius         = useLocalStorage<number>('theme-radius', 8)
-const activeCardStyle      = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
+const activeRadius = useLocalStorage<number>('theme-radius', 8)
+const activeCardStyle = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
 const activeInteractiveStyle = useLocalStorage<InteractiveStyle>('theme-interactive', 'modern')
+
+const activeDensity = useLocalStorage<ThemeDensity>('theme-density', 'comfortable')
 
 export function useThemeDefaults() {
   const applyRadius = (radius: number) => {
@@ -14,9 +16,12 @@ export function useThemeDefaults() {
   const dynamicDefaults = computed(() => {
     const isModern = activeInteractiveStyle.value === 'modern'
     const isOutlined = activeCardStyle.value === 'outlined'
+    const density = activeDensity.value
 
     return {
-      global: { ripple: !isModern },
+      global: {
+        ripple: !isModern
+      },
       VCard: {
         variant: isOutlined ? 'outlined' : 'elevated',
         elevation: isOutlined ? 0 : undefined,
@@ -24,13 +29,14 @@ export function useThemeDefaults() {
       VBtn: {
         variant: isModern ? 'flat' : 'elevated',
         style: isModern ? 'text-transform: none; letter-spacing: normal;' : '',
+        density: density, // Застосовуємо щільність
       },
-      VTextField: { variant: 'outlined', color: 'primary', hideDetails: 'auto' },
-      VSelect: { variant: 'outlined', color: 'primary', hideDetails: 'auto' },
-      VTextarea: { variant: 'outlined', color: 'primary', hideDetails: 'auto' },
+      VTextField: { variant: 'outlined', color: 'primary', hideDetails: 'auto', density: density },
+      VSelect:    { variant: 'outlined', color: 'primary', hideDetails: 'auto', density: density },
+      VTextarea:  { variant: 'outlined', color: 'primary', hideDetails: 'auto', density: density },
       VDialog: { persistent: true, maxWidth: 600 },
-      VDataTable: { density: 'compact', hover: true },
-      VList: { bg: 'transparent', density: 'compact' }
+      VDataTable: { density: density, hover: true },
+      VList:      { bg: 'transparent', density: density }
     }
   })
 
@@ -39,5 +45,12 @@ export function useThemeDefaults() {
     watch(activeRadius, applyRadius)
   }
 
-  return { activeRadius, activeCardStyle, activeInteractiveStyle, dynamicDefaults, initDefaults }
+  return {
+    activeRadius,
+    activeCardStyle,
+    activeInteractiveStyle,
+    activeDensity,
+    dynamicDefaults,
+    initDefaults
+  }
 }
