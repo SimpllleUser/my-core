@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import { useThemeBuilder } from '../composables/useThemeBuilder.ts'
 
 const {
@@ -6,9 +7,30 @@ const {
   activeRadius,
   activeMode,
   customPrimaryColor,
+  customSecondaryColor,
   themePresets,
-  radiusOptions
+  radiusOptions,
 } = useThemeBuilder()
+
+// Який слот редагуємо у режимі Custom
+const activeColorTarget = ref<'primary' | 'secondary'>('primary')
+
+// Прокси для кольору, що редагується зараз
+const currentCustomColor = computed({
+  get: () => activeColorTarget.value === 'primary'
+    ? customPrimaryColor.value
+    : customSecondaryColor.value,
+  set: (val: string) => {
+    if (activeColorTarget.value === 'primary') customPrimaryColor.value = val
+    else customSecondaryColor.value = val
+  },
+})
+
+// Колір кнопки пресету: Custom показує активний кастомний колір
+const presetButtonColor = (presetName: string) => {
+  if (presetName !== 'Custom') return themePresets.find(p => p.name === presetName)?.colors.primary ?? ''
+  return activeColorTarget.value === 'primary' ? customPrimaryColor.value : customSecondaryColor.value
+}
 
 const materialSwatches = [
   ['#FFCDD2', '#E57373', '#F44336', '#D32F2F', '#B71C1C'],
@@ -27,9 +49,10 @@ const materialSwatches = [
   ['#FFCCBC', '#FF8A65', '#FF5722', '#E64A19', '#BF360C'],
   ['#D7CCC8', '#A1887F', '#795548', '#5D4037', '#3E2723'],
   ['#F5F5F5', '#E0E0E0', '#9E9E9E', '#616161', '#212121'],
-  ['#CFD8DC', '#90A4AE', '#607D8B', '#455A64', '#263238']
+  ['#CFD8DC', '#90A4AE', '#607D8B', '#455A64', '#263238'],
 ]
 </script>
+
 <template>
   <VCard elevation="0" class="border">
     <VCardTitle class="text-h6 font-weight-bold pb-2">
@@ -40,6 +63,7 @@ const materialSwatches = [
     </VCardSubtitle>
 
     <VCardText class="pt-4">
+      <!-- Режим -->
       <div class="text-subtitle-2 font-weight-bold mb-3">Режим</div>
       <VBtnToggle
         v-model="activeMode"
@@ -56,38 +80,92 @@ const materialSwatches = [
 
       <VDivider class="my-4" />
 
+      <!-- Пресети кольорів -->
       <div class="text-subtitle-2 font-weight-bold mb-3">Колір (Пресет)</div>
-      <VRow dense class="mb-6">
-        <VCol v-for="preset in themePresets" :key="preset.name" cols="4">
+      <VRow dense class="mb-2">
+        <VCol v-for="preset in themePresets" :key="preset.name" cols="3">
           <VBtn
             block
             height="40"
-            class="border rounded-lg d-flex align-center justify-center text-none"
-            :color="preset.name === 'Custom' ? customPrimaryColor : preset.colors.primary"
+            class="border rounded-lg d-flex align-center justify-center text-none px-1"
+            :color="presetButtonColor(preset.name)"
             :variant="activePresetName === preset.name ? 'flat' : 'outlined'"
             @click="activePresetName = preset.name"
           >
-            <span
-              v-if="preset.name !== 'Custom'"
-              class="text-caption font-weight-medium"
-              :class="activePresetName === preset.name ? 'text-white' : ''"
-            >
-              {{ preset.name }}
-            </span>
-            <VIcon v-else :color="activePresetName === 'Custom' ? 'white' : ''">
-              mdi-palette
-            </VIcon>
+            <template v-if="preset.name !== 'Custom'">
+              <!-- Дві крапки: primary + secondary -->
+              <div class="d-flex align-center ga-1 overflow-hidden">
+                <div
+                  class="color-dot"
+                  :style="{ background: preset.colors.primary }"
+                />
+                <div
+                  class="color-dot"
+                  :style="{ background: preset.colors.secondary }"
+                />
+                <span
+                  class="text-caption font-weight-medium text-truncate"
+                  :style="{ color: activePresetName === preset.name ? 'white' : 'inherit', fontSize: '10px' }"
+                >
+                  {{ preset.name }}
+                </span>
+              </div>
+            </template>
+            <template v-else>
+              <!-- Custom: показуємо обидва кастомних кольори -->
+              <div class="d-flex align-center ga-1">
+                <div
+                  class="color-dot"
+                  :style="{ background: customPrimaryColor }"
+                />
+                <div
+                  class="color-dot"
+                  :style="{ background: customSecondaryColor }"
+                />
+                <VIcon size="14" :color="activePresetName === 'Custom' ? 'white' : ''">
+                  mdi-palette
+                </VIcon>
+              </div>
+            </template>
           </VBtn>
         </VCol>
       </VRow>
 
+      <!-- Custom кольори -->
       <VExpandTransition>
-        <div v-if="activePresetName === 'Custom'" class="mb-6">
+        <div v-if="activePresetName === 'Custom'" class="mb-2">
+          <VDivider class="mb-3" />
+
+          <!-- Toggle primary / secondary -->
+          <div class="d-flex align-center mb-3 ga-2">
+            <VBtnToggle
+              v-model="activeColorTarget"
+              color="primary"
+              variant="outlined"
+              divided
+              mandatory
+              class="flex-grow-1"
+            >
+              <VBtn value="primary" class="flex-grow-1 text-none">
+                <div class="d-flex align-center ga-1">
+                  <div class="color-dot-lg" :style="{ background: customPrimaryColor }" />
+                  <span>Primary</span>
+                </div>
+              </VBtn>
+              <VBtn value="secondary" class="flex-grow-1 text-none">
+                <div class="d-flex align-center ga-1">
+                  <div class="color-dot-lg" :style="{ background: customSecondaryColor }" />
+                  <span>Secondary</span>
+                </div>
+              </VBtn>
+            </VBtnToggle>
+          </div>
+
           <div class="text-caption text-medium-emphasis mb-2">
-            Оберіть Material колір:
+            Оберіть колір ({{ activeColorTarget === 'primary' ? 'Primary' : 'Secondary' }}):
           </div>
           <VColorPicker
-            v-model="customPrimaryColor"
+            v-model="currentCustomColor"
             :swatches="materialSwatches"
             show-swatches
             hide-canvas
@@ -101,6 +179,7 @@ const materialSwatches = [
 
       <VDivider class="my-4" />
 
+      <!-- Радіус -->
       <div class="text-subtitle-2 font-weight-bold mb-3">Радіус скруглення</div>
       <VSelect
         v-model="activeRadius"
@@ -122,5 +201,21 @@ const materialSwatches = [
 <style scoped>
 .w-100 {
   width: 100%;
+}
+
+.color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.color-dot-lg {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
 </style>
