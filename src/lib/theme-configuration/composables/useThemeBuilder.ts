@@ -1,13 +1,13 @@
 import { watch } from 'vue'
 import { useTheme } from 'vuetify'
 import { useLocalStorage, usePreferredDark } from '@vueuse/core'
-import type { CardStyle, SurfacePreset, ThemeMode } from '../model.ts';
-import { RADIUS_OPTION, THEME_PRESETS } from '../constants.ts';
+import type { CardStyle, SurfacePreset, ThemeMode, SemanticPreset } from '../model.ts';
+import { RADIUS_OPTION, THEME_PRESETS, SEMANTIC_PALETTES } from '../constants.ts';
 
 const themePresets = THEME_PRESETS
 const radiusOptions = RADIUS_OPTION
+const semanticPalettes = SEMANTIC_PALETTES
 
-// Палітри для фону та поверхонь
 const surfacePalettes = {
   Default: {
     light: { background: '#FFFFFF', surface: '#FFFFFF' },
@@ -23,8 +23,7 @@ const surfacePalettes = {
   }
 }
 
-// Стан (VueUse LocalStorage)
-const activePresetName     = useLocalStorage<string>('theme-preset', 'Blue')
+const activePresetName     = useLocalStorage<string>('theme-preset', 'Telegram')
 const activeRadius         = useLocalStorage<number>('theme-radius', 8)
 const activeMode           = useLocalStorage<ThemeMode>('theme-mode', 'system')
 const customPrimaryColor   = useLocalStorage<string>('theme-custom-primary',   '#2196F3')
@@ -32,6 +31,8 @@ const customSecondaryColor = useLocalStorage<string>('theme-custom-secondary', '
 
 const activeSurface        = useLocalStorage<SurfacePreset>('theme-surface', 'Default')
 const activeCardStyle      = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
+
+const activeSemantic       = useLocalStorage<SemanticPreset>('theme-semantic', 'Modern')
 
 export function useThemeBuilder() {
   const theme = useTheme()
@@ -57,13 +58,26 @@ export function useThemeBuilder() {
     theme.themes.value.dark.colors.secondary  = secondary
   }
 
+  // НОВЕ: Функція застосування статусних кольорів
+  const applySemantic = (preset: SemanticPreset) => {
+    const palette = semanticPalettes[preset]
+    if (!palette) return
+
+      // Оновлюємо відразу і світлу, і темну тему
+      ;['light', 'dark'].forEach(mode => {
+      theme.themes.value[mode].colors.success = palette.success
+      theme.themes.value[mode].colors.info    = palette.info
+      theme.themes.value[mode].colors.warning = palette.warning
+      theme.themes.value[mode].colors.error   = palette.error
+    })
+  }
+
   const applySurface = (preset: SurfacePreset) => {
     const palette = surfacePalettes[preset]
     if (!palette) return
 
     theme.themes.value.light.colors.background = palette.light.background
     theme.themes.value.light.colors.surface    = palette.light.surface
-
     theme.themes.value.dark.colors.background  = palette.dark.background
     theme.themes.value.dark.colors.surface     = palette.dark.surface
   }
@@ -85,15 +99,15 @@ export function useThemeBuilder() {
   }
 
   const initTheme = () => {
-    // 1. Ініціалізація
     applyColors(activePresetName.value)
+    applySemantic(activeSemantic.value) // Застосовуємо під час завантаження
     applySurface(activeSurface.value)
     applyRadius(activeRadius.value)
     applyThemeMode(activeMode.value)
     applyCardStyle(activeCardStyle.value)
 
-    // 2. Підписки
     watch(activePresetName, applyColors)
+    watch(activeSemantic, applySemantic) // Слухаємо зміни
     watch(activeSurface, applySurface)
     watch(activeRadius, applyRadius)
     watch(activeMode, applyThemeMode)
@@ -102,11 +116,9 @@ export function useThemeBuilder() {
     watch(customPrimaryColor, () => {
       if (activePresetName.value === 'Custom') applyColors('Custom')
     })
-
     watch(customSecondaryColor, () => {
       if (activePresetName.value === 'Custom') applyColors('Custom')
     })
-
     watch(isSystemDark, () => {
       if (activeMode.value === 'system') applyThemeMode('system')
     })
@@ -118,10 +130,12 @@ export function useThemeBuilder() {
     activeMode,
     activeSurface,
     activeCardStyle,
+    activeSemantic,
     customPrimaryColor,
     customSecondaryColor,
     themePresets,
     radiusOptions,
+    semanticPalettes,
     initTheme,
   }
 }

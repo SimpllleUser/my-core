@@ -1,4 +1,3 @@
-
 export interface ThemeColors {
   primary: string;
   secondary: string;
@@ -9,7 +8,14 @@ export interface ThemePreset {
   colors: ThemeColors;
 }
 
-// Типи для нових налаштувань
+export interface SemanticColors {
+  success: string;
+  info: string;
+  warning: string;
+  error: string;
+}
+
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type SurfacePreset = 'Default' | 'Zinc' | 'Slate'
 export type CardStyle = 'elevated' | 'outlined'
+export type SemanticPreset = 'Material' | 'Modern' | 'Pastel' | 'Vibrant'

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useThemeBuilder } from '../composables/useThemeBuilder.ts'
+import { MATERIAL_SWATCHES } from '@/lib/theme-configuration/constants.ts';
 
 const {
   activePresetName,
@@ -8,16 +9,16 @@ const {
   activeMode,
   activeSurface,
   activeCardStyle,
+  activeSemantic,
   customPrimaryColor,
   customSecondaryColor,
   themePresets,
   radiusOptions,
+  semanticPalettes,
 } = useThemeBuilder()
 
-// Який слот редагуємо у режимі Custom
 const activeColorTarget = ref<'primary' | 'secondary'>('primary')
 
-// Прокси для кольору, що редагується зараз
 const currentCustomColor = computed({
   get: () => activeColorTarget.value === 'primary'
     ? customPrimaryColor.value
@@ -28,31 +29,10 @@ const currentCustomColor = computed({
   },
 })
 
-// Колір кнопки пресету: Custom показує активний кастомний колір
 const presetButtonColor = (presetName: string) => {
   if (presetName !== 'Custom') return themePresets.find(p => p.name === presetName)?.colors.primary ?? ''
   return activeColorTarget.value === 'primary' ? customPrimaryColor.value : customSecondaryColor.value
 }
-
-const materialSwatches = [
-  ['#FFCDD2', '#E57373', '#F44336', '#D32F2F', '#B71C1C'],
-  ['#F8BBD0', '#F06292', '#E91E63', '#C2185B', '#880E4F'],
-  ['#E1BEE7', '#BA68C8', '#9C27B0', '#7B1FA2', '#4A148C'],
-  ['#D1C4E9', '#9575CD', '#673AB7', '#512DA8', '#311B92'],
-  ['#C5CAE9', '#7986CB', '#3F51B5', '#303F9F', '#1A237E'],
-  ['#BBDEFB', '#64B5F6', '#2196F3', '#1976D2', '#0D47A1'],
-  ['#B3E5FC', '#4FC3F7', '#03A9F4', '#0288D1', '#01579B'],
-  ['#B2EBF2', '#4DD0E1', '#00BCD4', '#0097A7', '#006064'],
-  ['#B2DFDB', '#4DB6AC', '#009688', '#00796B', '#004D40'],
-  ['#C8E6C9', '#81C784', '#4CAF50', '#388E3C', '#1B5E20'],
-  ['#FFF9C4', '#FFF176', '#FFEB3B', '#FBC02D', '#F57F17'],
-  ['#FFECB3', '#FFD54F', '#FFC107', '#FFA000', '#FF6F00'],
-  ['#FFE0B2', '#FFB74D', '#FF9800', '#F57C00', '#E65100'],
-  ['#FFCCBC', '#FF8A65', '#FF5722', '#E64A19', '#BF360C'],
-  ['#D7CCC8', '#A1887F', '#795548', '#5D4037', '#3E2723'],
-  ['#F5F5F5', '#E0E0E0', '#9E9E9E', '#616161', '#212121'],
-  ['#CFD8DC', '#90A4AE', '#607D8B', '#455A64', '#263238'],
-]
 </script>
 
 <template>
@@ -66,46 +46,23 @@ const materialSwatches = [
 
     <VCardText class="pt-4">
       <div class="text-subtitle-2 font-weight-bold mb-3">Режим</div>
-      <VBtnToggle
-        v-model="activeMode"
-        color="primary"
-        variant="outlined"
-        divided
-        mandatory
-        class="w-100 mb-6 d-flex"
-      >
+      <VBtnToggle v-model="activeMode" color="primary" variant="outlined" divided mandatory class="w-100 mb-6 d-flex">
         <VBtn value="light" class="flex-grow-1 text-none">Світла</VBtn>
         <VBtn value="dark" class="flex-grow-1 text-none">Темна</VBtn>
         <VBtn value="system" class="flex-grow-1 text-none">Система</VBtn>
       </VBtnToggle>
-
       <VDivider class="my-4" />
 
       <div class="text-subtitle-2 font-weight-bold mb-3">Відтінок фону</div>
-      <VBtnToggle
-        v-model="activeSurface"
-        color="primary"
-        variant="outlined"
-        divided
-        mandatory
-        class="w-100 mb-6 d-flex"
-      >
+      <VBtnToggle v-model="activeSurface" color="primary" variant="outlined" divided mandatory class="w-100 mb-6 d-flex">
         <VBtn value="Default" class="flex-grow-1 text-none">Default</VBtn>
         <VBtn value="Zinc" class="flex-grow-1 text-none">Zinc</VBtn>
         <VBtn value="Slate" class="flex-grow-1 text-none">Slate</VBtn>
       </VBtnToggle>
-
       <VDivider class="my-4" />
 
       <div class="text-subtitle-2 font-weight-bold mb-3">Стиль карток</div>
-      <VBtnToggle
-        v-model="activeCardStyle"
-        color="primary"
-        variant="outlined"
-        divided
-        mandatory
-        class="w-100 mb-6 d-flex"
-      >
+      <VBtnToggle v-model="activeCardStyle" color="primary" variant="outlined" divided mandatory class="w-100 mb-6 d-flex">
         <VBtn value="elevated" class="flex-grow-1 text-none">
           <VIcon start>mdi-layers</VIcon> З тінями
         </VBtn>
@@ -113,12 +70,34 @@ const materialSwatches = [
           <VIcon start>mdi-border-all</VIcon> Плоскі
         </VBtn>
       </VBtnToggle>
+      <VDivider class="my-4" />
 
+      <div class="text-subtitle-2 font-weight-bold mb-3">Статусні кольори</div>
+      <VRow dense class="mb-6">
+        <VCol v-for="(colors, presetName) in semanticPalettes" :key="presetName" cols="6">
+          <VBtn
+            block
+            height="auto"
+            class="border rounded-lg py-2 d-flex flex-column align-center text-none"
+            :variant="activeSemantic === presetName ? 'flat' : 'outlined'"
+            :color="activeSemantic === presetName ? 'primary' : undefined"
+            @click="activeSemantic = presetName as any"
+          >
+            <div class="text-caption mb-2 font-weight-medium">{{ presetName }}</div>
+            <div class="d-flex ga-1">
+              <div class="color-dot-sm" :style="{ background: colors.success }" title="Success" />
+              <div class="color-dot-sm" :style="{ background: colors.info }" title="Info" />
+              <div class="color-dot-sm" :style="{ background: colors.warning }" title="Warning" />
+              <div class="color-dot-sm" :style="{ background: colors.error }" title="Error" />
+            </div>
+          </VBtn>
+        </VCol>
+      </VRow>
       <VDivider class="my-4" />
 
       <div class="text-subtitle-2 font-weight-bold mb-3">Колір (Пресет)</div>
       <VRow dense class="mb-2">
-        <VCol v-for="preset in themePresets" :key="preset.name" cols="3">
+        <VCol v-for="preset in themePresets" :key="preset.name" cols="4">
           <VBtn
             block
             height="40"
@@ -129,17 +108,11 @@ const materialSwatches = [
           >
             <template v-if="preset.name !== 'Custom'">
               <div class="d-flex align-center ga-1 overflow-hidden">
-                <div
-                  class="color-dot"
-                  :style="{ background: preset.colors.primary }"
-                />
-                <div
-                  class="color-dot"
-                  :style="{ background: preset.colors.secondary }"
-                />
+                <div class="color-dot" :style="{ background: preset.colors.primary }" />
+                <div class="color-dot" :style="{ background: preset.colors.secondary }" />
                 <span
                   class="text-caption font-weight-medium text-truncate"
-                  :style="{ color: activePresetName === preset.name ? 'white' : 'inherit', fontSize: '10px' }"
+                  :style="{ color: activePresetName === preset.name ? 'white' : 'inherit', fontSize: '11px' }"
                 >
                   {{ preset.name }}
                 </span>
@@ -147,14 +120,8 @@ const materialSwatches = [
             </template>
             <template v-else>
               <div class="d-flex align-center ga-1">
-                <div
-                  class="color-dot"
-                  :style="{ background: customPrimaryColor }"
-                />
-                <div
-                  class="color-dot"
-                  :style="{ background: customSecondaryColor }"
-                />
+                <div class="color-dot" :style="{ background: customPrimaryColor }" />
+                <div class="color-dot" :style="{ background: customSecondaryColor }" />
                 <VIcon size="14" :color="activePresetName === 'Custom' ? 'white' : ''">
                   mdi-palette
                 </VIcon>
@@ -197,7 +164,7 @@ const materialSwatches = [
           </div>
           <VColorPicker
             v-model="currentCustomColor"
-            :swatches="materialSwatches"
+            :swatches="MATERIAL_SWATCHES"
             show-swatches
             hide-canvas
             hide-inputs
@@ -236,6 +203,14 @@ const materialSwatches = [
 .color-dot {
   width: 10px;
   height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.color-dot-sm {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
   border: 1px solid rgba(0, 0, 0, 0.15);
