@@ -37,13 +37,36 @@ export const radiusOptions = [
   { label: 'Full',        value: 24 },
 ]
 
+// Типи для нових налаштувань
 type ThemeMode = 'light' | 'dark' | 'system'
+type SurfacePreset = 'Default' | 'Zinc' | 'Slate'
+type CardStyle = 'elevated' | 'outlined'
 
-const activePresetName   = useLocalStorage<string>('theme-preset', 'Blue')
-const activeRadius       = useLocalStorage<number>('theme-radius', 8)
-const activeMode         = useLocalStorage<ThemeMode>('theme-mode', 'system')
-const customPrimaryColor = useLocalStorage<string>('theme-custom-primary',   '#2196F3')
+// Палітри для фону та поверхонь
+const surfacePalettes = {
+  Default: {
+    light: { background: '#FFFFFF', surface: '#FFFFFF' },
+    dark:  { background: '#121212', surface: '#212121' }
+  },
+  Zinc: {
+    light: { background: '#FAFAFA', surface: '#FFFFFF' },
+    dark:  { background: '#09090B', surface: '#18181B' }
+  },
+  Slate: {
+    light: { background: '#F8FAFC', surface: '#FFFFFF' },
+    dark:  { background: '#0F172A', surface: '#1E293B' }
+  }
+}
+
+// Стан (VueUse LocalStorage)
+const activePresetName     = useLocalStorage<string>('theme-preset', 'Blue')
+const activeRadius         = useLocalStorage<number>('theme-radius', 8)
+const activeMode           = useLocalStorage<ThemeMode>('theme-mode', 'system')
+const customPrimaryColor   = useLocalStorage<string>('theme-custom-primary',   '#2196F3')
 const customSecondaryColor = useLocalStorage<string>('theme-custom-secondary', '#03A9F4')
+
+const activeSurface        = useLocalStorage<SurfacePreset>('theme-surface', 'Default')
+const activeCardStyle      = useLocalStorage<CardStyle>('theme-card-style', 'elevated')
 
 export function useThemeBuilder() {
   const theme = useTheme()
@@ -69,6 +92,17 @@ export function useThemeBuilder() {
     theme.themes.value.dark.colors.secondary  = secondary
   }
 
+  const applySurface = (preset: SurfacePreset) => {
+    const palette = surfacePalettes[preset]
+    if (!palette) return
+
+    theme.themes.value.light.colors.background = palette.light.background
+    theme.themes.value.light.colors.surface    = palette.light.surface
+
+    theme.themes.value.dark.colors.background  = palette.dark.background
+    theme.themes.value.dark.colors.surface     = palette.dark.surface
+  }
+
   const applyRadius = (radius: number) => {
     document.documentElement.style.setProperty('--custom-radius', `${radius}px`)
   }
@@ -81,14 +115,24 @@ export function useThemeBuilder() {
     }
   }
 
+  const applyCardStyle = (style: CardStyle) => {
+    document.documentElement.setAttribute('data-card-style', style)
+  }
+
   const initTheme = () => {
+    // 1. Ініціалізація
     applyColors(activePresetName.value)
+    applySurface(activeSurface.value)
     applyRadius(activeRadius.value)
     applyThemeMode(activeMode.value)
+    applyCardStyle(activeCardStyle.value)
 
+    // 2. Підписки
     watch(activePresetName, applyColors)
+    watch(activeSurface, applySurface)
     watch(activeRadius, applyRadius)
     watch(activeMode, applyThemeMode)
+    watch(activeCardStyle, applyCardStyle)
 
     watch(customPrimaryColor, () => {
       if (activePresetName.value === 'Custom') applyColors('Custom')
@@ -107,6 +151,8 @@ export function useThemeBuilder() {
     activePresetName,
     activeRadius,
     activeMode,
+    activeSurface,
+    activeCardStyle,
     customPrimaryColor,
     customSecondaryColor,
     themePresets,

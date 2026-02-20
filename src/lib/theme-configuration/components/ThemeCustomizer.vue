@@ -6,6 +6,8 @@ const {
   activePresetName,
   activeRadius,
   activeMode,
+  activeSurface,
+  activeCardStyle,
   customPrimaryColor,
   customSecondaryColor,
   themePresets,
@@ -63,7 +65,6 @@ const materialSwatches = [
     </VCardSubtitle>
 
     <VCardText class="pt-4">
-      <!-- Режим -->
       <div class="text-subtitle-2 font-weight-bold mb-3">Режим</div>
       <VBtnToggle
         v-model="activeMode"
@@ -80,7 +81,41 @@ const materialSwatches = [
 
       <VDivider class="my-4" />
 
-      <!-- Пресети кольорів -->
+      <div class="text-subtitle-2 font-weight-bold mb-3">Відтінок фону</div>
+      <VBtnToggle
+        v-model="activeSurface"
+        color="primary"
+        variant="outlined"
+        divided
+        mandatory
+        class="w-100 mb-6 d-flex"
+      >
+        <VBtn value="Default" class="flex-grow-1 text-none">Default</VBtn>
+        <VBtn value="Zinc" class="flex-grow-1 text-none">Zinc</VBtn>
+        <VBtn value="Slate" class="flex-grow-1 text-none">Slate</VBtn>
+      </VBtnToggle>
+
+      <VDivider class="my-4" />
+
+      <div class="text-subtitle-2 font-weight-bold mb-3">Стиль карток</div>
+      <VBtnToggle
+        v-model="activeCardStyle"
+        color="primary"
+        variant="outlined"
+        divided
+        mandatory
+        class="w-100 mb-6 d-flex"
+      >
+        <VBtn value="elevated" class="flex-grow-1 text-none">
+          <VIcon start>mdi-layers</VIcon> З тінями
+        </VBtn>
+        <VBtn value="outlined" class="flex-grow-1 text-none">
+          <VIcon start>mdi-border-all</VIcon> Плоскі
+        </VBtn>
+      </VBtnToggle>
+
+      <VDivider class="my-4" />
+
       <div class="text-subtitle-2 font-weight-bold mb-3">Колір (Пресет)</div>
       <VRow dense class="mb-2">
         <VCol v-for="preset in themePresets" :key="preset.name" cols="3">
@@ -93,7 +128,6 @@ const materialSwatches = [
             @click="activePresetName = preset.name"
           >
             <template v-if="preset.name !== 'Custom'">
-              <!-- Дві крапки: primary + secondary -->
               <div class="d-flex align-center ga-1 overflow-hidden">
                 <div
                   class="color-dot"
@@ -112,7 +146,6 @@ const materialSwatches = [
               </div>
             </template>
             <template v-else>
-              <!-- Custom: показуємо обидва кастомних кольори -->
               <div class="d-flex align-center ga-1">
                 <div
                   class="color-dot"
@@ -131,12 +164,10 @@ const materialSwatches = [
         </VCol>
       </VRow>
 
-      <!-- Custom кольори -->
       <VExpandTransition>
         <div v-if="activePresetName === 'Custom'" class="mb-2">
           <VDivider class="mb-3" />
 
-          <!-- Toggle primary / secondary -->
           <div class="d-flex align-center mb-3 ga-2">
             <VBtnToggle
               v-model="activeColorTarget"
@@ -179,7 +210,6 @@ const materialSwatches = [
 
       <VDivider class="my-4" />
 
-      <!-- Радіус -->
       <div class="text-subtitle-2 font-weight-bold mb-3">Радіус скруглення</div>
       <VSelect
         v-model="activeRadius"
