@@ -6,6 +6,7 @@ const navigationItems = [
   { title: 'About', route: '/about', icon: Icons.Info },
   { title: 'UI Builder', route: '/ui-builder', icon: Icons.ViewDashboard },
   { title: 'Theme', route: '/theme-configuration', icon: Icons.Palette },
+  { title: 'Card builder', route: '/card-builder', icon: Icons.CardText },
   {
     title: 'Examples',
     icon: Icons.FolderOpen,
