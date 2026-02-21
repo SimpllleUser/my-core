@@ -38,6 +38,10 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
     return this.config.vuetifyProps ?? {}
   }
 
+  get transform(): ((value: TValue) => unknown) | undefined {
+    return this.config.transform as ((value: TValue) => unknown) | undefined
+  }
+
   reset(): void {
     this.value = (this.config.defaultValue as TValue) ?? ('' as unknown as TValue)
   }
