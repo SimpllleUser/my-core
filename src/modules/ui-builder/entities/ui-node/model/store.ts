@@ -29,17 +29,29 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     return null
   }
 
-  const createNode = (type: ComponentType, name: string): UiNode => ({
-    id: Math.random().toString(36).substring(2, 9),
-    type,
-    name,
-    props: {
+  const createNode = (type: ComponentType, name: string): UiNode => {
+    const baseProps: Record<string, any> = {
       variant: 'elevated',
       color: 'primary'
-    },
-    classes: [],
-    children: []
-  })
+    }
+
+    // Специфічні дефолтні значення
+    if (type === 'VBtn') baseProps.innerText = 'Button'
+    if (type === 'VTextField') baseProps.label = 'Input Label'
+    if (type === 'VCard') {
+      baseProps.variant = 'elevated'
+      baseProps.color = 'white'
+    }
+
+    return {
+      id: Math.random().toString(36).substring(2, 9),
+      type,
+      name,
+      props: baseProps,
+      classes: [],
+      children: []
+    }
+  }
 
   const appendChild = (parentId: string, newNode: UiNode, node: UiNode = rootNode.value): boolean => {
     if (node.id === parentId) {
@@ -63,6 +75,8 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     }
     return false
   }
+
+
 
   return {
     rootNode,

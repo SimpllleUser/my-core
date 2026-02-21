@@ -1,3 +1,5 @@
+// src/modules/ui-builder/widgets/sidebar-tree/ui/SidebarTreeNode.vue
+
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import type { UiNode, ComponentType } from '../../../entities/ui-node/model/types'
@@ -22,29 +24,40 @@ const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VListItem', label: 'List Item' }
 ]
 
+const getIcon = (type: string) => {
+  const icons: Record<string, string> = {
+    'VCard': 'mdi-card-outline',
+    'VBtn': 'mdi-rectangle-outline',
+    'VTextField': 'mdi-form-textbox',
+    'VList': 'mdi-format-list-bulleted',
+    'VListItem': 'mdi-order-bool-ascending-variant',
+    'root-canvas': 'mdi-view-dashboard-outline'
+  }
+  return icons[type] || 'mdi-cube-outline'
+}
+
 const onAdd = (type: ComponentType, label: string) => {
   const newNode = createNode(type, label)
-
-  if (type === 'VBtn') newNode.props.innerText = 'New Button'
-  if (['VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
-    newNode.props.innerText = `New ${label}`
-  }
-
   appendChild(props.node.id, newNode)
+  selectNode(newNode.id)
 }
 </script>
 
 <template>
   <VListItem
     :active="selectedNodeId === node.id"
-    :style="{ paddingLeft: `${(depth || 0) * 16 + 16}px` }"
+    :style="{ paddingLeft: `${(depth || 0) * 16 + 12}px` }"
     density="compact"
+    :prepend-icon="getIcon(node.type)"
+    color="primary"
     @click.stop="selectNode(node.id)"
   >
-    <VListItemTitle class="text-body-2">{{ node.name }}</VListItemTitle>
+    <VListItemTitle class="text-caption font-weight-bold">
+      {{ node.name }}
+    </VListItemTitle>
 
     <template #append>
-      <VMenu>
+      <VMenu location="bottom end">
         <template #activator="{ props: menuProps }">
           <VBtn
             v-bind="menuProps"
@@ -52,14 +65,17 @@ const onAdd = (type: ComponentType, label: string) => {
             variant="text"
             size="x-small"
             density="comfortable"
+            class="ml-2"
             @click.stop
           />
         </template>
-        <VList density="compact" width="150">
+
+        <VList density="compact">
           <VListItem
             v-for="comp in availableComponents"
             :key="comp.type"
             :title="comp.label"
+            class="text-caption"
             @click="onAdd(comp.type, comp.label)"
           />
         </VList>
