@@ -49,9 +49,19 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     return false
   }
 
+  const findNodeById = (id: string, currentNode: UiNode = rootNode.value): UiNode | null => {
+    if (currentNode.id === id) return currentNode
+    for (const child of currentNode.children) {
+      const found = findNodeById(id, child)
+      if (found) return found
+    }
+    return null
+  }
+
   return {
     rootNode,
     selectedNodeId,
+    findNodeById,
     selectNode,
     createNode,
     appendChild

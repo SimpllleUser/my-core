@@ -1,4 +1,7 @@
+// src/modules/ui-builder/entities/ui-node/ui/NodeRenderer.ts
+
 import { defineComponent, h, resolveComponent, type PropType, type VNode } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { UiNode } from '../model/types'
 import { useUiTreeStore } from '../model/store'
 
@@ -11,7 +14,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { selectedNodeId, selectNode } = useUiTreeStore()
+    const store = useUiTreeStore()
+    const { selectedNodeId } = storeToRefs(store)
+    const { selectNode } = store
 
     const handleClick = (event: Event) => {
       event.stopPropagation()
@@ -28,11 +33,7 @@ export default defineComponent({
         )
       }
 
-      if (props.node.props.innerText) {
-        return props.node.props.innerText
-      }
-
-      return []
+      return props.node.props.innerText || []
     }
 
     return () => {
@@ -42,7 +43,7 @@ export default defineComponent({
         ? resolveComponent(props.node.type)
         : props.node.type
 
-      const classes = [...props.node.classes]
+      const classes = [...(props.node.classes || [])]
 
       if (isSelected) {
         classes.push('border-md', 'border-primary', 'border-dashed')
