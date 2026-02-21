@@ -21,12 +21,14 @@ const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VCardTitle', label: 'Card Title' },
   { type: 'VCardText', label: 'Card Text' },
   { type: 'VList', label: 'List' },
-  { type: 'VListItem', label: 'List Item' }
+  { type: 'VListItem', label: 'List Item' },
+  { type: 'VCol', label: 'Col' }
 ]
 
 const getIcon = (type: string) => {
   const icons: Record<string, string> = {
     'VCard': 'mdi-card-outline',
+    'VCol': 'mdi-card-outline',
     'VBtn': 'mdi-rectangle-outline',
     'VTextField': 'mdi-form-textbox',
     'VList': 'mdi-format-list-bulleted',

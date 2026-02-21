@@ -64,6 +64,30 @@ const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', '
           class="mb-4"
         />
 
+        <template v-if="selectedNode.type === 'VCol'">
+          <div class="text-overline mb-2 text-primary">Grid Settings</div>
+          <VSlider
+            v-model="selectedNode.props.cols"
+            :min="1"
+            :max="12"
+            :step="1"
+            label="Width (1-12)"
+            thumb-label
+            density="compact"
+            hide-details
+            class="mb-4"
+          />
+        </template>
+
+        <template v-if="selectedNode.type === 'VRow'">
+          <VCheckbox
+            v-model="selectedNode.props.noGutters"
+            label="No Gutters"
+            density="compact"
+            hide-details
+          />
+        </template>
+
         <VTextField
           v-if="selectedNode.props.hasOwnProperty('label')"
           :model-value="selectedNode.props.label"

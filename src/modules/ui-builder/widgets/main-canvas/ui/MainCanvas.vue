@@ -24,4 +24,22 @@ const { rootNode } = storeToRefs(store)
 }
 .v-card.ui-builder-element { min-height: 80px; margin-bottom: 10px; }
 .v-card-title.ui-builder-element, .v-card-text.ui-builder-element { min-height: 30px; }
+
+.v-row.ui-builder-element {
+  min-height: 80px;
+  background-color: rgba(var(--v-theme-primary), 0.02);
+  outline: 1px solid rgba(var(--v-theme-primary), 0.1);
+  margin: 4px 0 !important;
+}
+
+.v-col.ui-builder-element {
+  min-height: 60px;
+  background-color: rgba(var(--v-theme-primary), 0.05);
+  outline: 1px dashed rgba(var(--v-theme-primary), 0.2);
+  transition: all 0.2s;
+}
+
+.v-col.ui-builder-element:hover {
+  background-color: rgba(var(--v-theme-primary), 0.08);
+}
 </style>

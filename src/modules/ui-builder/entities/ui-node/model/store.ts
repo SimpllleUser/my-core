@@ -30,17 +30,19 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
   }
 
   const createNode = (type: ComponentType, name: string): UiNode => {
-    const baseProps: Record<string, any> = {
-      variant: 'elevated',
-      color: 'primary'
+    const baseProps: Record<string, any> = {}
+
+    if (type === 'VRow') {
+      baseProps.noGutters = false
+      baseProps.align = 'center'
     }
 
-    // Специфічні дефолтні значення
-    if (type === 'VBtn') baseProps.innerText = 'Button'
-    if (type === 'VTextField') baseProps.label = 'Input Label'
-    if (type === 'VCard') {
-      baseProps.variant = 'elevated'
-      baseProps.color = 'white'
+    if (type === 'VCol') {
+      baseProps.cols = 12
+    }
+
+    if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
+      baseProps.innerText = name
     }
 
     return {
