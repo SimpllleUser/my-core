@@ -1,9 +1,15 @@
+import NodeRenderer from '../modules/ui-builder/entities/ui-node/ui/NodeRenderer.ts'
 <script setup lang="ts">
-  import {UiBuilder} from '../features/ui-builder';
+import MainCanvas from '../modules/ui-builder/widgets/main-canvas/ui/MainCanvas.vue'
+import SidebarTree from '../modules/ui-builder/widgets/sidebar-tree/ui/SidebarTree.vue'
 </script>
 
 <template>
-<div>
-  <UiBuilder />
-</div>
+  <VApp>
+    <SidebarTree />
+
+    <VMain>
+      <MainCanvas />
+    </VMain>
+  </VApp>
 </template>
