@@ -38,6 +38,7 @@ declare module 'vue-router/auto-routes' {
     '/examples/settings': RouteRecordInfo<'/examples/settings', '/examples/settings', Record<never, never>, Record<never, never>>,
     '/examples/social': RouteRecordInfo<'/examples/social', '/examples/social', Record<never, never>, Record<never, never>>,
     '/examples/tables': RouteRecordInfo<'/examples/tables', '/examples/tables', Record<never, never>, Record<never, never>>,
+    '/theme-configuration': RouteRecordInfo<'/theme-configuration', '/theme-configuration', Record<never, never>, Record<never, never>>,
     '/ui-builder': RouteRecordInfo<'/ui-builder', '/ui-builder', Record<never, never>, Record<never, never>>,
   }
 
@@ -130,6 +131,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/examples/tables.vue': {
       routes: '/examples/tables'
+      views: never
+    }
+    'src/pages/theme-configuration.vue': {
+      routes: '/theme-configuration'
       views: never
     }
     'src/pages/ui-builder.vue': {
