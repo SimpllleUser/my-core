@@ -47,7 +47,7 @@ const {
       <VCol
         v-for="option in SHADOW_OPTIONS"
         :key="option.value"
-        cols="6"
+        cols="2"
       >
         <VBtn
           block
