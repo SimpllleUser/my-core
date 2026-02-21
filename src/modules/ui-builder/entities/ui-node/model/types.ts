@@ -1,11 +1,4 @@
-export type ComponentType =
-  | 'VBtn'
-  | 'VTextField'
-  | 'VCard'
-  | 'VCardTitle'
-  | 'VCardText'
-  | 'VList'
-  | 'VListItem'
+export type ComponentType = 'VBtn' | 'VTextField' | 'VCard' | 'VCardTitle' | 'VCardText' | 'VList' | 'VListItem'
 
 export interface UiNode {
   id: string
