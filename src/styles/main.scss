@@ -1,20 +1,91 @@
-:root {
-  --custom-radius: 8px;
+/* =========================================
+   Theme Builder: Shadow Profiles
+   ========================================= */
+
+/* 1. Soft (Apple-like) */
+html[data-shadow-profile="soft"] .v-card--variant-elevated {
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05), 0 0 3px rgba(0, 0, 0, 0.05) !important;
+}
+html[data-shadow-profile="soft"] .v-btn--variant-elevated {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
-.v-application .v-btn,
-.v-application .v-card,
-.v-application .v-text-field .v-field,
-.v-application .v-select .v-field,
-.v-application .v-textarea .v-field,
-.v-application .v-chip,
-.v-application .v-alert,
-.v-application .v-list,
-.v-application .v-menu .v-overlay__content,
-.v-application .v-dialog > .v-overlay__content > .v-card {
-  border-radius: var(--custom-radius) !important;
+/* 2. Crisp (Shadcn-like) */
+html[data-shadow-profile="crisp"] .v-card--variant-elevated {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.1) !important;
+}
+html[data-shadow-profile="crisp"] .v-btn--variant-elevated {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.1) !important;
 }
 
-.v-application .v-btn--icon {
-  border-radius: 50% !important;
+/* 3. Neo-brutalism */
+html[data-shadow-profile="neo-brutal"] .v-card--variant-elevated {
+  box-shadow: 4px 4px 0px 0px rgb(var(--v-theme-on-surface)) !important;
+  border: 2px solid rgb(var(--v-theme-on-surface)) !important;
+}
+html[data-shadow-profile="neo-brutal"] .v-btn--variant-elevated {
+  box-shadow: 3px 3px 0px 0px rgb(var(--v-theme-on-surface)) !important;
+  border: 2px solid rgb(var(--v-theme-on-surface)) !important;
+}
+html[data-shadow-profile="neo-brutal"] .v-btn--variant-elevated:active {
+  box-shadow: 0px 0px 0px 0px rgb(var(--v-theme-on-surface)) !important;
+  transform: translate(3px, 3px);
+}
+
+/* 4. Glow (Neon/AI-like) - Тінь кольору Primary */
+html[data-shadow-profile="glow"] {
+  .v-card--variant-elevated {
+    /* Використовуємо змінну primary кольору з Vuetify */
+    box-shadow: 0 8px 24px rgba(var(--v-theme-primary), 0.2) !important;
+    border: 1px solid rgba(var(--v-theme-primary), 0.1) !important;
+  }
+  .v-btn--variant-elevated {
+    box-shadow: 0 4px 12px rgba(var(--v-theme-primary), 0.3) !important;
+  }
+  /* Додаємо світіння при наведенні для кнопок */
+  .v-btn--variant-elevated:hover {
+    box-shadow: 0 6px 16px rgba(var(--v-theme-primary), 0.5) !important;
+  }
+}
+
+
+/* 5. Glassmorphism - Ефект матового скла */
+html[data-shadow-profile="glass"] {
+  .v-card--variant-elevated {
+    /* Напівпрозорий фон (surface) */
+    background: rgba(var(--v-theme-surface), 0.65) !important;
+    /* Розмиття фону під карткою */
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important; /* Для Safari */
+
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05) !important;
+    /* Легкий білий/світлий контур для ефекту відбиття скла */
+    border: 1px solid rgba(var(--v-theme-on-surface), 0.08) !important;
+  }
+}
+
+/* 6. Neumorphism - Втиснутий/Видавлений дизайн */
+html[data-shadow-profile="neumorphic"] {
+  .v-card--variant-elevated {
+    /* Комбінація світлої і темної тіні для ефекту об'єму */
+    box-shadow:
+            8px 8px 16px rgba(0, 0, 0, 0.1),
+            -8px -8px 16px rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+  }
+
+  /* Інпути робимо втиснутими всередину */
+  .v-field--variant-outlined {
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.05),
+    inset -4px -4px 8px rgba(255,255,255,0.05) !important;
+    border: none !important;
+  }
+}
+
+
+/* Глобальний радіус */
+.v-card, .v-btn, .v-text-field {
+  border-radius: var(--custom-radius, 8px) !important;
 }

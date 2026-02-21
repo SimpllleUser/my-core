@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useThemeDefaults } from '../../composables/useThemeDefaults.ts'
 import { RADIUS_OPTION } from '../../constants.ts'
+import { ShadowProfile } from '../../model.ts'
 import SectionWrapper from './SectionWrapper.vue'
 
 const {
   activeCardStyle,
   activeInteractiveStyle,
   activeRadius,
-  activeDensity
+  activeDensity,
+  activeShadowProfile
 } = useThemeDefaults()
 </script>
 
@@ -34,6 +36,75 @@ const {
         Компактний
       </VBtn>
     </VBtnToggle>
+  </SectionWrapper>
+
+  <SectionWrapper title="Профіль тіней (Elevation)" divider>
+    <VRow dense>
+      <VCol cols="6">
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.MATERIAL ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.MATERIAL"
+        >
+          Material (Vuetify)
+        </VBtn>
+      </VCol>
+      <VCol cols="6">
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.SOFT ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.SOFT"
+        >
+          Soft (Apple)
+        </VBtn>
+      </VCol>
+      <VCol cols="6">
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.CRISP ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.CRISP"
+        >
+          Crisp (Shadcn)
+        </VBtn>
+      </VCol>
+      <VCol cols="6">
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.NEO_BRUTAL ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.NEO_BRUTAL"
+        >
+          Neo-brutalism
+        </VBtn>
+      </VCol>
+      <VCol cols="6">
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.GLOW ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.GLOW"
+        >
+          Glow
+        </VBtn>
+      </VCol>
+      <VCol>
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.NEUMORPHIC ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.NEUMORPHIC"
+        >
+          NEUMORPHIC
+        </VBtn>
+      </VCol>
+      <VCol cols="6">
+
+        <VBtn
+          block variant="outlined" class="text-none"
+          :color="activeShadowProfile === ShadowProfile.GLASS ? 'primary' : undefined"
+          @click="activeShadowProfile = ShadowProfile.GLASS"
+        >
+          GLASS
+        </VBtn>
+      </VCol>
+    </VRow>
   </SectionWrapper>
 
   <SectionWrapper title="Стиль карток" divider>

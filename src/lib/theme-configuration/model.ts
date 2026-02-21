@@ -19,5 +19,16 @@ export type ThemeMode = 'light' | 'dark' | 'system'
 export type SurfacePreset = 'Default' | 'Zinc' | 'Slate'
 export type CardStyle = 'elevated' | 'outlined'
 export type SemanticPreset = 'Material' | 'Modern' | 'Pastel' | 'Vibrant'
+
 export type InteractiveStyle = 'material' | 'modern'
 export type ThemeDensity = 'default' | 'comfortable' | 'compact'
+
+export enum ShadowProfile {
+  MATERIAL = 'material',
+  SOFT = 'soft',
+  CRISP = 'crisp',
+  NEO_BRUTAL = 'neo-brutal',
+  GLOW = 'glow',
+  GLASS = 'glass',
+  NEUMORPHIC = 'neumorphic'
+}
