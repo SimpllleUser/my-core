@@ -26,7 +26,17 @@ export function useCardBuilder() {
     showActions: true,
     actionAlignment: ActionAlignment.RIGHT,
     primaryActionText: 'Connect',
-    secondaryActionText: 'Message'
+    secondaryActionText: 'Message',
+
+    badgeText: 'Pro',
+    badgeColor: ThemeColor.PRIMARY,
+
+    showList: false,
+    listItems: ['Необмежені проєкти', 'Доступ до API', 'Підтримка 24/7'],
+    showExpandable: false,
+    expandableContent: 'Тут знаходиться детальна технічна інформація, яку більшість користувачів не хочуть бачити одразу, але вона важлива для прийняття рішення.',
+
+    showImage: false,
   })
 
   watch(() => config.value.type, (newType) => {
@@ -39,6 +49,10 @@ export function useCardBuilder() {
       config.value.badgeText = 'Most Popular'
       config.value.badgeColor = ThemeColor.WARNING
       config.value.hoverEffect = HoverEffect.LIFT
+
+      config.value.showList = true
+    } else {
+      config.value.showList = false
     }
   })
 

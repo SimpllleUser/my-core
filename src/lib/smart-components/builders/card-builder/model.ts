@@ -21,30 +21,31 @@ export interface CardConfig {
   type: CardType
   variant: CardVariant
 
-  // Header
   showHeader: boolean
   title: string
   subtitle: string
   showAvatar: boolean
 
-  // NEW: Badge
   showBadge: boolean
   badgeText: string
   badgeColor: ThemeColor
 
-  // Media & Content
   showImage: boolean
   imageHeight: number
   content: string
   showDivider: boolean
 
-  // NEW: State & Interaction
   isLoading: boolean
   hoverEffect: HoverEffect
 
-  // Actions
   showActions: boolean
   actionAlignment: ActionAlignment
   primaryActionText: string
   secondaryActionText?: string
+
+  showList: boolean
+  listItems: string[]
+
+  showExpandable: boolean
+  expandableContent: string
 }

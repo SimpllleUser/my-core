@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { type CardConfig, ActionAlignment, HoverEffect } from '../model.ts'
 
-const props = defineProps<{ config: CardConfig }>()
+const props = defineProps<{
+  config: CardConfig
+}>()
+
+const isExpanded = ref(false)
 
 const actionAlignmentClass = computed(() => {
-  const map: Record<ActionAlignment, string> = {
-    [ActionAlignment.LEFT]: 'justify-start',
-    [ActionAlignment.CENTER]: 'justify-center',
-    [ActionAlignment.SPACE_BETWEEN]: 'justify-space-between',
-    [ActionAlignment.RIGHT]: 'justify-end'
-  }
-  return map[props.config.actionAlignment]
+  if (props.config.actionAlignment === ActionAlignment.LEFT) return 'justify-start'
+  if (props.config.actionAlignment === ActionAlignment.CENTER) return 'justify-center'
+  if (props.config.actionAlignment === ActionAlignment.SPACE_BETWEEN) return 'justify-space-between'
+  return 'justify-end' // Default for RIGHT
 })
 
 const hoverClass = computed(() => {
@@ -37,7 +38,12 @@ const hoverClass = computed(() => {
       style="z-index: 1;"
     />
 
-    <VImg v-if="config.showImage" :height="config.imageHeight" src="https://cdn.vuetifyjs.com/images/cards/cooking.png" cover />
+    <VImg
+      v-if="config.showImage"
+      :height="config.imageHeight"
+      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      cover
+    />
 
     <VCardItem v-if="config.showHeader">
       <template v-if="config.showAvatar" #prepend>
@@ -54,13 +60,54 @@ const hoverClass = computed(() => {
       <VCardSubtitle>{{ config.subtitle }}</VCardSubtitle>
     </VCardItem>
 
-    <VCardText>{{ config.content }}</VCardText>
+    <VCardText v-if="config.content">
+      {{ config.content }}
+    </VCardText>
+
+    <VList v-if="config.showList && config.listItems && config.listItems.length > 0" density="compact" class="bg-transparent px-2">
+      <VListItem v-for="(item, i) in config.listItems" :key="i" class="px-0">
+        <template #prepend>
+          <VIcon color="success" icon="mdi-check-circle" size="small" class="mr-2" />
+        </template>
+        <VListItemTitle class="text-body-2">{{ item }}</VListItemTitle>
+      </VListItem>
+    </VList>
+
+
+    <VExpandTransition v-if="config.showExpandable">
+      <div v-show="isExpanded">
+        <VDivider />
+        <VCardText class="text-medium-emphasis">
+          {{ config.expandableContent }}
+        </VCardText>
+      </div>
+    </VExpandTransition>
+
 
     <VDivider v-if="config.showDivider && config.showActions" />
 
-    <VCardActions v-if="config.showActions" :class="actionAlignmentClass">
-      <VBtn v-if="config.secondaryActionText" variant="text">{{ config.secondaryActionText }}</VBtn>
-      <VBtn variant="flat" color="primary">{{ config.primaryActionText }}</VBtn>
+    <VCardActions v-if="config.showActions" class="px-4 pb-4" :class="actionAlignmentClass">
+      <VBtn
+        v-if="config.secondaryActionText"
+        variant="text"
+      >
+        {{ config.secondaryActionText }}
+      </VBtn>
+
+      <VBtn
+        v-if="config.primaryActionText"
+        variant="flat"
+        color="primary"
+      >
+        {{ config.primaryActionText }}
+      </VBtn>
+
+      <VSpacer v-if="config.showExpandable && config.actionAlignment !== ActionAlignment.SPACE_BETWEEN" />
+      <VBtn
+        v-if="config.showExpandable"
+        :icon="isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+        @click="isExpanded = !isExpanded"
+      />
     </VCardActions>
   </VCard>
 </template>
