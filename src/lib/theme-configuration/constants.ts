@@ -38,14 +38,43 @@ export const RADIUS_OPTION = [
 ]
 
 export const SEMANTIC_PALETTES: Record<SemanticPreset, SemanticColors> = {
-  // Класичні кольори Material Design
+  // --- Drfault ---
   Material: { success: '#4CAF50', info: '#2196F3', warning: '#FB8C00', error: '#F44336' },
-  // Сучасні, трохи приглушені кольори (як у Shadcn/Tailwind)
   Modern:   { success: '#22C55E', info: '#3B82F6', warning: '#F59E0B', error: '#EF4444' },
-  // М'які пастельні відтінки (добре для світлої теми та строгих CRM)
   Pastel:   { success: '#81C784', info: '#64B5F6', warning: '#FFB74D', error: '#E57373' },
-  // Насичені неонові кольори (ідеально для темних тем)
   Vibrant:  { success: '#00E676', info: '#00B0FF', warning: '#FFEA00', error: '#FF1744' },
+
+  // Nordic (для Soft / Neumorphic)
+  Nordic: {
+    success: '#8FBC8F', // Dark Sea Green
+    info: '#5F9EA0',    // Cadet Blue
+    warning: '#F4A460', // Sandy Brown
+    error: '#CD5C5C'    // Indian Red
+  },
+
+  // Corporate (для Crisp)
+  Corporate: {
+    success: '#2E7D32', // Deep Green
+    info: '#0277BD',    // Deep Blue
+    warning: '#F9A825', // Deep Yellow/Orange
+    error: '#C62828'    // Deep Red
+  },
+
+  // Cyberpunk (для Glow / Glassmorphism)
+  Cyberpunk: {
+    success: '#00FF9D', // Neon Mint
+    info: '#00E5FF',    // Cyan / Aqua
+    warning: '#FFEA00', // Neon Yellow
+    error: '#FF003C'    // Laser Red
+  },
+
+  // Brutal (для Neo-brutalism)
+  Brutal: {
+    success: '#00C853', // Bold Green
+    info: '#2962FF',    // Bold Blue
+    warning: '#FFD600', // Bold Yellow
+    error: '#D50000'    // Bold Red
+  }
 }
 
 

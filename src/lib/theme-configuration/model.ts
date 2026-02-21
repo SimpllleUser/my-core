@@ -18,7 +18,15 @@ export interface SemanticColors {
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type SurfacePreset = 'Default' | 'Zinc' | 'Slate'
 export type CardStyle = 'elevated' | 'outlined'
-export type SemanticPreset = 'Material' | 'Modern' | 'Pastel' | 'Vibrant'
+export type SemanticPreset =
+  | 'Material'
+  | 'Modern'
+  | 'Pastel'
+  | 'Vibrant'
+  | 'Nordic'
+  | 'Corporate'
+  | 'Cyberpunk'
+  | 'Brutal'
 
 export type InteractiveStyle = 'material' | 'modern'
 export type ThemeDensity = 'default' | 'comfortable' | 'compact'
