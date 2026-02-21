@@ -1,4 +1,4 @@
-import type { SemanticColors, SemanticPreset, ThemePreset } from './model.ts';
+import { type SemanticColors, type SemanticPreset, ShadowProfile, type ThemePreset } from './model.ts';
 
 const BASE_PRESETS = [
   { name: 'Blue',        colors: { primary: '#1E88E5', secondary: '#FFCA28' } }, // Синій + Бурштиновий
@@ -67,4 +67,31 @@ export const MATERIAL_SWATCHES = [
   ['#D7CCC8', '#A1887F', '#795548', '#5D4037', '#3E2723'],
   ['#F5F5F5', '#E0E0E0', '#9E9E9E', '#616161', '#212121'],
   ['#CFD8DC', '#90A4AE', '#607D8B', '#455A64', '#263238'],
+]
+
+
+export const DENSITY_OPTIONS = [
+  { value: 'default', label: 'Просторий', icon: 'mdi-format-line-spacing-normal' },
+  { value: 'comfortable', label: 'Зручний', icon: 'mdi-format-list-text' },
+  { value: 'compact', label: 'Компактний', icon: 'mdi-view-headline' },
+]
+
+export const SHADOW_OPTIONS = [
+  { value: ShadowProfile.MATERIAL, label: 'Material (Vuetify)' },
+  { value: ShadowProfile.SOFT, label: 'Soft (Apple)' },
+  { value: ShadowProfile.CRISP, label: 'Crisp (Shadcn)' },
+  { value: ShadowProfile.NEO_BRUTAL, label: 'Neo-brutalism' },
+  { value: ShadowProfile.GLOW, label: 'Glow' },
+  { value: ShadowProfile.NEUMORPHIC, label: 'Neumorphic' },
+  { value: ShadowProfile.GLASS, label: 'Glassmorphism' },
+]
+
+export const CARD_STYLE_OPTIONS = [
+  { value: 'elevated', label: 'З тінями', icon: 'mdi-layers' },
+  { value: 'outlined', label: 'Плоскі', icon: 'mdi-border-all' },
+]
+
+export const INTERACTIVE_OPTIONS = [
+  { value: 'material', label: 'Material', icon: 'mdi-animation-play' },
+  { value: 'modern', label: 'Modern', icon: 'mdi-cursor-default-click' },
 ]
