@@ -11,7 +11,8 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     name: 'Main Canvas',
     props: { variant: 'flat', color: 'transparent' },
     classes: ['w-100', 'h-100', 'pa-4'],
-    children: []
+    children: [],
+    slots: {}
   })
 
   const selectedNodeId = ref<string | null>(null)
@@ -22,10 +23,19 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
 
   const findNodeById = (id: string, node: UiNode = rootNode.value): UiNode | null => {
     if (node.id === id) return node
+
     for (const child of node.children) {
       const found = findNodeById(id, child)
       if (found) return found
     }
+
+    for (const slotChildren of Object.values(node.slots ?? {})) {
+      for (const child of slotChildren) {
+        const found = findNodeById(id, child)
+        if (found) return found
+      }
+    }
+
     return null
   }
 
@@ -51,7 +61,8 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       name,
       props: baseProps,
       classes: [],
-      children: []
+      children: [],
+      slots: {}
     }
   }
 
@@ -60,25 +71,69 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       node.children.push(newNode)
       return true
     }
-    return node.children.some(child => appendChild(parentId, newNode, child))
+
+    for (const child of node.children) {
+      if (appendChild(parentId, newNode, child)) return true
+    }
+
+    for (const slotChildren of Object.values(node.slots ?? {})) {
+      for (const child of slotChildren) {
+        if (appendChild(parentId, newNode, child)) return true
+      }
+    }
+
+    return false
+  }
+
+  const appendToSlot = (parentId: string, slotName: string, newNode: UiNode, node: UiNode = rootNode.value): boolean => {
+    if (node.id === parentId) {
+      if (!node.slots[slotName]) node.slots[slotName] = []
+      node.slots[slotName].push(newNode)
+      return true
+    }
+
+    for (const child of node.children) {
+      if (appendToSlot(parentId, slotName, newNode, child)) return true
+    }
+
+    for (const slotChildren of Object.values(node.slots ?? {})) {
+      for (const child of slotChildren) {
+        if (appendToSlot(parentId, slotName, newNode, child)) return true
+      }
+    }
+
+    return false
   }
 
   const deleteNode = (id: string, parent: UiNode = rootNode.value): boolean => {
     const index = parent.children.findIndex(child => child.id === id)
     if (index !== -1) {
       parent.children.splice(index, 1)
-      if (selectedNodeId.value === id) {
-        selectedNodeId.value = null
-      }
+      if (selectedNodeId.value === id) selectedNodeId.value = null
       return true
     }
+
+    for (const slotChildren of Object.values(parent.slots ?? {})) {
+      const slotIndex = slotChildren.findIndex(child => child.id === id)
+      if (slotIndex !== -1) {
+        slotChildren.splice(slotIndex, 1)
+        if (selectedNodeId.value === id) selectedNodeId.value = null
+        return true
+      }
+    }
+
     for (const child of parent.children) {
       if (deleteNode(id, child)) return true
     }
+
+    for (const slotChildren of Object.values(parent.slots ?? {})) {
+      for (const child of slotChildren) {
+        if (deleteNode(id, child)) return true
+      }
+    }
+
     return false
   }
-
-
 
   return {
     rootNode,
@@ -87,6 +142,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     findNodeById,
     createNode,
     appendChild,
+    appendToSlot,
     deleteNode
   }
 })

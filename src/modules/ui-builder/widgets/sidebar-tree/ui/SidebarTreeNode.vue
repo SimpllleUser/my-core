@@ -1,9 +1,11 @@
 // src/modules/ui-builder/widgets/sidebar-tree/ui/SidebarTreeNode.vue
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { UiNode, ComponentType } from '../../../entities/ui-node/model/types'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
+import { getComponentSlots } from '../../../entities/ui-node/model/componentRegistry'
 
 const props = defineProps<{
   node: UiNode
@@ -12,7 +14,7 @@ const props = defineProps<{
 
 const store = useUiTreeStore()
 const { selectedNodeId } = storeToRefs(store)
-const { selectNode, createNode, appendChild } = store
+const { selectNode, createNode, appendChild, appendToSlot } = store
 
 const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VBtn', label: 'Button' },
@@ -25,6 +27,10 @@ const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VRow', label: 'Row' },
   { type: 'VCol', label: 'Col' }
 ]
+
+const componentSlots = computed(() => getComponentSlots(props.node.type))
+const hasDefaultSlot = computed(() => componentSlots.value.some(s => s.name === 'default'))
+const namedSlots = computed(() => componentSlots.value.filter(s => s.name !== 'default'))
 
 const getIcon = (type: string) => {
   const icons: Record<string, string> = {
@@ -45,6 +51,12 @@ const onAdd = (type: ComponentType, label: string) => {
   appendChild(props.node.id, newNode)
   selectNode(newNode.id)
 }
+
+const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
+  const newNode = createNode(type, label)
+  appendToSlot(props.node.id, slotName, newNode)
+  selectNode(newNode.id)
+}
 </script>
 
 <template>
@@ -61,7 +73,7 @@ const onAdd = (type: ComponentType, label: string) => {
     </VListItemTitle>
 
     <template #append>
-      <VMenu location="bottom end">
+      <VMenu v-if="hasDefaultSlot" location="bottom end">
         <template #activator="{ props: menuProps }">
           <VBtn
             v-bind="menuProps"
@@ -87,7 +99,56 @@ const onAdd = (type: ComponentType, label: string) => {
     </template>
   </VListItem>
 
-  <template v-if="node.children && node.children.length > 0">
+  <!-- Named slot sections -->
+  <template v-for="slot in namedSlots" :key="slot.name">
+    <VListItem
+      :style="{ paddingLeft: `${(depth || 0) * 16 + 24}px` }"
+      density="compact"
+      class="slot-section-header"
+      @click.stop
+    >
+      <template #prepend>
+        <VIcon icon="mdi-arrow-right" size="x-small" class="mr-1 text-medium-emphasis" />
+      </template>
+      <VListItemTitle class="text-caption text-medium-emphasis">
+        #{{ slot.name }}
+      </VListItemTitle>
+      <template #append>
+        <VMenu location="bottom end">
+          <template #activator="{ props: menuProps }">
+            <VBtn
+              v-bind="menuProps"
+              icon="mdi-plus"
+              variant="text"
+              size="x-small"
+              density="comfortable"
+              @click.stop
+            />
+          </template>
+          <VList density="compact">
+            <VListItem
+              v-for="comp in availableComponents"
+              :key="comp.type"
+              :title="comp.label"
+              class="text-caption"
+              @click="onAddToSlot(slot.name, comp.type, comp.label)"
+            />
+          </VList>
+        </VMenu>
+      </template>
+    </VListItem>
+
+    <!-- Children within this named slot -->
+    <SidebarTreeNode
+      v-for="child in node.slots?.[slot.name] ?? []"
+      :key="child.id"
+      :node="child"
+      :depth="(depth || 0) + 2"
+    />
+  </template>
+
+  <!-- Default slot children -->
+  <template v-if="node.children?.length > 0">
     <SidebarTreeNode
       v-for="child in node.children"
       :key="child.id"
@@ -96,3 +157,10 @@ const onAdd = (type: ComponentType, label: string) => {
     />
   </template>
 </template>
+
+<style scoped>
+.slot-section-header {
+  opacity: 0.7;
+  font-style: italic;
+}
+</style>

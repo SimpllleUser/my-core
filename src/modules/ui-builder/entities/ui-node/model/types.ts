@@ -9,4 +9,5 @@ export interface UiNode {
   props: Record<string, any>
   classes: string[]
   children: UiNode[]
+  slots: Record<string, UiNode[]>
 }

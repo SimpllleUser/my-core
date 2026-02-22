@@ -20,6 +20,28 @@ export default defineComponent({
       const isSelected = selectedNodeId.value === node.id
       const VComponent = (Components as any)[node.type] || node.type
 
+      const buildSlots = () => {
+        const slotFns: Record<string, () => any> = {}
+
+        slotFns.default = () => {
+          if (node.children?.length > 0) {
+            return node.children.map((child: any) =>
+              h(resolveComponent('NodeRenderer'), { key: child.id, node: child })
+            )
+          }
+          return node.props.innerText || []
+        }
+
+        for (const [slotName, slotChildren] of Object.entries(node.slots ?? {})) {
+          const children = slotChildren as any[]
+          slotFns[slotName] = () => children.map((child: any) =>
+            h(resolveComponent('NodeRenderer'), { key: child.id, node: child })
+          )
+        }
+
+        return slotFns
+      }
+
       return h(
         VComponent,
         {
@@ -30,16 +52,7 @@ export default defineComponent({
             store.selectNode(node.id)
           }
         },
-        {
-          default: () => {
-            if (node.children?.length > 0) {
-              return node.children.map((child: any) =>
-                h(resolveComponent('NodeRenderer'), { key: child.id, node: child })
-              )
-            }
-            return node.props.innerText || []
-          }
-        }
+        buildSlots()
       )
     }
   }
