@@ -1,5 +1,3 @@
-// src/modules/ui-builder/widgets/sidebar-tree/ui/SidebarTreeNode.vue
-
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -33,7 +31,6 @@ const componentSlots = computed(() => getComponentSlots(props.node.type))
 const hasDefaultSlot = computed(() => componentSlots.value.some(s => s.name === 'default'))
 const namedSlots = computed(() => componentSlots.value.filter(s => s.name !== 'default'))
 
-// ── Two independent expand states ─────────────────────────
 const isChildrenExpanded = ref(true)
 const isSlotsExpanded = ref(true)
 const slotsExpanded = ref<Record<string, boolean>>({})
@@ -45,7 +42,6 @@ const toggleSlot = (name: string) => {
 
 const slotChildren = (name: string) => props.node.slots?.[name] ?? []
 
-// ── Indentation ────────────────────────────────────────────
 const d = computed(() => props.depth ?? 0)
 const nodeIndent = computed(() => `${d.value * 14 + 4}px`)
 const sectionIndent = computed(() => `${d.value * 14 + 6}px`)
@@ -83,15 +79,12 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
 
 <template>
   <div class="tree-node">
-
-    <!-- ── Node row ────────────────────────────────────────── -->
     <div
       class="node-row"
       :class="{ 'node-row--selected': selectedNodeId === node.id }"
       :style="{ paddingLeft: nodeIndent }"
       @click.stop="selectNode(node.id)"
     >
-      <!-- Children expand toggle -->
       <button
         v-if="node.children.length > 0"
         class="tree-btn expand-btn"
@@ -125,7 +118,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
       </span>
     </div>
 
-    <!-- ── Default children (незалежна секція) ────────────── -->
     <VExpandTransition>
       <div v-if="node.children.length > 0 && isChildrenExpanded">
         <SidebarTreeNode
@@ -137,10 +129,7 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
       </div>
     </VExpandTransition>
 
-    <!-- ── Slots (незалежна секція) ───────────────────────── -->
     <template v-if="namedSlots.length > 0">
-
-      <!-- Slots group header -->
       <div
         class="section-row"
         :style="{ paddingLeft: sectionIndent }"
@@ -153,12 +142,9 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
         <span class="section-label">Slots</span>
       </div>
 
-      <!-- Slot rows -->
       <VExpandTransition>
         <div v-if="isSlotsExpanded">
           <template v-for="slot in namedSlots" :key="slot.name">
-
-            <!-- Slot header -->
             <div
               class="slot-row"
               :style="{ paddingLeft: slotIndent }"
@@ -209,7 +195,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
               </span>
             </div>
 
-            <!-- Slot children -->
             <VExpandTransition>
               <div v-if="slotChildren(slot.name).length > 0 && isSlotExpanded(slot.name)">
                 <SidebarTreeNode
@@ -221,7 +206,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
               </div>
             </VExpandTransition>
 
-            <!-- Empty placeholder -->
             <div
               v-if="slotChildren(slot.name).length === 0"
               class="slot-empty"
@@ -229,13 +213,10 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
             >
               empty
             </div>
-
           </template>
         </div>
       </VExpandTransition>
-
     </template>
-
   </div>
 </template>
 
@@ -246,7 +227,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   user-select: none;
 }
 
-/* ── Rows base ─────────────────────────────────────────── */
 .node-row,
 .section-row,
 .slot-row {
@@ -270,7 +250,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   opacity: 1;
 }
 
-/* ── Node selected ─────────────────────────────────────── */
 .node-row--selected {
   background: rgba(var(--v-theme-primary), 0.1);
 }
@@ -279,7 +258,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   font-weight: 600;
 }
 
-/* ── Expand controls ───────────────────────────────────── */
 .expand-btn,
 .expand-placeholder {
   flex-shrink: 0;
@@ -309,7 +287,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   height: 16px;
 }
 
-/* ── Node row content ──────────────────────────────────── */
 .node-type-icon {
   flex-shrink: 0;
   opacity: 0.65;
@@ -332,7 +309,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   transition: opacity 0.1s;
 }
 
-/* ── Slots group header ────────────────────────────────── */
 .section-icon {
   opacity: 0.5;
 }
@@ -346,7 +322,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   opacity: 0.4;
 }
 
-/* ── Individual slot row ───────────────────────────────── */
 .slot-label {
   flex: 1;
   font-size: 11px;
@@ -360,7 +335,6 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   opacity: 0.5;
 }
 
-/* ── Empty slot placeholder ────────────────────────────── */
 .slot-empty {
   font-size: 10px;
   color: rgba(var(--v-theme-on-surface), 0.3);
