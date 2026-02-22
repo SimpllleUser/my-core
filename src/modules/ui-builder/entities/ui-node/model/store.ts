@@ -42,7 +42,11 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       slots: {}
     }
 
-    // Якщо це текстові компоненти, додаємо TEXT вузол як дитину
+    if (type === 'div') {
+      newNode.name = 'Box (div)'
+      newNode.classes = ['d-block']
+    }
+
     if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
       newNode.children.push({
         id: `${id}_text`,

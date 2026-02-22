@@ -13,9 +13,10 @@ const props = defineProps<{
 
 const store = useUiTreeStore()
 const { selectedNodeId } = storeToRefs(store)
-const { selectNode, createNode, appendChild, appendToSlot } = store
 
+// Список доступних компонентів для додавання
 const availableComponents: { type: ComponentType; label: string }[] = [
+  { type: 'div', label: 'Box (div)' }, // Додано в список
   { type: 'VBtn', label: 'Button' },
   { type: 'VTextField', label: 'Input Field' },
   { type: 'VCard', label: 'Card' },
@@ -50,6 +51,7 @@ const slotEmptyIndent = computed(() => `${d.value * 14 + 38}px`)
 
 const getIcon = (type: string) => {
   const map: Record<string, string> = {
+    div: 'mdi-xml', // Іконка для div
     VCard: 'mdi-card-outline',
     VCol: 'mdi-view-column-outline',
     VRow: 'mdi-view-sequential-outline',
@@ -65,7 +67,7 @@ const getIcon = (type: string) => {
 }
 
 const onAdd = (type: ComponentType, label: string) => {
-  const newNode = store.createNode(type, label) //
+  const newNode = store.createNode(type, label)
   store.appendChild(props.node.id, newNode)
   store.selectNode(newNode.id)
 }
@@ -83,7 +85,7 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
       class="node-row"
       :class="{ 'node-row--selected': selectedNodeId === node.id }"
       :style="{ paddingLeft: nodeIndent }"
-      @click.stop="selectNode(node.id)"
+      @click.stop="store.selectNode(node.id)"
     >
       <button
         v-if="node.children.length > 0"
@@ -135,7 +137,7 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
         :style="{ paddingLeft: sectionIndent }"
         @click.stop="isSlotsExpanded = !isSlotsExpanded"
       >
-        <button class="tree-btn expand-btn" @click.stop="isSlotsExpanded = !isSlotsExpanded">
+        <button class="tree-btn expand-btn">
           <VIcon :icon="isSlotsExpanded ? Icons.ChevronDown : Icons.ChevronRight" size="11" />
         </button>
         <VIcon icon="mdi-code-braces" size="13" class="mr-1 section-icon" />
@@ -145,35 +147,9 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
       <VExpandTransition>
         <div v-if="isSlotsExpanded">
           <template v-for="slot in namedSlots" :key="slot.name">
-            <div
-              class="slot-row"
-              :style="{ paddingLeft: slotIndent }"
-              @click.stop="slotChildren(slot.name).length > 0 && toggleSlot(slot.name)"
-            >
-              <button
-                v-if="slotChildren(slot.name).length > 0"
-                class="tree-btn expand-btn"
-                @click.stop="toggleSlot(slot.name)"
-              >
-                <VIcon
-                  :icon="isSlotExpanded(slot.name) ? Icons.ChevronDown : Icons.ChevronRight"
-                  size="11"
-                />
-              </button>
-              <span v-else class="expand-placeholder" />
-
+            <div class="slot-row" :style="{ paddingLeft: slotIndent }">
               <VIcon icon="mdi-pound" size="12" class="mr-1 text-medium-emphasis" />
               <span class="slot-label">{{ slot.name }}</span>
-
-              <VChip
-                v-if="slotChildren(slot.name).length > 0"
-                size="x-small"
-                density="compact"
-                class="slot-count px-1 mr-1"
-              >
-                {{ slotChildren(slot.name).length }}
-              </VChip>
-
               <span class="node-actions" @click.stop>
                 <VMenu location="bottom end">
                   <template #activator="{ props: mp }">
@@ -194,24 +170,13 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
                 </VMenu>
               </span>
             </div>
-
-            <VExpandTransition>
-              <div v-if="slotChildren(slot.name).length > 0 && isSlotExpanded(slot.name)">
-                <SidebarTreeNode
-                  v-for="child in slotChildren(slot.name)"
-                  :key="child.id"
-                  :node="child"
-                  :depth="d + 2"
-                />
-              </div>
-            </VExpandTransition>
-
-            <div
-              v-if="slotChildren(slot.name).length === 0"
-              class="slot-empty"
-              :style="{ paddingLeft: slotEmptyIndent }"
-            >
-              empty
+            <div v-if="slotChildren(slot.name).length > 0">
+              <SidebarTreeNode
+                v-for="child in slotChildren(slot.name)"
+                :key="child.id"
+                :node="child"
+                :depth="d + 2"
+              />
             </div>
           </template>
         </div>
@@ -343,4 +308,14 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   align-items: center;
   font-style: italic;
 }
+.tree-node { display: flex; flex-direction: column; user-select: none; }
+.node-row, .section-row, .slot-row { display: flex; align-items: center; gap: 2px; border-radius: 4px; cursor: pointer; min-height: 22px; padding-right: 4px; }
+.node-row:hover, .section-row:hover, .slot-row:hover { background: rgba(var(--v-theme-on-surface), 0.06); }
+.node-row--selected { background: rgba(var(--v-theme-primary), 0.1); }
+.node-row--selected .node-label { color: rgb(var(--v-theme-primary)); font-weight: 600; }
+.tree-btn { display: inline-flex; align-items: center; justify-content: center; border: none; background: none; padding: 0; cursor: pointer; border-radius: 3px; color: rgba(var(--v-theme-on-surface), 0.55); }
+.node-label { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.node-actions { display: flex; align-items: center; opacity: 0; transition: opacity 0.1s; }
+.node-row:hover .node-actions, .slot-row:hover .node-actions { opacity: 1; }
+
 </style>

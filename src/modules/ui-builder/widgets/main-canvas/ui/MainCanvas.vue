@@ -42,4 +42,11 @@ const { rootNode } = storeToRefs(store)
 .v-col.ui-builder-element:hover {
   background-color: rgba(var(--v-theme-primary), 0.08);
 }
+
+div.ui-builder-element {
+  min-height: 40px;
+  min-width: 40px;
+  border: 1px dashed rgba(0, 0, 0, 0.05);
+  margin: 4px;
+}
 </style>

@@ -14,7 +14,6 @@ const selectedNode = computed(() => {
 
 const isRoot = computed(() => selectedNode.value?.id === 'root-canvas')
 
-// --- Логіка валідації секцій ---
 const type = computed(() => selectedNode.value?.type || '')
 const isTextNode = computed(() => type.value === 'TEXT')
 const hasTypography = computed(() => ['VBtn', 'VCardTitle', 'VCardText', 'VListItem', 'TEXT'].includes(type.value))
@@ -22,13 +21,11 @@ const hasAppearance = computed(() => ['VBtn', 'VCard', 'VTextField', 'VList', 'V
 const hasPadding = computed(() => ['VCard', 'VCol', 'VList', 'VListItem', 'root-canvas'].includes(type.value))
 const hasIcons = computed(() => ['VBtn', 'VListItem', 'VTextField'].includes(type.value))
 
-// --- Опції для Vuetify ---
 const variants = ['elevated', 'flat', 'tonal', 'outlined', 'text']
 const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', 'white', 'transparent']
 const justifyOptions = ['start', 'center', 'end', 'space-around', 'space-between']
 const alignOptions = ['start', 'center', 'end']
 
-// --- Spacing (Margin/Padding) ---
 const activeSpacingType = ref<'m' | 'p'>('m')
 const spacingSides = [
   { label: 'All', value: 'a' }, { label: 'Top', value: 't' },
@@ -51,15 +48,21 @@ const getSpacingValue = (stype: 'm' | 'p', side: string) => {
   return cls ? parseInt(cls.split('-')[1]) : 0
 }
 
-// --- Icons List (з твого Enum) ---
 const allIcons = Object.entries(Icons).map(([name, value]) => ({ name, value }))
 
-// --- Typography Options ---
 const fontWeights = [
   { title: 'Thin', value: 'font-weight-thin' },
   { title: 'Regular', value: 'font-weight-regular' },
   { title: 'Bold', value: 'font-weight-bold' },
   { title: 'Black', value: 'font-weight-black' }
+]
+
+const isDiv = computed(() => type.value === 'div')
+
+const flexOptions = [
+  { title: 'Block', value: 'd-block' },
+  { title: 'Flex Row', value: 'd-flex flex-row' },
+  { title: 'Flex Column', value: 'd-flex flex-column' },
 ]
 </script>
 
@@ -83,6 +86,41 @@ const fontWeights = [
       <VDivider class="mb-4" />
 
       <div class="flex-grow-1 overflow-y-auto pr-1">
+
+        <template>
+          <div v-if="isDiv" class="mb-6">
+            <div class="text-overline mb-2 text-primary font-weight-bold">Display & Layout</div>
+            <VSelect
+              label="Display Type"
+              :items="flexOptions"
+              :model-value="selectedNode.classes.find(c => c.startsWith('d-'))"
+              density="compact"
+              variant="outlined"
+              class="mb-3"
+              hide-details
+              @update:model-value="(val) => {
+        selectedNode.classes = selectedNode.classes.filter(c => !c.startsWith('d-') && !c.startsWith('flex-'))
+        if(val) selectedNode.classes.push(...val.split(' '))
+      }"
+            />
+
+            <template v-if="selectedNode.classes.includes('d-flex')">
+              <div class="text-caption mb-1">Align & Justify</div>
+              <div class="d-flex gap-2">
+                <VSelect
+                  :items="['justify-start', 'justify-center', 'justify-space-between', 'justify-end']"
+                  label="Justify"
+                  density="compact"
+                  variant="outlined"
+                  @update:model-value="(val) => {
+            selectedNode.classes = selectedNode.classes.filter(c => !c.startsWith('justify-'))
+            selectedNode.classes.push(val)
+          }"
+                />
+              </div>
+            </template>
+          </div>
+        </template>
 
         <div v-if="isTextNode" class="mb-6">
           <div class="text-overline mb-2 text-primary font-weight-bold">Text Content</div>

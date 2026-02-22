@@ -4,6 +4,9 @@ export interface SlotDefinition {
 }
 
 export const COMPONENT_SLOTS: Record<string, SlotDefinition[]> = {
+  div: [
+    { name: 'default', label: 'Default Content' },
+  ],
   VCard: [
     { name: 'default', label: 'Default' },
     { name: 'title', label: 'Title' },
