@@ -1,11 +1,9 @@
 // src/modules/ui-builder/entities/ui-node/model/store.ts
-
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { UiNode, ComponentType } from './types'
 
 export const useUiTreeStore = defineStore('ui-tree', () => {
-  const rootNode = ref<UiNode>({
+  const rootNode = ref<any>({
     id: 'root-canvas',
     type: 'VCard',
     name: 'Main Canvas',
@@ -17,132 +15,85 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
 
   const selectedNodeId = ref<string | null>(null)
 
-  const selectNode = (id: string | null) => {
-    selectedNodeId.value = id
-  }
-
-  const findNodeById = (id: string, node: UiNode = rootNode.value): UiNode | null => {
+  const findNodeById = (id: string, node: any = rootNode.value): any | null => {
     if (node.id === id) return node
-
-    for (const child of node.children) {
+    for (const child of (node.children || [])) {
       const found = findNodeById(id, child)
       if (found) return found
     }
-
-    for (const slotChildren of Object.values(node.slots ?? {})) {
-      for (const child of slotChildren) {
+    for (const slotChildren of Object.values(node.slots || {})) {
+      for (const child of (slotChildren as any[])) {
         const found = findNodeById(id, child)
         if (found) return found
       }
     }
-
     return null
   }
 
-  const createNode = (type: ComponentType, name: string): UiNode => {
-    const baseProps: Record<string, any> = {}
-
-    if (type === 'VRow') {
-      baseProps.noGutters = false
-      baseProps.align = 'center'
-    }
-
-    if (type === 'VCol') {
-      baseProps.cols = 12
-    }
-
-    if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
-      baseProps.innerText = name
-    }
-
-    return {
-      id: Math.random().toString(36).substring(2, 9),
+  const createNode = (type: string, name: string): any => {
+    const id = `ui_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+    const newNode: any = {
+      id,
       type,
       name,
-      props: baseProps,
+      props: {},
       classes: [],
       children: [],
       slots: {}
     }
-  }
 
-  const appendChild = (parentId: string, newNode: UiNode, node: UiNode = rootNode.value): boolean => {
-    if (node.id === parentId) {
-      node.children.push(newNode)
-      return true
+    // Якщо це текстові компоненти, додаємо TEXT вузол як дитину
+    if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
+      newNode.children.push({
+        id: `${id}_text`,
+        type: 'TEXT',
+        name: name, // Текст зберігається тут
+        props: {},
+        classes: [],
+        children: [],
+        slots: {}
+      })
     }
 
-    for (const child of node.children) {
-      if (appendChild(parentId, newNode, child)) return true
-    }
-
-    for (const slotChildren of Object.values(node.slots ?? {})) {
-      for (const child of slotChildren) {
-        if (appendChild(parentId, newNode, child)) return true
-      }
-    }
-
-    return false
-  }
-
-  const appendToSlot = (parentId: string, slotName: string, newNode: UiNode, node: UiNode = rootNode.value): boolean => {
-    if (node.id === parentId) {
-      if (!node.slots[slotName]) node.slots[slotName] = []
-      node.slots[slotName].push(newNode)
-      return true
-    }
-
-    for (const child of node.children) {
-      if (appendToSlot(parentId, slotName, newNode, child)) return true
-    }
-
-    for (const slotChildren of Object.values(node.slots ?? {})) {
-      for (const child of slotChildren) {
-        if (appendToSlot(parentId, slotName, newNode, child)) return true
-      }
-    }
-
-    return false
-  }
-
-  const deleteNode = (id: string, parent: UiNode = rootNode.value): boolean => {
-    const index = parent.children.findIndex(child => child.id === id)
-    if (index !== -1) {
-      parent.children.splice(index, 1)
-      if (selectedNodeId.value === id) selectedNodeId.value = null
-      return true
-    }
-
-    for (const slotChildren of Object.values(parent.slots ?? {})) {
-      const slotIndex = slotChildren.findIndex(child => child.id === id)
-      if (slotIndex !== -1) {
-        slotChildren.splice(slotIndex, 1)
-        if (selectedNodeId.value === id) selectedNodeId.value = null
-        return true
-      }
-    }
-
-    for (const child of parent.children) {
-      if (deleteNode(id, child)) return true
-    }
-
-    for (const slotChildren of Object.values(parent.slots ?? {})) {
-      for (const child of slotChildren) {
-        if (deleteNode(id, child)) return true
-      }
-    }
-
-    return false
+    if (type === 'VCol') newNode.props.cols = 12
+    return newNode
   }
 
   return {
     rootNode,
     selectedNodeId,
-    selectNode,
     findNodeById,
     createNode,
-    appendChild,
-    appendToSlot,
-    deleteNode
+    selectNode: (id: string | null) => { selectedNodeId.value = id },
+    appendChild: (parentId: string, newNode: any) => {
+      const p = findNodeById(parentId)
+      if (p) {
+        if (!p.children) p.children = []
+        p.children.push(newNode)
+      }
+    },
+    appendToSlot: (parentId: string, slotName: string, newNode: any) => {
+      const p = findNodeById(parentId)
+      if (p) {
+        if (!p.slots) p.slots = {}
+        if (!p.slots[slotName]) p.slots[slotName] = []
+        p.slots[slotName].push(newNode)
+      }
+    },
+    deleteNode: (id: string, parent: any = rootNode.value): boolean => {
+      const idx = parent.children?.findIndex((c: any) => c.id === id)
+      if (idx !== -1 && idx !== undefined) {
+        parent.children.splice(idx, 1)
+        return true
+      }
+      for (const slotName in parent.slots) {
+        const sIdx = parent.slots[slotName].findIndex((c: any) => c.id === id)
+        if (sIdx !== -1) {
+          parent.slots[slotName].splice(sIdx, 1)
+          return true
+        }
+      }
+      return parent.children?.some((c: any) => useUiTreeStore().deleteNode(id, c)) || false
+    }
   }
 })

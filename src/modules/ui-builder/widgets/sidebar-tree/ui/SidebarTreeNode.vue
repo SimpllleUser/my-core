@@ -65,15 +65,15 @@ const getIcon = (type: string) => {
 }
 
 const onAdd = (type: ComponentType, label: string) => {
-  const node = createNode(type, label)
-  appendChild(props.node.id, node)
-  selectNode(node.id)
+  const newNode = store.createNode(type, label) //
+  store.appendChild(props.node.id, newNode)
+  store.selectNode(newNode.id)
 }
 
 const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
-  const node = createNode(type, label)
-  appendToSlot(props.node.id, slotName, node)
-  selectNode(node.id)
+  const newNode = store.createNode(type, label)
+  store.appendToSlot(props.node.id, slotName, newNode)
+  store.selectNode(newNode.id)
 }
 </script>
 

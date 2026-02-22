@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
+import { Icons } from '@/shared/model/icons' //
 
 const store = useUiTreeStore()
 const { selectedNodeId } = storeToRefs(store)
@@ -15,30 +16,24 @@ const isRoot = computed(() => selectedNode.value?.id === 'root-canvas')
 
 // --- Логіка валідації секцій ---
 const type = computed(() => selectedNode.value?.type || '')
-
-const hasInnerText = computed(() => ['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type.value))
-const hasTypography = computed(() => ['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type.value))
+const isTextNode = computed(() => type.value === 'TEXT')
+const hasTypography = computed(() => ['VBtn', 'VCardTitle', 'VCardText', 'VListItem', 'TEXT'].includes(type.value))
 const hasAppearance = computed(() => ['VBtn', 'VCard', 'VTextField', 'VList', 'VListItem'].includes(type.value))
 const hasPadding = computed(() => ['VCard', 'VCol', 'VList', 'VListItem', 'root-canvas'].includes(type.value))
-const isTextField = computed(() => type.value === 'VTextField')
-const isRow = computed(() => type.value === 'VRow')
-const isCol = computed(() => type.value === 'VCol')
+const hasIcons = computed(() => ['VBtn', 'VListItem', 'VTextField'].includes(type.value))
 
-// --- Опції ---
+// --- Опції для Vuetify ---
 const variants = ['elevated', 'flat', 'tonal', 'outlined', 'text']
 const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'error', 'white', 'transparent']
 const justifyOptions = ['start', 'center', 'end', 'space-around', 'space-between']
 const alignOptions = ['start', 'center', 'end']
 
-// --- Spacing Logic ---
+// --- Spacing (Margin/Padding) ---
 const activeSpacingType = ref<'m' | 'p'>('m')
 const spacingSides = [
-  { label: 'All', value: 'a' },
-  { label: 'Top', value: 't' },
-  { label: 'Bottom', value: 'b' },
-  { label: 'Left', value: 'l' },
-  { label: 'Right', value: 'r' },
-  { label: 'X (Horiz)', value: 'x' },
+  { label: 'All', value: 'a' }, { label: 'Top', value: 't' },
+  { label: 'Bottom', value: 'b' }, { label: 'Left', value: 'l' },
+  { label: 'Right', value: 'r' }, { label: 'X (Horiz)', value: 'x' },
   { label: 'Y (Vert)', value: 'y' }
 ]
 const spacingSizes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16]
@@ -56,11 +51,13 @@ const getSpacingValue = (stype: 'm' | 'p', side: string) => {
   return cls ? parseInt(cls.split('-')[1]) : 0
 }
 
+// --- Icons List (з твого Enum) ---
+const allIcons = Object.entries(Icons).map(([name, value]) => ({ name, value }))
+
+// --- Typography Options ---
 const fontWeights = [
   { title: 'Thin', value: 'font-weight-thin' },
-  { title: 'Light', value: 'font-weight-light' },
   { title: 'Regular', value: 'font-weight-regular' },
-  { title: 'Medium', value: 'font-weight-medium' },
   { title: 'Bold', value: 'font-weight-bold' },
   { title: 'Black', value: 'font-weight-black' }
 ]
@@ -71,10 +68,10 @@ const fontWeights = [
     <div v-if="selectedNode" :key="selectedNode.id" class="pa-4 d-flex flex-column h-100">
 
       <div class="d-flex align-center justify-space-between mb-1">
-        <div class="text-h6 font-weight-bold">{{ selectedNode.type }}</div>
+        <div class="text-subtitle-1 font-weight-bold">{{ selectedNode.type }}</div>
         <VBtn
           v-if="!isRoot"
-          icon="mdi-delete-outline"
+          :icon="Icons.DeleteOutline"
           variant="text"
           color="error"
           size="small"
@@ -87,34 +84,60 @@ const fontWeights = [
 
       <div class="flex-grow-1 overflow-y-auto pr-1">
 
-        <div v-if="hasInnerText" class="mb-6">
-          <div class="text-overline mb-2 text-primary font-weight-bold">Content</div>
-          <VTextField
-            v-model="selectedNode.props.innerText"
-            label="Inner Text"
+        <div v-if="isTextNode" class="mb-6">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Text Content</div>
+          <VTextarea
+            v-model="selectedNode.name"
+            label="Text Content"
             variant="outlined"
             density="compact"
+            auto-grow
+            rows="2"
             hide-details
           />
         </div>
 
-        <div v-if="isTextField" class="mb-6">
-          <div class="text-overline mb-2 text-primary font-weight-bold">Field Settings</div>
-          <VTextField v-model="selectedNode.props.label" label="Label" variant="outlined" density="compact" hide-details class="mb-3" />
-          <VTextField v-model="selectedNode.props.placeholder" label="Placeholder" variant="outlined" density="compact" hide-details />
+        <div v-if="hasIcons" class="mb-6">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Icons</div>
+
+          <VAutocomplete
+            v-model="selectedNode.props.prependIcon"
+            :items="allIcons"
+            item-title="name"
+            item-value="value"
+            label="Prepend Icon"
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+            hide-details
+            clearable
+          >
+            <template #item="{ props, item }">
+              <VListItem v-bind="props" :prepend-icon="item.raw.value" :title="item.raw.name" />
+            </template>
+          </VAutocomplete>
+
+          <VAutocomplete
+            v-model="selectedNode.props.appendIcon"
+            :items="allIcons"
+            item-title="name"
+            item-value="value"
+            label="Append Icon"
+            variant="outlined"
+            density="compact"
+            hide-details
+            clearable
+          >
+            <template #item="{ props, item }">
+              <VListItem v-bind="props" :prepend-icon="item.raw.value" :title="item.raw.name" />
+            </template>
+          </VAutocomplete>
         </div>
 
-        <div v-if="isRow" class="mb-6">
-          <div class="text-overline mb-2 text-primary font-weight-bold">Row Layout</div>
-          <VSelect v-model="selectedNode.props.justify" :items="justifyOptions" label="Justify" variant="outlined" density="compact" class="mb-3" hide-details />
-          <VSelect v-model="selectedNode.props.align" :items="alignOptions" label="Align Items" variant="outlined" density="compact" hide-details />
-        </div>
-
-        <div v-if="isCol" class="mb-6">
-          <div class="text-overline mb-2 text-primary font-weight-bold">Column Sizing</div>
-          <div class="text-caption mb-1">Width ({{ selectedNode.props.cols || 12 }}/12)</div>
-          <VSlider v-model="selectedNode.props.cols" :min="1" :max="12" :step="1" thumb-label color="primary" density="compact" class="mb-2" />
-          <VTextField v-model="selectedNode.props.offset" type="number" label="Offset" variant="outlined" density="compact" hide-details />
+        <div v-if="type === 'VCol'" class="mb-6">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Grid Column</div>
+          <div class="text-caption mb-1">Width: {{ selectedNode.props.cols || 12 }}/12</div>
+          <VSlider v-model="selectedNode.props.cols" :min="1" :max="12" :step="1" thumb-label color="primary" />
         </div>
 
         <VDivider v-if="hasAppearance || hasTypography" class="mb-4" />
@@ -143,15 +166,16 @@ const fontWeights = [
           <VBtnToggle
             density="compact"
             color="primary"
+            variant="outlined"
             :model-value="selectedNode.classes.find(c => ['text-left', 'text-center', 'text-right'].includes(c))"
             @update:model-value="(val) => {
               selectedNode.classes = selectedNode.classes.filter(c => !['text-left', 'text-center', 'text-right'].includes(c))
               if(val) selectedNode.classes.push(val)
             }"
           >
-            <VBtn value="text-left" icon="mdi-format-align-left" size="small" />
-            <VBtn value="text-center" icon="mdi-format-align-center" size="small" />
-            <VBtn value="text-right" icon="mdi-format-align-right" size="small" />
+            <VBtn :value="'text-left'" :icon="Icons.FormatAlignLeft" size="small" />
+            <VBtn :value="'text-center'" :icon="Icons.FormatAlignCenter" size="small" />
+            <VBtn :value="'text-right'" :icon="Icons.FormatAlignRight" size="small" />
           </VBtnToggle>
         </div>
 
@@ -181,16 +205,15 @@ const fontWeights = [
           </VRow>
         </div>
 
-        <div>
-          <div class="text-overline mb-2 text-primary font-weight-bold">Custom Styles</div>
+        <div class="pb-10">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Custom Classes</div>
           <VCombobox
             v-model="selectedNode.classes"
             multiple
             chips
-            label="Add CSS Classes"
             variant="outlined"
             density="compact"
-            placeholder="e.g. elevation-4, rounded-xl"
+            placeholder="e.g. elevation-4"
             hide-details
           />
         </div>
@@ -201,8 +224,8 @@ const fontWeights = [
     </div>
 
     <div v-else class="pa-10 text-center text-medium-emphasis mt-10">
-      <VIcon icon="mdi-cursor-default-click-outline" size="x-large" class="mb-4 opacity-20" />
-      <div class="text-body-2">Виберіть елемент для налаштування</div>
+      <VIcon :icon="Icons.CursorClick" size="x-large" class="mb-4 opacity-20" />
+      <div class="text-body-2">Select an element to edit properties</div>
     </div>
   </VNavigationDrawer>
 </template>
