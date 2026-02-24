@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
 import { WRAP_CONTAINER_TYPES as WRAP_ALLOWED_TYPES, getComponentDef } from '../../../entities/ui-node/model/componentDefinitions'
@@ -7,7 +7,9 @@ import SidebarTreeNode from './SidebarTreeNode.vue'
 import ComponentsPalette from '../../components-palette/ui/ComponentsPalette.vue'
 
 const store = useUiTreeStore()
-const { rootNode, selectedNodeIds } = storeToRefs(store)
+const { rootNode, selectedNodeIds, selectedNodeId, prefabs } = storeToRefs(store)
+
+const activeTab = ref<'tree' | 'prefabs'>('tree')
 
 const canWrap = computed(() =>
   selectedNodeIds.value.length >= 2 && store.areNodesSiblings(selectedNodeIds.value)
@@ -20,26 +22,81 @@ const canUnwrap = computed(() => {
   const node = store.findNodeById(id)
   return !!node && (node.children?.length > 0) && !!getComponentDef(node.type)?.isWrapContainer
 })
+
+const onInsertPrefab = (prefabId: string) => {
+  const targetId = selectedNodeId.value ?? 'root-canvas'
+  store.insertPrefab(prefabId, targetId)
+}
 </script>
 
 <template>
-  <VNavigationDrawer permanent width="300" border="e" class="sidebar-drawer">
+  <VNavigationDrawer permanent width="300" border="e" class="flex-grow-1 sidebar-drawer">
     <div class="d-flex flex-column h-100">
 
-      <!-- Components palette -->
       <ComponentsPalette />
 
-      <!-- Tree -->
-      <div class="pa-2 overflow-y-auto flex-grow-1">
-        <div class="text-h6 px-2 mb-4 mt-2">UI Tree</div>
-        <VList density="compact" nav class="pa-0">
-          <SidebarTreeNode :node="rootNode" :depth="0" />
-        </VList>
-      </div>
+      <VTabs v-model="activeTab" density="compact" grow class="flex-shrink-0">
+        <VTab value="tree">UI Tree</VTab>
+        <VTab value="prefabs">My Components</VTab>
+      </VTabs>
 
-      <!-- Wrap / Unwrap toolbar (sticky at bottom) -->
+      <VWindow v-model="activeTab" class="flex-grow-1 overflow-y-auto">
+
+        <VWindowItem value="tree" class="pa-2">
+          <div class="text-h6 px-2 mb-4 mt-2">UI Tree</div>
+          <VList density="compact" nav class="pa-0">
+            <SidebarTreeNode :node="rootNode" :depth="0" />
+          </VList>
+        </VWindowItem>
+
+        <VWindowItem value="prefabs" class="pa-2">
+          <div class="text-h6 px-2 mb-4 mt-2">My Components</div>
+
+          <div v-if="prefabs.length === 0" class="text-center pa-8">
+            <VIcon icon="mdi-puzzle-outline" size="36" class="mb-3 opacity-20" />
+            <div class="text-body-2 text-medium-emphasis">No saved presets yet</div>
+            <div class="text-caption text-medium-emphasis mt-1 opacity-70">
+              Select a node and click
+              <VIcon icon="mdi-content-save-outline" size="12" />
+              in the property panel
+            </div>
+          </div>
+
+          <div v-else class="prefabs-list">
+            <div
+              v-for="prefab in prefabs"
+              :key="prefab.prefabId"
+              class="prefab-row"
+            >
+              <VIcon
+                :icon="getComponentDef(prefab.node.type)?.treeIcon ?? 'mdi-puzzle-outline'"
+                size="15"
+                class="prefab-icon"
+              />
+              <span class="prefab-name">{{ prefab.name }}</span>
+              <div class="prefab-actions">
+                <VBtn
+                  icon="mdi-plus"
+                  variant="text"
+                  size="x-small"
+                  @click="onInsertPrefab(prefab.prefabId)"
+                />
+                <VBtn
+                  icon="mdi-trash-can-outline"
+                  variant="text"
+                  size="x-small"
+                  color="error"
+                  @click="store.deletePrefab(prefab.prefabId)"
+                />
+              </div>
+            </div>
+          </div>
+        </VWindowItem>
+
+      </VWindow>
+
       <VSlideYReverseTransition>
-        <div v-if="canWrap || canUnwrap" class="wrap-toolbar">
+        <div v-if="(canWrap || canUnwrap) && activeTab === 'tree'" class="wrap-toolbar">
           <template v-if="canWrap">
             <span class="wrap-label">Wrap {{ selectedNodeIds.length }} items:</span>
             <div class="wrap-chips">
@@ -78,6 +135,54 @@ const canUnwrap = computed(() => {
 .sidebar-drawer {
   display: flex;
   flex-direction: column;
+  :deep(.v-slide-group) {
+    flex-grow: 0 !important;
+  }
+}
+
+.prefabs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prefab-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  cursor: default;
+  min-height: 30px;
+}
+
+.prefab-row:hover {
+  background: rgba(var(--v-theme-on-surface), 0.06);
+}
+
+.prefab-row:hover .prefab-actions {
+  opacity: 1;
+}
+
+.prefab-icon {
+  flex-shrink: 0;
+  opacity: 0.55;
+}
+
+.prefab-name {
+  flex: 1;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prefab-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.1s;
 }
 
 .wrap-toolbar {

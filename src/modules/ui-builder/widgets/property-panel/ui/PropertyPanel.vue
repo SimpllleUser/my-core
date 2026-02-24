@@ -20,7 +20,12 @@ const activeSections = computed(() => {
   return getComponentDef(selectedNode.value.type)?.propertySections ?? []
 })
 
-// ─── Spacing ─────────────────────────────────────────────────────────────────
+const onSavePrefab = () => {
+  if (!selectedNode.value) return
+  const name = window.prompt('Prefab name:', selectedNode.value.name)
+  if (!name?.trim()) return
+  store.savePrefab(selectedNode.value.id, name.trim())
+}
 
 const activeSpacingType = ref<'m' | 'p'>('m')
 watch(selectedNodeId, () => { activeSpacingType.value = 'm' })
@@ -46,11 +51,7 @@ const getSpacingValue = (stype: 'm' | 'p', side: string) => {
   return cls ? parseInt(cls.split('-')[1]) : 0
 }
 
-// ─── Icon picker ──────────────────────────────────────────────────────────────
-
 const allIcons = Object.entries(Icons).map(([name, value]) => ({ name, value }))
-
-// ─── Flex layout ─────────────────────────────────────────────────────────────
 
 const flexOptions = [
   { title: 'Block',       value: 'd-block' },
@@ -77,8 +78,6 @@ const setJustifyValue = (val: string) => {
     .filter((c: string) => !c.startsWith('justify-'))
   selectedNode.value.classes.push(val)
 }
-
-// ─── Typography ───────────────────────────────────────────────────────────────
 
 const fontWeights = [
   { title: 'Thin',    value: 'font-weight-thin' },
@@ -109,8 +108,6 @@ const setTextAlign = (val: string) => {
   if (val) selectedNode.value.classes.push(val)
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
 const fieldKey = (field: PropField) =>
   field.kind + ('prop' in field ? (field as any).prop : '')
 </script>
@@ -119,23 +116,28 @@ const fieldKey = (field: PropField) =>
   <VNavigationDrawer location="right" permanent width="320" border="s">
     <div v-if="selectedNode" :key="selectedNode.id" class="pa-4 d-flex flex-column h-100">
 
-      <!-- Header -->
       <div class="d-flex align-center justify-space-between mb-1">
         <div class="text-subtitle-1 font-weight-bold">{{ selectedNode.type }}</div>
-        <VBtn
-          v-if="!isRoot"
-          :icon="Icons.DeleteOutline"
-          variant="text"
-          color="error"
-          size="small"
-          @click="store.deleteNode(selectedNode.id)"
-        />
+        <div v-if="!isRoot" class="d-flex align-center">
+          <VBtn
+            icon="mdi-content-save-outline"
+            variant="text"
+            size="small"
+            @click="onSavePrefab"
+          />
+          <VBtn
+            :icon="Icons.DeleteOutline"
+            variant="text"
+            color="error"
+            size="small"
+            @click="store.deleteNode(selectedNode.id)"
+          />
+        </div>
       </div>
       <div class="text-caption text-medium-emphasis mb-4">ID: {{ selectedNode.id }}</div>
 
       <VDivider class="mb-4" />
 
-      <!-- Generic sections -->
       <div class="flex-grow-1 overflow-y-auto pr-1">
         <template v-for="section in activeSections" :key="section.title">
           <div class="mb-6">
@@ -143,7 +145,6 @@ const fieldKey = (field: PropField) =>
 
             <template v-for="field in section.fields" :key="fieldKey(field)">
 
-              <!-- text -->
               <VTextField
                 v-if="field.kind === 'text'"
                 v-model="selectedNode.props[field.prop]"
@@ -156,7 +157,6 @@ const fieldKey = (field: PropField) =>
                 hide-details
               />
 
-              <!-- textarea (edits node.name) -->
               <VTextarea
                 v-else-if="field.kind === 'textarea'"
                 v-model="selectedNode.name"
@@ -168,7 +168,6 @@ const fieldKey = (field: PropField) =>
                 hide-details
               />
 
-              <!-- select -->
               <VSelect
                 v-else-if="field.kind === 'select'"
                 v-model="selectedNode.props[field.prop]"
@@ -180,7 +179,6 @@ const fieldKey = (field: PropField) =>
                 hide-details
               />
 
-              <!-- switch -->
               <VSwitch
                 v-else-if="field.kind === 'switch'"
                 v-model="selectedNode.props[field.prop]"
@@ -191,7 +189,6 @@ const fieldKey = (field: PropField) =>
                 class="mb-1"
               />
 
-              <!-- icon-picker -->
               <VAutocomplete
                 v-else-if="field.kind === 'icon-picker'"
                 v-model="selectedNode.props[field.prop]"
@@ -218,7 +215,6 @@ const fieldKey = (field: PropField) =>
                 </template>
               </VAutocomplete>
 
-              <!-- slider -->
               <template v-else-if="field.kind === 'slider'">
                 <div class="text-caption mb-1">
                   {{ field.label }}: {{ selectedNode.props[field.prop] ?? field.min }}
@@ -234,7 +230,6 @@ const fieldKey = (field: PropField) =>
                 />
               </template>
 
-              <!-- row (two fields side by side) -->
               <div v-else-if="field.kind === 'row'" class="d-flex gap-2 mb-3">
                 <VTextField
                   v-for="f in field.fields"
@@ -248,7 +243,6 @@ const fieldKey = (field: PropField) =>
                 />
               </div>
 
-              <!-- icon-slots (prepend/append icon pickers) -->
               <template v-else-if="field.kind === 'icon-slots'">
                 <VAutocomplete
                   v-for="s in field.slots"
@@ -270,7 +264,6 @@ const fieldKey = (field: PropField) =>
                 </VAutocomplete>
               </template>
 
-              <!-- flex-layout -->
               <template v-else-if="field.kind === 'flex-layout'">
                 <VSelect
                   label="Display Type"
@@ -297,7 +290,6 @@ const fieldKey = (field: PropField) =>
                 </template>
               </template>
 
-              <!-- typography -->
               <template v-else-if="field.kind === 'typography'">
                 <VSelect
                   label="Weight"
@@ -323,7 +315,6 @@ const fieldKey = (field: PropField) =>
                 </VBtnToggle>
               </template>
 
-              <!-- spacing -->
               <template v-else-if="field.kind === 'spacing'">
                 <div class="d-flex justify-center mb-4">
                   <VBtnToggle v-model="activeSpacingType" mandatory density="compact" color="primary" variant="outlined">
@@ -346,7 +337,6 @@ const fieldKey = (field: PropField) =>
                 </VRow>
               </template>
 
-              <!-- custom-classes -->
               <VCombobox
                 v-else-if="field.kind === 'custom-classes'"
                 v-model="selectedNode.classes"

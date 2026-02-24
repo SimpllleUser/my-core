@@ -1,7 +1,17 @@
-// src/modules/ui-builder/entities/ui-node/model/store.ts
 import { defineStore } from 'pinia'
 import { ref, computed, watch, nextTick } from 'vue'
+import { useStorage } from '@vueuse/core'
 import { getComponentDef } from './componentDefinitions'
+import type { UiNode, Prefab } from './types'
+
+const regenIds = (node: UiNode): UiNode => ({
+  ...node,
+  id: `ui_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 9)}`,
+  children: (node.children ?? []).map(regenIds),
+  slots: Object.fromEntries(
+    Object.entries(node.slots ?? {}).map(([slotName, slotNodes]) => [slotName, slotNodes.map(regenIds)])
+  ),
+})
 
 export const useUiTreeStore = defineStore('ui-tree', () => {
   const rootNode = ref<any>({
@@ -16,6 +26,8 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
 
   const selectedNodeIds = ref<string[]>([])
   const selectedNodeId = computed(() => selectedNodeIds.value[0] ?? null)
+
+  const prefabs = useStorage<Prefab[]>('ui-builder:prefabs', [])
 
   const MAX_HISTORY = 50
   const history = ref<string[]>([JSON.stringify(rootNode.value)])
@@ -129,6 +141,32 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     return newNode
   }
 
+  const savePrefab = (nodeId: string, name: string) => {
+    const node = findNodeById(nodeId)
+    if (!node) return
+    const prefabId = `prefab_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 7)}`
+    prefabs.value = [...prefabs.value, { prefabId, name, node: JSON.parse(JSON.stringify(node)) }]
+  }
+
+  const insertPrefab = (prefabId: string, parentId: string, slotName: string | null = null) => {
+    const prefab = prefabs.value.find(p => p.prefabId === prefabId)
+    if (!prefab) return
+    const newNode = regenIds(JSON.parse(JSON.stringify(prefab.node)) as UiNode)
+    const parent = findNodeById(parentId)
+    if (!parent) return
+    if (slotName) {
+      if (!parent.slots[slotName]) parent.slots[slotName] = []
+      parent.slots[slotName].push(newNode)
+    } else {
+      parent.children.push(newNode)
+    }
+    commit()
+  }
+
+  const deletePrefab = (prefabId: string) => {
+    prefabs.value = prefabs.value.filter(p => p.prefabId !== prefabId)
+  }
+
   const deleteNode = (id: string, parent: any = rootNode.value): boolean => {
     const idx = parent.children?.findIndex((c: any) => c.id === id)
     if (idx !== -1 && idx !== undefined) {
@@ -151,6 +189,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     rootNode,
     selectedNodeIds,
     selectedNodeId,
+    prefabs,
     canUndo,
     canRedo,
     undo,
@@ -159,6 +198,9 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     findNodeById,
     createNode,
     deleteNode,
+    savePrefab,
+    insertPrefab,
+    deletePrefab,
 
     selectNode: (id: string | null) => { selectedNodeIds.value = id ? [id] : [] },
 
@@ -190,13 +232,11 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       locs.sort((a, b) => a.index - b.index)
       const insertIndex = locs[0].index
 
-      // Capture node objects before mutation
       const nodesToWrap = locs.map(l => targetArray[l.index])
 
       const wrapper = createNode(wrapperType)
       wrapper.children = nodesToWrap
 
-      // Remove in reverse order to preserve indices
       for (const loc of [...locs].reverse()) {
         targetArray.splice(loc.index, 1)
       }

@@ -11,3 +11,9 @@ export interface UiNode {
   children: UiNode[]
   slots: Record<string, UiNode[]>
 }
+
+export interface Prefab {
+  prefabId: string
+  name: string
+  node: UiNode
+}
