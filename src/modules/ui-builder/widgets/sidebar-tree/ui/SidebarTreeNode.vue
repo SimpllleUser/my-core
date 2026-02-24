@@ -32,6 +32,7 @@ const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VRow', label: 'Row' },
   { type: 'VCol', label: 'Col' },
   { type: 'VIcon', label: 'Icon' },
+  { type: 'VImg', label: 'Image' },
 ]
 
 const componentSlots = computed(() => getComponentSlots(props.node.type))
@@ -68,6 +69,7 @@ const getIcon = (type: string) => {
     VCardTitle: 'mdi-format-header-1',
     VCardText: 'mdi-text-box-outline',
     VIcon: 'mdi-star-circle-outline',
+    VImg: 'mdi-image-outline',
     'root-canvas': 'mdi-view-dashboard-outline',
   }
   return map[type] ?? 'mdi-cube-outline'

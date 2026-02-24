@@ -78,6 +78,15 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       newNode.props.size = 'default'
     }
 
+    if (type === 'VImg') {
+      newNode.name = 'Image'
+      newNode.props.src = ''
+      newNode.props.alt = ''
+      newNode.props.width = '100%'
+      newNode.props.height = '200'
+      newNode.props.cover = false
+    }
+
     if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
       newNode.children.push({
         id: `${id}_text`,

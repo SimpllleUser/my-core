@@ -59,6 +59,7 @@ const fontWeights = [
 
 const isDiv = computed(() => type.value === 'div')
 const isIcon = computed(() => type.value === 'VIcon')
+const isImage = computed(() => type.value === 'VImg')
 
 const iconSizes = ['x-small', 'small', 'default', 'large', 'x-large']
 
@@ -178,6 +179,66 @@ const flexOptions = [
             density="compact"
             hide-details
             clearable
+          />
+        </div>
+
+        <div v-if="isImage" class="mb-6">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Image</div>
+
+          <VTextField
+            v-model="selectedNode.props.src"
+            label="Source URL"
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+            hide-details
+            placeholder="https://..."
+            clearable
+          />
+
+          <VTextField
+            v-model="selectedNode.props.alt"
+            label="Alt text"
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+            hide-details
+          />
+
+          <div class="d-flex gap-2 mb-3">
+            <VTextField
+              v-model="selectedNode.props.width"
+              label="Width"
+              variant="outlined"
+              density="compact"
+              hide-details
+              placeholder="100%"
+            />
+            <VTextField
+              v-model="selectedNode.props.height"
+              label="Height"
+              variant="outlined"
+              density="compact"
+              hide-details
+              placeholder="200"
+            />
+          </div>
+
+          <VSwitch
+            v-model="selectedNode.props.cover"
+            label="Cover (object-fit)"
+            density="compact"
+            color="primary"
+            hide-details
+            class="mb-1"
+          />
+
+          <VSwitch
+            v-model="selectedNode.props.rounded"
+            label="Rounded"
+            density="compact"
+            color="primary"
+            hide-details
           />
         </div>
 
