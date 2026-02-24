@@ -31,6 +31,7 @@ const availableComponents: { type: ComponentType; label: string }[] = [
   { type: 'VListItem', label: 'List Item' },
   { type: 'VRow', label: 'Row' },
   { type: 'VCol', label: 'Col' },
+  { type: 'VIcon', label: 'Icon' },
 ]
 
 const componentSlots = computed(() => getComponentSlots(props.node.type))
@@ -66,6 +67,7 @@ const getIcon = (type: string) => {
     VListItem: 'mdi-order-bool-ascending-variant',
     VCardTitle: 'mdi-format-header-1',
     VCardText: 'mdi-text-box-outline',
+    VIcon: 'mdi-star-circle-outline',
     'root-canvas': 'mdi-view-dashboard-outline',
   }
   return map[type] ?? 'mdi-cube-outline'

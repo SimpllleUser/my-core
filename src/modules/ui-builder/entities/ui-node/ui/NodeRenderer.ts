@@ -30,14 +30,19 @@ const NodeRenderer = defineComponent({
 
       const slots: Record<string, () => any> = {}
 
+      // Leaf nodes that rely on props rather than slots for their content
+      const isLeaf = node.type === 'VIcon'
+
       // DEFAULT SLOT: Тільки діти (без змішування з текстом)
-      slots.default = () => {
-        return (node.children || []).map((child: any) =>
-          h(resolveDynamicComponent('NodeRenderer') as any, {
-            key: child.id,
-            node: child
-          })
-        )
+      if (!isLeaf) {
+        slots.default = () => {
+          return (node.children || []).map((child: any) =>
+            h(resolveDynamicComponent('NodeRenderer') as any, {
+              key: child.id,
+              node: child
+            })
+          )
+        }
       }
 
       // NAMED SLOTS

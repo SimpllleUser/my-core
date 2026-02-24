@@ -62,6 +62,7 @@ export const COMPONENT_SLOTS: Record<string, SlotDefinition[]> = {
   VCardText: [
     { name: 'default', label: 'Default' },
   ],
+  VIcon: [],
 }
 
 export const getComponentSlots = (type: string): SlotDefinition[] => {

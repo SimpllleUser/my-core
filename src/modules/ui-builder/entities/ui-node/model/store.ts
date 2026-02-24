@@ -72,6 +72,12 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       newNode.classes = ['d-block']
     }
 
+    if (type === 'VIcon') {
+      newNode.name = 'Icon'
+      newNode.props.icon = 'mdi-star'
+      newNode.props.size = 'default'
+    }
+
     if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
       newNode.children.push({
         id: `${id}_text`,

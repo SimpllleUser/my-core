@@ -58,6 +58,9 @@ const fontWeights = [
 ]
 
 const isDiv = computed(() => type.value === 'div')
+const isIcon = computed(() => type.value === 'VIcon')
+
+const iconSizes = ['x-small', 'small', 'default', 'large', 'x-large']
 
 const flexOptions = [
   { title: 'Block', value: 'd-block' },
@@ -132,6 +135,49 @@ const flexOptions = [
             auto-grow
             rows="2"
             hide-details
+          />
+        </div>
+
+        <div v-if="isIcon" class="mb-6">
+          <div class="text-overline mb-2 text-primary font-weight-bold">Icon</div>
+          <VAutocomplete
+            v-model="selectedNode.props.icon"
+            :items="allIcons"
+            item-title="name"
+            item-value="value"
+            label="Icon"
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+            hide-details
+            clearable
+          >
+            <template #item="{ props: ip, item }">
+              <VListItem v-bind="ip" :prepend-icon="item.raw.value" :title="item.raw.name" />
+            </template>
+            <template #prepend-inner>
+              <VIcon v-if="selectedNode.props.icon" :icon="selectedNode.props.icon" size="18" class="mr-1" />
+            </template>
+          </VAutocomplete>
+
+          <VSelect
+            v-model="selectedNode.props.size"
+            :items="iconSizes"
+            label="Size"
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+            hide-details
+          />
+
+          <VSelect
+            v-model="selectedNode.props.color"
+            :items="colors"
+            label="Color"
+            variant="outlined"
+            density="compact"
+            hide-details
+            clearable
           />
         </div>
 
