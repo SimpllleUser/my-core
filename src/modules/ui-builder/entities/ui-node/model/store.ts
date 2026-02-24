@@ -129,6 +129,24 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     return newNode
   }
 
+  const deleteNode = (id: string, parent: any = rootNode.value): boolean => {
+    const idx = parent.children?.findIndex((c: any) => c.id === id)
+    if (idx !== -1 && idx !== undefined) {
+      parent.children.splice(idx, 1)
+      commit()
+      return true
+    }
+    for (const slotName in parent.slots) {
+      const sIdx = parent.slots[slotName].findIndex((c: any) => c.id === id)
+      if (sIdx !== -1) {
+        parent.slots[slotName].splice(sIdx, 1)
+        commit()
+        return true
+      }
+    }
+    return parent.children?.some((c: any) => deleteNode(id, c)) || false
+  }
+
   return {
     rootNode,
     selectedNodeIds,
@@ -140,6 +158,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     commit,
     findNodeById,
     createNode,
+    deleteNode,
 
     selectNode: (id: string | null) => { selectedNodeIds.value = id ? [id] : [] },
 
@@ -216,23 +235,5 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       selectedNodeIds.value = children.length ? [children[0].id] : []
       commit()
     },
-
-    deleteNode: (id: string, parent: any = rootNode.value): boolean => {
-      const idx = parent.children?.findIndex((c: any) => c.id === id)
-      if (idx !== -1 && idx !== undefined) {
-        parent.children.splice(idx, 1)
-        commit()
-        return true
-      }
-      for (const slotName in parent.slots) {
-        const sIdx = parent.slots[slotName].findIndex((c: any) => c.id === id)
-        if (sIdx !== -1) {
-          parent.slots[slotName].splice(sIdx, 1)
-          commit()
-          return true
-        }
-      }
-      return parent.children?.some((c: any) => useUiTreeStore().deleteNode(id, c)) || false
-    }
   }
 })

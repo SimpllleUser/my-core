@@ -39,6 +39,36 @@ export interface ComponentDef {
   propertySections: PropertySection[]
 }
 
+// ─── Builder ─────────────────────────────────────────────────────────────────
+
+function def(config: Omit<ComponentDef, 'propertySections'>) {
+  const sections: PropertySection[] = []
+
+  const builder = {
+    section(title: string, fields: PropField[]) {
+      sections.push({ title, fields })
+      return builder
+    },
+    spacing(withPadding = false) {
+      sections.push({ title: 'Spacing', fields: [{ kind: 'spacing', withPadding }] })
+      return builder
+    },
+    typography() {
+      sections.push({ title: 'Typography', fields: [{ kind: 'typography' }] })
+      return builder
+    },
+    classes() {
+      sections.push({ title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] })
+      return builder
+    },
+    build(): ComponentDef {
+      return { ...config, propertySections: sections }
+    },
+  }
+
+  return builder
+}
+
 // ─── Shared option sets ──────────────────────────────────────────────────────
 
 const VARIANTS   = ['elevated', 'flat', 'tonal', 'outlined', 'text']
@@ -49,7 +79,7 @@ const ICON_SIZES = ['x-small', 'small', 'default', 'large', 'x-large']
 
 export const COMPONENT_DEFS: Record<string, ComponentDef> = {
 
-  div: {
+  div: def({
     type: 'div',
     label: 'Box (div)',
     treeIcon: 'mdi-xml',
@@ -58,14 +88,13 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: ['d-block'],
     showInPalette: true,
-    propertySections: [
-      { title: 'Display & Layout', fields: [{ kind: 'flex-layout' }] },
-      { title: 'Spacing',          fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes',   fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Display & Layout', [{ kind: 'flex-layout' }])
+    .spacing()
+    .classes()
+    .build(),
 
-  VCard: {
+  VCard: def({
     type: 'VCard',
     label: 'Card',
     treeIcon: 'mdi-card-outline',
@@ -82,17 +111,16 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Appearance',     fields: [
-        { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
-        { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing', withPadding: true }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+    ])
+    .spacing(true)
+    .classes()
+    .build(),
 
-  VCardTitle: {
+  VCardTitle: def({
     type: 'VCardTitle',
     label: 'Card Title',
     treeIcon: 'mdi-format-header-1',
@@ -101,14 +129,13 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultClasses: [],
     defaultTextChild: true,
     showInPalette: true,
-    propertySections: [
-      { title: 'Typography',     fields: [{ kind: 'typography' }] },
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .typography()
+    .spacing()
+    .classes()
+    .build(),
 
-  VCardText: {
+  VCardText: def({
     type: 'VCardText',
     label: 'Card Text',
     treeIcon: 'mdi-text-box-outline',
@@ -117,14 +144,13 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultClasses: [],
     defaultTextChild: true,
     showInPalette: true,
-    propertySections: [
-      { title: 'Typography',     fields: [{ kind: 'typography' }] },
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .typography()
+    .spacing()
+    .classes()
+    .build(),
 
-  VBtn: {
+  VBtn: def({
     type: 'VBtn',
     label: 'Button',
     treeIcon: 'mdi-rectangle-outline',
@@ -137,64 +163,62 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultClasses: [],
     defaultTextChild: true,
     showInPalette: true,
-    propertySections: [
-      { title: 'Appearance', fields: [
-        { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
-        { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
-        { kind: 'select', prop: 'size',    label: 'Size',    options: ICON_SIZES },
-        { kind: 'switch', prop: 'block',   label: 'Block (full width)' },
-        { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+      { kind: 'select', prop: 'size',    label: 'Size',    options: ICON_SIZES },
+      { kind: 'switch', prop: 'block',   label: 'Block (full width)' },
+      { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+    ])
+    .section('Icons', [
+      { kind: 'icon-slots', slots: [
+        { prop: 'prependIcon', label: 'Prepend Icon' },
+        { prop: 'appendIcon',  label: 'Append Icon' },
       ]},
-      { title: 'Icons', fields: [
-        { kind: 'icon-slots', slots: [
-          { prop: 'prependIcon', label: 'Prepend Icon' },
-          { prop: 'appendIcon',  label: 'Append Icon' },
-        ]},
-      ]},
-      { title: 'Typography',     fields: [{ kind: 'typography' }] },
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+    ])
+    .typography()
+    .spacing()
+    .classes()
+    .build(),
 
-  VTextField: {
+  VTextField: def({
     type: 'VTextField',
     label: 'Input Field',
     treeIcon: 'mdi-form-textbox',
     slots: [
-      { name: 'prepend',        label: 'Prepend' },
-      { name: 'append',         label: 'Append' },
-      { name: 'prepend-inner',  label: 'Prepend Inner' },
-      { name: 'append-inner',   label: 'Append Inner' },
+      { name: 'prepend',       label: 'Prepend' },
+      { name: 'append',        label: 'Append' },
+      { name: 'prepend-inner', label: 'Prepend Inner' },
+      { name: 'append-inner',  label: 'Append Inner' },
     ],
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Field', fields: [
-        { kind: 'text',   prop: 'label',       label: 'Label',       placeholder: 'Field label' },
-        { kind: 'text',   prop: 'placeholder', label: 'Placeholder' },
-        { kind: 'select', prop: 'type',        label: 'Type',
-          options: ['text', 'password', 'number', 'email', 'tel', 'url'] },
-        { kind: 'select', prop: 'variant',     label: 'Variant', options: VARIANTS },
-        { kind: 'switch', prop: 'clearable',   label: 'Clearable' },
-        { kind: 'switch', prop: 'readonly',    label: 'Readonly' },
-        { kind: 'switch', prop: 'disabled',    label: 'Disabled' },
+  })
+    .section('Field', [
+      { kind: 'text',   prop: 'label',       label: 'Label',       placeholder: 'Field label' },
+      { kind: 'text',   prop: 'placeholder', label: 'Placeholder' },
+      { kind: 'select', prop: 'type',        label: 'Type',
+        options: ['text', 'password', 'number', 'email', 'tel', 'url'] },
+      { kind: 'select', prop: 'variant',     label: 'Variant', options: VARIANTS },
+      { kind: 'switch', prop: 'clearable',   label: 'Clearable' },
+      { kind: 'switch', prop: 'readonly',    label: 'Readonly' },
+      { kind: 'switch', prop: 'disabled',    label: 'Disabled' },
+    ])
+    .section('Icons', [
+      { kind: 'icon-slots', slots: [
+        { prop: 'prependIcon',      label: 'Prepend Icon' },
+        { prop: 'appendIcon',       label: 'Append Icon' },
+        { prop: 'prependInnerIcon', label: 'Prepend Inner' },
+        { prop: 'appendInnerIcon',  label: 'Append Inner' },
       ]},
-      { title: 'Icons', fields: [
-        { kind: 'icon-slots', slots: [
-          { prop: 'prependIcon',      label: 'Prepend Icon' },
-          { prop: 'appendIcon',       label: 'Append Icon' },
-          { prop: 'prependInnerIcon', label: 'Prepend Inner' },
-          { prop: 'appendInnerIcon',  label: 'Append Inner' },
-        ]},
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+    ])
+    .spacing()
+    .classes()
+    .build(),
 
-  VList: {
+  VList: def({
     type: 'VList',
     label: 'List',
     treeIcon: 'mdi-format-list-bulleted',
@@ -208,17 +232,16 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Appearance', fields: [
-        { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
-        { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing', withPadding: true }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+    ])
+    .spacing(true)
+    .classes()
+    .build(),
 
-  VListItem: {
+  VListItem: def({
     type: 'VListItem',
     label: 'List Item',
     treeIcon: 'mdi-order-bool-ascending-variant',
@@ -233,24 +256,23 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultClasses: [],
     defaultTextChild: true,
     showInPalette: true,
-    propertySections: [
-      { title: 'Appearance', fields: [
-        { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
-        { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+    ])
+    .section('Icons', [
+      { kind: 'icon-slots', slots: [
+        { prop: 'prependIcon', label: 'Prepend Icon' },
+        { prop: 'appendIcon',  label: 'Append Icon' },
       ]},
-      { title: 'Icons', fields: [
-        { kind: 'icon-slots', slots: [
-          { prop: 'prependIcon', label: 'Prepend Icon' },
-          { prop: 'appendIcon',  label: 'Append Icon' },
-        ]},
-      ]},
-      { title: 'Typography',     fields: [{ kind: 'typography' }] },
-      { title: 'Spacing',        fields: [{ kind: 'spacing', withPadding: true }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+    ])
+    .typography()
+    .spacing(true)
+    .classes()
+    .build(),
 
-  VRow: {
+  VRow: def({
     type: 'VRow',
     label: 'Row',
     treeIcon: 'mdi-view-sequential-outline',
@@ -259,20 +281,19 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Layout', fields: [
-        { kind: 'select', prop: 'justify',    label: 'Justify',
-          options: ['start', 'center', 'end', 'space-around', 'space-between'] },
-        { kind: 'select', prop: 'align',      label: 'Align',
-          options: ['start', 'center', 'end', 'stretch', 'baseline'] },
-        { kind: 'switch', prop: 'noGutters',  label: 'No Gutters' },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Layout', [
+      { kind: 'select', prop: 'justify',   label: 'Justify',
+        options: ['start', 'center', 'end', 'space-around', 'space-between'] },
+      { kind: 'select', prop: 'align',     label: 'Align',
+        options: ['start', 'center', 'end', 'stretch', 'baseline'] },
+      { kind: 'switch', prop: 'noGutters', label: 'No Gutters' },
+    ])
+    .spacing()
+    .classes()
+    .build(),
 
-  VCol: {
+  VCol: def({
     type: 'VCol',
     label: 'Col',
     treeIcon: 'mdi-view-column-outline',
@@ -281,16 +302,15 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: { cols: 12 },
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Grid Column', fields: [
-        { kind: 'slider', prop: 'cols', label: 'Width (cols)', min: 1, max: 12, step: 1 },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing', withPadding: true }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Grid Column', [
+      { kind: 'slider', prop: 'cols', label: 'Width (cols)', min: 1, max: 12, step: 1 },
+    ])
+    .spacing(true)
+    .classes()
+    .build(),
 
-  VIcon: {
+  VIcon: def({
     type: 'VIcon',
     label: 'Icon',
     treeIcon: 'mdi-star-circle-outline',
@@ -299,18 +319,17 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: { icon: 'mdi-star', size: 'default' },
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Icon', fields: [
-        { kind: 'icon-picker', prop: 'icon',  label: 'Icon' },
-        { kind: 'select',      prop: 'size',  label: 'Size',  options: ICON_SIZES },
-        { kind: 'select',      prop: 'color', label: 'Color', options: COLORS },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Icon', [
+      { kind: 'icon-picker', prop: 'icon',  label: 'Icon' },
+      { kind: 'select',      prop: 'size',  label: 'Size',  options: ICON_SIZES },
+      { kind: 'select',      prop: 'color', label: 'Color', options: COLORS },
+    ])
+    .spacing()
+    .classes()
+    .build(),
 
-  VImg: {
+  VImg: def({
     type: 'VImg',
     label: 'Image',
     treeIcon: 'mdi-image-outline',
@@ -319,23 +338,22 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: { src: '', alt: '', width: '100%', height: '200', cover: false },
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Image', fields: [
-        { kind: 'text',   prop: 'src',    label: 'Source URL', placeholder: 'https://...', clearable: true },
-        { kind: 'text',   prop: 'alt',    label: 'Alt text' },
-        { kind: 'row', fields: [
-          { prop: 'width',  label: 'Width',  placeholder: '100%' },
-          { prop: 'height', label: 'Height', placeholder: '200' },
-        ]},
-        { kind: 'switch', prop: 'cover',   label: 'Cover (object-fit)' },
-        { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+  })
+    .section('Image', [
+      { kind: 'text',   prop: 'src',    label: 'Source URL', placeholder: 'https://...', clearable: true },
+      { kind: 'text',   prop: 'alt',    label: 'Alt text' },
+      { kind: 'row', fields: [
+        { prop: 'width',  label: 'Width',  placeholder: '100%' },
+        { prop: 'height', label: 'Height', placeholder: '200' },
       ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+      { kind: 'switch', prop: 'cover',   label: 'Cover (object-fit)' },
+      { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+    ])
+    .spacing()
+    .classes()
+    .build(),
 
-  VDivider: {
+  VDivider: def({
     type: 'VDivider',
     label: 'Divider',
     treeIcon: 'mdi-horizontal-rule',
@@ -344,17 +362,16 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
-    propertySections: [
-      { title: 'Divider', fields: [
-        { kind: 'slider', prop: 'thickness', label: 'Thickness', min: 1, max: 8, step: 1 },
-        { kind: 'select', prop: 'color', label: 'Color', options: COLORS },
-      ]},
-      { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
-      { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
-    ],
-  },
+  })
+    .section('Divider', [
+      { kind: 'slider', prop: 'thickness', label: 'Thickness', min: 1, max: 8, step: 1 },
+      { kind: 'select', prop: 'color',     label: 'Color',     options: COLORS },
+    ])
+    .spacing()
+    .classes()
+    .build(),
 
-  TEXT: {
+  TEXT: def({
     type: 'TEXT',
     label: 'Text',
     treeIcon: 'mdi-format-text',
@@ -363,10 +380,9 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultProps: {},
     defaultClasses: [],
     showInPalette: false,
-    propertySections: [
-      { title: 'Text Content', fields: [{ kind: 'textarea', label: 'Text Content' }] },
-    ],
-  },
+  })
+    .section('Text Content', [{ kind: 'textarea', label: 'Text Content' }])
+    .build(),
 }
 
 // ─── Derived exports (replace componentRegistry.ts consumers) ───────────────
