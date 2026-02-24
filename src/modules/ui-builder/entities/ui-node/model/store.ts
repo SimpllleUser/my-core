@@ -1,6 +1,6 @@
 // src/modules/ui-builder/entities/ui-node/model/store.ts
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { getComponentDef } from './componentDefinitions'
 
 export const useUiTreeStore = defineStore('ui-tree', () => {
@@ -16,6 +16,51 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
 
   const selectedNodeIds = ref<string[]>([])
   const selectedNodeId = computed(() => selectedNodeIds.value[0] ?? null)
+
+  const MAX_HISTORY = 50
+  const history = ref<string[]>([JSON.stringify(rootNode.value)])
+  const historyIndex = ref(0)
+
+  let _debounceTimer: ReturnType<typeof setTimeout> | null = null
+  let _restoring = false
+
+  const commit = () => {
+    if (_debounceTimer) { clearTimeout(_debounceTimer); _debounceTimer = null }
+    if (_restoring) return
+    const snap = JSON.stringify(rootNode.value)
+    if (history.value[historyIndex.value] === snap) return
+    history.value = history.value.slice(0, historyIndex.value + 1)
+    history.value.push(snap)
+    if (history.value.length > MAX_HISTORY) history.value.shift()
+    historyIndex.value = history.value.length - 1
+  }
+
+  watch(rootNode, () => {
+    if (_restoring) return
+    if (_debounceTimer) clearTimeout(_debounceTimer)
+    _debounceTimer = setTimeout(commit, 600)
+  }, { deep: true })
+
+  const canUndo = computed(() => historyIndex.value > 0)
+  const canRedo = computed(() => historyIndex.value < history.value.length - 1)
+
+  const undo = () => {
+    if (!canUndo.value) return
+    _restoring = true
+    historyIndex.value--
+    rootNode.value = JSON.parse(history.value[historyIndex.value])
+    selectedNodeIds.value = []
+    nextTick(() => { _restoring = false })
+  }
+
+  const redo = () => {
+    if (!canRedo.value) return
+    _restoring = true
+    historyIndex.value++
+    rootNode.value = JSON.parse(history.value[historyIndex.value])
+    selectedNodeIds.value = []
+    nextTick(() => { _restoring = false })
+  }
 
   const findNodeById = (id: string, node: any = rootNode.value): any | null => {
     if (node.id === id) return node
@@ -88,6 +133,10 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     rootNode,
     selectedNodeIds,
     selectedNodeId,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
     findNodeById,
     createNode,
 
@@ -133,6 +182,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       }
       targetArray.splice(insertIndex, 0, wrapper)
       selectedNodeIds.value = [wrapper.id]
+      commit()
     },
 
     appendChild: (parentId: string, newNode: any) => {
@@ -140,6 +190,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       if (p) {
         if (!p.children) p.children = []
         p.children.push(newNode)
+        commit()
       }
     },
 
@@ -149,6 +200,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
         if (!p.slots) p.slots = {}
         if (!p.slots[slotName]) p.slots[slotName] = []
         p.slots[slotName].push(newNode)
+        commit()
       }
     },
 
@@ -161,18 +213,21 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       const children: any[] = node.children ?? []
       targetArray.splice(index, 1, ...children)
       selectedNodeIds.value = children.length ? [children[0].id] : []
+      commit()
     },
 
     deleteNode: (id: string, parent: any = rootNode.value): boolean => {
       const idx = parent.children?.findIndex((c: any) => c.id === id)
       if (idx !== -1 && idx !== undefined) {
         parent.children.splice(idx, 1)
+        commit()
         return true
       }
       for (const slotName in parent.slots) {
         const sIdx = parent.slots[slotName].findIndex((c: any) => c.id === id)
         if (sIdx !== -1) {
           parent.slots[slotName].splice(sIdx, 1)
+          commit()
           return true
         }
       }

@@ -4,16 +4,72 @@ import { useUiTreeStore } from '../../../entities/ui-node/model/store'
 import NodeRenderer from '../../../entities/ui-node/ui/NodeRenderer'
 
 const store = useUiTreeStore()
-const { rootNode } = storeToRefs(store)
+const { rootNode, canUndo, canRedo } = storeToRefs(store)
 </script>
 
 <template>
-  <div class="main-canvas-wrapper w-100 h-100 bg-grey-lighten-4 pa-10" @click="store.selectNode(null)">
-    <NodeRenderer :node="rootNode" />
+  <div class="d-flex flex-column h-100">
+
+    <div class="canvas-toolbar">
+      <span class="canvas-toolbar__title">Canvas</span>
+      <div class="canvas-toolbar__actions">
+        <VBtn
+          :icon="'mdi-undo'"
+          size="small"
+          variant="text"
+          :disabled="!canUndo"
+          title="Undo (Ctrl+Z)"
+          @click="store.undo()"
+        />
+        <VBtn
+          :icon="'mdi-redo'"
+          size="small"
+          variant="text"
+          :disabled="!canRedo"
+          title="Redo (Ctrl+Y)"
+          @click="store.redo()"
+        />
+      </div>
+    </div>
+
+    <div
+      class="main-canvas-wrapper flex-grow-1 bg-grey-lighten-4 pa-10 overflow-y-auto"
+      @click="store.selectNode(null)"
+    >
+      <NodeRenderer :node="rootNode" />
+    </div>
+
   </div>
 </template>
 
 <style>
+/* ─── Canvas toolbar ──────────────────────────────────────────────────────── */
+
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 12px;
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  background: rgb(var(--v-theme-surface));
+  flex-shrink: 0;
+}
+
+.canvas-toolbar__title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.canvas-toolbar__actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* ─── Element outlines ───────────────────────────────────────────────────── */
+
 .ui-builder-element {
   outline: 1px dashed rgba(0, 0, 0, 0.1);
   min-height: 20px;
