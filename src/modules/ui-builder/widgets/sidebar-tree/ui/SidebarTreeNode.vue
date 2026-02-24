@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { UiNode, ComponentType } from '../../../entities/ui-node/model/types'
+import type { UiNode } from '../../../entities/ui-node/model/types'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
-import { getComponentSlots } from '../../../entities/ui-node/model/componentRegistry'
+import { getComponentSlots, PALETTE_COMPONENTS, COMPONENT_DEFS } from '../../../entities/ui-node/model/componentDefinitions'
 import { Icons } from '@/shared'
 
 const props = defineProps<{
@@ -19,21 +19,7 @@ const handleNodeClick = (e: MouseEvent) => {
   else store.selectNode(props.node.id)
 }
 
-// Список доступних компонентів для додавання
-const availableComponents: { type: ComponentType; label: string }[] = [
-  { type: 'div', label: 'Box (div)' }, // Додано в список
-  { type: 'VBtn', label: 'Button' },
-  { type: 'VTextField', label: 'Input Field' },
-  { type: 'VCard', label: 'Card' },
-  { type: 'VCardTitle', label: 'Card Title' },
-  { type: 'VCardText', label: 'Card Text' },
-  { type: 'VList', label: 'List' },
-  { type: 'VListItem', label: 'List Item' },
-  { type: 'VRow', label: 'Row' },
-  { type: 'VCol', label: 'Col' },
-  { type: 'VIcon', label: 'Icon' },
-  { type: 'VImg', label: 'Image' },
-]
+const availableComponents = PALETTE_COMPONENTS
 
 const componentSlots = computed(() => getComponentSlots(props.node.type))
 const hasDefaultSlot = computed(() => componentSlots.value.some(s => s.name === 'default'))
@@ -57,32 +43,18 @@ const slotIndent = computed(() => `${d.value * 14 + 22}px`)
 const slotEmptyIndent = computed(() => `${d.value * 14 + 38}px`)
 
 const getIcon = (type: string) => {
-  const map: Record<string, string> = {
-    div: 'mdi-xml', // Іконка для div
-    VCard: 'mdi-card-outline',
-    VCol: 'mdi-view-column-outline',
-    VRow: 'mdi-view-sequential-outline',
-    VBtn: 'mdi-rectangle-outline',
-    VTextField: 'mdi-form-textbox',
-    VList: 'mdi-format-list-bulleted',
-    VListItem: 'mdi-order-bool-ascending-variant',
-    VCardTitle: 'mdi-format-header-1',
-    VCardText: 'mdi-text-box-outline',
-    VIcon: 'mdi-star-circle-outline',
-    VImg: 'mdi-image-outline',
-    'root-canvas': 'mdi-view-dashboard-outline',
-  }
-  return map[type] ?? 'mdi-cube-outline'
+  if (type === 'root-canvas') return 'mdi-view-dashboard-outline'
+  return COMPONENT_DEFS[type]?.treeIcon ?? 'mdi-cube-outline'
 }
 
-const onAdd = (type: ComponentType, label: string) => {
-  const newNode = store.createNode(type, label)
+const onAdd = (type: string) => {
+  const newNode = store.createNode(type)
   store.appendChild(props.node.id, newNode)
   store.selectNode(newNode.id)
 }
 
-const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
-  const newNode = store.createNode(type, label)
+const onAddToSlot = (slotName: string, type: string) => {
+  const newNode = store.createNode(type)
   store.appendToSlot(props.node.id, slotName, newNode)
   store.selectNode(newNode.id)
 }
@@ -122,7 +94,7 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
               :title="comp.label"
               density="compact"
               class="text-caption"
-              @click="onAdd(comp.type, comp.label)"
+              @click="onAdd(comp.type)"
             />
           </VList>
         </VMenu>
@@ -173,7 +145,7 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
                       :title="comp.label"
                       density="compact"
                       class="text-caption"
-                      @click="onAddToSlot(slot.name, comp.type, comp.label)"
+                      @click="onAddToSlot(slot.name, comp.type)"
                     />
                   </VList>
                 </VMenu>

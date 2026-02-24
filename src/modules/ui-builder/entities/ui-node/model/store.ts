@@ -1,7 +1,7 @@
 // src/modules/ui-builder/entities/ui-node/model/store.ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { WRAP_ALLOWED_TYPES } from './componentRegistry'
+import { getComponentDef } from './componentDefinitions'
 
 export const useUiTreeStore = defineStore('ui-tree', () => {
   const rootNode = ref<any>({
@@ -55,43 +55,25 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     return null
   }
 
-  const createNode = (type: string, name: string): any => {
+  const createNode = (type: string, name?: string): any => {
     const id = `ui_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+    const def = getComponentDef(type)
+
     const newNode: any = {
       id,
       type,
-      name,
-      props: {},
-      classes: [],
+      name: def?.label ?? name ?? type,
+      props: { ...(def?.defaultProps ?? {}) },
+      classes: [...(def?.defaultClasses ?? [])],
       children: [],
       slots: {}
     }
 
-    if (type === 'div') {
-      newNode.name = 'Box (div)'
-      newNode.classes = ['d-block']
-    }
-
-    if (type === 'VIcon') {
-      newNode.name = 'Icon'
-      newNode.props.icon = 'mdi-star'
-      newNode.props.size = 'default'
-    }
-
-    if (type === 'VImg') {
-      newNode.name = 'Image'
-      newNode.props.src = ''
-      newNode.props.alt = ''
-      newNode.props.width = '100%'
-      newNode.props.height = '200'
-      newNode.props.cover = false
-    }
-
-    if (['VBtn', 'VCardTitle', 'VCardText', 'VListItem'].includes(type)) {
+    if (def?.defaultTextChild) {
       newNode.children.push({
         id: `${id}_text`,
         type: 'TEXT',
-        name: name,
+        name: def.label,
         props: {},
         classes: [],
         children: [],
@@ -99,7 +81,6 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       })
     }
 
-    if (type === 'VCol') newNode.props.cols = 12
     return newNode
   }
 
@@ -143,8 +124,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       // Capture node objects before mutation
       const nodesToWrap = locs.map(l => targetArray[l.index])
 
-      const wrapperLabel = WRAP_ALLOWED_TYPES.find(t => t.type === wrapperType)?.label ?? wrapperType
-      const wrapper = createNode(wrapperType, wrapperLabel)
+      const wrapper = createNode(wrapperType)
       wrapper.children = nodesToWrap
 
       // Remove in reverse order to preserve indices
