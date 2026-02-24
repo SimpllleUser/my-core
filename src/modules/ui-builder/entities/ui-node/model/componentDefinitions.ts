@@ -17,7 +17,7 @@ export type PropField =
   | { kind: 'custom-classes' }
 
 export interface PropertySection {
-  title: string
+  title?: string
   fields: PropField[]
 }
 
@@ -337,15 +337,18 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
 
   VDivider: {
     type: 'VDivider',
-    label: 'VDivider',
+    label: 'Divider',
     treeIcon: 'mdi-horizontal-rule',
-    isLeaf: false,
+    isLeaf: true,
     slots: [],
     defaultProps: {},
     defaultClasses: [],
     showInPalette: true,
     propertySections: [
-      { fields: [{ kind: 'text', prop: 'thickness', label: 'thickness' },  { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },] },
+      { title: 'Divider', fields: [
+        { kind: 'slider', prop: 'thickness', label: 'Thickness', min: 1, max: 8, step: 1 },
+        { kind: 'select', prop: 'color', label: 'Color', options: COLORS },
+      ]},
       { title: 'Spacing',        fields: [{ kind: 'spacing' }] },
       { title: 'Custom Classes', fields: [{ kind: 'custom-classes' }] },
     ],
@@ -373,7 +376,6 @@ export const getComponentDef = (type: string): ComponentDef | undefined =>
 
 /** Components shown in the palette (+) menu */
 export const PALETTE_COMPONENTS = Object.values(COMPONENT_DEFS).filter(d => d.showInPalette)
-console.log(PALETTE_COMPONENTS);
 /** Container types available in the Wrap toolbar */
 export const WRAP_CONTAINER_TYPES = Object.values(COMPONENT_DEFS)
   .filter(d => d.isWrapContainer)

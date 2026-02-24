@@ -139,7 +139,7 @@ const fieldKey = (field: PropField) =>
       <div class="flex-grow-1 overflow-y-auto pr-1">
         <template v-for="section in activeSections" :key="section.title">
           <div class="mb-6">
-            <div class="text-overline mb-2 text-primary font-weight-bold">{{ section.title }}</div>
+            <div v-if="section.title" class="text-overline mb-2 text-primary font-weight-bold">{{ section.title }}</div>
 
             <template v-for="field in section.fields" :key="fieldKey(field)">
 

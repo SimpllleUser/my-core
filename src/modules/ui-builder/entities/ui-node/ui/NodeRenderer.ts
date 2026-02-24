@@ -3,6 +3,7 @@ import { defineComponent, h, type PropType, resolveDynamicComponent } from 'vue'
 import * as Components from 'vuetify/components'
 import { storeToRefs } from 'pinia'
 import { useUiTreeStore } from '../model/store'
+import { getComponentDef } from '../model/componentDefinitions'
 
 const NodeRenderer = defineComponent({
   name: 'NodeRenderer',
@@ -31,7 +32,7 @@ const NodeRenderer = defineComponent({
       const slots: Record<string, () => any> = {}
 
       // Leaf nodes that rely on props rather than slots for their content
-      const isLeaf = node.type === 'VIcon' || node.type === 'VImg'
+      const isLeaf = getComponentDef(node.type)?.isLeaf ?? false
 
       // DEFAULT SLOT: Тільки діти (без змішування з текстом)
       if (!isLeaf) {
