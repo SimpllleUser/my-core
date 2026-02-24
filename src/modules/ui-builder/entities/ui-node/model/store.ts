@@ -157,6 +157,17 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       }
     },
 
+    unwrapNode: (id: string) => {
+      const loc = findParentAndIndex(id)
+      if (!loc) return
+      const { parent, index, slotName } = loc
+      const targetArray: any[] = slotName ? parent.slots[slotName] : parent.children
+      const node = targetArray[index]
+      const children: any[] = node.children ?? []
+      targetArray.splice(index, 1, ...children)
+      selectedNodeIds.value = children.length ? [children[0].id] : []
+    },
+
     deleteNode: (id: string, parent: any = rootNode.value): boolean => {
       const idx = parent.children?.findIndex((c: any) => c.id === id)
       if (idx !== -1 && idx !== undefined) {

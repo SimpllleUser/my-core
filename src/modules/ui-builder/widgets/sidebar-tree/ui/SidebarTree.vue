@@ -13,6 +13,14 @@ const { rootNode, selectedNodeIds } = storeToRefs(store)
 const canWrap = computed(() =>
   selectedNodeIds.value.length >= 2 && store.areNodesSiblings(selectedNodeIds.value)
 )
+
+const canUnwrap = computed(() => {
+  if (selectedNodeIds.value.length !== 1) return false
+  const id = selectedNodeIds.value[0]
+  if (id === 'root-canvas') return false
+  const node = store.findNodeById(id)
+  return !!node && (node.children?.length > 0) && WRAP_ALLOWED_TYPES.some(t => t.type === node.type)
+})
 </script>
 
 <template>
@@ -25,22 +33,37 @@ const canWrap = computed(() =>
       </VList>
     </div>
 
-    <v-slide-y-reverse-transition>
-      <div v-if="canWrap" class="wrap-toolbar">
-        <span class="wrap-label">Wrap {{ selectedNodeIds.length }} items:</span>
-        <div class="wrap-chips">
-          <button
-            v-for="wt in WRAP_ALLOWED_TYPES"
-            :key="wt.type"
-            class="wrap-chip"
-            @click="store.wrapNodes(selectedNodeIds, wt.type)"
-          >
-            <VIcon :icon="wt.icon" size="12" class="mr-1" />
-            {{ wt.label }}
-          </button>
-        </div>
+    <VSlideYReverseTransition>
+      <div v-if="canWrap || canUnwrap" class="wrap-toolbar">
+        <template v-if="canWrap">
+          <span class="wrap-label">Wrap {{ selectedNodeIds.length }} items:</span>
+          <div class="wrap-chips">
+            <button
+              v-for="wt in WRAP_ALLOWED_TYPES"
+              :key="wt.type"
+              class="wrap-chip"
+              @click="store.wrapNodes(selectedNodeIds, wt.type)"
+            >
+              <VIcon :icon="wt.icon" size="12" class="mr-1" />
+              {{ wt.label }}
+            </button>
+          </div>
+        </template>
+
+        <template v-else-if="canUnwrap">
+          <span class="wrap-label">Unwrap:</span>
+          <div class="wrap-chips">
+            <button
+              class="wrap-chip wrap-chip--unwrap"
+              @click="store.unwrapNode(selectedNodeIds[0])"
+            >
+              <VIcon icon="mdi-arrow-expand-all" size="12" class="mr-1" />
+              Lift children up
+            </button>
+          </div>
+        </template>
       </div>
-    </v-slide-y-reverse-transition>
+    </VSlideYReverseTransition>
   </VNavigationDrawer>
 </template>
 
@@ -92,5 +115,11 @@ const canWrap = computed(() =>
   background: rgba(var(--v-theme-primary), 0.12);
   border-color: rgb(var(--v-theme-primary));
   color: rgb(var(--v-theme-primary));
+}
+
+.wrap-chip--unwrap:hover {
+  background: rgba(var(--v-theme-warning), 0.12);
+  border-color: rgb(var(--v-theme-warning));
+  color: rgb(var(--v-theme-warning));
 }
 </style>
