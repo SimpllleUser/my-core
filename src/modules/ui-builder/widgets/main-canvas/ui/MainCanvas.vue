@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
-import NodeRenderer from '../../../entities/ui-node/ui/NodeRenderer'
+import NodeRenderer, { canvasDragTargetId } from '../../../entities/ui-node/ui/NodeRenderer'
 
 const store = useUiTreeStore()
 const { rootNode, canUndo, canRedo } = storeToRefs(store)
+
+const onCanvasDragLeave = (e: DragEvent) => {
+  const canvas = e.currentTarget as Element
+  if (!canvas?.contains(e.relatedTarget as Node)) {
+    canvasDragTargetId.value = null
+  }
+}
 </script>
 
 <template>
@@ -35,6 +42,7 @@ const { rootNode, canUndo, canRedo } = storeToRefs(store)
     <div
       class="main-canvas-wrapper flex-grow-1 bg-grey-lighten-4 pa-10 overflow-y-auto"
       @click="store.selectNode(null)"
+      @dragleave="onCanvasDragLeave"
     >
       <NodeRenderer :node="rootNode" />
     </div>
@@ -77,6 +85,10 @@ const { rootNode, canUndo, canRedo } = storeToRefs(store)
 }
 .ui-builder-element.is-selected {
   outline: 2px solid rgb(var(--v-theme-primary)) !important;
+}
+.ui-builder-element.is-drag-over {
+  outline: 2px dashed rgb(var(--v-theme-primary)) !important;
+  background: rgba(var(--v-theme-primary), 0.06) !important;
 }
 .v-card.ui-builder-element { min-height: 80px; margin-bottom: 10px; }
 .v-card-title.ui-builder-element, .v-card-text.ui-builder-element { min-height: 30px; }

@@ -137,6 +137,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     canRedo,
     undo,
     redo,
+    commit,
     findNodeById,
     createNode,
 

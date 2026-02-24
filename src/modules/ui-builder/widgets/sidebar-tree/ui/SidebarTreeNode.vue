@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import draggable from 'vuedraggable'
 import type { UiNode } from '../../../entities/ui-node/model/types'
 import { useUiTreeStore } from '../../../entities/ui-node/model/store'
-import { getComponentSlots, PALETTE_COMPONENTS, COMPONENT_DEFS } from '../../../entities/ui-node/model/componentDefinitions'
+import { getComponentDef, getComponentSlots, PALETTE_COMPONENTS, COMPONENT_DEFS } from '../../../entities/ui-node/model/componentDefinitions'
 import { Icons } from '@/shared'
 
 const props = defineProps<{
@@ -13,6 +14,8 @@ const props = defineProps<{
 
 const store = useUiTreeStore()
 const { selectedNodeIds } = storeToRefs(store)
+
+const isLeafNode = computed(() => getComponentDef(props.node.type)?.isLeaf ?? false)
 
 const handleNodeClick = (e: MouseEvent) => {
   if (e.shiftKey) store.toggleMultiSelect(props.node.id)
@@ -34,13 +37,12 @@ const toggleSlot = (name: string) => {
   slotsExpanded.value[name] = !isSlotExpanded(name)
 }
 
-const slotChildren = (name: string) => props.node.slots?.[name] ?? []
+const slotChildren = (name: string): any[] => props.node.slots?.[name] ?? []
 
 const d = computed(() => props.depth ?? 0)
 const nodeIndent = computed(() => `${d.value * 14 + 4}px`)
 const sectionIndent = computed(() => `${d.value * 14 + 6}px`)
 const slotIndent = computed(() => `${d.value * 14 + 22}px`)
-const slotEmptyIndent = computed(() => `${d.value * 14 + 38}px`)
 
 const getIcon = (type: string) => {
   if (type === 'root-canvas') return 'mdi-view-dashboard-outline'
@@ -68,6 +70,13 @@ const onAddToSlot = (slotName: string, type: string) => {
       :style="{ paddingLeft: nodeIndent }"
       @click.stop="handleNodeClick"
     >
+      <!-- Drag handle (hidden for root) -->
+      <span v-if="node.id !== 'root-canvas'" class="drag-handle" @click.stop>
+        <VIcon icon="mdi-drag-vertical" size="13" class="drag-handle-icon" />
+      </span>
+      <span v-else class="drag-handle drag-handle--placeholder" />
+
+      <!-- Expand/collapse toggle -->
       <button
         v-if="node.children.length > 0"
         class="tree-btn expand-btn"
@@ -101,17 +110,27 @@ const onAddToSlot = (slotName: string, type: string) => {
       </span>
     </div>
 
+    <!-- Children (draggable) -->
     <VExpandTransition>
-      <div v-if="node.children.length > 0 && isChildrenExpanded">
-        <SidebarTreeNode
-          v-for="child in node.children"
-          :key="child.id"
-          :node="child"
-          :depth="d + 1"
-        />
+      <div v-if="!isLeafNode && node.children.length > 0 && isChildrenExpanded">
+        <draggable
+          :list="node.children"
+          item-key="id"
+          group="ui-nodes"
+          handle=".drag-handle"
+          :animation="150"
+          ghost-class="tree-ghost"
+          chosen-class="tree-chosen"
+          @end="store.commit()"
+        >
+          <template #item="{ element: child }">
+            <SidebarTreeNode :node="child" :depth="d + 1" />
+          </template>
+        </draggable>
       </div>
     </VExpandTransition>
 
+    <!-- Named slots -->
     <template v-if="namedSlots.length > 0">
       <div
         class="section-row"
@@ -151,13 +170,22 @@ const onAddToSlot = (slotName: string, type: string) => {
                 </VMenu>
               </span>
             </div>
+
             <div v-if="slotChildren(slot.name).length > 0">
-              <SidebarTreeNode
-                v-for="child in slotChildren(slot.name)"
-                :key="child.id"
-                :node="child"
-                :depth="d + 2"
-              />
+              <draggable
+                :list="slotChildren(slot.name)"
+                item-key="id"
+                group="ui-nodes"
+                handle=".drag-handle"
+                :animation="150"
+                ghost-class="tree-ghost"
+                chosen-class="tree-chosen"
+                @end="store.commit()"
+              >
+                <template #item="{ element: child }">
+                  <SidebarTreeNode :node="child" :depth="d + 2" />
+                </template>
+              </draggable>
             </div>
           </template>
         </div>
@@ -203,6 +231,50 @@ const onAddToSlot = (slotName: string, type: string) => {
   color: rgb(var(--v-theme-primary));
   font-weight: 600;
 }
+
+/* ─── Drag handle ─────────────────────────────────────────────────────────── */
+
+.drag-handle {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.1s;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  border-radius: 2px;
+}
+
+.drag-handle--placeholder {
+  cursor: default;
+}
+
+.drag-handle:not(.drag-handle--placeholder):active {
+  cursor: grabbing;
+}
+
+.node-row:hover .drag-handle:not(.drag-handle--placeholder) {
+  opacity: 1;
+}
+
+/* ─── Draggable ghost / chosen ────────────────────────────────────────────── */
+
+:global(.tree-ghost) {
+  opacity: 0.35;
+  background: rgba(var(--v-theme-primary), 0.08) !important;
+  border-radius: 4px;
+  outline: 1px dashed rgba(var(--v-theme-primary), 0.4);
+}
+
+:global(.tree-chosen) {
+  background: rgba(var(--v-theme-primary), 0.06);
+  border-radius: 4px;
+}
+
+/* ─── Other row elements ──────────────────────────────────────────────────── */
 
 .expand-btn,
 .expand-placeholder {
@@ -274,29 +346,4 @@ const onAddToSlot = (slotName: string, type: string) => {
   font-style: italic;
   opacity: 0.65;
 }
-
-.slot-count {
-  font-size: 10px !important;
-  height: 16px !important;
-  opacity: 0.5;
-}
-
-.slot-empty {
-  font-size: 10px;
-  color: rgba(var(--v-theme-on-surface), 0.3);
-  min-height: 18px;
-  display: flex;
-  align-items: center;
-  font-style: italic;
-}
-.tree-node { display: flex; flex-direction: column; user-select: none; }
-.node-row, .section-row, .slot-row { display: flex; align-items: center; gap: 2px; border-radius: 4px; cursor: pointer; min-height: 22px; padding-right: 4px; }
-.node-row:hover, .section-row:hover, .slot-row:hover { background: rgba(var(--v-theme-on-surface), 0.06); }
-.node-row--selected { background: rgba(var(--v-theme-primary), 0.1); }
-.node-row--selected .node-label { color: rgb(var(--v-theme-primary)); font-weight: 600; }
-.tree-btn { display: inline-flex; align-items: center; justify-content: center; border: none; background: none; padding: 0; cursor: pointer; border-radius: 3px; color: rgba(var(--v-theme-on-surface), 0.55); }
-.node-label { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.node-actions { display: flex; align-items: center; opacity: 0; transition: opacity 0.1s; }
-.node-row:hover .node-actions, .slot-row:hover .node-actions { opacity: 1; }
-
 </style>
