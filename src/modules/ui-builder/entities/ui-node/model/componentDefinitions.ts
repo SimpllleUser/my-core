@@ -1,7 +1,5 @@
 import type { ComponentType } from './types'
 
-// ─── Field kinds ────────────────────────────────────────────────────────────
-
 export type PropField =
   | { kind: 'text';        prop: string; label: string; placeholder?: string; clearable?: boolean }
   | { kind: 'textarea';    label: string }
@@ -21,8 +19,6 @@ export interface PropertySection {
   fields: PropField[]
 }
 
-// ─── Component definition ────────────────────────────────────────────────────
-
 export interface ComponentDef {
   type: string
   label: string
@@ -32,14 +28,10 @@ export interface ComponentDef {
   slots: { name: string; label: string }[]
   defaultProps: Record<string, any>
   defaultClasses: string[]
-  /** Automatically create a TEXT child on init */
   defaultTextChild?: boolean
-  /** Show in the + palette menu */
   showInPalette: boolean
   propertySections: PropertySection[]
 }
-
-// ─── Builder ─────────────────────────────────────────────────────────────────
 
 function def(config: Omit<ComponentDef, 'propertySections'>) {
   const sections: PropertySection[] = []
@@ -69,13 +61,10 @@ function def(config: Omit<ComponentDef, 'propertySections'>) {
   return builder
 }
 
-// ─── Shared option sets ──────────────────────────────────────────────────────
-
-const VARIANTS   = ['elevated', 'flat', 'tonal', 'outlined', 'text']
-const COLORS     = ['primary', 'secondary', 'success', 'info', 'warning', 'error', 'white', 'transparent']
+const VARIANTS   = ['elevated', 'flat', 'tonal', 'outlined', 'text', 'plain']
+const COLORS     = ['primary', 'secondary', 'success', 'info', 'warning', 'error', 'white', 'transparent', 'surface', 'background']
 const ICON_SIZES = ['x-small', 'small', 'default', 'large', 'x-large']
-
-// ─── Registry ────────────────────────────────────────────────────────────────
+const ALERT_TYPES = ['success', 'info', 'warning', 'error']
 
 export const COMPONENT_DEFS: Record<string, ComponentDef> = {
 
@@ -115,6 +104,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     .section('Appearance', [
       { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
       { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+      { kind: 'switch', prop: 'hover',   label: 'Hover effect' },
     ])
     .spacing(true)
     .classes()
@@ -170,12 +160,13 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
       { kind: 'select', prop: 'size',    label: 'Size',    options: ICON_SIZES },
       { kind: 'switch', prop: 'block',   label: 'Block (full width)' },
       { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+      { kind: 'switch', prop: 'icon',    label: 'Icon Button' },
     ])
     .section('Icons', [
       { kind: 'icon-slots', slots: [
-        { prop: 'prependIcon', label: 'Prepend Icon' },
-        { prop: 'appendIcon',  label: 'Append Icon' },
-      ]},
+          { prop: 'prependIcon', label: 'Prepend Icon' },
+          { prop: 'appendIcon',  label: 'Append Icon' },
+        ]},
     ])
     .typography()
     .spacing()
@@ -199,20 +190,21 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     .section('Field', [
       { kind: 'text',   prop: 'label',       label: 'Label',       placeholder: 'Field label' },
       { kind: 'text',   prop: 'placeholder', label: 'Placeholder' },
+      { kind: 'text',   prop: 'hint',        label: 'Hint text' },
       { kind: 'select', prop: 'type',        label: 'Type',
         options: ['text', 'password', 'number', 'email', 'tel', 'url'] },
-      { kind: 'select', prop: 'variant',     label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'variant',     label: 'Variant', options: ['underlined', 'outlined', 'filled', 'solo', 'plain'] },
       { kind: 'switch', prop: 'clearable',   label: 'Clearable' },
       { kind: 'switch', prop: 'readonly',    label: 'Readonly' },
       { kind: 'switch', prop: 'disabled',    label: 'Disabled' },
     ])
     .section('Icons', [
       { kind: 'icon-slots', slots: [
-        { prop: 'prependIcon',      label: 'Prepend Icon' },
-        { prop: 'appendIcon',       label: 'Append Icon' },
-        { prop: 'prependInnerIcon', label: 'Prepend Inner' },
-        { prop: 'appendInnerIcon',  label: 'Append Inner' },
-      ]},
+          { prop: 'prependIcon',      label: 'Prepend Icon' },
+          { prop: 'appendIcon',       label: 'Append Icon' },
+          { prop: 'prependInnerIcon', label: 'Prepend Inner' },
+          { prop: 'appendInnerIcon',  label: 'Append Inner' },
+        ]},
     ])
     .spacing()
     .classes()
@@ -236,6 +228,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     .section('Appearance', [
       { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
       { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+      { kind: 'switch', prop: 'lines',   label: 'Multi-line', options: ['one', 'two', 'three'] },
     ])
     .spacing(true)
     .classes()
@@ -258,14 +251,16 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     showInPalette: true,
   })
     .section('Appearance', [
-      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
-      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+      { kind: 'text',   prop: 'title',    label: 'Title' },
+      { kind: 'text',   prop: 'subtitle', label: 'Subtitle' },
+      { kind: 'select', prop: 'variant',  label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',    label: 'Color',   options: COLORS },
     ])
     .section('Icons', [
       { kind: 'icon-slots', slots: [
-        { prop: 'prependIcon', label: 'Prepend Icon' },
-        { prop: 'appendIcon',  label: 'Append Icon' },
-      ]},
+          { prop: 'prependIcon', label: 'Prepend Icon' },
+          { prop: 'appendIcon',  label: 'Append Icon' },
+        ]},
     ])
     .typography()
     .spacing(true)
@@ -288,6 +283,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
       { kind: 'select', prop: 'align',     label: 'Align',
         options: ['start', 'center', 'end', 'stretch', 'baseline'] },
       { kind: 'switch', prop: 'noGutters', label: 'No Gutters' },
+      { kind: 'switch', prop: 'dense',     label: 'Dense' },
     ])
     .spacing()
     .classes()
@@ -305,6 +301,9 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   })
     .section('Grid Column', [
       { kind: 'slider', prop: 'cols', label: 'Width (cols)', min: 1, max: 12, step: 1 },
+      { kind: 'slider', prop: 'sm',   label: 'Width SM', min: 1, max: 12, step: 1 },
+      { kind: 'slider', prop: 'md',   label: 'Width MD', min: 1, max: 12, step: 1 },
+      { kind: 'slider', prop: 'lg',   label: 'Width LG', min: 1, max: 12, step: 1 },
     ])
     .spacing(true)
     .classes()
@@ -334,7 +333,10 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     label: 'Image',
     treeIcon: 'mdi-image-outline',
     isLeaf: true,
-    slots: [],
+    slots: [
+      { name: 'default', label: 'Default' },
+      { name: 'placeholder', label: 'Placeholder' }
+    ],
     defaultProps: { src: '', alt: '', width: '100%', height: '200', cover: false },
     defaultClasses: [],
     showInPalette: true,
@@ -343,9 +345,9 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
       { kind: 'text',   prop: 'src',    label: 'Source URL', placeholder: 'https://...', clearable: true },
       { kind: 'text',   prop: 'alt',    label: 'Alt text' },
       { kind: 'row', fields: [
-        { prop: 'width',  label: 'Width',  placeholder: '100%' },
-        { prop: 'height', label: 'Height', placeholder: '200' },
-      ]},
+          { prop: 'width',  label: 'Width',  placeholder: '100%' },
+          { prop: 'height', label: 'Height', placeholder: '200' },
+        ]},
       { kind: 'switch', prop: 'cover',   label: 'Cover (object-fit)' },
       { kind: 'switch', prop: 'rounded', label: 'Rounded' },
     ])
@@ -366,9 +368,129 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     .section('Divider', [
       { kind: 'slider', prop: 'thickness', label: 'Thickness', min: 1, max: 8, step: 1 },
       { kind: 'select', prop: 'color',     label: 'Color',     options: COLORS },
+      { kind: 'switch', prop: 'vertical',  label: 'Vertical' },
+      { kind: 'switch', prop: 'inset',     label: 'Inset' },
     ])
     .spacing()
     .classes()
+    .build(),
+
+  VAlert: def({
+    type: 'VAlert',
+    label: 'Alert',
+    treeIcon: 'mdi-alert-circle-outline',
+    slots: [
+      { name: 'default', label: 'Default' },
+      { name: 'title', label: 'Title' },
+      { name: 'prepend', label: 'Prepend' },
+      { name: 'append', label: 'Append' },
+    ],
+    defaultProps: { type: 'info', variant: 'flat' },
+    defaultClasses: [],
+    defaultTextChild: true,
+    showInPalette: true,
+  })
+    .section('Alert Properties', [
+      { kind: 'select', prop: 'type',    label: 'Type',    options: ALERT_TYPES },
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'text',   prop: 'title',   label: 'Title',   placeholder: 'Alert title' },
+      { kind: 'switch', prop: 'closable',label: 'Closable' },
+      { kind: 'switch', prop: 'prominent',label: 'Prominent' },
+    ])
+    .typography()
+    .spacing()
+    .classes()
+    .build(),
+
+  VChip: def({
+    type: 'VChip',
+    label: 'Chip',
+    treeIcon: 'mdi-label-outline',
+    slots: [
+      { name: 'default', label: 'Default' },
+      { name: 'prepend', label: 'Prepend' },
+      { name: 'append', label: 'Append' },
+    ],
+    defaultProps: { variant: 'elevated' },
+    defaultClasses: [],
+    defaultTextChild: true,
+    showInPalette: true,
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant', label: 'Variant', options: VARIANTS },
+      { kind: 'select', prop: 'color',   label: 'Color',   options: COLORS },
+      { kind: 'select', prop: 'size',    label: 'Size',    options: ICON_SIZES },
+      { kind: 'switch', prop: 'closable',label: 'Closable' },
+      { kind: 'switch', prop: 'pill',    label: 'Pill' },
+    ])
+    .section('Icons', [
+      { kind: 'icon-slots', slots: [
+          { prop: 'prependIcon', label: 'Prepend Icon' },
+          { prop: 'appendIcon',  label: 'Append Icon' },
+        ]},
+    ])
+    .typography()
+    .spacing()
+    .classes()
+    .build(),
+
+  VAvatar: def({
+    type: 'VAvatar',
+    label: 'Avatar',
+    treeIcon: 'mdi-account-circle-outline',
+    slots: [
+      { name: 'default', label: 'Default' },
+    ],
+    defaultProps: { size: 'default' },
+    defaultClasses: [],
+    showInPalette: true,
+  })
+    .section('Appearance', [
+      { kind: 'text',   prop: 'image',   label: 'Image URL', placeholder: 'https://...' },
+      { kind: 'select', prop: 'color',   label: 'Color',     options: COLORS },
+      { kind: 'select', prop: 'variant', label: 'Variant',   options: VARIANTS },
+      { kind: 'select', prop: 'size',    label: 'Size',      options: ICON_SIZES },
+      { kind: 'switch', prop: 'rounded', label: 'Rounded' },
+    ])
+    .section('Icon', [
+      { kind: 'icon-picker', prop: 'icon',  label: 'Fallback Icon' },
+    ])
+    .spacing()
+    .classes()
+    .build(),
+
+  VProgressCircular: def({
+    type: 'VProgressCircular',
+    label: 'Progress Circular',
+    treeIcon: 'mdi-progress-circular',
+    slots: [
+      { name: 'default', label: 'Default' },
+    ],
+    defaultProps: { indeterminate: true, size: 'default' },
+    defaultClasses: [],
+    showInPalette: true,
+  })
+    .section('Progress', [
+      { kind: 'switch', prop: 'indeterminate', label: 'Indeterminate' },
+      { kind: 'slider', prop: 'modelValue',    label: 'Value', min: 0, max: 100, step: 1 },
+      { kind: 'select', prop: 'color',         label: 'Color', options: COLORS },
+      { kind: 'select', prop: 'size',          label: 'Size',  options: ICON_SIZES },
+      { kind: 'slider', prop: 'width',         label: 'Width', min: 1, max: 20, step: 1 },
+    ])
+    .spacing()
+    .classes()
+    .build(),
+
+  VSpacer: def({
+    type: 'VSpacer',
+    label: 'Spacer',
+    treeIcon: 'mdi-keyboard-space',
+    isLeaf: true,
+    slots: [],
+    defaultProps: {},
+    defaultClasses: [],
+    showInPalette: true,
+  })
     .build(),
 
   TEXT: def({
@@ -385,18 +507,14 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     .build(),
 }
 
-// ─── Derived exports (replace componentRegistry.ts consumers) ───────────────
-
 export const getComponentDef = (type: string): ComponentDef | undefined =>
   COMPONENT_DEFS[type]
 
-/** Components shown in the palette (+) menu */
 export const PALETTE_COMPONENTS = Object.values(COMPONENT_DEFS).filter(d => d.showInPalette)
-/** Container types available in the Wrap toolbar */
+
 export const WRAP_CONTAINER_TYPES = Object.values(COMPONENT_DEFS)
   .filter(d => d.isWrapContainer)
   .map(d => ({ type: d.type as ComponentType, label: d.label, icon: d.treeIcon }))
 
-/** Slot definitions for a given component type */
 export const getComponentSlots = (type: string) =>
   COMPONENT_DEFS[type]?.slots ?? [{ name: 'default', label: 'Default' }]
