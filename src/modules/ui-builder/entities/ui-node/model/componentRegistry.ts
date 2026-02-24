@@ -1,3 +1,13 @@
+import type { ComponentType } from './types'
+
+export const WRAP_ALLOWED_TYPES: { type: ComponentType; label: string; icon: string }[] = [
+  { type: 'div',   label: 'Box (div)', icon: 'mdi-xml' },
+  { type: 'VCard', label: 'Card',      icon: 'mdi-card-outline' },
+  { type: 'VRow',  label: 'Row',       icon: 'mdi-view-sequential-outline' },
+  { type: 'VCol',  label: 'Col',       icon: 'mdi-view-column-outline' },
+  { type: 'VList', label: 'List',      icon: 'mdi-format-list-bulleted' },
+]
+
 export interface SlotDefinition {
   name: string
   label: string

@@ -12,7 +12,12 @@ const props = defineProps<{
 }>()
 
 const store = useUiTreeStore()
-const { selectedNodeId } = storeToRefs(store)
+const { selectedNodeIds } = storeToRefs(store)
+
+const handleNodeClick = (e: MouseEvent) => {
+  if (e.shiftKey) store.toggleMultiSelect(props.node.id)
+  else store.selectNode(props.node.id)
+}
 
 // Список доступних компонентів для додавання
 const availableComponents: { type: ComponentType; label: string }[] = [
@@ -83,9 +88,9 @@ const onAddToSlot = (slotName: string, type: ComponentType, label: string) => {
   <div class="tree-node">
     <div
       class="node-row"
-      :class="{ 'node-row--selected': selectedNodeId === node.id }"
+      :class="{ 'node-row--selected': selectedNodeIds.includes(node.id) }"
       :style="{ paddingLeft: nodeIndent }"
-      @click.stop="store.selectNode(node.id)"
+      @click.stop="handleNodeClick"
     >
       <button
         v-if="node.children.length > 0"
