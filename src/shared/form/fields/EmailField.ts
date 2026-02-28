@@ -6,10 +6,15 @@ export class EmailField extends BaseField<string, FieldConfig> {
   readonly type = 'email' as const
 
   constructor(config: FieldConfig) {
+    const userRules = config.validations?.rules ?? config.rules ?? []
     super(
       {
         ...config,
-        rules: [email(), ...(config.rules ?? [])]
+        rules: undefined,
+        validations: {
+          ...config.validations,
+          rules: [email(), ...userRules],
+        },
       },
       ''
     )

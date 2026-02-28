@@ -6,14 +6,21 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
   value: TValue
   readonly config: TConfig
 
-  constructor(config: TConfig, defaultValue: TValue) {
+  constructor(config: TConfig, fallbackValue: TValue) {
     this.config = config
-    this.value = (config.defaultValue as TValue) ?? defaultValue
+    // new API: value / old API: defaultValue
+    this.value = (config.value as TValue) ?? (config.defaultValue as TValue) ?? fallbackValue
+  }
+
+  get isRequired(): boolean {
+    // new API: validations.required / old API: required
+    return this.config.validations?.required ?? this.config.required ?? false
   }
 
   get rules(): ValidationRule[] {
-    const fieldRules = this.config.rules ?? []
-    return this.config.required
+    // new API: validations.rules / old API: rules
+    const fieldRules = this.config.validations?.rules ?? this.config.rules ?? []
+    return this.isRequired
       ? [v => (v !== null && v !== undefined && v !== '') || 'Field is required', ...fieldRules]
       : fieldRules
   }
@@ -24,6 +31,10 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
 
   get description(): string | undefined {
     return this.config.description
+  }
+
+  get info(): string | undefined {
+    return this.config.info
   }
 
   get isDisabled(): boolean {
@@ -43,7 +54,9 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
   }
 
   reset(): void {
-    this.value = (this.config.defaultValue as TValue) ?? ('' as unknown as TValue)
+    // new API: value / old API: defaultValue
+    const initial = this.config.value ?? this.config.defaultValue
+    this.value = (initial as TValue) ?? ('' as unknown as TValue)
   }
 
   validate(): string[] {

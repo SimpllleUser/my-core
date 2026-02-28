@@ -6,24 +6,39 @@ export type FieldType =
   | 'select'
   | 'checkbox'
   | 'autocomplete'
+  | 'number'
 
 export type ValidationRule = (value: unknown) => string | true
 
 export type TransformFn<T = unknown> = (value: T) => unknown
 
+export interface FieldValidations {
+  required?: boolean
+  rules?: ValidationRule[]
+}
+
 export interface FieldConfig {
+  /** Initial (and reset) value */
+  value?: unknown
   label?: string
   description?: string
   placeholder?: string
   hint?: string
-  rules?: ValidationRule[]
+  /** Tooltip text shown as info icon next to label */
+  info?: string
+  validations?: FieldValidations
   disabled?: boolean
   readonly?: boolean
-  required?: boolean
-  defaultValue?: unknown
   vuetifyProps?: Record<string, unknown>
-  /** Трансформація значення поля перед відправкою форми */
+  /** Transform value before form submission */
   transform?: TransformFn
+
+  /** @deprecated Use `value` instead */
+  defaultValue?: unknown
+  /** @deprecated Use `validations.required` instead */
+  required?: boolean
+  /** @deprecated Use `validations.rules` instead */
+  rules?: ValidationRule[]
 }
 
 export type FormValues = Record<string, unknown>

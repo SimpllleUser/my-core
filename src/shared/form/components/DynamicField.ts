@@ -1,8 +1,9 @@
-import { defineComponent, h, inject } from 'vue'
-import { resolveFieldComponent } from './fieldComponentMap'
-import { resolveBaseProps } from './fieldPropsStrategies'
-import { FIELD_DEFAULTS_KEY, defaultFieldDefaults } from './fieldDefaults'
-import FieldWrapper from './FieldWrapper.vue'
+/**
+ * @deprecated Use `FormField` with `v-model` instead.
+ * Kept for backward compatibility with the old `v-bind="bind.field"` pattern.
+ */
+import { defineComponent, h } from 'vue'
+import { FormField } from './FormField'
 import type { BaseField } from '../fields/BaseField'
 
 export const DynamicField = defineComponent({
@@ -11,46 +12,31 @@ export const DynamicField = defineComponent({
   props: {
     field: {
       type: Object as () => BaseField,
-      required: true
+      required: true,
     },
     modelValue: {
       type: null as unknown as () => unknown,
-      required: true
+      required: true,
     },
     errors: {
       type: Array as () => string[],
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   emits: {
-    'update:modelValue': (_value: unknown) => true
+    'update:modelValue': (_value: unknown) => true,
   },
 
   setup(props, { slots, emit }) {
-    const fieldDefaults = inject(FIELD_DEFAULTS_KEY, defaultFieldDefaults)
-
-    return () => {
-      const { field, modelValue, errors } = props
-
-      const inputNode = slots.default
-        ? slots.default({ field, errors, modelValue, onUpdate: (v: unknown) => emit('update:modelValue', v) })
-        : h(resolveFieldComponent(field.type), {
-            ...resolveBaseProps(field, modelValue, errors, fieldDefaults),
-            'onUpdate:modelValue': (v: unknown) => emit('update:modelValue', v)
-          })
-
-      return h(
-        FieldWrapper,
-        { field, errors },
+    return () =>
+      h(
+        FormField,
         {
-          default: () => inputNode,
-          ...(slots.label && { label: slots.label }),
-          ...(slots.description && { description: slots.description }),
-          ...(slots.errors && { errors: slots.errors }),
-          ...(slots.hint && { hint: slots.hint })
-        }
+          modelValue: { field: props.field, value: props.modelValue, errors: props.errors },
+          'onUpdate:modelValue': (state: { value: unknown }) => emit('update:modelValue', state.value),
+        },
+        slots
       )
-    }
-  }
+  },
 })

@@ -6,10 +6,11 @@ export const fieldComponentMap: Record<FieldType, Component> = {
   text: VTextField,
   email: VTextField,
   password: VTextField,
+  number: VTextField,
   textarea: VTextarea,
   select: VSelect,
   autocomplete: VAutocomplete,
-  checkbox: VCheckbox
+  checkbox: VCheckbox,
 }
 
 export const resolveFieldComponent = (type: FieldType): Component => {

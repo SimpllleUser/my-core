@@ -1,97 +1,82 @@
 <script setup lang="ts">
 import { Icons } from '../../model'
 import {
-  FormConfig,
   TextField,
   EmailField,
   PasswordField,
   SelectField,
   CheckboxField,
-  useFormState,
-  DynamicField
-} from '../../lib/form';
-import { required, minLength } from '..';
+  useForm,
+  FormField,
+} from '../../lib/form'
+import { required, minLength } from '..'
 
-const form = new FormConfig({
+const { form, submit, isValid, reset } = useForm({
   name: new TextField({
-    label: 'Ім\'я',
+    label: "Ім'я",
     description: 'Введіть ваше повне ім\'я',
-    required: true,
-    rules: [minLength(2)]
+    validations: { required: true, rules: [minLength(2)] },
   }),
   email: new EmailField({
     label: 'Email',
-    required: true
+    validations: { required: true },
   }),
   role: new SelectField({
     label: 'Роль',
-    required: true,
+    validations: { required: true },
     options: [
       { title: 'Адмін', value: 'admin' },
       { title: 'Менеджер', value: 'manager' },
-      { title: 'Користувач', value: 'user' }
-    ]
+      { title: 'Користувач', value: 'user' },
+    ],
   }),
   password: new PasswordField({
     label: 'Пароль',
-    required: true,
-    rules: [minLength(8)]
+    validations: { required: true, rules: [minLength(8)] },
   }),
   agree: new CheckboxField({
     label: 'Я погоджуюсь з умовами',
-    required: true,
-    rules: [required('Необхідно прийняти умови')]
-  })
-});
+    info: 'Необхідно прийняти умови для продовження реєстрації',
+    validations: { required: true, rules: [required('Необхідно прийняти умови')] },
+  }),
+})
 
-const { bind, isValid, validateAll, reset } = useFormState(form.getFields());
-
-const handleSubmit = () => {
-  if (!validateAll()) return;
-  reset();
-};
+const handleSubmit = () => submit(() => reset())
 </script>
-
 
 <template>
   <VForm @submit.prevent="handleSubmit">
     <VRow>
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <DynamicField v-bind="bind.name" />
+      <VCol cols="12" md="6">
+        <FormField v-model="form.name" />
       </VCol>
 
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <DynamicField v-bind="bind.email" />
+      <VCol cols="12" md="6">
+        <FormField v-model="form.email" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.role" />
+        <FormField v-model="form.role" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.password">
-          <template #label="{ label, required }">
+        <FormField v-model="form.password">
+          <template #label="{ label, required: isRequired }">
             <label class="custom-label">
               {{ label }}
               <VIcon
-                v-if="required"
+                v-if="isRequired"
                 :icon="Icons.Asterisk"
                 size="8"
                 color="error"
               />
             </label>
           </template>
-        </DynamicField>
+        </FormField>
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.agree" />
+        <FormField v-model="form.agree" />
       </VCol>
     </VRow>
 
@@ -99,11 +84,10 @@ const handleSubmit = () => {
       type="submit"
       color="primary"
       variant="flat"
-      :disabled="!isValid"
+      :disabled="isValid === false"
       block
     >
       Зареєструватись
     </VBtn>
   </VForm>
 </template>
-

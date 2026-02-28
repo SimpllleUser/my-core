@@ -9,12 +9,13 @@ type FieldPropsStrategy = (field: BaseField) => Record<string, unknown>
 const baseStrategy: FieldPropsStrategy = () => ({})
 const emailStrategy: FieldPropsStrategy = () => ({ type: 'email' })
 const passwordStrategy: FieldPropsStrategy = () => ({ type: 'password' })
+const numberStrategy: FieldPropsStrategy = () => ({ type: 'number' })
 
 const textareaStrategy: FieldPropsStrategy = field => {
   const f = field as TextareaField
   return {
     rows: f.config.rows ?? 4,
-    'auto-grow': f.config.autoGrow ?? false
+    'auto-grow': f.config.autoGrow ?? false,
   }
 }
 
@@ -22,7 +23,7 @@ const selectStrategy: FieldPropsStrategy = field => {
   const f = field as SelectField
   return {
     items: f.options,
-    multiple: f.multiple
+    multiple: f.multiple,
   }
 }
 
@@ -30,10 +31,11 @@ export const fieldPropsStrategies: Record<FieldType, FieldPropsStrategy> = {
   text: baseStrategy,
   email: emailStrategy,
   password: passwordStrategy,
+  number: numberStrategy,
   textarea: textareaStrategy,
   select: selectStrategy,
   autocomplete: selectStrategy,
-  checkbox: baseStrategy
+  checkbox: baseStrategy,
 }
 
 export const resolveFieldTypeProps = (field: BaseField): Record<string, unknown> => {
@@ -57,5 +59,5 @@ export const resolveBaseProps = (
   'error-messages': errors,
   ...defaults.baseProps,
   ...field.vuetifyProps,
-  ...resolveFieldTypeProps(field)
+  ...resolveFieldTypeProps(field),
 })

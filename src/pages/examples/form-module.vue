@@ -2,36 +2,40 @@
 import { Icons } from '../../shared/model'
 import { ref } from 'vue'
 import {
-  FormConfig,
   TextField,
   EmailField,
   PasswordField,
+  NumberField,
   SelectField,
   TextareaField,
   CheckboxField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   minLength,
   maxLength,
   required,
 } from '../../shared/form'
 
 // --- Registration Form ---
-const registerForm = new FormConfig({
+const {
+  form: registerForm,
+  submit: registerSubmit,
+  isValid: registerValid,
+  reset: registerReset,
+} = useForm({
   name: new TextField({
     label: "Ім'я",
     placeholder: "Введіть ваше ім'я",
-    required: true,
-    rules: [minLength(2)],
+    validations: { required: true, rules: [minLength(2)] },
   }),
   email: new EmailField({
     label: 'Email',
     placeholder: 'user@example.com',
-    required: true,
+    validations: { required: true },
   }),
   role: new SelectField({
     label: 'Роль',
-    required: true,
+    validations: { required: true },
     options: [
       { title: 'Адмін', value: 'admin' },
       { title: 'Менеджер', value: 'manager' },
@@ -40,75 +44,68 @@ const registerForm = new FormConfig({
   }),
   password: new PasswordField({
     label: 'Пароль',
-    required: true,
-    rules: [minLength(8)],
+    validations: { required: true, rules: [minLength(8)] },
   }),
   agree: new CheckboxField({
     label: 'Я погоджуюсь з умовами',
-    required: true,
-    rules: [required('Необхідно прийняти умови')],
+    info: 'Необхідно прийняти умови для продовження',
+    validations: { required: true, rules: [required('Необхідно прийняти умови')] },
   }),
 })
 
-const {
-  bind: registerBind,
-  isValid: registerValid,
-  validateAll: registerValidateAll,
-  reset: registerReset,
-} = useFormState(registerForm.getFields())
-
 const registerSubmitted = ref(false)
-const handleRegister = () => {
-  if (!registerValidateAll()) return
-  registerSubmitted.value = true
-  registerReset()
-}
+const handleRegister = () =>
+  registerSubmit(() => {
+    registerSubmitted.value = true
+    registerReset()
+  })
 
 // --- Login Form ---
-const loginForm = new FormConfig({
+const {
+  form: loginForm,
+  submit: loginSubmit,
+  isValid: loginValid,
+  reset: loginReset,
+} = useForm({
   email: new EmailField({
     label: 'Email',
     placeholder: 'user@example.com',
-    required: true,
+    validations: { required: true },
   }),
   password: new PasswordField({
     label: 'Пароль',
-    required: true,
-    rules: [minLength(6)],
+    validations: { required: true, rules: [minLength(6)] },
   }),
   remember: new CheckboxField({
     label: "Запам'ятати мене",
   }),
 })
 
-const {
-  bind: loginBind,
-  isValid: loginValid,
-  validateAll: loginValidateAll,
-  reset: loginReset,
-} = useFormState(loginForm.getFields())
-
 const loginSubmitted = ref(false)
-const handleLogin = () => {
-  if (!loginValidateAll()) return
-  loginSubmitted.value = true
-  loginReset()
-}
+const handleLogin = () =>
+  loginSubmit(() => {
+    loginSubmitted.value = true
+    loginReset()
+  })
 
 // --- Feedback Form ---
-const feedbackForm = new FormConfig({
+const {
+  form: feedbackForm,
+  submit: feedbackSubmit,
+  isValid: feedbackValid,
+  reset: feedbackReset,
+} = useForm({
   name: new TextField({
     label: "Ім'я",
-    required: true,
-    rules: [minLength(2)],
+    validations: { required: true, rules: [minLength(2)] },
   }),
   email: new EmailField({
     label: 'Email',
-    required: true,
+    validations: { required: true },
   }),
   category: new SelectField({
     label: 'Категорія',
-    required: true,
+    validations: { required: true },
     options: [
       { title: 'Баг', value: 'bug' },
       { title: 'Пропозиція', value: 'feature' },
@@ -119,51 +116,49 @@ const feedbackForm = new FormConfig({
   message: new TextareaField({
     label: 'Повідомлення',
     placeholder: 'Опишіть вашу проблему або пропозицію...',
-    required: true,
-    rules: [minLength(10), maxLength(500)],
+    validations: { required: true, rules: [minLength(10), maxLength(500)] },
     rows: 4,
     autoGrow: true,
   }),
 })
 
-const {
-  bind: feedbackBind,
-  isValid: feedbackValid,
-  validateAll: feedbackValidateAll,
-  reset: feedbackReset,
-} = useFormState(feedbackForm.getFields())
-
 const feedbackSubmitted = ref(false)
-const handleFeedback = () => {
-  if (!feedbackValidateAll()) return
-  feedbackSubmitted.value = true
-  feedbackReset()
-}
+const handleFeedback = () =>
+  feedbackSubmit(() => {
+    feedbackSubmitted.value = true
+    feedbackReset()
+  })
 
 // --- Profile Settings Form ---
-const profileForm = new FormConfig({
+const {
+  form: profileForm,
+  submit: profileSubmit,
+  reset: profileReset,
+} = useForm({
   firstName: new TextField({
     label: "Ім'я",
-    required: true,
-    defaultValue: 'Іван',
-    rules: [minLength(2)],
+    value: 'Іван',
+    validations: { required: true, rules: [minLength(2)] },
   }),
   lastName: new TextField({
     label: 'Прізвище',
-    required: true,
-    defaultValue: 'Петренко',
-    rules: [minLength(2)],
+    value: 'Петренко',
+    validations: { required: true, rules: [minLength(2)] },
+  }),
+  age: new NumberField({
+    label: 'Вік',
+    value: 30,
   }),
   bio: new TextareaField({
     label: 'Про себе',
-    defaultValue: 'Frontend developer з Києва',
+    value: 'Frontend developer з Києва',
     rows: 3,
     autoGrow: true,
-    rules: [maxLength(200)],
+    validations: { rules: [maxLength(200)] },
   }),
   language: new SelectField({
     label: 'Мова інтерфейсу',
-    defaultValue: 'uk',
+    value: 'uk',
     options: [
       { title: 'Українська', value: 'uk' },
       { title: 'English', value: 'en' },
@@ -172,23 +167,18 @@ const profileForm = new FormConfig({
   }),
   notifications: new CheckboxField({
     label: 'Отримувати сповіщення на email',
-    defaultValue: true,
+    info: 'Ви будете отримувати листи про важливі події',
+    value: true,
   }),
 })
 
-const {
-  bind: profileBind,
-  isDirty: profileDirty,
-  validateAll: profileValidateAll,
-  reset: profileReset,
-} = useFormState(profileForm.getFields())
-
 const profileSubmitted = ref(false)
-const handleProfile = () => {
-  if (!profileValidateAll()) return
-  profileSubmitted.value = true
-}
+const handleProfile = () =>
+  profileSubmit(() => {
+    profileSubmitted.value = true
+  })
 </script>
+
 <template>
   <VContainer fluid class="pa-6">
     <!-- Header -->
@@ -220,30 +210,30 @@ const handleProfile = () => {
             <VIcon :icon="Icons.AccountPlus" class="mr-2" />
             Registration Form
             <VSpacer />
-            <VChip color="teal" size="small">FormConfig, DynamicField, useFormState</VChip>
+            <VChip color="teal" size="small">useForm, FormField, validations</VChip>
           </VCardTitle>
           <VCardText>
             <p class="text-body-1 mb-4">User registration with email validation, password, role select, and checkbox</p>
             <VForm @submit.prevent="handleRegister">
               <VRow>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.name" />
+                  <FormField v-model="registerForm.name" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.email" />
+                  <FormField v-model="registerForm.email" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.role" />
+                  <FormField v-model="registerForm.role" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="registerBind.password" />
+                  <FormField v-model="registerForm.password" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="registerBind.agree" />
+                  <FormField v-model="registerForm.agree" />
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!registerValid">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="registerValid === false">
                   Register
                 </VBtn>
                 <VBtn variant="outlined" @click="registerReset">Reset</VBtn>
@@ -272,17 +262,17 @@ const handleProfile = () => {
             <VForm @submit.prevent="handleLogin">
               <VRow>
                 <VCol cols="12">
-                  <DynamicField v-bind="loginBind.email" />
+                  <FormField v-model="loginForm.email" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="loginBind.password" />
+                  <FormField v-model="loginForm.password" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="loginBind.remember" />
+                  <FormField v-model="loginForm.remember" />
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!loginValid">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="loginValid === false">
                   Login
                 </VBtn>
                 <VBtn variant="outlined" @click="loginReset">Reset</VBtn>
@@ -309,22 +299,23 @@ const handleProfile = () => {
           <VCardText>
             <p class="text-body-1 mb-4">Feedback form with textarea, category select, and validation rules</p>
             <VForm @submit.prevent="handleFeedback">
+              {{feedbackForm}}
               <VRow>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="feedbackBind.name" />
+                  <FormField v-model="feedbackForm.name" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="feedbackBind.email" />
+                  <FormField v-model="feedbackForm.email" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="feedbackBind.category" />
+                  <FormField v-model="feedbackForm.category" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="feedbackBind.message" />
+                  <FormField v-model="feedbackForm.message" />
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!feedbackValid">
+                <VBtn type="submit" color="primary" variant="flat" :disabled="feedbackValid === false">
                   Send Feedback
                 </VBtn>
                 <VBtn variant="outlined" @click="feedbackReset">Reset</VBtn>
@@ -346,36 +337,36 @@ const handleProfile = () => {
             <VIcon :icon="Icons.AccountCog" class="mr-2" />
             Profile Settings
             <VSpacer />
-            <VChip color="teal" size="small">isDirty, setValues, vuetifyProps</VChip>
+            <VChip color="teal" size="small">NumberField, value, info tooltip</VChip>
           </VCardTitle>
           <VCardText>
-            <p class="text-body-1 mb-4">Profile form with pre-filled values, dirty state tracking, and custom vuetify props</p>
+            <p class="text-body-1 mb-4">Profile form with pre-filled values, NumberField, and info tooltips</p>
             <VForm @submit.prevent="handleProfile">
               <VRow>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.firstName" />
+                  <FormField v-model="profileForm.firstName" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.lastName" />
+                  <FormField v-model="profileForm.lastName" />
+                </VCol>
+                <VCol cols="12" md="2">
+                  <FormField v-model="profileForm.age" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="profileBind.bio" />
+                  <FormField v-model="profileForm.bio" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.language" />
+                  <FormField v-model="profileForm.language" />
                 </VCol>
                 <VCol cols="12" md="6">
-                  <DynamicField v-bind="profileBind.notifications" />
+                  <FormField v-model="profileForm.notifications" />
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 align-center mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="!profileDirty">
+                <VBtn type="submit" color="primary" variant="flat">
                   Save Changes
                 </VBtn>
                 <VBtn variant="outlined" @click="profileReset">Reset</VBtn>
-                <VChip v-if="profileDirty" color="warning" size="small" class="ml-2">
-                  Unsaved changes
-                </VChip>
               </div>
             </VForm>
             <VAlert v-if="profileSubmitted" type="success" class="mt-4" closable @click:close="profileSubmitted = false">
