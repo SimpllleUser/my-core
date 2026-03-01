@@ -15,6 +15,7 @@ import {
   maxLength,
   required,
 } from '../../shared/form'
+import CustomInputExample from './CustomInputExample.vue'
 
 // --- Registration Form ---
 const {
@@ -371,6 +372,28 @@ const handleProfile = () =>
             <VAlert v-if="profileSubmitted" type="success" class="mt-4" closable @click:close="profileSubmitted = false">
               Profile updated!
             </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Custom Input Adapter Example -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.Pencil" class="mr-2" />
+            Custom Input Adapter
+            <VSpacer />
+            <VChip color="deep-purple" size="small">provideFormAdapters, PlainTextInput</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">
+              Поля <code>text</code> та <code>email</code> замінені на кастомний <code>PlainTextInput</code>
+              без залежності від Vuetify. Адаптер зареєстровано локально через
+              <code>provideFormAdapters</code> всередині компонента.
+            </p>
+            <CustomInputExample />
           </VCardText>
         </VCard>
       </VCol>

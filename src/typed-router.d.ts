@@ -26,6 +26,7 @@ declare module 'vue-router/auto-routes' {
     '/examples/blog': RouteRecordInfo<'/examples/blog', '/examples/blog', Record<never, never>, Record<never, never>>,
     '/examples/cards': RouteRecordInfo<'/examples/cards', '/examples/cards', Record<never, never>, Record<never, never>>,
     '/examples/chat': RouteRecordInfo<'/examples/chat', '/examples/chat', Record<never, never>, Record<never, never>>,
+    '/examples/CustomInputExample': RouteRecordInfo<'/examples/CustomInputExample', '/examples/CustomInputExample', Record<never, never>, Record<never, never>>,
     '/examples/dashboard': RouteRecordInfo<'/examples/dashboard', '/examples/dashboard', Record<never, never>, Record<never, never>>,
     '/examples/ecommerce': RouteRecordInfo<'/examples/ecommerce', '/examples/ecommerce', Record<never, never>, Record<never, never>>,
     '/examples/error-pages': RouteRecordInfo<'/examples/error-pages', '/examples/error-pages', Record<never, never>, Record<never, never>>,
@@ -36,6 +37,7 @@ declare module 'vue-router/auto-routes' {
     '/examples/lists': RouteRecordInfo<'/examples/lists', '/examples/lists', Record<never, never>, Record<never, never>>,
     '/examples/modals': RouteRecordInfo<'/examples/modals', '/examples/modals', Record<never, never>, Record<never, never>>,
     '/examples/navigation': RouteRecordInfo<'/examples/navigation', '/examples/navigation', Record<never, never>, Record<never, never>>,
+    '/examples/PlainTextInput': RouteRecordInfo<'/examples/PlainTextInput', '/examples/PlainTextInput', Record<never, never>, Record<never, never>>,
     '/examples/settings': RouteRecordInfo<'/examples/settings', '/examples/settings', Record<never, never>, Record<never, never>>,
     '/examples/social': RouteRecordInfo<'/examples/social', '/examples/social', Record<never, never>, Record<never, never>>,
     '/examples/tables': RouteRecordInfo<'/examples/tables', '/examples/tables', Record<never, never>, Record<never, never>>,
@@ -86,6 +88,10 @@ declare module 'vue-router/auto-routes' {
       routes: '/examples/chat'
       views: never
     }
+    'src/pages/examples/CustomInputExample.vue': {
+      routes: '/examples/CustomInputExample'
+      views: never
+    }
     'src/pages/examples/dashboard.vue': {
       routes: '/examples/dashboard'
       views: never
@@ -124,6 +130,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/examples/navigation.vue': {
       routes: '/examples/navigation'
+      views: never
+    }
+    'src/pages/examples/PlainTextInput.vue': {
+      routes: '/examples/PlainTextInput'
       views: never
     }
     'src/pages/examples/settings.vue': {
