@@ -1,14 +1,13 @@
 <!--
   Snippet: Checkout Form
   Description: E-commerce checkout form with billing, shipping, and payment
-  Components: VCard, FormField, FormConfig, useForm, VRadioGroup
+  Components: VCard, FormField, useForm, VRadioGroup
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref, computed } from 'vue'
 import {
-  FormConfig,
   TextField,
   EmailField,
   SelectField,
@@ -22,8 +21,11 @@ const promoCode = ref('')
 const sameAsBilling = ref(true)
 const shippingMethod = ref('standard')
 
-// --- Shipping Form ---
-const shippingForm = new FormConfig({
+const {
+  form: shipping,
+  isValid: shippingValid,
+  validateAll: shippingValidateAll,
+} = useForm({
   firstName: new TextField({ label: 'First Name', required: true }),
   lastName: new TextField({ label: 'Last Name', required: true }),
   address: new TextField({ label: 'Street Address', required: true }),
@@ -43,13 +45,10 @@ const shippingForm = new FormConfig({
 })
 
 const {
-  form: shipping,
-  isValid: shippingValid,
-  validateAll: shippingValidateAll,
-} = useForm(shippingForm.getFields())
-
-// --- Payment Form ---
-const paymentForm = new FormConfig({
+  form: payment,
+  isValid: paymentValid,
+  validateAll: paymentValidateAll,
+} = useForm({
   cardNumber: new TextField({
     label: 'Card Number',
     required: true,
@@ -72,12 +71,6 @@ const paymentForm = new FormConfig({
   cardName: new TextField({ label: 'Name on Card', required: true }),
 })
 
-const {
-  form: payment,
-  isValid: paymentValid,
-  validateAll: paymentValidateAll,
-} = useForm(paymentForm.getFields())
-
 const shippingMethods = [
   { id: 'standard', name: 'Standard Shipping', description: '5-7 business days', price: 5.99 },
   { id: 'express', name: 'Express Shipping', description: '2-3 business days', price: 12.99 },
@@ -96,13 +89,10 @@ const tax = computed(() => subtotal.value * 0.08)
 const total = computed(() => subtotal.value + selectedShippingPrice.value + tax.value)
 const isFormValid = computed(() => shippingValid.value && paymentValid.value)
 
-const applyPromo = () => {
-  console.log('Apply promo:', promoCode.value)
-}
+const applyPromo = () => console.log('Apply promo:', promoCode.value)
 
 const placeOrder = () => {
   if (!shippingValidateAll() || !paymentValidateAll()) return
-
   loading.value = true
   setTimeout(() => {
     loading.value = false
@@ -113,7 +103,6 @@ const placeOrder = () => {
 <template>
   <VContainer>
     <VRow>
-      <!-- Checkout Form -->
       <VCol cols="12" lg="8">
         <VCard class="mb-4">
           <VCardTitle class="d-flex align-center">
@@ -123,36 +112,19 @@ const placeOrder = () => {
           <VCardText>
             <VForm>
               <VRow>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="shipping.firstName" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="shipping.lastName" />
-                </VCol>
-                <VCol cols="12">
-                  <FormField v-model="shipping.address" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="shipping.city" />
-                </VCol>
-                <VCol cols="12" sm="3">
-                  <FormField v-model="shipping.state" />
-                </VCol>
-                <VCol cols="12" sm="3">
-                  <FormField v-model="shipping.zip" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="shipping.email" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="shipping.phone" />
-                </VCol>
+                <VCol cols="12" sm="6"><FormField v-model="shipping.firstName" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="shipping.lastName" /></VCol>
+                <VCol cols="12"><FormField v-model="shipping.address" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="shipping.city" /></VCol>
+                <VCol cols="12" sm="3"><FormField v-model="shipping.state" /></VCol>
+                <VCol cols="12" sm="3"><FormField v-model="shipping.zip" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="shipping.email" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="shipping.phone" /></VCol>
               </VRow>
             </VForm>
           </VCardText>
         </VCard>
 
-        <!-- Shipping Method -->
         <VCard class="mb-4">
           <VCardTitle class="d-flex align-center">
             <VIcon color="primary" class="mr-2">{{ Icons.TruckDelivery }}</VIcon>
@@ -183,7 +155,6 @@ const placeOrder = () => {
           </VCardText>
         </VCard>
 
-        <!-- Payment Information -->
         <VCard>
           <VCardTitle class="d-flex align-center">
             <VIcon color="primary" class="mr-2">{{ Icons.CreditCard }}</VIcon>
@@ -192,31 +163,17 @@ const placeOrder = () => {
           <VCardText>
             <VForm>
               <VRow>
-                <VCol cols="12">
-                  <FormField v-model="payment.cardNumber" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="payment.expiry" />
-                </VCol>
-                <VCol cols="12" sm="6">
-                  <FormField v-model="payment.cvv" />
-                </VCol>
-                <VCol cols="12">
-                  <FormField v-model="payment.cardName" />
-                </VCol>
+                <VCol cols="12"><FormField v-model="payment.cardNumber" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="payment.expiry" /></VCol>
+                <VCol cols="12" sm="6"><FormField v-model="payment.cvv" /></VCol>
+                <VCol cols="12"><FormField v-model="payment.cardName" /></VCol>
               </VRow>
-
-              <VCheckbox
-                v-model="sameAsBilling"
-                label="Billing address same as shipping"
-                color="primary"
-              />
+              <VCheckbox v-model="sameAsBilling" label="Billing address same as shipping" color="primary" />
             </VForm>
           </VCardText>
         </VCard>
       </VCol>
 
-      <!-- Order Summary -->
       <VCol cols="12" lg="4">
         <VCard class="sticky-card">
           <VCardTitle>Order Summary</VCardTitle>
@@ -224,9 +181,7 @@ const placeOrder = () => {
             <VList density="compact">
               <VListItem v-for="item in cartItems" :key="item.id">
                 <template #prepend>
-                  <VAvatar rounded size="48" class="mr-3">
-                    <VImg :src="item.image" />
-                  </VAvatar>
+                  <VAvatar rounded size="48" class="mr-3"><VImg :src="item.image" /></VAvatar>
                 </template>
                 <VListItemTitle>{{ item.name }}</VListItemTitle>
                 <VListItemSubtitle>Qty: {{ item.quantity }}</VListItemSubtitle>
@@ -268,14 +223,7 @@ const placeOrder = () => {
               <span class="text-h6 font-weight-bold">${{ total.toFixed(2) }}</span>
             </div>
 
-            <VBtn
-              color="primary"
-              size="large"
-              block
-              :loading="loading"
-              :disabled="!isFormValid"
-              @click="placeOrder"
-            >
+            <VBtn color="primary" size="large" block :loading="loading" :disabled="!isFormValid" @click="placeOrder">
               Place Order
               <VIcon end>{{ Icons.Lock }}</VIcon>
             </VBtn>

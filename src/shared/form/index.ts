@@ -7,15 +7,13 @@ export { SelectField } from './fields/SelectField'
 export { TextareaField } from './fields/TextareaField'
 export { CheckboxField } from './fields/CheckboxField'
 
-export { FormConfig } from './FormConfig'
 
 export { useForm } from './composables/useForm'
 
 export { default as FormField } from './components/FormField.vue'
 
 
-export { fieldComponentMap, resolveFieldComponent } from './components/fieldComponentMap'
-export { fieldPropsStrategies, resolveFieldTypeProps, resolveBaseProps } from './components/fieldPropsStrategies'
+
 export { FIELD_DEFAULTS_KEY, defaultFieldDefaults } from './components/fieldDefaults'
 export { useFieldDefaults } from './components/useFieldDefaults'
 

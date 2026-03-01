@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Icons } from '../../model'
 import {
-  FormConfig,
   TextField,
   EmailField,
   PasswordField,
@@ -13,7 +12,7 @@ import {
   minLength
 } from '..';
 
-const formConfig = new FormConfig({
+const { form, isValid, validateAll, reset } = useForm({
   name: new TextField({
     label: "Ім'я",
     description: 'Введіть ваше повне імя',
@@ -45,8 +44,6 @@ const formConfig = new FormConfig({
   })
 });
 
-const { form, isValid, validateAll, reset } = useForm(formConfig.getFields());
-
 const handleSubmit = () => {
   if (!validateAll()) return;
   reset();
@@ -56,17 +53,11 @@ const handleSubmit = () => {
 <template>
   <VForm @submit.prevent="handleSubmit">
     <VRow>
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <FormField v-model="form.name" />
       </VCol>
 
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <FormField v-model="form.email" />
       </VCol>
 
@@ -79,12 +70,7 @@ const handleSubmit = () => {
           <template #label="{ label, required }">
             <label class="custom-label">
               {{ label }}
-              <VIcon
-                v-if="required"
-                :icon="Icons.Asterisk"
-                size="8"
-                color="error"
-              />
+              <VIcon v-if="required" :icon="Icons.Asterisk" size="8" color="error" />
             </label>
           </template>
         </FormField>
@@ -95,13 +81,7 @@ const handleSubmit = () => {
       </VCol>
     </VRow>
 
-    <VBtn
-      type="submit"
-      color="primary"
-      variant="flat"
-      :disabled="!isValid"
-      block
-    >
+    <VBtn type="submit" color="primary" variant="flat" :disabled="!isValid" block>
       Зареєструватись
     </VBtn>
   </VForm>

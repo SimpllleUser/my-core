@@ -1,14 +1,13 @@
 <!--
   Snippet: Multi-Step Form
   Description: Wizard-style form with progress indicator and validation per step
-  Components: VCard, VStepper, FormField, FormConfig, useForm, VFileInput
+  Components: VCard, VStepper, FormField, useForm, VFileInput
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref, computed } from 'vue'
 import {
-  FormConfig,
   TextField,
   EmailField,
   SelectField,
@@ -23,8 +22,11 @@ import {
 const currentStep = ref(1)
 const loading = ref(false)
 
-// --- Step 1: Personal Information ---
-const step1Form = new FormConfig({
+const {
+  form: step1,
+  isValid: step1Valid,
+  validateAll: step1ValidateAll,
+} = useForm({
   firstName: new TextField({ label: 'First Name', required: true }),
   lastName: new TextField({ label: 'Last Name', required: true }),
   email: new EmailField({ label: 'Email', required: true }),
@@ -50,13 +52,10 @@ const step1Form = new FormConfig({
 })
 
 const {
-  form: step1,
-  isValid: step1Valid,
-  validateAll: step1ValidateAll,
-} = useForm(step1Form.getFields())
-
-// --- Step 2: Professional Experience ---
-const step2Form = new FormConfig({
+  form: step2,
+  isValid: step2Valid,
+  validateAll: step2ValidateAll,
+} = useForm({
   position: new SelectField({
     label: 'Desired Position',
     required: true,
@@ -68,9 +67,7 @@ const step2Form = new FormConfig({
   experience: new SelectField({
     label: 'Years of Experience',
     required: true,
-    options: [
-      '0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years',
-    ].map(e => ({ title: e, value: e })),
+    options: ['0-1 years', '1-3 years', '3-5 years', '5-10 years', '10+ years'].map(e => ({ title: e, value: e })),
   }),
   currentCompany: new TextField({ label: 'Current/Last Company' }),
   skills: new SelectField({
@@ -91,20 +88,12 @@ const step2Form = new FormConfig({
     label: 'Available Start Date',
     required: true,
     options: [
-      'Immediately', 'Within 2 weeks', 'Within 1 month',
-      'Within 2 months', 'More than 2 months',
+      'Immediately', 'Within 2 weeks', 'Within 1 month', 'Within 2 months', 'More than 2 months',
     ].map(d => ({ title: d, value: d })),
   }),
 })
 
-const {
-  form: step2,
-  isValid: step2Valid,
-  validateAll: step2ValidateAll,
-} = useForm(step2Form.getFields())
-
-// --- Step 3: Documents (file inputs stay as raw Vuetify) ---
-const step3Form = new FormConfig({
+const { form: step3 } = useForm({
   linkedin: new TextField({
     label: 'LinkedIn Profile URL',
     vuetifyProps: { 'prepend-inner-icon': Icons.LinkedIn },
@@ -120,8 +109,6 @@ const step3Form = new FormConfig({
   }),
 })
 
-const { form: step3 } = useForm(step3Form.getFields())
-
 const documents = ref({
   resume: null as File | null,
   coverLetter: null as File | null,
@@ -132,8 +119,11 @@ const fileRules = [
   (v: File | null) => !v || v.size < 5000000 || 'File size should be less than 5 MB',
 ]
 
-// --- Step 4: Review ---
-const reviewForm = new FormConfig({
+const {
+  form: review,
+  isValid: reviewValid,
+  validateAll: reviewValidateAll,
+} = useForm({
   agreeTerms: new CheckboxField({
     label: 'I agree to the Terms of Service and Privacy Policy',
     required: true,
@@ -141,14 +131,7 @@ const reviewForm = new FormConfig({
   }),
 })
 
-const {
-  form: review,
-  isValid: reviewValid,
-  validateAll: reviewValidateAll,
-} = useForm(reviewForm.getFields())
-
 const stepTitles = ['Personal', 'Experience', 'Documents', 'Review']
-
 const progressPercent = computed(() => ((currentStep.value - 1) / 3) * 100)
 
 const isCurrentStepValid = computed(() => {
@@ -173,7 +156,6 @@ const nextStep = () => {
 
 const submit = () => {
   if (!reviewValidateAll()) return
-
   loading.value = true
   setTimeout(() => {
     loading.value = false
@@ -186,49 +168,23 @@ const submit = () => {
     <VRow justify="center">
       <VCol cols="12" md="10" lg="8">
         <VCard>
-          <VCardTitle class="text-h5 font-weight-bold pa-6 pb-0">
-            Job Application Form
-          </VCardTitle>
-          <VCardSubtitle class="pa-6 pt-2">
-            Complete all steps to submit your application
-          </VCardSubtitle>
+          <VCardTitle class="text-h5 font-weight-bold pa-6 pb-0">Job Application Form</VCardTitle>
+          <VCardSubtitle class="pa-6 pt-2">Complete all steps to submit your application</VCardSubtitle>
 
-          <!-- Progress Bar -->
-          <VProgressLinear
-            :model-value="progressPercent"
-            color="primary"
-            height="4"
-          />
+          <VProgressLinear :model-value="progressPercent" color="primary" height="4" />
 
-          <VStepper
-            v-model="currentStep"
-            :items="stepTitles"
-            flat
-            alt-labels
-          >
+          <VStepper v-model="currentStep" :items="stepTitles" flat alt-labels>
             <template #item.1>
               <VCard flat>
                 <VCardTitle class="text-h6">Personal Information</VCardTitle>
                 <VCardText>
                   <VRow>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.firstName" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.lastName" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.email" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.phone" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.dateOfBirth" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step1.gender" />
-                    </VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.firstName" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.lastName" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.email" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.phone" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.dateOfBirth" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step1.gender" /></VCol>
                   </VRow>
                 </VCardText>
               </VCard>
@@ -239,24 +195,12 @@ const submit = () => {
                 <VCardTitle class="text-h6">Professional Experience</VCardTitle>
                 <VCardText>
                   <VRow>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step2.position" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step2.experience" />
-                    </VCol>
-                    <VCol cols="12">
-                      <FormField v-model="step2.currentCompany" />
-                    </VCol>
-                    <VCol cols="12">
-                      <FormField v-model="step2.skills" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step2.expectedSalary" />
-                    </VCol>
-                    <VCol cols="12" sm="6">
-                      <FormField v-model="step2.startDate" />
-                    </VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step2.position" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step2.experience" /></VCol>
+                    <VCol cols="12"><FormField v-model="step2.currentCompany" /></VCol>
+                    <VCol cols="12"><FormField v-model="step2.skills" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step2.expectedSalary" /></VCol>
+                    <VCol cols="12" sm="6"><FormField v-model="step2.startDate" /></VCol>
                   </VRow>
                 </VCardText>
               </VCard>
@@ -288,15 +232,9 @@ const submit = () => {
                         show-size
                       />
                     </VCol>
-                    <VCol cols="12">
-                      <FormField v-model="step3.linkedin" />
-                    </VCol>
-                    <VCol cols="12">
-                      <FormField v-model="step3.portfolio" />
-                    </VCol>
-                    <VCol cols="12">
-                      <FormField v-model="step3.additionalInfo" />
-                    </VCol>
+                    <VCol cols="12"><FormField v-model="step3.linkedin" /></VCol>
+                    <VCol cols="12"><FormField v-model="step3.portfolio" /></VCol>
+                    <VCol cols="12"><FormField v-model="step3.additionalInfo" /></VCol>
                   </VRow>
                 </VCardText>
               </VCard>
@@ -361,33 +299,17 @@ const submit = () => {
 
           <VDivider />
 
-          <!-- Navigation Buttons -->
           <VCardActions class="pa-6">
-            <VBtn
-              v-if="currentStep > 1"
-              variant="text"
-              @click="currentStep--"
-            >
+            <VBtn v-if="currentStep > 1" variant="text" @click="currentStep--">
               <VIcon start>{{ Icons.ArrowLeft }}</VIcon>
               Previous
             </VBtn>
             <VSpacer />
-            <VBtn
-              v-if="currentStep < 4"
-              color="primary"
-              :disabled="!isCurrentStepValid"
-              @click="nextStep"
-            >
+            <VBtn v-if="currentStep < 4" color="primary" :disabled="!isCurrentStepValid" @click="nextStep">
               Next
               <VIcon end>{{ Icons.ArrowRight }}</VIcon>
             </VBtn>
-            <VBtn
-              v-else
-              color="primary"
-              :loading="loading"
-              :disabled="!reviewValid"
-              @click="submit"
-            >
+            <VBtn v-else color="primary" :loading="loading" :disabled="!reviewValid" @click="submit">
               Submit Application
               <VIcon end>{{ Icons.Send }}</VIcon>
             </VBtn>
