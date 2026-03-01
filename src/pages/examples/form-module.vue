@@ -15,12 +15,13 @@ import {
   maxLength,
   required,
 } from '../../shared/form'
+import CustomInputExample from './CustomInputExample.vue'
 
 // --- Registration Form ---
 const {
   form: registerForm,
   submit: registerSubmit,
-  isValid: registerValid,
+  isSubmitting: registerSubmitting,
   reset: registerReset,
 } = useForm({
   name: new TextField({
@@ -49,7 +50,7 @@ const {
   agree: new CheckboxField({
     label: 'Я погоджуюсь з умовами',
     info: 'Необхідно прийняти умови для продовження',
-    validations: { required: true, rules: [required('Необхідно прийняти умови')] },
+    // validations: { required: true, rules: [required('Необхідно прийняти умови')] },
   }),
 })
 
@@ -64,7 +65,7 @@ const handleRegister = () =>
 const {
   form: loginForm,
   submit: loginSubmit,
-  isValid: loginValid,
+  isSubmitting: loginSubmitting,
   reset: loginReset,
 } = useForm({
   email: new EmailField({
@@ -92,7 +93,7 @@ const handleLogin = () =>
 const {
   form: feedbackForm,
   submit: feedbackSubmit,
-  isValid: feedbackValid,
+  isSubmitting: feedbackSubmitting,
   reset: feedbackReset,
 } = useForm({
   name: new TextField({
@@ -233,7 +234,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="registerValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="registerSubmitting">
                   Register
                 </VBtn>
                 <VBtn variant="outlined" @click="registerReset">Reset</VBtn>
@@ -272,7 +273,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="loginValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="loginSubmitting">
                   Login
                 </VBtn>
                 <VBtn variant="outlined" @click="loginReset">Reset</VBtn>
@@ -299,7 +300,6 @@ const handleProfile = () =>
           <VCardText>
             <p class="text-body-1 mb-4">Feedback form with textarea, category select, and validation rules</p>
             <VForm @submit.prevent="handleFeedback">
-              {{feedbackForm}}
               <VRow>
                 <VCol cols="12" md="6">
                   <FormField v-model="feedbackForm.name" />
@@ -315,7 +315,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="feedbackValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="feedbackSubmitting">
                   Send Feedback
                 </VBtn>
                 <VBtn variant="outlined" @click="feedbackReset">Reset</VBtn>
@@ -372,6 +372,28 @@ const handleProfile = () =>
             <VAlert v-if="profileSubmitted" type="success" class="mt-4" closable @click:close="profileSubmitted = false">
               Profile updated!
             </VAlert>
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Custom Input Adapter Example -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.Pencil" class="mr-2" />
+            Custom Input Adapter
+            <VSpacer />
+            <VChip color="deep-purple" size="small">provideFormAdapters, PlainTextInput</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">
+              Поля <code>text</code> та <code>email</code> замінені на кастомний <code>PlainTextInput</code>
+              без залежності від Vuetify. Адаптер зареєстровано локально через
+              <code>provideFormAdapters</code> всередині компонента.
+            </p>
+            <CustomInputExample />
           </VCardText>
         </VCard>
       </VCol>

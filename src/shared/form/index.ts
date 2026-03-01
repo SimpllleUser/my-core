@@ -9,6 +9,8 @@ export { CheckboxField } from './fields/CheckboxField'
 
 
 export { useForm } from './composables/useForm'
+export { vuetifyAdapters, provideFormAdapters, useFormAdapters } from './adapters'
+export type { InputAdapter, InputAdapterContext, AdapterRegistry } from './adapters'
 
 export { default as FormField } from './components/FormField.vue'
 
@@ -16,6 +18,8 @@ export { default as FormField } from './components/FormField.vue'
 
 
 export * from './rules/validators'
+export { messages } from './rules/messages'
+export { resolveValidations } from './rules/resolveValidations'
 export type * from './types/field.types'
 
 export type { UseFormStateOptions, FormSubmitHandler, FormValues, FormErrors, TransformFn } from './types/field.types'
