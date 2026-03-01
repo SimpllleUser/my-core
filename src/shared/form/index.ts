@@ -9,6 +9,8 @@ export { CheckboxField } from './fields/CheckboxField'
 
 
 export { useForm } from './composables/useForm'
+export { vuetifyAdapters, provideFormAdapters, useFormAdapters } from './adapters'
+export type { InputAdapter, InputAdapterContext, AdapterRegistry } from './adapters'
 
 export { default as FormField } from './components/FormField.vue'
 

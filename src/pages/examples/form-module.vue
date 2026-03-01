@@ -20,7 +20,7 @@ import {
 const {
   form: registerForm,
   submit: registerSubmit,
-  isValid: registerValid,
+  isSubmitting: registerSubmitting,
   reset: registerReset,
 } = useForm({
   name: new TextField({
@@ -49,7 +49,7 @@ const {
   agree: new CheckboxField({
     label: 'Я погоджуюсь з умовами',
     info: 'Необхідно прийняти умови для продовження',
-    validations: { required: true, rules: [required('Необхідно прийняти умови')] },
+    // validations: { required: true, rules: [required('Необхідно прийняти умови')] },
   }),
 })
 
@@ -64,7 +64,7 @@ const handleRegister = () =>
 const {
   form: loginForm,
   submit: loginSubmit,
-  isValid: loginValid,
+  isSubmitting: loginSubmitting,
   reset: loginReset,
 } = useForm({
   email: new EmailField({
@@ -92,7 +92,7 @@ const handleLogin = () =>
 const {
   form: feedbackForm,
   submit: feedbackSubmit,
-  isValid: feedbackValid,
+  isSubmitting: feedbackSubmitting,
   reset: feedbackReset,
 } = useForm({
   name: new TextField({
@@ -233,7 +233,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="registerValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="registerSubmitting">
                   Register
                 </VBtn>
                 <VBtn variant="outlined" @click="registerReset">Reset</VBtn>
@@ -272,7 +272,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="loginValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="loginSubmitting">
                   Login
                 </VBtn>
                 <VBtn variant="outlined" @click="loginReset">Reset</VBtn>
@@ -299,7 +299,6 @@ const handleProfile = () =>
           <VCardText>
             <p class="text-body-1 mb-4">Feedback form with textarea, category select, and validation rules</p>
             <VForm @submit.prevent="handleFeedback">
-              {{feedbackForm}}
               <VRow>
                 <VCol cols="12" md="6">
                   <FormField v-model="feedbackForm.name" />
@@ -315,7 +314,7 @@ const handleProfile = () =>
                 </VCol>
               </VRow>
               <div class="d-flex ga-2 mt-2">
-                <VBtn type="submit" color="primary" variant="flat" :disabled="feedbackValid === false">
+                <VBtn type="submit" color="primary" variant="flat" :loading="feedbackSubmitting">
                   Send Feedback
                 </VBtn>
                 <VBtn variant="outlined" @click="feedbackReset">Reset</VBtn>
