@@ -1,7 +1,7 @@
 <!--
   Snippet: Contact Form
   Description: Contact form with validation and success state
-  Components: VCard, DynamicField, FormConfig, useFormState
+  Components: VCard, FormField, FormConfig, useForm
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
@@ -14,8 +14,8 @@ import {
   SelectField,
   TextareaField,
   CheckboxField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   minLength,
   maxLength,
 } from '../../shared/form'
@@ -23,7 +23,7 @@ import {
 const loading = ref(false)
 const submitted = ref(false)
 
-const form = new FormConfig({
+const formConfig = new FormConfig({
   firstName: new TextField({
     label: 'First Name',
     required: true,
@@ -68,7 +68,7 @@ const form = new FormConfig({
   }),
 })
 
-const { bind, isValid, validateAll, reset } = useFormState(form.getFields())
+const { form, isValid, validateAll, reset } = useForm(formConfig.getFields())
 
 const submit = () => {
   if (!validateAll()) return
@@ -108,25 +108,25 @@ const submit = () => {
           <VForm @submit.prevent="submit">
             <VRow>
               <VCol cols="12" sm="6">
-                <DynamicField v-bind="bind.firstName" />
+                <FormField v-model="form.firstName" />
               </VCol>
               <VCol cols="12" sm="6">
-                <DynamicField v-bind="bind.lastName" />
+                <FormField v-model="form.lastName" />
               </VCol>
               <VCol cols="12" sm="6">
-                <DynamicField v-bind="bind.email" />
+                <FormField v-model="form.email" />
               </VCol>
               <VCol cols="12" sm="6">
-                <DynamicField v-bind="bind.phone" />
+                <FormField v-model="form.phone" />
               </VCol>
               <VCol cols="12">
-                <DynamicField v-bind="bind.subject" />
+                <FormField v-model="form.subject" />
               </VCol>
               <VCol cols="12">
-                <DynamicField v-bind="bind.message" />
+                <FormField v-model="form.message" />
               </VCol>
               <VCol cols="12">
-                <DynamicField v-bind="bind.newsletter" />
+                <FormField v-model="form.newsletter" />
               </VCol>
             </VRow>
 

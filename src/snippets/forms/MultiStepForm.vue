@@ -1,7 +1,7 @@
 <!--
   Snippet: Multi-Step Form
   Description: Wizard-style form with progress indicator and validation per step
-  Components: VCard, VStepper, DynamicField, FormConfig, useFormState, VFileInput
+  Components: VCard, VStepper, FormField, FormConfig, useForm, VFileInput
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
@@ -14,8 +14,8 @@ import {
   SelectField,
   TextareaField,
   CheckboxField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   required,
   pattern,
 } from '../../shared/form'
@@ -50,11 +50,10 @@ const step1Form = new FormConfig({
 })
 
 const {
-  bind: step1Bind,
+  form: step1,
   isValid: step1Valid,
   validateAll: step1ValidateAll,
-  values: step1Values,
-} = useFormState(step1Form.getFields())
+} = useForm(step1Form.getFields())
 
 // --- Step 2: Professional Experience ---
 const step2Form = new FormConfig({
@@ -99,11 +98,10 @@ const step2Form = new FormConfig({
 })
 
 const {
-  bind: step2Bind,
+  form: step2,
   isValid: step2Valid,
   validateAll: step2ValidateAll,
-  values: step2Values,
-} = useFormState(step2Form.getFields())
+} = useForm(step2Form.getFields())
 
 // --- Step 3: Documents (file inputs stay as raw Vuetify) ---
 const step3Form = new FormConfig({
@@ -122,7 +120,7 @@ const step3Form = new FormConfig({
   }),
 })
 
-const { bind: step3Bind } = useFormState(step3Form.getFields())
+const { form: step3 } = useForm(step3Form.getFields())
 
 const documents = ref({
   resume: null as File | null,
@@ -144,10 +142,10 @@ const reviewForm = new FormConfig({
 })
 
 const {
-  bind: reviewBind,
+  form: review,
   isValid: reviewValid,
   validateAll: reviewValidateAll,
-} = useFormState(reviewForm.getFields())
+} = useForm(reviewForm.getFields())
 
 const stepTitles = ['Personal', 'Experience', 'Documents', 'Review']
 
@@ -214,22 +212,22 @@ const submit = () => {
                 <VCardText>
                   <VRow>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.firstName" />
+                      <FormField v-model="step1.firstName" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.lastName" />
+                      <FormField v-model="step1.lastName" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.email" />
+                      <FormField v-model="step1.email" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.phone" />
+                      <FormField v-model="step1.phone" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.dateOfBirth" />
+                      <FormField v-model="step1.dateOfBirth" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step1Bind.gender" />
+                      <FormField v-model="step1.gender" />
                     </VCol>
                   </VRow>
                 </VCardText>
@@ -242,22 +240,22 @@ const submit = () => {
                 <VCardText>
                   <VRow>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step2Bind.position" />
+                      <FormField v-model="step2.position" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step2Bind.experience" />
+                      <FormField v-model="step2.experience" />
                     </VCol>
                     <VCol cols="12">
-                      <DynamicField v-bind="step2Bind.currentCompany" />
+                      <FormField v-model="step2.currentCompany" />
                     </VCol>
                     <VCol cols="12">
-                      <DynamicField v-bind="step2Bind.skills" />
+                      <FormField v-model="step2.skills" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step2Bind.expectedSalary" />
+                      <FormField v-model="step2.expectedSalary" />
                     </VCol>
                     <VCol cols="12" sm="6">
-                      <DynamicField v-bind="step2Bind.startDate" />
+                      <FormField v-model="step2.startDate" />
                     </VCol>
                   </VRow>
                 </VCardText>
@@ -291,13 +289,13 @@ const submit = () => {
                       />
                     </VCol>
                     <VCol cols="12">
-                      <DynamicField v-bind="step3Bind.linkedin" />
+                      <FormField v-model="step3.linkedin" />
                     </VCol>
                     <VCol cols="12">
-                      <DynamicField v-bind="step3Bind.portfolio" />
+                      <FormField v-model="step3.portfolio" />
                     </VCol>
                     <VCol cols="12">
-                      <DynamicField v-bind="step3Bind.additionalInfo" />
+                      <FormField v-model="step3.additionalInfo" />
                     </VCol>
                   </VRow>
                 </VCardText>
@@ -318,15 +316,15 @@ const submit = () => {
                       <VList density="compact" class="bg-transparent">
                         <VListItem>
                           <VListItemSubtitle>Full Name</VListItemSubtitle>
-                          <VListItemTitle>{{ step1Values.firstName }} {{ step1Values.lastName }}</VListItemTitle>
+                          <VListItemTitle>{{ step1.firstName.value }} {{ step1.lastName.value }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Email</VListItemSubtitle>
-                          <VListItemTitle>{{ step1Values.email }}</VListItemTitle>
+                          <VListItemTitle>{{ step1.email.value }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Phone</VListItemSubtitle>
-                          <VListItemTitle>{{ step1Values.phone }}</VListItemTitle>
+                          <VListItemTitle>{{ step1.phone.value }}</VListItemTitle>
                         </VListItem>
                       </VList>
                     </VCol>
@@ -335,16 +333,16 @@ const submit = () => {
                       <VList density="compact" class="bg-transparent">
                         <VListItem>
                           <VListItemSubtitle>Position</VListItemSubtitle>
-                          <VListItemTitle>{{ step2Values.position }}</VListItemTitle>
+                          <VListItemTitle>{{ step2.position.value }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Experience</VListItemSubtitle>
-                          <VListItemTitle>{{ step2Values.experience }}</VListItemTitle>
+                          <VListItemTitle>{{ step2.experience.value }}</VListItemTitle>
                         </VListItem>
                         <VListItem>
                           <VListItemSubtitle>Skills</VListItemSubtitle>
                           <VListItemTitle>
-                            <VChip v-for="skill in (step2Values.skills as string[])" :key="skill" size="small" class="mr-1 mb-1">
+                            <VChip v-for="skill in (step2.skills.value as string[])" :key="skill" size="small" class="mr-1 mb-1">
                               {{ skill }}
                             </VChip>
                           </VListItemTitle>
@@ -355,7 +353,7 @@ const submit = () => {
 
                   <VDivider class="my-4" />
 
-                  <DynamicField v-bind="reviewBind.agreeTerms" />
+                  <FormField v-model="review.agreeTerms" />
                 </VCardText>
               </VCard>
             </template>

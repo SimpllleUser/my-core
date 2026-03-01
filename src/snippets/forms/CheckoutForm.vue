@@ -1,7 +1,7 @@
 <!--
   Snippet: Checkout Form
   Description: E-commerce checkout form with billing, shipping, and payment
-  Components: VCard, DynamicField, FormConfig, useFormState, VRadioGroup
+  Components: VCard, FormField, FormConfig, useForm, VRadioGroup
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
@@ -12,8 +12,8 @@ import {
   TextField,
   EmailField,
   SelectField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   pattern,
 } from '../../shared/form'
 
@@ -43,10 +43,10 @@ const shippingForm = new FormConfig({
 })
 
 const {
-  bind: shippingBind,
+  form: shipping,
   isValid: shippingValid,
   validateAll: shippingValidateAll,
-} = useFormState(shippingForm.getFields())
+} = useForm(shippingForm.getFields())
 
 // --- Payment Form ---
 const paymentForm = new FormConfig({
@@ -73,10 +73,10 @@ const paymentForm = new FormConfig({
 })
 
 const {
-  bind: paymentBind,
+  form: payment,
   isValid: paymentValid,
   validateAll: paymentValidateAll,
-} = useFormState(paymentForm.getFields())
+} = useForm(paymentForm.getFields())
 
 const shippingMethods = [
   { id: 'standard', name: 'Standard Shipping', description: '5-7 business days', price: 5.99 },
@@ -124,28 +124,28 @@ const placeOrder = () => {
             <VForm>
               <VRow>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="shippingBind.firstName" />
+                  <FormField v-model="shipping.firstName" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="shippingBind.lastName" />
+                  <FormField v-model="shipping.lastName" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="shippingBind.address" />
+                  <FormField v-model="shipping.address" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="shippingBind.city" />
+                  <FormField v-model="shipping.city" />
                 </VCol>
                 <VCol cols="12" sm="3">
-                  <DynamicField v-bind="shippingBind.state" />
+                  <FormField v-model="shipping.state" />
                 </VCol>
                 <VCol cols="12" sm="3">
-                  <DynamicField v-bind="shippingBind.zip" />
+                  <FormField v-model="shipping.zip" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="shippingBind.email" />
+                  <FormField v-model="shipping.email" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="shippingBind.phone" />
+                  <FormField v-model="shipping.phone" />
                 </VCol>
               </VRow>
             </VForm>
@@ -193,16 +193,16 @@ const placeOrder = () => {
             <VForm>
               <VRow>
                 <VCol cols="12">
-                  <DynamicField v-bind="paymentBind.cardNumber" />
+                  <FormField v-model="payment.cardNumber" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="paymentBind.expiry" />
+                  <FormField v-model="payment.expiry" />
                 </VCol>
                 <VCol cols="12" sm="6">
-                  <DynamicField v-bind="paymentBind.cvv" />
+                  <FormField v-model="payment.cvv" />
                 </VCol>
                 <VCol cols="12">
-                  <DynamicField v-bind="paymentBind.cardName" />
+                  <FormField v-model="payment.cardName" />
                 </VCol>
               </VRow>
 

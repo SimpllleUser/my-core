@@ -7,13 +7,13 @@ import {
   PasswordField,
   SelectField,
   CheckboxField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   required,
   minLength
 } from '..';
 
-const form = new FormConfig({
+const formConfig = new FormConfig({
   name: new TextField({
     label: "Ім'я",
     description: 'Введіть ваше повне імя',
@@ -45,7 +45,7 @@ const form = new FormConfig({
   })
 });
 
-const { bind, isValid, validateAll, reset } = useFormState(form.getFields());
+const { form, isValid, validateAll, reset } = useForm(formConfig.getFields());
 
 const handleSubmit = () => {
   if (!validateAll()) return;
@@ -60,22 +60,22 @@ const handleSubmit = () => {
         cols="12"
         md="6"
       >
-        <DynamicField v-bind="bind.name" />
+        <FormField v-model="form.name" />
       </VCol>
 
       <VCol
         cols="12"
         md="6"
       >
-        <DynamicField v-bind="bind.email" />
+        <FormField v-model="form.email" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.role" />
+        <FormField v-model="form.role" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.password">
+        <FormField v-model="form.password">
           <template #label="{ label, required }">
             <label class="custom-label">
               {{ label }}
@@ -87,11 +87,11 @@ const handleSubmit = () => {
               />
             </label>
           </template>
-        </DynamicField>
+        </FormField>
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.agree" />
+        <FormField v-model="form.agree" />
       </VCol>
     </VRow>
 
