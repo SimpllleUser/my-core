@@ -1,4 +1,5 @@
 import type { FieldConfig, FieldType, ValidationRule } from '../types/field.types'
+import { resolveValidations } from '../rules/resolveValidations'
 
 export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = FieldConfig> {
   abstract readonly type: FieldType
@@ -13,16 +14,14 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
   }
 
   get isRequired(): boolean {
-    // new API: validations.required / old API: required
-    return this.config.validations?.required ?? this.config.required ?? false
+    return Boolean(this.config.validations?.required ?? this.config.required)
   }
 
   get rules(): ValidationRule[] {
-    // new API: validations.rules / old API: rules
-    const fieldRules = this.config.validations?.rules ?? this.config.rules ?? []
-    return this.isRequired
-      ? [v => (v !== null && v !== undefined && v !== '') || 'Field is required', ...fieldRules]
-      : fieldRules
+    const resolved = resolveValidations(this.config.validations ?? {})
+    // backward compat: deprecated top-level config.rules
+    const legacy = this.config.rules ?? []
+    return [...resolved, ...legacy]
   }
 
   get label(): string | undefined {
@@ -57,11 +56,5 @@ export abstract class BaseField<TValue = unknown, TConfig extends FieldConfig = 
     // new API: value / old API: defaultValue
     const initial = this.config.value ?? this.config.defaultValue
     this.value = (initial as TValue) ?? ('' as unknown as TValue)
-  }
-
-  validate(): string[] {
-    return this.rules
-      .map(rule => rule(this.value))
-      .filter((result): result is string => result !== true)
   }
 }

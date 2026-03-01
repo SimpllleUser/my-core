@@ -12,8 +12,33 @@ export type ValidationRule = (value: unknown) => string | true
 
 export type TransformFn<T = unknown> = (value: T) => unknown
 
+/** Shorthand: number or [number, customMessage] */
+type WithMessage<T> = T | [T, string]
+
 export interface FieldValidations {
-  required?: boolean
+  /** Field cannot be empty */
+  required?: boolean | string
+  /** Must be a valid email address */
+  email?: boolean | string
+  /** Must be a valid URL */
+  url?: boolean | string
+  /** Must contain only numeric characters */
+  numeric?: boolean | string
+  /** Must be a whole integer number */
+  integer?: boolean | string
+  /** Minimum string length: 2 or [2, 'At least 2 chars'] */
+  minLength?: WithMessage<number>
+  /** Maximum string length: 100 or [100, 'Max 100 chars'] */
+  maxLength?: WithMessage<number>
+  /** Minimum numeric value: 0 or [0, 'Must be >= 0'] */
+  min?: WithMessage<number>
+  /** Maximum numeric value: 100 or [100, 'Must be <= 100'] */
+  max?: WithMessage<number>
+  /** Must match regex: /pattern/ or [/pattern/, 'Invalid format'] */
+  pattern?: WithMessage<RegExp>
+  /** Must match another field's value: () => val or [() => val, 'Must match'] */
+  sameAs?: WithMessage<() => unknown>
+  /** Custom rules for full flexibility */
   rules?: ValidationRule[]
 }
 

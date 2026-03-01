@@ -16,6 +16,8 @@ export { default as FormField } from './components/FormField.vue'
 
 
 export * from './rules/validators'
+export { messages } from './rules/messages'
+export { resolveValidations } from './rules/resolveValidations'
 export type * from './types/field.types'
 
 export type { UseFormStateOptions, FormSubmitHandler, FormValues, FormErrors, TransformFn } from './types/field.types'
