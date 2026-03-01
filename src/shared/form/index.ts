@@ -14,11 +14,9 @@ export { default as FormField } from './components/FormField.vue'
 
 
 
-export { FIELD_DEFAULTS_KEY, defaultFieldDefaults } from './components/fieldDefaults'
-export { useFieldDefaults } from './components/useFieldDefaults'
 
 export * from './rules/validators'
 export type * from './types/field.types'
-export type { FieldDefaults } from './components/fieldDefaults'
+
 export type { UseFormStateOptions, FormSubmitHandler, FormValues, FormErrors, TransformFn } from './types/field.types'
 export type { FieldState } from './components/FormField.vue'
