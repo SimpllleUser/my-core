@@ -6,6 +6,12 @@ export type HttpError =
   | { kind: 'timeout' }
   | { kind: 'abort' };
 
+export interface HttpResponseMeta<T> {
+  data: T;
+  status: number;
+  headers: Headers;
+}
+
 export interface HttpRequestConfig<D = any> {
   headers?: Record<string, string>;
   params?: Record<string, string | number | boolean>;
@@ -16,6 +22,15 @@ export interface HttpRequestConfig<D = any> {
   timeout?: number;
   retry?: number;
   retryDelay?: number;
+  onRetry?: (attempt: number, error: unknown) => void;
+  dedupe?: boolean;
+}
+
+export interface UploadConfig {
+  headers?: Record<string, string>;
+  onProgress?: (percent: number) => void;
+  signal?: AbortSignal;
+  timeout?: number;
 }
 
 export interface HttpClientConfig {
@@ -24,6 +39,16 @@ export interface HttpClientConfig {
   timeout?: number;
   retry?: number;
   retryDelay?: number;
+}
+
+export function isHttpError(error: unknown): error is HttpError;
+export function isHttpError<K extends HttpError['kind']>(error: unknown, kind: K): error is Extract<HttpError, { kind: K }>;
+export function isHttpError(error: unknown, kind?: string): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const e = error as Record<string, unknown>;
+  if (typeof e['kind'] !== 'string') return false;
+  const validKinds = ['network', 'http', 'timeout', 'abort'];
+  return kind !== undefined ? e['kind'] === kind : validKinds.includes(e['kind'] as string);
 }
 
 type InterceptorFulfilled<T> = (value: T) => T | Promise<T>;
@@ -85,11 +110,13 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
     response: new InterceptorManager<any>(),
   };
 
+  const pendingRequests = new Map<string, Promise<HttpResponseMeta<any>>>();
+
   async function request<T = any, D = any>(
     method: HttpMethod,
     url: string,
     config: HttpRequestConfig<D> = {}
-  ): Promise<T> {
+  ): Promise<HttpResponseMeta<T>> {
     let resolvedConfig: HttpRequestConfig<D> = { ...config };
     for (const { onFulfilled, onRejected } of interceptors.request.getActive()) {
       try {
@@ -110,6 +137,8 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
       timeout = defaultTimeout,
       retry = defaultRetry,
       retryDelay = defaultRetryDelay,
+      onRetry,
+      dedupe = method === 'GET',
     } = resolvedConfig;
 
     const fullUrl = `${baseURL}${url}${buildQuery(params)}`;
@@ -125,7 +154,7 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
       fetchInit.body = JSON.stringify(data);
     }
 
-    async function doFetch(): Promise<T> {
+    async function doFetch(): Promise<HttpResponseMeta<T>> {
       let timeoutId: ReturnType<typeof setTimeout> | undefined;
       let controller: AbortController | undefined;
       let timedOut = false;
@@ -169,7 +198,8 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
           } satisfies HttpError;
         }
 
-        return transformResponse ? transformResponse(parsedData) : parsedData;
+        const finalData = transformResponse ? transformResponse(parsedData) : parsedData;
+        return { data: finalData, status: response.status, headers: response.headers };
       } catch (err: any) {
         if (err?.kind) throw err;
 
@@ -183,50 +213,134 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
       }
     }
 
-    for (let attempt = 0; attempt <= retry; attempt++) {
-      if (attempt > 0) await sleep(retryDelay * attempt);
+    async function execute(): Promise<HttpResponseMeta<T>> {
+      let lastError: unknown;
 
-      try {
-        let result = await doFetch();
-
-        for (const { onFulfilled } of interceptors.response.getActive()) {
-          if (onFulfilled) result = await onFulfilled(result);
+      for (let attempt = 0; attempt <= retry; attempt++) {
+        if (attempt > 0) {
+          onRetry?.(attempt, lastError);
+          await sleep(retryDelay * attempt);
         }
 
-        return result as T;
-      } catch (error) {
-        let currentError = error;
+        try {
+          const meta = await doFetch();
+          let result = meta.data;
 
-        for (const { onRejected } of interceptors.response.getActive()) {
-          if (onRejected) {
-            try {
-              return (await onRejected(currentError)) as T;
-            } catch (interceptorError) {
-              currentError = interceptorError;
+          for (const { onFulfilled } of interceptors.response.getActive()) {
+            if (onFulfilled) result = await onFulfilled(result);
+          }
+
+          return { ...meta, data: result };
+        } catch (error) {
+          let currentError = error;
+
+          for (const { onRejected } of interceptors.response.getActive()) {
+            if (onRejected) {
+              try {
+                const resolved = await onRejected(currentError);
+                return { data: resolved as T, status: 0, headers: new Headers() };
+              } catch (interceptorError) {
+                currentError = interceptorError;
+              }
             }
           }
-        }
 
-        if (attempt < retry && isRetryable(currentError)) continue;
-        throw currentError;
+          lastError = currentError;
+          if (attempt < retry && isRetryable(currentError)) continue;
+          throw currentError;
+        }
       }
+
+      throw new Error('unreachable');
     }
 
-    throw new Error('unreachable');
+    if (dedupe) {
+      const existing = pendingRequests.get(fullUrl);
+      if (existing) return existing;
+      const promise = execute();
+      pendingRequests.set(fullUrl, promise);
+      promise.finally(() => pendingRequests.delete(fullUrl));
+      return promise;
+    }
+
+    return execute();
+  }
+
+  function upload<T = any>(url: string, formData: FormData, config: UploadConfig = {}): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${baseURL}${url}`);
+
+      const uploadHeaders = { ...defaultHeaders, ...config.headers };
+      for (const [key, value] of Object.entries(uploadHeaders)) {
+        if (key.toLowerCase() !== 'content-type') {
+          xhr.setRequestHeader(key, value);
+        }
+      }
+
+      if (config.onProgress) {
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            config.onProgress!(Math.round((e.loaded / e.total) * 100));
+          }
+        });
+      }
+
+      if (config.timeout) xhr.timeout = config.timeout;
+
+      if (config.signal) {
+        config.signal.addEventListener('abort', () => xhr.abort(), { once: true });
+      }
+
+      xhr.onload = () => {
+        const contentType = xhr.getResponseHeader('content-type') ?? '';
+        let data: any;
+        try {
+          data = contentType.includes('application/json') ? JSON.parse(xhr.responseText) : xhr.responseText;
+        } catch {
+          data = xhr.responseText;
+        }
+
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(data);
+        } else {
+          reject({ kind: 'http', status: xhr.status, statusText: xhr.statusText, data } satisfies HttpError);
+        }
+      };
+
+      xhr.onerror = () => reject({ kind: 'network', message: 'Upload failed' } satisfies HttpError);
+      xhr.ontimeout = () => reject({ kind: 'timeout' } satisfies HttpError);
+      xhr.onabort = () => reject({ kind: 'abort' } satisfies HttpError);
+
+      xhr.send(formData);
+    });
   }
 
   return {
     interceptors,
-    get: <T = any>(url: string, config?: HttpRequestConfig): Promise<T> =>
-      request<T>('GET', url, config),
-    post: <T = any, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
-      request<T, D>('POST', url, { ...config, data }),
-    put: <T = any, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
-      request<T, D>('PUT', url, { ...config, data }),
-    patch: <T = any, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
-      request<T, D>('PATCH', url, { ...config, data }),
-    delete: <T = any>(url: string, config?: HttpRequestConfig): Promise<T> =>
-      request<T>('DELETE', url, config),
+    upload,
+    get: <T>(url: string, config?: HttpRequestConfig): Promise<T> =>
+      request<T>('GET', url, config).then(r => r.data),
+    post: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
+      request<T, D>('POST', url, { ...config, data }).then(r => r.data),
+    put: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
+      request<T, D>('PUT', url, { ...config, data }).then(r => r.data),
+    patch: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<T> =>
+      request<T, D>('PATCH', url, { ...config, data }).then(r => r.data),
+    delete: <T>(url: string, config?: HttpRequestConfig): Promise<T> =>
+      request<T>('DELETE', url, config).then(r => r.data),
+    raw: {
+      get: <T>(url: string, config?: HttpRequestConfig): Promise<HttpResponseMeta<T>> =>
+        request<T>('GET', url, config),
+      post: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<HttpResponseMeta<T>> =>
+        request<T, D>('POST', url, { ...config, data }),
+      put: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<HttpResponseMeta<T>> =>
+        request<T, D>('PUT', url, { ...config, data }),
+      patch: <T, D = any>(url: string, data?: D, config?: HttpRequestConfig<D>): Promise<HttpResponseMeta<T>> =>
+        request<T, D>('PATCH', url, { ...config, data }),
+      delete: <T>(url: string, config?: HttpRequestConfig): Promise<HttpResponseMeta<T>> =>
+        request<T>('DELETE', url, config),
+    },
   };
 }
 
