@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { Icons } from '../../model'
 import {
-  FormConfig,
   TextField,
   EmailField,
   PasswordField,
   SelectField,
   CheckboxField,
-  useFormState,
-  DynamicField,
+  useForm,
+  FormField,
   required,
   minLength
 } from '..';
 
-const form = new FormConfig({
+const { form, isValid, validateAll, reset } = useForm({
   name: new TextField({
     label: "Ім'я",
     description: 'Введіть ваше повне імя',
@@ -45,8 +44,6 @@ const form = new FormConfig({
   })
 });
 
-const { bind, isValid, validateAll, reset } = useFormState(form.getFields());
-
 const handleSubmit = () => {
   if (!validateAll()) return;
   reset();
@@ -56,52 +53,35 @@ const handleSubmit = () => {
 <template>
   <VForm @submit.prevent="handleSubmit">
     <VRow>
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <DynamicField v-bind="bind.name" />
+      <VCol cols="12" md="6">
+        <FormField v-model="form.name" />
       </VCol>
 
-      <VCol
-        cols="12"
-        md="6"
-      >
-        <DynamicField v-bind="bind.email" />
+      <VCol cols="12" md="6">
+        <FormField v-model="form.email" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.role" />
+        <FormField v-model="form.role" />
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.password">
+        <FormField v-model="form.password">
           <template #label="{ label, required }">
             <label class="custom-label">
               {{ label }}
-              <VIcon
-                v-if="required"
-                :icon="Icons.Asterisk"
-                size="8"
-                color="error"
-              />
+              <VIcon v-if="required" :icon="Icons.Asterisk" size="8" color="error" />
             </label>
           </template>
-        </DynamicField>
+        </FormField>
       </VCol>
 
       <VCol cols="12">
-        <DynamicField v-bind="bind.agree" />
+        <FormField v-model="form.agree" />
       </VCol>
     </VRow>
 
-    <VBtn
-      type="submit"
-      color="primary"
-      variant="flat"
-      :disabled="!isValid"
-      block
-    >
+    <VBtn type="submit" color="primary" variant="flat" :disabled="!isValid" block>
       Зареєструватись
     </VBtn>
   </VForm>
