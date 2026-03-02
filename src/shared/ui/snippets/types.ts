@@ -68,6 +68,36 @@ export interface IPricingPlan {
   features: IPricingFeature[]
 }
 
+// ==================== Permissions Matrix ====================
+
+export interface MatrixRow {
+  key: string
+  label: string
+  icon?: IconType
+  color?: string
+  subtitle?: string
+  group?: string
+}
+
+export interface MatrixColumn {
+  key: string
+  label: string
+  shortLabel?: string
+  icon?: IconType
+  color?: string
+  group?: string
+}
+
+export interface MatrixGroup {
+  key: string
+  label: string
+  color?: string
+  icon?: IconType
+}
+
+export type MatrixValue = Record<string, Record<string, boolean>>
+export type MatrixMode = 'view' | 'edit' | 'compare'
+
 // ==================== Product Filter ====================
 
 export type FilterType = 'search' | 'checkbox' | 'range' | 'rating' | 'select' | 'toggle'

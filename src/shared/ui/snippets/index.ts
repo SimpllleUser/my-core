@@ -29,3 +29,6 @@ export { default as SocialPostCard } from './SocialPostCard.vue'
 // Ecommerce Components
 export { default as ProductFilter } from './ProductFilter.vue'
 export { default as ProductFilterField } from './ProductFilterField.vue'
+
+// Dashboard Components
+export { default as PermissionsMatrix } from './PermissionsMatrix.vue'
