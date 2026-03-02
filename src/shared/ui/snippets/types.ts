@@ -68,6 +68,36 @@ export interface IPricingPlan {
   features: IPricingFeature[]
 }
 
+// ==================== Product Filter ====================
+
+export type FilterType = 'search' | 'checkbox' | 'range' | 'rating' | 'select' | 'toggle'
+
+export interface IFilterOption {
+  label: string
+  value: string | number
+  count?: number
+  color?: ColorType
+  icon?: IconType
+}
+
+export interface IFilterField {
+  key: string
+  label: string
+  type: FilterType
+  options?: IFilterOption[]
+  min?: number
+  max?: number
+  step?: number
+  prefix?: string
+  suffix?: string
+  icon?: IconType
+  color?: ColorType
+  multiple?: boolean
+  hint?: string
+}
+
+export type FilterValues = Record<string, any>
+
 // ==================== Product ====================
 
 export interface IProduct {

@@ -25,3 +25,7 @@ export { default as BlogCard } from './BlogCard.vue'
 
 // Social Media Components
 export { default as SocialPostCard } from './SocialPostCard.vue'
+
+// Ecommerce Components
+export { default as ProductFilter } from './ProductFilter.vue'
+export { default as ProductFilterField } from './ProductFilterField.vue'
