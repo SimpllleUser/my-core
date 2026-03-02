@@ -345,3 +345,98 @@ export function createHttpClient(clientConfig: HttpClientConfig = {}) {
 }
 
 export const http = createHttpClient({ baseURL: 'http://localhost:3000' });
+
+/*
+ * ─── Usage Examples ──────────────────────────────────────────────────────────
+ *
+ * 1. Basic requests
+ *
+ *   interface User { id: number; name: string }
+ *
+ *   const user   = await http.get<User>('/users/1');
+ *   const created = await http.post<User>('/users', { name: 'Alice' });
+ *   const updated  = await http.put<User>('/users/1', { name: 'Bob' });
+ *   const patched  = await http.patch<User>('/users/1', { name: 'Charlie' });
+ *   await http.delete('/users/1');
+ *
+ * 2. Query params
+ *
+ *   const users = await http.get<User[]>('/users', { params: { page: 1, limit: 20 } });
+ *   // → GET /users?page=1&limit=20
+ *
+ * 3. Raw response (status + headers + data)
+ *
+ *   const { data, status, headers } = await http.raw.get<User[]>('/users');
+ *   console.log(status, headers.get('x-total-count'), data);
+ *
+ * 4. Custom client
+ *
+ *   const api = createHttpClient({
+ *     baseURL: 'https://api.example.com',
+ *     headers: { Authorization: 'Bearer TOKEN' },
+ *     timeout: 10_000,
+ *     retry: 2,
+ *     retryDelay: 500,
+ *   });
+ *
+ * 5. Interceptors
+ *
+ *   // Add auth token to every request
+ *   api.interceptors.request.use(config => ({
+ *     ...config,
+ *     headers: { ...config.headers, Authorization: `Bearer ${getToken()}` },
+ *   }));
+ *
+ *   // Log every response
+ *   const id = api.interceptors.response.use(data => { console.log(data); return data; });
+ *   api.interceptors.response.eject(id); // remove later
+ *
+ * 6. Retry with callback
+ *
+ *   const result = await http.get<User>('/users/1', {
+ *     retry: 3,
+ *     retryDelay: 300,
+ *     onRetry: (attempt, err) => console.warn(`Retry #${attempt}`, err),
+ *   });
+ *
+ * 7. Timeout & abort
+ *
+ *   const controller = new AbortController();
+ *   setTimeout(() => controller.abort(), 2000);
+ *
+ *   const data = await http.get('/slow-endpoint', {
+ *     timeout: 5000,
+ *     signal: controller.signal,
+ *   });
+ *
+ * 8. File upload with progress
+ *
+ *   const form = new FormData();
+ *   form.append('file', fileInput.files[0]);
+ *
+ *   await http.upload<{ url: string }>('/upload', form, {
+ *     onProgress: (pct) => console.log(`${pct}%`),
+ *     timeout: 30_000,
+ *   });
+ *
+ * 9. Error handling
+ *
+ *   try {
+ *     await http.get('/protected');
+ *   } catch (err) {
+ *     if (isHttpError(err, 'http') && err.status === 401) { redirect('/login'); }
+ *     if (isHttpError(err, 'timeout'))  { showRetryToast(); }
+ *     if (isHttpError(err, 'network'))  { showOfflineBanner(); }
+ *     if (isHttpError(err, 'abort'))    { /* request was cancelled *\/ }
+ *   }
+ *
+ * 10. Request deduplication (default for GET)
+ *
+ *   // Both calls share one in-flight request → one fetch
+ *   Promise.all([http.get('/users'), http.get('/users')]);
+ *
+ *   // Opt-out
+ *   http.get('/users', { dedupe: false });
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
