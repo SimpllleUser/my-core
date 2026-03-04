@@ -25,3 +25,27 @@ export { default as BlogCard } from './BlogCard.vue'
 
 // Social Media Components
 export { default as SocialPostCard } from './SocialPostCard.vue'
+
+// FAQ Components
+export { default as FaqItem } from './FaqItem.vue'
+
+// CTA & Marketing Components
+export { default as CtaBanner } from './CtaBanner.vue'
+export { default as NewsletterCard } from './NewsletterCard.vue'
+export { default as AnnouncementBanner } from './AnnouncementBanner.vue'
+
+// Timeline & Steps Components
+export { default as TimelineItem } from './TimelineItem.vue'
+export { default as StepItem } from './StepItem.vue'
+
+// UI State Components
+export { default as EmptyState } from './EmptyState.vue'
+
+// Auth Components
+export { default as AuthCard } from './AuthCard.vue'
+
+// Notification Components
+export { default as NotificationItem } from './NotificationItem.vue'
+
+// Gallery Components
+export { default as GalleryCard } from './GalleryCard.vue'
