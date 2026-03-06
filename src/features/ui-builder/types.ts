@@ -1,5 +1,5 @@
 export type CompCtor = any;
-export type CompName = 'VBtn' | 'VChip' | 'VAlert' | 'VRow' | 'VCol';
+export type CompName = 'VBtn' | 'VChip' | 'VAlert' | 'VRow' | 'VCol' | 'VExpansionPanels' | 'VExpansionPanel';
 
 export interface PaletteItem {
   id: number;

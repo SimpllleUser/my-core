@@ -138,6 +138,12 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
       })
     }
 
+    if (def?.defaultChildren) {
+      for (const childType of def.defaultChildren) {
+        newNode.children.push(createNode(childType))
+      }
+    }
+
     return newNode
   }
 

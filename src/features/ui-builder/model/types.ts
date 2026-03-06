@@ -1,4 +1,4 @@
-export type CompName = 'VBtn' | 'VChip' | 'VAlert' | 'VRow' | 'VCol' | 'Div';
+export type CompName = 'VBtn' | 'VChip' | 'VAlert' | 'VRow' | 'VCol' | 'Div' | 'VExpansionPanels' | 'VExpansionPanel';
 
 export type PaletteItem = {
   id: number;

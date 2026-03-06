@@ -2,7 +2,7 @@
 import { Icons } from '../../../shared/model'
 import { defineComponent, h } from 'vue';
 import { VueDraggableNext as Draggable } from 'vue-draggable-next';
-import { VRow, VCol, VBtn } from 'vuetify/components';
+import { VRow, VCol, VBtn, VExpansionPanels, VExpansionPanel } from 'vuetify/components';
 import type { PaletteItem } from '../types';
 
 export default defineComponent({
@@ -194,6 +194,98 @@ export default defineComponent({
             }
           )
         ]
+      );
+    }
+
+    if (n.name === 'VExpansionPanels') {
+      if (!n.children) n.children = [];
+      return h(
+        Draggable as any,
+        {
+          modelValue: n.children,
+          'onUpdate:modelValue': (v: PaletteItem[]) => { n.children = v; this.changed(); },
+          itemKey: 'id',
+          group: { name: 'vuetify', pull: true, put: true },
+          tag: VExpansionPanels,
+          ...n.props,
+          class: ['panels-decor', 'bg-deep-purple-lighten-4', 'pa-3', 'rounded-lg', isSelected ? 'selected' : ''],
+          onClick: handleClick
+        },
+        {
+          default: () => [
+            h('div', { class: 'box-label position-absolute text-caption' }, 'VExpansionPanels'),
+            this.actions(n),
+            ...(n.children!.length
+              ? n.children!.map(child =>
+                  h((this as any).$options, {
+                    node: child,
+                    selectedIds: this.$props.selectedIds,
+                    onClickNode: (p: any) => this.$emit('click-node', p),
+                    onRemove: (id: number) => this.$emit('remove', id),
+                    onChanged: () => this.$emit('changed'),
+                    onUngroup: (id: number) => this.$emit('ungroup', id),
+                    key: child.id
+                  })
+                )
+              : [h('div', { class: 'text-grey-darken-1 text-caption py-6 text-center w-100' }, 'Перетягніть панелі сюди')]
+            )
+          ]
+        }
+      );
+    }
+
+    if (n.name === 'VExpansionPanel') {
+      if (!n.children) n.children = [];
+      return h(
+        VExpansionPanel as any,
+        {
+          value: n.props?.value,
+          eager: n.props?.eager,
+          class: ['expansion-panel-decor', isSelected ? 'selected' : ''],
+          onClick: handleClick
+        },
+        {
+          title: () => [
+            h('span', { class: 'flex-grow-1 font-weight-medium' }, n.props?.title ?? 'Panel'),
+            h('span', { class: 'text-caption text-medium-emphasis me-1' }, 'VExpansionPanel'),
+            h(VBtn as any, {
+              icon: Icons.Delete,
+              size: 'x-small',
+              variant: 'text',
+              density: 'comfortable',
+              onClick: (e: Event) => { e.stopPropagation(); this.$emit('remove', n.id); }
+            })
+          ],
+          default: () => [
+            h(
+              Draggable as any,
+              {
+                modelValue: n.children,
+                'onUpdate:modelValue': (v: PaletteItem[]) => { n.children = v; this.changed(); },
+                itemKey: 'id',
+                group: { name: 'vuetify', pull: true, put: true },
+                tag: 'div',
+                class: ['inner-list', 'bg-deep-purple-lighten-5', 'pa-2', 'rounded-lg']
+              },
+              {
+                default: () =>
+                  n.children!.length
+                    ? n.children!.map(child =>
+                        h((this as any).$options, {
+                          node: child,
+                          selectedIds: this.$props.selectedIds,
+                          onClickNode: (p: any) => this.$emit('click-node', p),
+                          onRemove: (id: number) => this.$emit('remove', id),
+                          onChanged: () => this.$emit('changed'),
+                          onUngroup: (id: number) => this.$emit('ungroup', id),
+                          key: child.id
+                        })
+                      )
+                    : [h('div', { class: 'inner-placeholder text-caption' }, 'Put here')]
+              }
+            )
+          ]
+        }
       );
     }
 
