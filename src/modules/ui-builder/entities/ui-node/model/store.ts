@@ -173,22 +173,36 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     prefabs.value = prefabs.value.filter(p => p.prefabId !== prefabId)
   }
 
-  const deleteNode = (id: string, parent: any = rootNode.value): boolean => {
-    const idx = parent.children?.findIndex((c: any) => c.id === id)
-    if (idx !== -1 && idx !== undefined) {
-      parent.children.splice(idx, 1)
-      commit()
-      return true
+  const duplicateNode = (id: string) => {
+    const result = findParentAndIndex(id)
+    if (!result) return
+    const { parent, index, slotName } = result
+    const original = slotName
+      ? parent.slots[slotName][index]
+      : parent.children[index]
+    const clone = regenIds(JSON.parse(JSON.stringify(original)))
+    if (slotName) {
+      parent.slots[slotName].splice(index + 1, 0, clone)
+    } else {
+      parent.children.splice(index + 1, 0, clone)
     }
-    for (const slotName in parent.slots) {
-      const sIdx = parent.slots[slotName].findIndex((c: any) => c.id === id)
-      if (sIdx !== -1) {
-        parent.slots[slotName].splice(sIdx, 1)
-        commit()
-        return true
-      }
+    selectedNodeIds.value = [clone.id]
+    commit()
+    return clone.id
+  }
+
+  const deleteNode = (id: string) => {
+    const result = findParentAndIndex(id)
+    if (!result) return false
+    const { parent, index, slotName } = result
+    if (slotName) {
+      parent.slots[slotName].splice(index, 1)
+    } else {
+      parent.children.splice(index, 1)
     }
-    return parent.children?.some((c: any) => deleteNode(id, c)) || false
+    selectedNodeIds.value = selectedNodeIds.value.filter((i: string) => i !== id)
+    commit()
+    return true
   }
 
   return {
@@ -203,6 +217,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     commit,
     findNodeById,
     createNode,
+    duplicateNode,
     deleteNode,
     savePrefab,
     insertPrefab,
