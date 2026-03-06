@@ -342,6 +342,48 @@ export interface IGalleryItem {
   aspectRatio?: string | number
 }
 
+// ==================== Dashboard ====================
+
+export interface ITrafficSource {
+  name: string
+  visits: number
+  percentage: number
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface ITopPage {
+  path: string
+  views: number
+  bounceRate: number
+}
+
+export interface IDashboardStat {
+  title: string
+  value: string
+  trend?: number
+  trendLabel?: string
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface IActivityFeedItem {
+  id: number | string
+  title: string
+  description?: string
+  time?: string
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface IProgressStat {
+  label: string
+  percentage: number
+  color: ColorType | string
+  valueText?: string
+  caption?: string
+}
+
 // ==================== Notification ====================
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error' | 'message' | 'system'

@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref } from 'vue'
+import DashboardStatCard from '../../shared/ui/snippets/DashboardStatCard.vue'
 
 const drawer = ref(true)
 const rail = ref(false)
@@ -23,10 +24,10 @@ const menuItems = [
 ]
 
 const quickStats = [
-  { title: 'Total Users', value: '8,249', trend: '+12%', trendUp: true, icon: Icons.AccountGroup, color: 'primary' },
-  { title: 'Revenue', value: '$45,678', trend: '+8%', trendUp: true, icon: Icons.CurrencyUsd, color: 'success' },
-  { title: 'Orders', value: '1,234', trend: '+23%', trendUp: true, icon: Icons.Cart, color: 'warning' },
-  { title: 'Tickets', value: '45', trend: '-5%', trendUp: false, icon: Icons.Ticket, color: 'error' },
+  { title: 'Total Users', value: '8,249', trend: 12, icon: Icons.AccountGroup, color: 'primary' },
+  { title: 'Revenue', value: '$45,678', trend: 8, icon: Icons.CurrencyUsd, color: 'success' },
+  { title: 'Orders', value: '1,234', trend: 23, icon: Icons.Cart, color: 'warning' },
+  { title: 'Tickets', value: '45', trend: -5, icon: Icons.Ticket, color: 'error' },
 ]
 
 const userHeaders = [
@@ -63,7 +64,6 @@ const systemStatus = [
       @click="rail = false"
     >
       <VListItem
-        :prepend-avatar="rail ? undefined : undefined"
         :prepend-icon="rail ? Icons.ShieldCrown : undefined"
         title="Admin Panel"
         subtitle="v1.0.0"
@@ -182,23 +182,15 @@ const systemStatus = [
         <!-- Quick Stats -->
         <VRow class="mb-6">
           <VCol v-for="stat in quickStats" :key="stat.title" cols="12" sm="6" lg="3">
-            <VCard :color="stat.color" variant="tonal">
-              <VCardText>
-                <div class="d-flex justify-space-between align-center">
-                  <div>
-                    <p class="text-body-2 mb-1">{{ stat.title }}</p>
-                    <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-                    <p class="text-caption mt-1">
-                      <VIcon size="small" :color="stat.trendUp ? 'success' : 'error'">
-                        {{ stat.trendUp ? Icons.ArrowUp : Icons.ArrowDown }}
-                      </VIcon>
-                      {{ stat.trend }} from yesterday
-                    </p>
-                  </div>
-                  <VIcon size="48" :color="stat.color">{{ stat.icon }}</VIcon>
-                </div>
-              </VCardText>
-            </VCard>
+            <DashboardStatCard
+              :title="stat.title"
+              :value="stat.value"
+              :trend="stat.trend"
+              trend-label="from yesterday"
+              :icon="stat.icon"
+              :color="stat.color"
+              use-colored-card
+            />
           </VCol>
         </VRow>
 

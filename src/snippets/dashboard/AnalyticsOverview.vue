@@ -1,12 +1,19 @@
 <!--
   Snippet: Analytics Overview
   Description: Dashboard with charts, stats, and recent activity
-  Components: VCard, VRow, VCol, VList, VListItem, VIcon, VChip, VProgressLinear
+  Components: DashboardPageHeader, DashboardStatCard, AnalyticsTrafficCard,
+              AnalyticsSourcesCard, AnalyticsActivityCard, AnalyticsTopPagesCard
   Variants: Light/Dark (automatic via Vuetify theme)
 -->
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref } from 'vue'
+import DashboardPageHeader from '../../shared/ui/snippets/DashboardPageHeader.vue'
+import DashboardStatCard from '../../shared/ui/snippets/DashboardStatCard.vue'
+import AnalyticsTrafficCard from './AnalyticsTrafficCard.vue'
+import AnalyticsSourcesCard from './AnalyticsSourcesCard.vue'
+import AnalyticsActivityCard from './AnalyticsActivityCard.vue'
+import AnalyticsTopPagesCard from './AnalyticsTopPagesCard.vue'
 
 const period = ref('30d')
 
@@ -40,192 +47,48 @@ const topPages = [
   { path: '/blog', views: 1892, bounceRate: 62 },
 ]
 </script>
+
 <template>
   <VContainer fluid>
-    <!-- Header -->
-    <div class="d-flex justify-space-between align-center mb-6">
-      <div>
-        <h1 class="text-h4 font-weight-bold">Analytics Overview</h1>
-        <p class="text-medium-emphasis">Welcome back! Here's what's happening today.</p>
-      </div>
+    <DashboardPageHeader
+      title="Analytics Overview"
+      subtitle="Welcome back! Here's what's happening today."
+    >
       <VBtnGroup variant="outlined" density="comfortable">
         <VBtn :variant="period === '7d' ? 'flat' : 'outlined'" @click="period = '7d'">7 Days</VBtn>
         <VBtn :variant="period === '30d' ? 'flat' : 'outlined'" @click="period = '30d'">30 Days</VBtn>
         <VBtn :variant="period === '90d' ? 'flat' : 'outlined'" @click="period = '90d'">90 Days</VBtn>
       </VBtnGroup>
-    </div>
+    </DashboardPageHeader>
 
-    <!-- Stats Cards -->
     <VRow class="mb-6">
       <VCol v-for="stat in stats" :key="stat.title" cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between align-start">
-              <div>
-                <p class="text-medium-emphasis text-body-2 mb-1">{{ stat.title }}</p>
-                <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-                <div class="d-flex align-center mt-2">
-                  <VIcon
-                    :color="stat.trend > 0 ? 'success' : 'error'"
-                    size="small"
-                  >
-                    {{ stat.trend > 0 ? Icons.TrendingUp : Icons.TrendingDown }}
-                  </VIcon>
-                  <span
-                    :class="stat.trend > 0 ? 'text-success' : 'text-error'"
-                    class="text-body-2 ml-1"
-                  >
-                    {{ Math.abs(stat.trend) }}%
-                  </span>
-                  <span class="text-medium-emphasis text-body-2 ml-1">vs last period</span>
-                </div>
-              </div>
-              <VAvatar :color="stat.color" size="48" rounded>
-                <VIcon color="white">{{ stat.icon }}</VIcon>
-              </VAvatar>
-            </div>
-          </VCardText>
-        </VCard>
+        <DashboardStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :trend="stat.trend"
+          trend-label="vs last period"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
     <VRow>
-      <!-- Traffic Chart Placeholder -->
       <VCol cols="12" lg="8">
-        <VCard>
-          <VCardTitle class="d-flex justify-space-between align-center">
-            <span>Traffic Overview</span>
-            <VChip size="small" color="success" variant="tonal">
-              <VIcon start size="small">{{ Icons.ArrowUp }}</VIcon>
-              +12.5%
-            </VChip>
-          </VCardTitle>
-          <VCardText>
-            <!-- Chart Placeholder -->
-            <div class="chart-placeholder d-flex align-center justify-center rounded-lg" style="height: 300px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);">
-              <div class="text-center">
-                <VIcon size="64" color="primary" class="mb-2">{{ Icons.ChartLine }}</VIcon>
-                <p class="text-medium-emphasis">Chart component goes here</p>
-                <p class="text-caption text-medium-emphasis">Use your preferred chart library (Chart.js, ApexCharts, etc.)</p>
-              </div>
-            </div>
-          </VCardText>
-        </VCard>
+        <AnalyticsTrafficCard :trend="12.5" />
       </VCol>
-
-      <!-- Traffic Sources -->
       <VCol cols="12" lg="4">
-        <VCard>
-          <VCardTitle>Traffic Sources</VCardTitle>
-          <VCardText>
-            <VList>
-              <VListItem
-                v-for="source in trafficSources"
-                :key="source.name"
-                class="px-0"
-              >
-                <template #prepend>
-                  <VAvatar :color="source.color" size="36" rounded>
-                    <VIcon color="white" size="small">{{ source.icon }}</VIcon>
-                  </VAvatar>
-                </template>
-                <VListItemTitle>{{ source.name }}</VListItemTitle>
-                <VListItemSubtitle>{{ source.visits }} visits</VListItemSubtitle>
-                <template #append>
-                  <span class="font-weight-medium">{{ source.percentage }}%</span>
-                </template>
-              </VListItem>
-            </VList>
-
-            <VDivider class="my-4" />
-
-            <!-- Progress bars -->
-            <div v-for="source in trafficSources" :key="source.name + '-progress'" class="mb-3">
-              <div class="d-flex justify-space-between mb-1">
-                <span class="text-body-2">{{ source.name }}</span>
-                <span class="text-body-2">{{ source.percentage }}%</span>
-              </div>
-              <VProgressLinear
-                :model-value="source.percentage"
-                :color="source.color"
-                rounded
-                height="6"
-              />
-            </div>
-          </VCardText>
-        </VCard>
+        <AnalyticsSourcesCard :sources="trafficSources" />
       </VCol>
     </VRow>
 
     <VRow class="mt-4">
-      <!-- Recent Activity -->
       <VCol cols="12" lg="6">
-        <VCard>
-          <VCardTitle class="d-flex justify-space-between align-center">
-            <span>Recent Activity</span>
-            <VBtn variant="text" size="small" color="primary">View All</VBtn>
-          </VCardTitle>
-          <VCardText class="pa-0">
-            <VList lines="two">
-              <VListItem
-                v-for="activity in recentActivity"
-                :key="activity.id"
-              >
-                <template #prepend>
-                  <VAvatar :color="activity.color" size="40">
-                    <VIcon color="white" size="small">{{ activity.icon }}</VIcon>
-                  </VAvatar>
-                </template>
-                <VListItemTitle>{{ activity.title }}</VListItemTitle>
-                <VListItemSubtitle>{{ activity.description }}</VListItemSubtitle>
-                <template #append>
-                  <span class="text-caption text-medium-emphasis">{{ activity.time }}</span>
-                </template>
-              </VListItem>
-            </VList>
-          </VCardText>
-        </VCard>
+        <AnalyticsActivityCard :activities="recentActivity" />
       </VCol>
-
-      <!-- Top Pages -->
       <VCol cols="12" lg="6">
-        <VCard>
-          <VCardTitle class="d-flex justify-space-between align-center">
-            <span>Top Pages</span>
-            <VBtn variant="text" size="small" color="primary">View All</VBtn>
-          </VCardTitle>
-          <VCardText class="pa-0">
-            <VTable>
-              <thead>
-                <tr>
-                  <th class="text-left">Page</th>
-                  <th class="text-right">Views</th>
-                  <th class="text-right">Bounce Rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="page in topPages" :key="page.path">
-                  <td>
-                    <div class="d-flex align-center">
-                      <VIcon size="small" class="mr-2">{{ Icons.FileDocument }}</VIcon>
-                      {{ page.path }}
-                    </div>
-                  </td>
-                  <td class="text-right font-weight-medium">{{ page.views.toLocaleString() }}</td>
-                  <td class="text-right">
-                    <VChip
-                      :color="page.bounceRate < 40 ? 'success' : page.bounceRate < 60 ? 'warning' : 'error'"
-                      size="small"
-                      variant="tonal"
-                    >
-                      {{ page.bounceRate }}%
-                    </VChip>
-                  </td>
-                </tr>
-              </tbody>
-            </VTable>
-          </VCardText>
-        </VCard>
+        <AnalyticsTopPagesCard :pages="topPages" />
       </VCol>
     </VRow>
   </VContainer>

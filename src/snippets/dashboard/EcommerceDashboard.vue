@@ -7,10 +7,20 @@
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
 import { ref } from 'vue'
+import DashboardPageHeader from '../../shared/ui/snippets/DashboardPageHeader.vue'
+import DashboardStatCard from '../../shared/ui/snippets/DashboardStatCard.vue'
+import ProgressStatItem from '../../shared/ui/snippets/ProgressStatItem.vue'
 
 const selectedPeriod = ref('Last 30 days')
 const periods = ['Today', 'Last 7 days', 'Last 30 days', 'Last 90 days', 'This year']
 const chartView = ref('weekly')
+
+const revenueStats = [
+  { title: 'Total Revenue', value: '$124,563', trend: 12.5, icon: Icons.CashMultiple, color: 'primary' },
+  { title: 'Total Orders', value: '3,456', trend: 8.2, icon: Icons.CartCheck, color: 'success' },
+  { title: 'Avg. Order Value', value: '$86.40', trend: -2.4, icon: Icons.Receipt, color: 'warning' },
+  { title: 'Conversion Rate', value: '3.24%', trend: 0.5, icon: Icons.Percent, color: 'secondary' },
+]
 
 const topProducts = [
   { id: 1, name: 'Wireless Headphones', sales: 234, revenue: '12,345', trend: 12, image: 'https://picsum.photos/seed/p1/100' },
@@ -58,12 +68,10 @@ const getStatusColor = (status: string) => {
 </script>
 <template>
   <VContainer fluid>
-    <!-- Header -->
-    <div class="d-flex flex-wrap justify-space-between align-center mb-6 ga-4">
-      <div>
-        <h1 class="text-h4 font-weight-bold">E-Commerce Dashboard</h1>
-        <p class="text-medium-emphasis">Overview of your store performance</p>
-      </div>
+    <DashboardPageHeader
+      title="E-Commerce Dashboard"
+      subtitle="Overview of your store performance"
+    >
       <div class="d-flex ga-2">
         <VSelect
           v-model="selectedPeriod"
@@ -77,88 +85,18 @@ const getStatusColor = (status: string) => {
           Export
         </VBtn>
       </div>
-    </div>
+    </DashboardPageHeader>
 
     <!-- Revenue Stats -->
     <VRow class="mb-6">
-      <VCol cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between">
-              <div>
-                <p class="text-medium-emphasis text-body-2">Total Revenue</p>
-                <h3 class="text-h4 font-weight-bold mt-1">$124,563</h3>
-                <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
-                  <span class="text-success text-body-2 ml-1">+12.5%</span>
-                </div>
-              </div>
-              <VAvatar color="primary" size="48" rounded="lg">
-                <VIcon>{{ Icons.CashMultiple }}</VIcon>
-              </VAvatar>
-            </div>
-          </VCardText>
-        </VCard>
-      </VCol>
-
-      <VCol cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between">
-              <div>
-                <p class="text-medium-emphasis text-body-2">Total Orders</p>
-                <h3 class="text-h4 font-weight-bold mt-1">3,456</h3>
-                <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
-                  <span class="text-success text-body-2 ml-1">+8.2%</span>
-                </div>
-              </div>
-              <VAvatar color="success" size="48" rounded="lg">
-                <VIcon>{{ Icons.CartCheck }}</VIcon>
-              </VAvatar>
-            </div>
-          </VCardText>
-        </VCard>
-      </VCol>
-
-      <VCol cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between">
-              <div>
-                <p class="text-medium-emphasis text-body-2">Avg. Order Value</p>
-                <h3 class="text-h4 font-weight-bold mt-1">$86.40</h3>
-                <div class="d-flex align-center mt-2">
-                  <VIcon color="error" size="small">{{ Icons.ArrowDown }}</VIcon>
-                  <span class="text-error text-body-2 ml-1">-2.4%</span>
-                </div>
-              </div>
-              <VAvatar color="warning" size="48" rounded="lg">
-                <VIcon>{{ Icons.Receipt }}</VIcon>
-              </VAvatar>
-            </div>
-          </VCardText>
-        </VCard>
-      </VCol>
-
-      <VCol cols="12" sm="6" lg="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between">
-              <div>
-                <p class="text-medium-emphasis text-body-2">Conversion Rate</p>
-                <h3 class="text-h4 font-weight-bold mt-1">3.24%</h3>
-                <div class="d-flex align-center mt-2">
-                  <VIcon color="success" size="small">{{ Icons.ArrowUp }}</VIcon>
-                  <span class="text-success text-body-2 ml-1">+0.5%</span>
-                </div>
-              </div>
-              <VAvatar color="secondary" size="48" rounded="lg">
-                <VIcon>{{ Icons.Percent }}</VIcon>
-              </VAvatar>
-            </div>
-          </VCardText>
-        </VCard>
+      <VCol v-for="stat in revenueStats" :key="stat.title" cols="12" sm="6" lg="3">
+        <DashboardStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :trend="stat.trend"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
@@ -264,21 +202,17 @@ const getStatusColor = (status: string) => {
         <VCard>
           <VCardTitle>Sales by Category</VCardTitle>
           <VCardText>
-            <div v-for="category in salesByCategory" :key="category.name" class="mb-4">
-              <div class="d-flex justify-space-between mb-1">
-                <span>{{ category.name }}</span>
-                <span class="font-weight-medium">${{ category.sales.toLocaleString() }}</span>
-              </div>
-              <VProgressLinear
-                :model-value="category.percentage"
-                :color="category.color"
-                rounded
-                height="8"
-              />
-              <div class="text-caption text-medium-emphasis mt-1">
-                {{ category.percentage }}% of total sales
-              </div>
-            </div>
+            <ProgressStatItem
+              v-for="category in salesByCategory"
+              :key="category.name"
+              :label="category.name"
+              :percentage="category.percentage"
+              :color="category.color"
+              :value-text="`$${category.sales.toLocaleString()}`"
+              :caption="`${category.percentage}% of total sales`"
+              :height="8"
+              class="mb-4"
+            />
           </VCardText>
         </VCard>
       </VCol>
