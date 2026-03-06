@@ -107,6 +107,22 @@ const onAddToSlot = (slotName: string, type: string) => {
             />
           </VList>
         </VMenu>
+        <button
+          v-if="node.id !== 'root-canvas'"
+          class="tree-btn action-btn"
+          title="Duplicate"
+          @click.stop="store.duplicateNode(node.id)"
+        >
+          <VIcon :icon="Icons.Copy" size="13" />
+        </button>
+        <button
+          v-if="node.id !== 'root-canvas'"
+          class="tree-btn action-btn action-btn--delete"
+          title="Delete"
+          @click.stop="store.deleteNode(node.id)"
+        >
+          <VIcon :icon="Icons.DeleteOutline" size="13" />
+        </button>
       </span>
     </div>
 
@@ -303,6 +319,11 @@ const onAddToSlot = (slotName: string, type: string) => {
 .action-btn {
   width: 16px;
   height: 16px;
+}
+
+.action-btn--delete:hover {
+  background: rgba(var(--v-theme-error), 0.12);
+  color: rgb(var(--v-theme-error));
 }
 
 .node-type-icon {

@@ -29,6 +29,7 @@ export interface ComponentDef {
   defaultProps: Record<string, any>
   defaultClasses: string[]
   defaultTextChild?: boolean
+  defaultChildren?: string[]
   showInPalette: boolean
   propertySections: PropertySection[]
 }
@@ -358,7 +359,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   VDivider: def({
     type: 'VDivider',
     label: 'Divider',
-    treeIcon: 'mdi-horizontal-rule',
+    treeIcon: 'mdi-minus',
     isLeaf: true,
     slots: [],
     defaultProps: {},
@@ -462,7 +463,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   VProgressCircular: def({
     type: 'VProgressCircular',
     label: 'Progress Circular',
-    treeIcon: 'mdi-progress-circular',
+    treeIcon: 'mdi-progress-helper',
     slots: [
       { name: 'default', label: 'Default' },
     ],
@@ -491,6 +492,49 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
     defaultClasses: [],
     showInPalette: true,
   })
+    .build(),
+
+  VExpansionPanels: def({
+    type: 'VExpansionPanels',
+    label: 'Expansion Panels',
+    treeIcon: 'mdi-chevron-down-box-outline',
+    isWrapContainer: true,
+    slots: [{ name: 'default', label: 'Default' }],
+    defaultProps: { variant: 'default' },
+    defaultClasses: [],
+    defaultChildren: ['VExpansionPanel'],
+    showInPalette: true,
+  })
+    .section('Appearance', [
+      { kind: 'select', prop: 'variant',  label: 'Variant',  options: ['default', 'accordion', 'inset', 'popout'] },
+      { kind: 'switch', prop: 'multiple', label: 'Multiple' },
+      { kind: 'switch', prop: 'flat',     label: 'Flat' },
+    ])
+    .spacing()
+    .classes()
+    .build(),
+
+  VExpansionPanel: def({
+    type: 'VExpansionPanel',
+    label: 'Expansion Panel',
+    treeIcon: 'mdi-chevron-down-circle-outline',
+    isWrapContainer: true,
+    slots: [
+      { name: 'default', label: 'Content' },
+      { name: 'title',   label: 'Title' },
+      { name: 'text',    label: 'Text' },
+    ],
+    defaultProps: { title: 'Panel' },
+    defaultClasses: [],
+    showInPalette: false,
+  })
+    .section('Panel', [
+      { kind: 'text',   prop: 'title', label: 'Title', placeholder: 'Panel title' },
+      { kind: 'text',   prop: 'value', label: 'Value' },
+      { kind: 'switch', prop: 'eager', label: 'Eager render' },
+    ])
+    .spacing()
+    .classes()
     .build(),
 
   TEXT: def({

@@ -15,7 +15,7 @@ const NodeRenderer = defineComponent({
   },
   setup(props) {
     const store = useUiTreeStore()
-    const { selectedNodeId } = storeToRefs(store)
+    const { selectedNodeId, isPreviewMode } = storeToRefs(store)
 
     return () => {
       const { node } = props
@@ -24,7 +24,10 @@ const NodeRenderer = defineComponent({
       if (node.type === 'TEXT') {
         return h('span', {
           style: 'pointer-events: none; display: inline-block;',
-          class: { 'is-selected': selectedNodeId.value === node.id }
+          class: [
+            ...(node.classes || []),
+            { 'is-selected': !isPreviewMode.value && selectedNodeId.value === node.id }
+          ]
         }, node.name)
       }
 
@@ -57,6 +60,11 @@ const NodeRenderer = defineComponent({
       if (node.type === 'VImg' && !node.props.src) {
         extraProps.src =
           'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect width="100%" height="100%" fill="%23e0e0e0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" fill="%23999">No image</text></svg>'
+      }
+
+      // ─── Preview mode: render clean component without editor chrome ───────
+      if (isPreviewMode.value) {
+        return h(VComponent, { ...node.props, ...extraProps, class: node.classes || [] }, slots)
       }
 
       // ─── Canvas drag-and-drop (non-leaf containers only) ──────────────────

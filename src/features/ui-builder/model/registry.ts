@@ -1,4 +1,4 @@
-import { VBtn, VChip, VAlert, VRow, VCol } from 'vuetify/components';
+import { VBtn, VChip, VAlert, VRow, VCol, VExpansionPanels, VExpansionPanel } from 'vuetify/components';
 
 export const REGISTRY = {
   VBtn,
@@ -6,5 +6,7 @@ export const REGISTRY = {
   VAlert,
   VRow,
   VCol,
+  VExpansionPanels,
+  VExpansionPanel,
   Div: 'div'
 } as const;
