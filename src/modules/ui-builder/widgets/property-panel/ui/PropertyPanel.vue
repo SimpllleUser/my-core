@@ -406,27 +406,32 @@ const PRESET_CLASSES = [
                 </VRow>
               </template>
 
-              <VCombobox
-                v-else-if="field.kind === 'custom-classes'"
-                v-model="selectedNode.classes"
-                :items="PRESET_CLASSES"
-                multiple
-                chips
-                closable-chips
-                variant="outlined"
-                density="compact"
-                placeholder="e.g. elevation-4"
-                hide-details
-                auto-select-first
-              />
+              <!-- custom-classes rendered globally below all sections -->
+              <template v-else-if="field.kind === 'custom-classes'" />
 
             </template>
           </div>
         </template>
       </div>
 
-      <VSpacer />
-      <div class="text-center pt-4 opacity-50 text-caption">FSD UI Builder v0.1</div>
+      <VDivider class="my-4" />
+
+      <div class="mb-2 text-overline text-primary font-weight-bold">Custom Classes</div>
+      <VCombobox
+        v-model="selectedNode.classes"
+        :items="PRESET_CLASSES"
+        multiple
+        chips
+        closable-chips
+        variant="outlined"
+        density="compact"
+        placeholder="e.g. elevation-4"
+        hide-details
+        auto-select-first
+        class="mb-4"
+      />
+
+      <div class="text-center opacity-50 text-caption">FSD UI Builder v0.1</div>
     </div>
 
     <div v-else class="pa-10 text-center text-medium-emphasis mt-10">

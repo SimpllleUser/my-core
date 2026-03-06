@@ -24,7 +24,10 @@ const NodeRenderer = defineComponent({
       if (node.type === 'TEXT') {
         return h('span', {
           style: 'pointer-events: none; display: inline-block;',
-          class: { 'is-selected': !isPreviewMode.value && selectedNodeId.value === node.id }
+          class: [
+            ...(node.classes || []),
+            { 'is-selected': !isPreviewMode.value && selectedNodeId.value === node.id }
+          ]
         }, node.name)
       }
 
