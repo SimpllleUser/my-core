@@ -12,11 +12,10 @@ interface Props {
   trendLabel?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   trendLabel: 'vs last month',
 })
 
-const props = defineProps<Props>()
 const trendPositive = computed(() => props.trend >= 0)
 const trendColor = computed(() => trendPositive.value ? 'success' : 'error')
 const trendIcon = computed(() => trendPositive.value ? Icons.ArrowUp : Icons.ArrowDown)

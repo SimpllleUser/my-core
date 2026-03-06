@@ -12,12 +12,11 @@ interface Props {
   padding?: number
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   lineWidth: 2,
   padding: 8,
 })
 
-const props = defineProps<Props>()
 const trendPositive = computed(() => props.trend >= 0)
 const trendColor = computed(() => trendPositive.value ? 'success' : 'error')
 </script>
