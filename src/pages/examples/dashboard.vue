@@ -4,7 +4,8 @@ import {
   AnalyticsOverview,
   StatsCards,
   AdminPanel,
-  EcommerceDashboard
+  EcommerceDashboard,
+  PermissionsMatrix
 } from '../../snippets'
 </script>
 <template>
@@ -97,6 +98,26 @@ import {
           <VCardText>
             <p class="text-body-1 mb-4">E-commerce focused dashboard with sales metrics</p>
             <EcommerceDashboard />
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+
+    <!-- Permissions Matrix -->
+    <VRow class="mb-8">
+      <VCol cols="12">
+        <VCard>
+          <VCardTitle class="d-flex align-center">
+            <VIcon :icon="Icons.ShieldKey" class="mr-2" />
+            Permissions Matrix
+            <VSpacer />
+            <VChip color="purple" size="small">VTable, VTooltip, VBtnToggle, VMenu</VChip>
+          </VCardTitle>
+          <VCardText>
+            <p class="text-body-1 mb-4">
+              Role-based access control matrix — view, edit permissions and compare roles
+            </p>
+            <PermissionsMatrix />
           </VCardText>
         </VCard>
       </VCol>

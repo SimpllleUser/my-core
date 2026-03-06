@@ -67,6 +67,11 @@ export { default as EcommerceDashboard } from './dashboard/EcommerceDashboard.vu
 // E-commerce focused dashboard
 // Components: VCard, VDataTable, VProgressLinear
 
+export { default as PermissionsMatrix } from './dashboard/PermissionsMatrix.vue'
+// Role-based access control matrix with view, edit, and compare modes
+// Props: —  Modes: view (read-only), edit (toggle permissions), compare (diff two roles)
+// Components: VCard, VTable, VTooltip, VBtnToggle, VProgressLinear, VMenu
+
 // =============================================================================
 // LANDING PAGE SNIPPETS (Simple → Complex)
 // =============================================================================
@@ -376,6 +381,7 @@ export const snippetCatalog: Snippet[] = [
   { name: 'StatsCards', path: 'dashboard/StatsCards.vue', description: 'Collection of stat card styles', components: ['VCard', 'VProgressCircular', 'VSparkline'], category: 'Dashboards' },
   { name: 'AdminPanel', path: 'dashboard/AdminPanel.vue', description: 'Admin dashboard with sidebar', components: ['VNavigationDrawer', 'VAppBar', 'VDataTable'], category: 'Dashboards' },
   { name: 'EcommerceDashboard', path: 'dashboard/EcommerceDashboard.vue', description: 'E-commerce focused dashboard', components: ['VCard', 'VDataTable', 'VProgressLinear'], category: 'Dashboards' },
+  { name: 'PermissionsMatrix', path: 'dashboard/PermissionsMatrix.vue', description: 'Role-based access control matrix with 3 modes', components: ['VCard', 'VTable', 'VTooltip', 'VBtnToggle', 'VMenu'], category: 'Dashboards', complexity: 'complex' },
 
   // Landing Pages (ordered by complexity)
   { name: 'CtaSection', path: 'landing/CtaSection.vue', description: 'Simple call-to-action sections', components: ['VContainer', 'VBtn', 'VCard'], category: 'Landing Pages', complexity: 'simple' },

@@ -26,6 +26,26 @@ export { default as BlogCard } from './BlogCard.vue'
 // Social Media Components
 export { default as SocialPostCard } from './SocialPostCard.vue'
 
+// Ecommerce Components
+export { default as ProductFilter } from './ProductFilter.vue'
+export { default as ProductFilterField } from './ProductFilterField.vue'
+
+// Dashboard Components
+export { default as PermissionsMatrix } from './PermissionsMatrix.vue'
+export { default as DashboardStatCard } from './DashboardStatCard.vue'
+export { default as DashboardPageHeader } from './DashboardPageHeader.vue'
+export { default as ChartPlaceholder } from './ChartPlaceholder.vue'
+export { default as ActivityFeedItem } from './ActivityFeedItem.vue'
+export { default as ProgressStatItem } from './ProgressStatItem.vue'
+export { default as TrafficSourceItem } from './TrafficSourceItem.vue'
+
+// Stat Card Variants
+export { default as TrendStatCard } from './TrendStatCard.vue'
+export { default as ProgressStatCard } from './ProgressStatCard.vue'
+export { default as ColoredStatCard } from './ColoredStatCard.vue'
+export { default as SparklineStatCard } from './SparklineStatCard.vue'
+export { default as CompactStatCard } from './CompactStatCard.vue'
+
 // FAQ Components
 export { default as FaqItem } from './FaqItem.vue'
 

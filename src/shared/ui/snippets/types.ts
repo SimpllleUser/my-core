@@ -68,6 +68,66 @@ export interface IPricingPlan {
   features: IPricingFeature[]
 }
 
+// ==================== Permissions Matrix ====================
+
+export interface MatrixRow {
+  key: string
+  label: string
+  icon?: IconType
+  color?: string
+  subtitle?: string
+  group?: string
+}
+
+export interface MatrixColumn {
+  key: string
+  label: string
+  shortLabel?: string
+  icon?: IconType
+  color?: string
+  group?: string
+}
+
+export interface MatrixGroup {
+  key: string
+  label: string
+  color?: string
+  icon?: IconType
+}
+
+export type MatrixValue = Record<string, Record<string, boolean>>
+export type MatrixMode = 'view' | 'edit' | 'compare'
+
+// ==================== Product Filter ====================
+
+export type FilterType = 'search' | 'checkbox' | 'range' | 'rating' | 'select' | 'toggle'
+
+export interface IFilterOption {
+  label: string
+  value: string | number
+  count?: number
+  color?: ColorType
+  icon?: IconType
+}
+
+export interface IFilterField {
+  key: string
+  label: string
+  type: FilterType
+  options?: IFilterOption[]
+  min?: number
+  max?: number
+  step?: number
+  prefix?: string
+  suffix?: string
+  icon?: IconType
+  color?: ColorType
+  multiple?: boolean
+  hint?: string
+}
+
+export type FilterValues = Record<string, any>
+
 // ==================== Product ====================
 
 export interface IProduct {
@@ -280,6 +340,48 @@ export interface IGalleryItem {
   subtitle?: string
   category?: string
   aspectRatio?: string | number
+}
+
+// ==================== Dashboard ====================
+
+export interface ITrafficSource {
+  name: string
+  visits: number
+  percentage: number
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface ITopPage {
+  path: string
+  views: number
+  bounceRate: number
+}
+
+export interface IDashboardStat {
+  title: string
+  value: string
+  trend?: number
+  trendLabel?: string
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface IActivityFeedItem {
+  id: number | string
+  title: string
+  description?: string
+  time?: string
+  icon: IconType
+  color: ColorType | string
+}
+
+export interface IProgressStat {
+  label: string
+  percentage: number
+  color: ColorType | string
+  valueText?: string
+  caption?: string
 }
 
 // ==================== Notification ====================
