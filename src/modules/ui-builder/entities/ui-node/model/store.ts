@@ -26,6 +26,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
 
   const selectedNodeIds = ref<string[]>([])
   const selectedNodeId = computed(() => selectedNodeIds.value[0] ?? null)
+  const isPreviewMode = ref(false)
 
   const prefabs = useStorage<Prefab[]>('ui-builder:prefabs', [])
 
@@ -209,6 +210,7 @@ export const useUiTreeStore = defineStore('ui-tree', () => {
     rootNode,
     selectedNodeIds,
     selectedNodeId,
+    isPreviewMode,
     prefabs,
     canUndo,
     canRedo,
