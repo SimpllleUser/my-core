@@ -350,6 +350,46 @@ export { default as SocialStats } from './social/SocialStats.vue'
 // Components: StatCard, SectionHeader, VCard
 
 // =============================================================================
+// GALLERY SNIPPETS
+// =============================================================================
+
+export { default as GalleryShowcase } from './gallery/GalleryShowcase.vue'
+// Image gallery with hover overlays, filters, like/zoom/share
+// Components: GalleryCard, VChipGroup, VRow, VCol
+
+// =============================================================================
+// TIMELINE & STEPS SNIPPETS
+// =============================================================================
+
+export { default as TimelineExamples } from './timeline/TimelineExamples.vue'
+// Project history and activity feeds (alternating, compact, dot)
+// Components: TimelineItem, VTimeline, VCard
+
+export { default as StepsProcess } from './timeline/StepsProcess.vue'
+// Onboarding steps and checkout progress indicators
+// Components: StepItem, VAvatar, VRow, VCol
+
+// =============================================================================
+// UI COMPONENTS SNIPPETS
+// =============================================================================
+
+export { default as EmptyStateExamples } from './ui-components/EmptyStateExamples.vue'
+// Empty state placeholders (no results, no data, access denied)
+// Components: EmptyState, VCard, VIcon
+
+export { default as NotificationExamples } from './ui-components/NotificationExamples.vue'
+// Notification items in dropdown and full-page feed layouts
+// Components: NotificationItem, VCard, VList
+
+export { default as BannersAndFaq } from './ui-components/BannersAndFaq.vue'
+// Announcement banners, CTA sections, newsletter forms, FAQ items
+// Components: AnnouncementBanner, CtaBanner, NewsletterCard, FaqItem
+
+export { default as AuthCardExamples } from './ui-components/AuthCardExamples.vue'
+// Auth card for login, register, and forgot-password modes
+// Components: AuthCard, VTextField, VBtn
+
+// =============================================================================
 // SNIPPET CATALOG
 // =============================================================================
 
@@ -459,6 +499,19 @@ export const snippetCatalog: Snippet[] = [
   { name: 'SocialProfile', path: 'social/SocialProfile.vue', description: 'Social media profile page', components: ['SocialPostCard', 'VCard', 'VTabs'], category: 'Social Media', complexity: 'complex' },
   { name: 'FollowersList', path: 'social/FollowersList.vue', description: 'Followers/following list', components: ['VCard', 'VList', 'VAvatar'], category: 'Social Media', complexity: 'medium' },
   { name: 'SocialStats', path: 'social/SocialStats.vue', description: 'Social analytics stats', components: ['StatCard', 'SectionHeader', 'VCard'], category: 'Social Media', complexity: 'medium' },
+
+  // Gallery
+  { name: 'GalleryShowcase', path: 'gallery/GalleryShowcase.vue', description: 'Image grid with hover overlays and filters', components: ['GalleryCard', 'VChipGroup', 'VRow', 'VCol'], category: 'Gallery', complexity: 'medium' },
+
+  // Timeline & Steps
+  { name: 'TimelineExamples', path: 'timeline/TimelineExamples.vue', description: 'Project history and activity feed timelines', components: ['TimelineItem', 'VTimeline', 'VCard'], category: 'Timeline & Steps', complexity: 'medium' },
+  { name: 'StepsProcess', path: 'timeline/StepsProcess.vue', description: 'Onboarding steps and checkout progress', components: ['StepItem', 'VAvatar', 'VRow', 'VCol'], category: 'Timeline & Steps', complexity: 'medium' },
+
+  // UI Components
+  { name: 'EmptyStateExamples', path: 'ui-components/EmptyStateExamples.vue', description: 'Empty states for no-data, no-results, and access denied', components: ['EmptyState', 'VCard', 'VIcon'], category: 'UI Components', complexity: 'simple' },
+  { name: 'NotificationExamples', path: 'ui-components/NotificationExamples.vue', description: 'Notification items for panels and full-page feeds', components: ['NotificationItem', 'VCard', 'VList'], category: 'UI Components', complexity: 'medium' },
+  { name: 'BannersAndFaq', path: 'ui-components/BannersAndFaq.vue', description: 'Banners, CTA sections, newsletter forms, FAQ accordions', components: ['AnnouncementBanner', 'CtaBanner', 'NewsletterCard', 'FaqItem'], category: 'UI Components', complexity: 'medium' },
+  { name: 'AuthCardExamples', path: 'ui-components/AuthCardExamples.vue', description: 'AuthCard in login, register, forgot-password modes', components: ['AuthCard', 'VTextField', 'VBtn'], category: 'UI Components', complexity: 'medium' },
 ]
 
 export const categories = [
@@ -478,4 +531,7 @@ export const categories = [
   'FinTech',
   'Blog',
   'Social Media',
+  'Gallery',
+  'Timeline & Steps',
+  'UI Components',
 ]

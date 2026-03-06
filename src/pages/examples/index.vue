@@ -123,6 +123,27 @@ const categoryMap: Record<string, Omit<Category, 'count'>> = {
     icon: Icons.MessageText,
     color: 'light-blue',
     description: 'Chat interfaces and messaging apps'
+  },
+  'Gallery': {
+    name: 'Gallery',
+    route: 'gallery',
+    icon: Icons.ImageMultiple,
+    color: 'pink-darken-1',
+    description: 'Image grids with hover overlays, filters, and actions'
+  },
+  'Timeline & Steps': {
+    name: 'Timeline & Steps',
+    route: 'timeline',
+    icon: Icons.History,
+    color: 'deep-orange',
+    description: 'Project timelines, activity feeds, and step indicators'
+  },
+  'UI Components': {
+    name: 'UI Components',
+    route: 'ui-components',
+    icon: Icons.Widgets,
+    color: 'teal',
+    description: 'Empty states, notifications, banners, FAQ, CTA, auth cards'
   }
 }
 
