@@ -359,7 +359,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   VDivider: def({
     type: 'VDivider',
     label: 'Divider',
-    treeIcon: 'mdi-horizontal-rule',
+    treeIcon: 'mdi-minus',
     isLeaf: true,
     slots: [],
     defaultProps: {},
@@ -463,7 +463,7 @@ export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   VProgressCircular: def({
     type: 'VProgressCircular',
     label: 'Progress Circular',
-    treeIcon: 'mdi-progress-circular',
+    treeIcon: 'mdi-progress-helper',
     slots: [
       { name: 'default', label: 'Default' },
     ],

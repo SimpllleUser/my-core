@@ -110,6 +110,75 @@ const setTextAlign = (val: string) => {
 
 const fieldKey = (field: PropField) =>
   field.kind + ('prop' in field ? (field as any).prop : '')
+
+const PRESET_CLASSES = [
+  { type: 'subheader', title: 'Elevation' },
+  ...[0,1,2,3,4,6,8,12,16,24].map(n => `elevation-${n}`),
+
+  { type: 'subheader', title: 'Rounded' },
+  'rounded-0', 'rounded-sm', 'rounded', 'rounded-lg', 'rounded-xl', 'rounded-pill', 'rounded-circle',
+
+  { type: 'subheader', title: 'Sizing' },
+  'w-25', 'w-50', 'w-75', 'w-100', 'w-auto',
+  'h-25', 'h-50', 'h-75', 'h-100', 'h-auto',
+  'fill-height', 'min-width-0', 'max-width-100',
+
+  { type: 'subheader', title: 'Display' },
+  'd-none', 'd-block', 'd-inline', 'd-inline-block', 'd-flex', 'd-inline-flex', 'd-grid',
+
+  { type: 'subheader', title: 'Flexbox' },
+  'flex-row', 'flex-column', 'flex-row-reverse', 'flex-column-reverse',
+  'flex-wrap', 'flex-nowrap', 'flex-grow-1', 'flex-shrink-0',
+  'align-start', 'align-center', 'align-end', 'align-stretch', 'align-self-center',
+  'justify-start', 'justify-center', 'justify-end', 'justify-space-between', 'justify-space-around',
+  ...[1,2,3,4,6,8,12].map(n => `ga-${n}`),
+
+  { type: 'subheader', title: 'Position' },
+  'position-relative', 'position-absolute', 'position-fixed', 'position-sticky',
+
+  { type: 'subheader', title: 'Overflow' },
+  'overflow-hidden', 'overflow-visible', 'overflow-auto',
+  'overflow-x-hidden', 'overflow-y-auto', 'overflow-y-hidden',
+
+  { type: 'subheader', title: 'Typography — Size' },
+  'text-caption', 'text-body-2', 'text-body-1',
+  'text-subtitle-2', 'text-subtitle-1',
+  'text-h6', 'text-h5', 'text-h4', 'text-h3',
+
+  { type: 'subheader', title: 'Typography — Weight' },
+  'font-weight-thin', 'font-weight-light', 'font-weight-regular',
+  'font-weight-medium', 'font-weight-bold', 'font-weight-black',
+
+  { type: 'subheader', title: 'Typography — Align & Transform' },
+  'text-left', 'text-center', 'text-right',
+  'text-uppercase', 'text-lowercase', 'text-capitalize',
+  'text-truncate', 'text-no-wrap', 'text-break',
+
+  { type: 'subheader', title: 'Text Color' },
+  'text-primary', 'text-secondary', 'text-success', 'text-info', 'text-warning', 'text-error',
+  'text-white', 'text-black', 'text-disabled', 'text-medium-emphasis', 'text-high-emphasis',
+
+  { type: 'subheader', title: 'Background' },
+  'bg-primary', 'bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-error',
+  'bg-white', 'bg-black', 'bg-surface', 'bg-background',
+  'bg-grey-lighten-5', 'bg-grey-lighten-4', 'bg-grey-lighten-3',
+  'bg-grey-darken-1', 'bg-grey-darken-2',
+
+  { type: 'subheader', title: 'Border' },
+  'border', 'border-0', 'border-thin', 'border-sm', 'border-md', 'border-lg',
+  'border-opacity-25', 'border-opacity-50',
+  'border-primary', 'border-secondary', 'border-error', 'border-success',
+
+  { type: 'subheader', title: 'Opacity' },
+  'opacity-0', 'opacity-25', 'opacity-50', 'opacity-75', 'opacity-100',
+
+  { type: 'subheader', title: 'Spacing Utils' },
+  'mx-auto', 'my-auto', 'ms-auto', 'me-auto', 'ma-auto',
+
+  { type: 'subheader', title: 'Interaction' },
+  'cursor-pointer', 'cursor-default', 'cursor-not-allowed',
+  'pointer-events-none', 'user-select-none',
+]
 </script>
 
 <template>
@@ -340,12 +409,15 @@ const fieldKey = (field: PropField) =>
               <VCombobox
                 v-else-if="field.kind === 'custom-classes'"
                 v-model="selectedNode.classes"
+                :items="PRESET_CLASSES"
                 multiple
                 chips
+                closable-chips
                 variant="outlined"
                 density="compact"
                 placeholder="e.g. elevation-4"
                 hide-details
+                auto-select-first
               />
 
             </template>
