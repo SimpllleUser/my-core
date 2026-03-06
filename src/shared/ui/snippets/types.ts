@@ -297,6 +297,77 @@ export interface IBlogCategory {
   color?: ColorType
 }
 
+// ==================== FAQ ====================
+
+export interface IFaqItem {
+  question: string
+  answer: string
+  icon?: IconType
+  category?: string
+}
+
+// ==================== Timeline ====================
+
+export type TimelineItemSide = 'left' | 'right' | 'auto'
+
+export interface ITimelineItem {
+  title: string
+  subtitle?: string
+  description?: string
+  date?: string
+  icon?: IconType
+  color?: ColorType
+  dotColor?: ColorType
+}
+
+// ==================== Step ====================
+
+export interface IStep {
+  title: string
+  description?: string
+  icon?: IconType
+  color?: ColorType
+  completed?: boolean
+}
+
+// ==================== Gallery ====================
+
+export interface IGalleryItem {
+  id: number | string
+  src: string
+  alt?: string
+  title?: string
+  subtitle?: string
+  category?: string
+  aspectRatio?: string | number
+}
+
+// ==================== Notification ====================
+
+export type NotificationType = 'info' | 'success' | 'warning' | 'error' | 'message' | 'system'
+
+export interface INotificationItem {
+  id: number | string
+  type: NotificationType
+  title: string
+  message?: string
+  icon?: IconType
+  avatar?: string
+  createdAt: string
+  read?: boolean
+  action?: string
+  actionUrl?: string
+}
+
+// ==================== Auth ====================
+
+export interface IAuthField {
+  label: string
+  type?: string
+  icon?: IconType
+  placeholder?: string
+}
+
 // ==================== Social Media ====================
 
 export interface ISocialPost {
