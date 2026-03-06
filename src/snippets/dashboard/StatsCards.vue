@@ -1,11 +1,19 @@
 <!--
   Snippet: Stats Cards
   Description: Collection of various stat card styles for dashboards
-  Components: VCard, VRow, VCol, VIcon, VProgressCircular, VProgressLinear, VSparkline
+  Components: DashboardStatCard, TrendStatCard, ProgressStatCard,
+              ColoredStatCard, SparklineStatCard, CompactStatCard
   Variants: Multiple card styles included
 -->
 <script setup lang="ts">
 import { Icons } from '../../shared/model'
+import DashboardStatCard from '../../shared/ui/snippets/DashboardStatCard.vue'
+import TrendStatCard from '../../shared/ui/snippets/TrendStatCard.vue'
+import ProgressStatCard from '../../shared/ui/snippets/ProgressStatCard.vue'
+import ColoredStatCard from '../../shared/ui/snippets/ColoredStatCard.vue'
+import SparklineStatCard from '../../shared/ui/snippets/SparklineStatCard.vue'
+import CompactStatCard from '../../shared/ui/snippets/CompactStatCard.vue'
+
 const simpleStats = [
   { title: 'Total Users', value: '24,532', icon: Icons.AccountGroup, color: 'primary' },
   { title: 'Revenue', value: '$45,678', icon: Icons.CurrencyUsd, color: 'success' },
@@ -50,6 +58,7 @@ const compactStats = [
   { title: 'Comments', value: '234', icon: Icons.Comment, color: 'secondary' },
 ]
 </script>
+
 <template>
   <VContainer fluid>
     <h2 class="text-h5 font-weight-bold mb-6">Stats Cards Collection</h2>
@@ -58,17 +67,12 @@ const compactStats = [
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Simple Stats</h3>
     <VRow class="mb-8">
       <VCol v-for="stat in simpleStats" :key="stat.title" cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText class="d-flex justify-space-between align-center">
-            <div>
-              <p class="text-medium-emphasis text-body-2 mb-1">{{ stat.title }}</p>
-              <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-            </div>
-            <VAvatar :color="stat.color" size="56" rounded="lg">
-              <VIcon color="white" size="28">{{ stat.icon }}</VIcon>
-            </VAvatar>
-          </VCardText>
-        </VCard>
+        <DashboardStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
@@ -76,29 +80,13 @@ const compactStats = [
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Stats with Trend</h3>
     <VRow class="mb-8">
       <VCol v-for="stat in trendStats" :key="stat.title" cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex align-center mb-2">
-              <VIcon :color="stat.color" class="mr-2">{{ stat.icon }}</VIcon>
-              <span class="text-medium-emphasis">{{ stat.title }}</span>
-            </div>
-            <h3 class="text-h4 font-weight-bold mb-2">{{ stat.value }}</h3>
-            <div class="d-flex align-center">
-              <VChip
-                :color="stat.trend > 0 ? 'success' : 'error'"
-                size="small"
-                variant="tonal"
-                class="mr-2"
-              >
-                <VIcon start size="small">
-                  {{ stat.trend > 0 ? Icons.ArrowUp : Icons.ArrowDown }}
-                </VIcon>
-                {{ Math.abs(stat.trend) }}%
-              </VChip>
-              <span class="text-caption text-medium-emphasis">vs last month</span>
-            </div>
-          </VCardText>
-        </VCard>
+        <TrendStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :trend="stat.trend"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
@@ -106,30 +94,12 @@ const compactStats = [
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Stats with Progress</h3>
     <VRow class="mb-8">
       <VCol v-for="stat in progressStats" :key="stat.title" cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between align-center mb-4">
-              <div>
-                <p class="text-medium-emphasis text-body-2 mb-1">{{ stat.title }}</p>
-                <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-              </div>
-              <VProgressCircular
-                :model-value="stat.progress"
-                :color="stat.color"
-                :size="60"
-                :width="6"
-              >
-                <span class="text-caption font-weight-medium">{{ stat.progress }}%</span>
-              </VProgressCircular>
-            </div>
-            <VProgressLinear
-              :model-value="stat.progress"
-              :color="stat.color"
-              rounded
-              height="8"
-            />
-          </VCardText>
-        </VCard>
+        <ProgressStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :progress="stat.progress"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
@@ -137,48 +107,27 @@ const compactStats = [
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Colored Cards</h3>
     <VRow class="mb-8">
       <VCol v-for="stat in coloredStats" :key="stat.title" cols="12" sm="6" md="3">
-        <VCard :color="stat.color">
-          <VCardText class="text-white">
-            <div class="d-flex justify-space-between align-start">
-              <div>
-                <p class="text-white-darken-1 text-body-2 mb-1">{{ stat.title }}</p>
-                <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-                <p class="text-white-darken-1 text-body-2 mt-2">{{ stat.subtitle }}</p>
-              </div>
-              <VIcon size="48" class="text-white-darken-1">{{ stat.icon }}</VIcon>
-            </div>
-          </VCardText>
-        </VCard>
+        <ColoredStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :subtitle="stat.subtitle"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
-    <!-- Style 5: Stats with Mini Chart -->
+    <!-- Style 5: Stats with Sparkline -->
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Stats with Sparkline</h3>
     <VRow class="mb-8">
       <VCol v-for="stat in sparklineStats" :key="stat.title" cols="12" sm="6" md="3">
-        <VCard>
-          <VCardText>
-            <div class="d-flex justify-space-between align-center mb-2">
-              <span class="text-medium-emphasis">{{ stat.title }}</span>
-              <VChip
-                :color="stat.trend > 0 ? 'success' : 'error'"
-                size="x-small"
-                variant="tonal"
-              >
-                {{ stat.trend > 0 ? '+' : '' }}{{ stat.trend }}%
-              </VChip>
-            </div>
-            <h3 class="text-h4 font-weight-bold">{{ stat.value }}</h3>
-            <VSparkline
-              :model-value="stat.sparkline"
-              :color="stat.color"
-              :line-width="2"
-              :padding="8"
-              smooth
-              auto-draw
-            />
-          </VCardText>
-        </VCard>
+        <SparklineStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :trend="stat.trend"
+          :sparkline="stat.sparkline"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
 
@@ -186,13 +135,12 @@ const compactStats = [
     <h3 class="text-subtitle-1 font-weight-medium text-medium-emphasis mb-3">Compact Stats</h3>
     <VRow>
       <VCol v-for="stat in compactStats" :key="stat.title" cols="6" sm="4" md="2">
-        <VCard variant="tonal" :color="stat.color">
-          <VCardText class="text-center pa-4">
-            <VIcon :color="stat.color" size="32" class="mb-2">{{ stat.icon }}</VIcon>
-            <h4 class="text-h5 font-weight-bold">{{ stat.value }}</h4>
-            <p class="text-caption text-medium-emphasis mb-0">{{ stat.title }}</p>
-          </VCardText>
-        </VCard>
+        <CompactStatCard
+          :title="stat.title"
+          :value="stat.value"
+          :icon="stat.icon"
+          :color="stat.color"
+        />
       </VCol>
     </VRow>
   </VContainer>

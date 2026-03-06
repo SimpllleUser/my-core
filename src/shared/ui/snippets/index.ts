@@ -39,6 +39,13 @@ export { default as ActivityFeedItem } from './ActivityFeedItem.vue'
 export { default as ProgressStatItem } from './ProgressStatItem.vue'
 export { default as TrafficSourceItem } from './TrafficSourceItem.vue'
 
+// Stat Card Variants
+export { default as TrendStatCard } from './TrendStatCard.vue'
+export { default as ProgressStatCard } from './ProgressStatCard.vue'
+export { default as ColoredStatCard } from './ColoredStatCard.vue'
+export { default as SparklineStatCard } from './SparklineStatCard.vue'
+export { default as CompactStatCard } from './CompactStatCard.vue'
+
 // FAQ Components
 export { default as FaqItem } from './FaqItem.vue'
 
