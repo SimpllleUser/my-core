@@ -140,20 +140,57 @@ const filteredGroups = computed(() => {
     .filter(g => g.classes.length > 0)
 })
 
+// Groups of mutually exclusive classes — adding one removes the others
+const MUTEX_GROUPS: string[][] = [
+  ['d-none','d-block','d-inline','d-inline-block','d-flex','d-inline-flex','d-grid'],
+  ['flex-row','flex-column','flex-row-reverse','flex-column-reverse'],
+  ['flex-wrap','flex-nowrap'],
+  ['align-start','align-center','align-end','align-stretch'],
+  ['align-self-start','align-self-center','align-self-end','align-self-stretch','align-self-auto'],
+  ['justify-start','justify-center','justify-end','justify-space-between','justify-space-around'],
+  ['rounded-0','rounded-sm','rounded','rounded-lg','rounded-xl','rounded-pill','rounded-circle'],
+  ['text-left','text-center','text-right'],
+  ['text-uppercase','text-lowercase','text-capitalize'],
+  ['font-weight-thin','font-weight-light','font-weight-regular','font-weight-medium','font-weight-bold','font-weight-black'],
+  ['text-caption','text-body-2','text-body-1','text-subtitle-2','text-subtitle-1','text-h6','text-h5','text-h4','text-h3'],
+  ['position-relative','position-absolute','position-fixed','position-sticky'],
+  ['overflow-hidden','overflow-visible','overflow-auto'],
+  ['overflow-x-hidden','overflow-x-auto','overflow-x-visible'],
+  ['overflow-y-hidden','overflow-y-auto','overflow-y-visible'],
+  ['opacity-0','opacity-25','opacity-50','opacity-75','opacity-100'],
+  ['text-primary','text-secondary','text-success','text-info','text-warning','text-error','text-white','text-black','text-disabled','text-medium-emphasis','text-high-emphasis'],
+  ['bg-primary','bg-secondary','bg-success','bg-info','bg-warning','bg-error','bg-white','bg-black','bg-surface','bg-background','bg-grey-lighten-5','bg-grey-lighten-4','bg-grey-lighten-3','bg-grey-darken-1','bg-grey-darken-2'],
+  ['cursor-pointer','cursor-default','cursor-not-allowed'],
+]
+
+// Prefix-based exclusion: adding elevation-4 removes any other elevation-*
+const PREFIX_MUTEX = ['elevation-', 'ga-', 'border-opacity-']
+
 const toggleClass = (cls: string) => {
   if (!selectedNode.value) return
-  const idx = selectedNode.value.classes.indexOf(cls)
-  if (idx === -1) selectedNode.value.classes.push(cls)
-  else selectedNode.value.classes.splice(idx, 1)
+  const classes = selectedNode.value.classes as string[]
+  const idx = classes.indexOf(cls)
+  if (idx !== -1) {
+    classes.splice(idx, 1)
+    return
+  }
+  // Remove classes from the same mutex group
+  const mutexGroup = MUTEX_GROUPS.find(g => g.includes(cls))
+  let filtered = mutexGroup ? classes.filter(c => !mutexGroup.includes(c)) : [...classes]
+  // Remove classes with conflicting prefix
+  for (const prefix of PREFIX_MUTEX) {
+    if (cls.startsWith(prefix)) {
+      filtered = filtered.filter(c => !c.startsWith(prefix))
+      break
+    }
+  }
+  filtered.push(cls)
+  selectedNode.value.classes = filtered
 }
 
-const addCustomClass = (e: KeyboardEvent) => {
-  const input = (e.target as HTMLInputElement).value.trim()
-  if (!input || !selectedNode.value) return
-  const parts = input.split(/\s+/).filter(Boolean)
-  for (const cls of parts) {
-    if (!selectedNode.value.classes.includes(cls)) selectedNode.value.classes.push(cls)
-  }
+const addCustomClass = () => {
+  if (!classSearch.value.trim() || !selectedNode.value) return
+  classSearch.value.trim().split(/\s+/).filter(Boolean).forEach(toggleClass)
   classSearch.value = ''
 }
 </script>
@@ -420,7 +457,7 @@ const addCustomClass = (e: KeyboardEvent) => {
         clearable
         class="mb-2"
         prepend-inner-icon="mdi-magnify"
-        @keydown.enter="addCustomClass"
+        @keydown.enter.prevent="addCustomClass"
       />
 
       <!-- Preset groups -->
