@@ -111,74 +111,51 @@ const setTextAlign = (val: string) => {
 const fieldKey = (field: PropField) =>
   field.kind + ('prop' in field ? (field as any).prop : '')
 
-const PRESET_CLASSES = [
-  { type: 'subheader', title: 'Elevation' },
-  ...[0,1,2,3,4,6,8,12,16,24].map(n => `elevation-${n}`),
-
-  { type: 'subheader', title: 'Rounded' },
-  'rounded-0', 'rounded-sm', 'rounded', 'rounded-lg', 'rounded-xl', 'rounded-pill', 'rounded-circle',
-
-  { type: 'subheader', title: 'Sizing' },
-  'w-25', 'w-50', 'w-75', 'w-100', 'w-auto',
-  'h-25', 'h-50', 'h-75', 'h-100', 'h-auto',
-  'fill-height', 'min-width-0', 'max-width-100',
-
-  { type: 'subheader', title: 'Display' },
-  'd-none', 'd-block', 'd-inline', 'd-inline-block', 'd-flex', 'd-inline-flex', 'd-grid',
-
-  { type: 'subheader', title: 'Flexbox' },
-  'flex-row', 'flex-column', 'flex-row-reverse', 'flex-column-reverse',
-  'flex-wrap', 'flex-nowrap', 'flex-grow-1', 'flex-shrink-0',
-  'align-start', 'align-center', 'align-end', 'align-stretch', 'align-self-center',
-  'justify-start', 'justify-center', 'justify-end', 'justify-space-between', 'justify-space-around',
-  ...[1,2,3,4,6,8,12].map(n => `ga-${n}`),
-
-  { type: 'subheader', title: 'Position' },
-  'position-relative', 'position-absolute', 'position-fixed', 'position-sticky',
-
-  { type: 'subheader', title: 'Overflow' },
-  'overflow-hidden', 'overflow-visible', 'overflow-auto',
-  'overflow-x-hidden', 'overflow-y-auto', 'overflow-y-hidden',
-
-  { type: 'subheader', title: 'Typography — Size' },
-  'text-caption', 'text-body-2', 'text-body-1',
-  'text-subtitle-2', 'text-subtitle-1',
-  'text-h6', 'text-h5', 'text-h4', 'text-h3',
-
-  { type: 'subheader', title: 'Typography — Weight' },
-  'font-weight-thin', 'font-weight-light', 'font-weight-regular',
-  'font-weight-medium', 'font-weight-bold', 'font-weight-black',
-
-  { type: 'subheader', title: 'Typography — Align & Transform' },
-  'text-left', 'text-center', 'text-right',
-  'text-uppercase', 'text-lowercase', 'text-capitalize',
-  'text-truncate', 'text-no-wrap', 'text-break',
-
-  { type: 'subheader', title: 'Text Color' },
-  'text-primary', 'text-secondary', 'text-success', 'text-info', 'text-warning', 'text-error',
-  'text-white', 'text-black', 'text-disabled', 'text-medium-emphasis', 'text-high-emphasis',
-
-  { type: 'subheader', title: 'Background' },
-  'bg-primary', 'bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-error',
-  'bg-white', 'bg-black', 'bg-surface', 'bg-background',
-  'bg-grey-lighten-5', 'bg-grey-lighten-4', 'bg-grey-lighten-3',
-  'bg-grey-darken-1', 'bg-grey-darken-2',
-
-  { type: 'subheader', title: 'Border' },
-  'border', 'border-0', 'border-thin', 'border-sm', 'border-md', 'border-lg',
-  'border-opacity-25', 'border-opacity-50',
-  'border-primary', 'border-secondary', 'border-error', 'border-success',
-
-  { type: 'subheader', title: 'Opacity' },
-  'opacity-0', 'opacity-25', 'opacity-50', 'opacity-75', 'opacity-100',
-
-  { type: 'subheader', title: 'Spacing Utils' },
-  'mx-auto', 'my-auto', 'ms-auto', 'me-auto', 'ma-auto',
-
-  { type: 'subheader', title: 'Interaction' },
-  'cursor-pointer', 'cursor-default', 'cursor-not-allowed',
-  'pointer-events-none', 'user-select-none',
+const CLASS_GROUPS = [
+  { title: 'Elevation',    classes: [0,1,2,3,4,6,8,12,16,24].map(n => `elevation-${n}`) },
+  { title: 'Rounded',      classes: ['rounded-0','rounded-sm','rounded','rounded-lg','rounded-xl','rounded-pill','rounded-circle'] },
+  { title: 'Sizing',       classes: ['w-25','w-50','w-75','w-100','w-auto','h-25','h-50','h-75','h-100','h-auto','fill-height','min-width-0','max-width-100'] },
+  { title: 'Display',      classes: ['d-none','d-block','d-inline','d-inline-block','d-flex','d-inline-flex','d-grid'] },
+  { title: 'Flexbox',      classes: ['flex-row','flex-column','flex-row-reverse','flex-column-reverse','flex-wrap','flex-nowrap','flex-grow-1','flex-shrink-0','align-start','align-center','align-end','align-stretch','align-self-center','justify-start','justify-center','justify-end','justify-space-between','justify-space-around',...[1,2,3,4,6,8,12].map(n=>`ga-${n}`)] },
+  { title: 'Position',     classes: ['position-relative','position-absolute','position-fixed','position-sticky'] },
+  { title: 'Overflow',     classes: ['overflow-hidden','overflow-visible','overflow-auto','overflow-x-hidden','overflow-y-auto','overflow-y-hidden'] },
+  { title: 'Text Size',    classes: ['text-caption','text-body-2','text-body-1','text-subtitle-2','text-subtitle-1','text-h6','text-h5','text-h4','text-h3'] },
+  { title: 'Text Weight',  classes: ['font-weight-thin','font-weight-light','font-weight-regular','font-weight-medium','font-weight-bold','font-weight-black'] },
+  { title: 'Text Style',   classes: ['text-left','text-center','text-right','text-uppercase','text-lowercase','text-capitalize','text-truncate','text-no-wrap','text-break','text-italic'] },
+  { title: 'Text Color',   classes: ['text-primary','text-secondary','text-success','text-info','text-warning','text-error','text-white','text-black','text-disabled','text-medium-emphasis','text-high-emphasis'] },
+  { title: 'Background',   classes: ['bg-primary','bg-secondary','bg-success','bg-info','bg-warning','bg-error','bg-white','bg-black','bg-surface','bg-background','bg-grey-lighten-5','bg-grey-lighten-4','bg-grey-lighten-3','bg-grey-darken-1','bg-grey-darken-2'] },
+  { title: 'Border',       classes: ['border','border-0','border-thin','border-sm','border-md','border-lg','border-opacity-25','border-opacity-50','border-primary','border-secondary','border-error','border-success'] },
+  { title: 'Opacity',      classes: ['opacity-0','opacity-25','opacity-50','opacity-75','opacity-100'] },
+  { title: 'Spacing Utils',classes: ['mx-auto','my-auto','ms-auto','me-auto','ma-auto'] },
+  { title: 'Interaction',  classes: ['cursor-pointer','cursor-default','cursor-not-allowed','pointer-events-none','user-select-none'] },
 ]
+
+const classSearch = ref('')
+
+const filteredGroups = computed(() => {
+  const q = classSearch.value.trim().toLowerCase()
+  if (!q) return CLASS_GROUPS
+  return CLASS_GROUPS
+    .map(g => ({ ...g, classes: g.classes.filter(c => c.includes(q)) }))
+    .filter(g => g.classes.length > 0)
+})
+
+const toggleClass = (cls: string) => {
+  if (!selectedNode.value) return
+  const idx = selectedNode.value.classes.indexOf(cls)
+  if (idx === -1) selectedNode.value.classes.push(cls)
+  else selectedNode.value.classes.splice(idx, 1)
+}
+
+const addCustomClass = (e: KeyboardEvent) => {
+  const input = (e.target as HTMLInputElement).value.trim()
+  if (!input || !selectedNode.value) return
+  const parts = input.split(/\s+/).filter(Boolean)
+  for (const cls of parts) {
+    if (!selectedNode.value.classes.includes(cls)) selectedNode.value.classes.push(cls)
+  }
+  classSearch.value = ''
+}
 </script>
 
 <template>
@@ -417,21 +394,57 @@ const PRESET_CLASSES = [
       <VDivider class="my-4" />
 
       <div class="mb-2 text-overline text-primary font-weight-bold">Custom Classes</div>
-      <VCombobox
-        v-model="selectedNode.classes"
-        :items="PRESET_CLASSES"
-        multiple
-        chips
-        closable-chips
+
+      <!-- Applied classes -->
+      <div v-if="selectedNode.classes.length" class="applied-chips mb-2">
+        <VChip
+          v-for="cls in selectedNode.classes"
+          :key="cls"
+          size="x-small"
+          closable
+          color="primary"
+          variant="tonal"
+          class="ma-1"
+          @click:close="toggleClass(cls)"
+        >{{ cls }}</VChip>
+      </div>
+      <div v-else class="text-caption text-medium-emphasis mb-2">No classes applied</div>
+
+      <!-- Search / add custom -->
+      <VTextField
+        v-model="classSearch"
+        placeholder="Search or type class name…"
         variant="outlined"
         density="compact"
-        placeholder="e.g. elevation-4"
         hide-details
-        auto-select-first
-        class="mb-4"
+        clearable
+        class="mb-2"
+        prepend-inner-icon="mdi-magnify"
+        @keydown.enter="addCustomClass"
       />
 
-      <div class="text-center opacity-50 text-caption">FSD UI Builder v0.1</div>
+      <!-- Preset groups -->
+      <div class="preset-groups">
+        <div v-for="group in filteredGroups" :key="group.title" class="preset-group">
+          <div class="preset-group__title">{{ group.title }}</div>
+          <div class="preset-group__chips">
+            <VChip
+              v-for="cls in group.classes"
+              :key="cls"
+              size="x-small"
+              :variant="selectedNode.classes.includes(cls) ? 'flat' : 'tonal'"
+              :color="selectedNode.classes.includes(cls) ? 'primary' : 'default'"
+              class="preset-chip"
+              @click="toggleClass(cls)"
+            >{{ cls }}</VChip>
+          </div>
+        </div>
+        <div v-if="filteredGroups.length === 0" class="text-caption text-medium-emphasis text-center py-4">
+          No matches — press Enter to add "{{ classSearch }}"
+        </div>
+      </div>
+
+      <div class="text-center mt-4 opacity-50 text-caption">FSD UI Builder v0.1</div>
     </div>
 
     <div v-else class="pa-10 text-center text-medium-emphasis mt-10">
@@ -440,3 +453,46 @@ const PRESET_CLASSES = [
     </div>
   </VNavigationDrawer>
 </template>
+
+<style scoped>
+.applied-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.preset-groups {
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.preset-group + .preset-group {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(var(--v-border-color), calc(var(--v-border-opacity) * 0.5));
+}
+
+.preset-group__title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+  margin-bottom: 4px;
+}
+
+.preset-group__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.preset-chip {
+  cursor: pointer;
+  font-size: 10px !important;
+  transition: all 0.12s;
+}
+</style>
