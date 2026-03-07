@@ -9,10 +9,15 @@ export { CheckboxField } from './fields/CheckboxField'
 
 
 export { useForm } from './composables/useForm'
+export { useFormWithTemplate } from './composables/useFormWithTemplate'
 export { vuetifyAdapters, provideFormAdapters, useFormAdapters } from './adapters'
 export type { InputAdapter, InputAdapterContext, AdapterRegistry } from './adapters'
 
 export { default as FormField } from './components/FormField.vue'
+export { FormTemplate } from './components/FormTemplate'
+
+export { row, col, block, slot } from './template/builders'
+export type { TemplateNode, TemplateChild, RowNode, ColNode, BlockNode, SlotNode, NodeOptions } from './template/types'
 
 
 
