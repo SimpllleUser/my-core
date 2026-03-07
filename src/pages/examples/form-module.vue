@@ -16,6 +16,7 @@ import {
   required,
 } from '../../shared/form'
 import CustomInputExample from './CustomInputExample.vue'
+import RegisterFormWithTemplate from '@/shared/form/examples/RegisterFormWithTemplate.vue';
 
 // --- Registration Form ---
 const {
@@ -394,6 +395,15 @@ const handleProfile = () =>
               <code>provideFormAdapters</code> всередині компонента.
             </p>
             <CustomInputExample />
+          </VCardText>
+        </VCard>
+      </VCol>
+    </VRow>
+    <VRow>
+      <VCol>
+        <VCard>
+          <VCardText>
+            <RegisterFormWithTemplate />
           </VCardText>
         </VCard>
       </VCol>
